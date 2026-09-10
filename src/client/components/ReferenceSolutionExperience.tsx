@@ -308,6 +308,19 @@ const patientTouchpointIcons = [
   { label: 'Google Business', icon: 'location' }
 ] as const
 
+// One explicit coordinate per integration item. Keeping coordinates next to the data prevents
+// CSS nth-child drift/duplicate positions when the item list or later styles change.
+const patientTouchpointPositions = [
+  { x: 0.8, y: 41.3 },
+  { x: 8.0, y: 22.9 },
+  { x: 21.8, y: 8.7 },
+  { x: 40.1, y: 1.0 },
+  { x: 59.9, y: 1.0 },
+  { x: 78.2, y: 8.7 },
+  { x: 92.0, y: 22.9 },
+  { x: 99.2, y: 41.3 }
+] as const
+
 const patientHeroAudience = ['Doctors', 'Clinics', 'Hospitals', 'Aesthetic Centers', 'Cosmetic Centers', 'Dental Clinics'] as const
 
 const patientFaqs = [
@@ -489,11 +502,19 @@ function PatientIntegrationArc() {
           </div>
           <div className="pa-touchpoints__ring" data-rs-patient-arc-ring>
             <div className="pa-touchpoints__ring-line" aria-hidden="true" />
-            {patientTouchpointIcons.map((item, index) => (
-              <div className={`pa-touchpoints__item pa-touchpoints__item--${index + 1}`} data-rs-patient-arc-item key={item.label}>
-                <i><PublicIcon name={item.icon} size={19} /></i><span>{item.label}</span>
-              </div>
-            ))}
+            {patientTouchpointIcons.map((item, index) => {
+              const position = patientTouchpointPositions[index]
+              return (
+                <div
+                  className={`pa-touchpoints__item pa-touchpoints__item--${index + 1}`}
+                  data-rs-patient-arc-item
+                  style={{ '--pa-x': `${position.x}%`, '--pa-y': `${position.y}%` } as CSSProperties}
+                  key={item.label}
+                >
+                  <i><PublicIcon name={item.icon} size={19} /></i><span>{item.label}</span>
+                </div>
+              )
+            })}
           </div>
           <div className="pa-touchpoints__glass pa-touchpoints__glass--left" aria-hidden="true"><i /><i /></div>
           <div className="pa-touchpoints__glass pa-touchpoints__glass--right" aria-hidden="true"><i /><i /></div>

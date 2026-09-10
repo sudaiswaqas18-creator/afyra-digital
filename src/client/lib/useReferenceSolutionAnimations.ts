@@ -1035,10 +1035,13 @@ export function useReferenceSolutionAnimations(layout: ServiceLayout) {
         const items = Array.from(patientArc.querySelectorAll<HTMLElement>('[data-rs-patient-arc-item]'))
         if (ring && items.length) {
           gsap.fromTo(items, { autoAlpha: 0, scale: .55 }, { autoAlpha: 1, scale: 1, duration: .62, stagger: .075, ease: 'back.out(1.55)', scrollTrigger: { trigger: patientArc, start: 'top 76%', once: true } })
-          const orbitDuration = compact ? 72 : 52
-          const ringTween = gsap.to(ring, { rotation: 360, duration: orbitDuration, repeat: -1, ease: 'none', transformOrigin: '50% 50%' })
-          const counterTweens = items.map((item) => gsap.to(item, { rotation: -360, duration: orbitDuration, repeat: -1, ease: 'none', transformOrigin: '50% 50%' }))
-          cleanups.push(() => { ringTween.kill(); counterTweens.forEach((tw) => tw.kill()) })
+          const mobileGrid = window.matchMedia('(max-width: 640px)').matches
+          if (!mobileGrid) {
+            const orbitDuration = compact ? 72 : 52
+            const ringTween = gsap.to(ring, { rotation: 360, duration: orbitDuration, repeat: -1, ease: 'none', transformOrigin: '50% 50%' })
+            const counterTweens = items.map((item) => gsap.to(item, { rotation: -360, duration: orbitDuration, repeat: -1, ease: 'none', transformOrigin: '50% 50%' }))
+            cleanups.push(() => { ringTween.kill(); counterTweens.forEach((tw) => tw.kill()) })
+          }
         }
       }
 

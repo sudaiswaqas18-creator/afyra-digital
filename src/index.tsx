@@ -266,6 +266,7 @@ app.get('*', (c) => {
 <link href="/static/social-media-v62.css" rel="stylesheet">
 <link href="/static/digital-growth-home07-v61.css" rel="stylesheet">
 <link href="/static/responsive-center-webhero-v63.css" rel="stylesheet">
+<link href="/static/patient-acquisition-v67-ring-fix.css" rel="stylesheet">
 
 <script type="application/ld+json">${safeSchema}</script>
 </head>

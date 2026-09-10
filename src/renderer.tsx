@@ -46,6 +46,7 @@ export const renderer = jsxRenderer(({ children }) => {
         <link href="/static/social-media-v62.css" rel="stylesheet" />
         <link href="/static/digital-growth-home07-v61.css" rel="stylesheet" />
         <link href="/static/responsive-center-webhero-v63.css" rel="stylesheet" />
+        <link href="/static/patient-acquisition-v67-ring-fix.css" rel="stylesheet" />
 </head>
       <body>{children}</body>
     </html>
