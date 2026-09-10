@@ -25,7 +25,7 @@
 .af-footer__logo{
   display:inline-flex!important;
   align-items:center!important;
-  gap:12px!important;
+  gap:1px!important;
   margin:0 0 20px!important;
   max-width:none!important;
   overflow:visible!important;
@@ -43,10 +43,11 @@
   gap:4px;
   white-space:nowrap;
   font-family:var(--af-font-2);
-  font-size:clamp(24px,1.55vw,29px);
+ font-size: clamp(47px, 1.55vw, 37px);
   line-height:1;
   font-weight:700;
   letter-spacing:-.035em;
+  padding-top: 12px;
   color:#fff;
 }
 .af-footer__wordmark strong,
