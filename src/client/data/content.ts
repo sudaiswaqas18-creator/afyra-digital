@@ -11,7 +11,7 @@ export const brand = {
   phone: '#03111-3111-91',
   phoneHref: 'tel:03111311191',
   email: 'afyradigital@gmail.com',
-  whatsapp: 'PENDING FOUNDER INPUT'
+  whatsapp: 'https://wa.me/9203111311191'
 }
 
 export const nav = [
@@ -406,6 +406,8 @@ export const footer = {
     }
   ],
   social: [
-    { label: 'WhatsApp / Consultation', icon: 'whatsapp', href: '/request-consultation' }
+    { label: 'WhatsApp / Consultation', icon: 'whatsapp', href: 'https://wa.me/9203111311191' },
+    { label: 'Instagram', icon: 'instagram', href: 'https://www.instagram.com/afyradigital' },
+    { label: 'Facebook', icon: 'facebook', href: 'https://www.facebook.com/AfyraDigital' }
   ]
 }

@@ -59,27 +59,17 @@ export default function Footer({ fromServicePage = false }: FooterProps) {
           <div className="af-footer__social" aria-label="Afyra Digital social links">
             {footer.social.map((s) => {
               const Ico = Icon[s.icon]
+              const isExternal = s.href.startsWith('http')
               return (
-                <a key={s.label} href={homeHref(s.href)} aria-label={s.label} title={s.label}>
-                  {Ico ? Ico({ size: 22 }) : null}
-                </a>
-              )
-            })}
-            {[
-              { label: 'Instagram', icon: 'instagram' },
-              { label: 'Facebook', icon: 'facebook' }
-            ].map((s) => {
-              const Ico = Icon[s.icon]
-              return (
-                <span
-                  className="af-footer__social-static"
+                <a
                   key={s.label}
-                  role="img"
-                  aria-label={`${s.label} profile link pending`}
-                  title={`${s.label} profile link pending`}
+                  href={s.href}
+                  aria-label={s.label}
+                  title={s.label}
+                  {...(isExternal ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
                 >
                   {Ico ? Ico({ size: 22 }) : null}
-                </span>
+                </a>
               )
             })}
           </div>
