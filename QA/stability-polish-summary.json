@@ -1,0 +1,26 @@
+{
+  "date": "2026-09-05",
+  "scope": "Route/loader/section-label/card/About/Healthcare/service-hero stability pass",
+  "generatedCardAssets": 430,
+  "nodeModulesPresent": false,
+  "newRuntimeCss": "public/static/stability-polish-2026-09-05.css",
+  "newRuntimeJs": "public/static/stability-polish-2026-09-05.js",
+  "sourceFilesUpdated": [
+    "src/client/main.tsx",
+    "src/client/components/BrandedRouteTransition.tsx",
+    "src/client/components/SectionLabel.tsx",
+    "src/client/pages/MarketingPage.tsx",
+    "src/client/pages/CardDetailPage.tsx",
+    "src/client/pages/RequestConsultationPage.tsx",
+    "src/client/pages/ServicePage.tsx",
+    "src/client/lib/useMarketingAnimations.ts",
+    "src/client/lib/useServiceAnimations.ts",
+    "src/index.tsx"
+  ],
+  "syntaxChecks": {
+    "tsxTranspile": "PASS",
+    "runtimeJsNodeCheck": "PASS",
+    "cssBraceIntegrity": "PASS"
+  },
+  "productionBuild": "NOT RUN \u2014 npm registry dependency fetch timed out in sandbox"
+}

@@ -1,0 +1,27 @@
+{
+  "date": "2026-09-05",
+  "homepageChanges": [
+    "footer branding and social icon sizing",
+    "How We Work hover consistency",
+    "pricing circular-tag overlap protection"
+  ],
+  "nonHomeScope": [
+    "Solutions",
+    "Healthcare",
+    "Programs",
+    "About",
+    "Insights",
+    "6 service pages",
+    "detail pages",
+    "Request Consultation"
+  ],
+  "generatedCardAssets": 430,
+  "requestConsultationRoute": true,
+  "nodeModulesIncluded": false,
+  "syntaxChecks": {
+    "typescriptTranspile": "PASS",
+    "runtimeJsSyntax": "PASS",
+    "cssBraceIntegrity": "PASS"
+  },
+  "fullProductionBuild": "NOT_RERUN_NPM_REGISTRY_UNAVAILABLE"
+}

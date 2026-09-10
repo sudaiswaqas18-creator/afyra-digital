@@ -1,0 +1,300 @@
+/* ============================================================
+   AFYRA DIGITAL — Design System
+   Layout & interaction architecture mirrors the reference
+   SaaS layout, re-skinned to the Afyra brand palette.
+   ============================================================ */
+
+:root {
+  /* Brand palette (from brand guide) */
+  --af-mint: #DEF1F0;
+  --af-teal: #00BBA0;
+  --af-deep: #00443E;
+  --af-orange: #FF960D;
+
+  /* Derived surface scale (dark premium) */
+  --af-bg: #03110F;
+  --af-bg-2: #061A17;
+  --af-surface: #08211D;
+  --af-surface-2: #0B2A25;
+  --af-surface-3: #0E332C;
+  --af-line: rgba(222, 241, 240, 0.14);
+  --af-line-soft: rgba(222, 241, 240, 0.08);
+
+  --af-text: #EAF6F5;
+  --af-text-dim: rgba(222, 241, 240, 0.68);
+  --af-text-faint: rgba(222, 241, 240, 0.45);
+
+  --af-grad-1: linear-gradient(92.62deg, #FF960D 0.03%, #00BBA0 54.05%, #0FD9BB 99.97%);
+  --af-grad-2: linear-gradient(180deg, #00443E 40.38%, #00BBA0 100%);
+  --af-grad-btn: linear-gradient(96deg, #00BBA0 0%, #06A08B 52%, #00443E 100%);
+
+  --af-font-1: 'Poppins', system-ui, -apple-system, sans-serif;
+  --af-font-2: 'League Spartan', 'Poppins', system-ui, sans-serif;
+
+  --af-ease: all .4s cubic-bezier(.18, .82, .41, 1);
+  --af-radius: 16px;
+}
+
+* { box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: var(--af-font-1);
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 28px;
+  color: var(--af-text);
+  background: var(--af-bg);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+img { max-width: 100%; display: block; }
+a { color: inherit; text-decoration: none; }
+ul { margin: 0; padding: 0; list-style: none; }
+button { font-family: inherit; cursor: pointer; border: 0; background: none; color: inherit; }
+input, textarea, select { font-family: inherit; }
+
+::selection { background: var(--af-teal); color: #01100E; }
+
+/* ---------- layout primitives ---------- */
+.af-container {
+  width: 100%;
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+.af-container--narrow { max-width: 1060px; }
+.af-rel { position: relative; }
+.af-section { position: relative; z-index: 1; }
+
+/* ---------- typography ---------- */
+.af-h1,
+.af-h2,
+.af-h3,
+.af-h4 {
+  font-family: var(--af-font-2);
+  color: #fff;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  margin: 0;
+}
+.af-h1 { font-size: clamp(2.15rem, 5.1vw, 3.5rem); line-height: 1.07; }
+.af-h2 { font-size: clamp(1.85rem, 3.9vw, 2.875rem); line-height: 1.09; }
+.af-h3 { font-size: clamp(1.35rem, 2.2vw, 1.75rem); line-height: 1.2; }
+.af-h4 { font-size: 1.375rem; line-height: 1.3; }
+
+.af-p {
+  margin: 0;
+  color: var(--af-text-dim);
+  letter-spacing: -0.01em;
+}
+.af-p--sm { font-size: 15.5px; line-height: 26px; }
+
+.af-text-center { text-align: center; }
+
+/* ---------- eyebrow / subtitle pill ---------- */
+.af-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 100px;
+  border: 1px solid rgba(222, 241, 240, 0.2);
+  position: relative;
+  z-index: 1;
+  padding: 3px;
+  padding-right: 14px;
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+.af-eyebrow::after {
+  content: "";
+  position: absolute;
+  inset: 1px;
+  background: var(--af-bg-2);
+  z-index: -1;
+  border-radius: 100px;
+}
+.af-eyebrow::before {
+  content: "";
+  width: 30%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: -20%;
+  z-index: -2;
+  background: linear-gradient(90deg, transparent 0%, var(--af-mint) 50%, transparent 100%);
+  animation: af-eyebrow-sweep 4s linear infinite;
+}
+@keyframes af-eyebrow-sweep {
+  0%   { left: -20%; }
+  100% { left: 100%; }
+}
+.af-eyebrow__text {
+  font-family: var(--af-font-1);
+  font-weight: 400;
+  color: #fff;
+  font-size: 13.5px;
+  line-height: 1;
+  margin: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  white-space: nowrap;
+}
+.af-eyebrow__tag {
+  background: var(--af-teal);
+  box-shadow: inset 0 0 8px rgba(255, 255, 255, 0.6);
+  border-radius: 100px;
+  padding: 5px 13px;
+  color: #01201C;
+  font-weight: 600;
+}
+
+/* ---------- buttons ---------- */
+.af-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  font-size: 15.5px;
+  font-weight: 600;
+  line-height: 1;
+  border-radius: 11px;
+  padding: 18px 26px;
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  transition: var(--af-ease);
+  white-space: nowrap;
+}
+
+/* primary — gradient */
+.af-btn--primary {
+  color: #01100E;
+  background: var(--af-grad-1);
+  box-shadow: inset 0 0 8px rgba(255, 255, 255, 0.55);
+}
+.af-btn--primary .af-btn__glow {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  opacity: 0;
+  transition: var(--af-ease);
+}
+.af-btn--primary .af-btn__glow::after,
+.af-btn--primary .af-btn__glow::before {
+  content: "";
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  position: absolute;
+  top: -20px;
+  filter: blur(17px);
+}
+.af-btn--primary .af-btn__glow::after {
+  left: -20px;
+  background: var(--af-orange);
+  animation: af-btn-glow-a 5s ease-in-out infinite;
+}
+.af-btn--primary .af-btn__glow::before {
+  right: -20px;
+  background: var(--af-teal);
+  animation: af-btn-glow-b 5s linear infinite;
+}
+@keyframes af-btn-glow-a {
+  0%, 100% { transform: translateX(0); }
+  50%      { transform: translateX(60px); }
+}
+@keyframes af-btn-glow-b {
+  0%, 100% { transform: translateX(0); }
+  50%      { transform: translateX(-60px); }
+}
+.af-btn--primary:hover { box-shadow: inset 0 0 14px rgba(255, 255, 255, 0.75), 0 10px 34px rgba(0, 187, 160, 0.28); }
+.af-btn--primary:hover .af-btn__glow { opacity: 1; }
+
+/* ghost — bordered */
+.af-btn--ghost {
+  color: #fff;
+  background: transparent;
+}
+.af-btn--ghost::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 11px;
+  padding: 1px;
+  background: linear-gradient(104deg, rgba(222, 241, 240, .85) 0%, rgba(222, 241, 240, .08) 46%, rgba(222, 241, 240, .08) 84%, rgba(222, 241, 240, .85) 100%);
+  z-index: -2;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+}
+.af-btn--ghost::after {
+  content: "";
+  position: absolute;
+  inset: 1px;
+  border-radius: 10px;
+  background: linear-gradient(to right, #062521 0%, rgba(8, 33, 29, .35) 54%, #062521 100%);
+  z-index: -1;
+  transition: var(--af-ease);
+}
+.af-btn--ghost:hover::after { background: var(--af-deep); }
+.af-btn--ghost .af-btn__icon { color: var(--af-orange); display: inline-flex; }
+
+/* text roll on hover */
+.af-btn__text {
+  position: relative;
+  z-index: 1;
+  display: block;
+  overflow: hidden;
+}
+.af-btn__text span {
+  display: block;
+  transition: transform .45s cubic-bezier(.18, .82, .41, 1), opacity .35s;
+}
+.af-btn__text span:last-child {
+  position: absolute;
+  inset: 0;
+  transform: translateY(105%);
+  opacity: 0;
+}
+.af-btn:hover .af-btn__text span:first-child { transform: translateY(-105%); opacity: 0; }
+.af-btn:hover .af-btn__text span:last-child { transform: translateY(0); opacity: 1; }
+
+.af-btn--block { width: 100%; }
+
+/* ---------- decorative glows ---------- */
+.af-glow {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: -1;
+  filter: blur(90px);
+}
+
+/* ---------- section title block ---------- */
+.af-sec-head { max-width: 730px; margin: 0 auto 56px; }
+.af-sec-head .af-p { margin-top: 20px; }
+
+/* split-text animation targets */
+.af-split-char {
+  display: inline-block;
+  will-change: transform, opacity;
+}
+
+/* reveal defaults (GSAP takes over when JS is ready) */
+.af-reveal { opacity: 1; }
+html.af-js .af-reveal { opacity: 0; }
+html.af-js .af-split .af-split-char { opacity: 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  html.af-js .af-reveal,
+  html.af-js .af-split .af-split-char { opacity: 1 !important; transform: none !important; }
+  * { animation-duration: .001s !important; }
+}

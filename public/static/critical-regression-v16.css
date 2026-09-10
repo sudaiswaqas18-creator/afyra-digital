@@ -1,0 +1,125 @@
+/* =========================================================
+   AFYRA DIGITAL — Critical regression/stability fixes V16
+   Scope: homepage + Brand & Creative Communication + Patient Acquisition
+   Loaded last. No content or palette changes.
+   ========================================================= */
+
+/* ---------- Homepage: keep the pinned assembly on one composited plane ---------- */
+.af-hero__stage,
+[data-af-hero-assemble-root],
+[data-af-hero-assemble-board],
+[data-af-hero-assemble-part]{
+  backface-visibility:hidden;
+  -webkit-backface-visibility:hidden;
+}
+[data-af-hero-assemble-root],
+[data-af-hero-assemble-part]{
+  transform-style:preserve-3d;
+}
+
+/* ---------- Patient Acquisition: preserve restored pricing + homepage Process ---------- */
+.rs-layout-04 .pa-pricing__grid{transform-style:preserve-3d!important;perspective:1600px!important}
+.rs-layout-04 .pa-price-card{will-change:transform!important;transform-style:preserve-3d!important}
+.rs-layout-04 .pa-home-process{position:relative!important;overflow:hidden!important}
+.rs-layout-04 .pa-home-process__frame{position:relative!important;width:100%!important}
+.rs-layout-04 .pa-home-process .af-proc__wrap{position:relative!important}
+.rs-layout-04 .pa-home-process [data-rs-patient-home-process-card]{will-change:opacity,transform!important}
+@media (max-width:1050px){
+  /* Do not suppress GSAP transforms on stacked tablet/mobile pricing cards. */
+  .rs-layout-04 .pa-price-card{transform-style:preserve-3d!important}
+}
+
+/* ---------- Brand & Creative: stable pinned frames ---------- */
+.sv-page.sv-layout-02 [data-brand-feature-pin],
+.sv-page.sv-layout-02 [data-brand-step-pin]{
+  isolation:isolate!important;
+  backface-visibility:hidden!important;
+  -webkit-backface-visibility:hidden!important;
+  transition:none!important;
+}
+.sv-page.sv-layout-02 [data-brand-feature-stage],
+.sv-page.sv-layout-02 [data-brand-step-shell],
+.sv-page.sv-layout-02 [data-brand-feature-card],
+.sv-page.sv-layout-02 .sv-brand-step-card{
+  backface-visibility:hidden!important;
+  -webkit-backface-visibility:hidden!important;
+}
+.sv-page.sv-layout-02 [data-brand-feature-stage]{
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr)!important;
+  grid-template-rows:minmax(0,1fr)!important;
+  place-items:center!important;
+}
+.sv-page.sv-layout-02 [data-brand-feature-intro],
+.sv-page.sv-layout-02 [data-brand-feature-grid]{
+  grid-area:1 / 1!important;
+}
+.sv-page.sv-layout-02 [data-brand-feature-grid]{
+  align-self:center!important;
+  justify-self:center!important;
+}
+.sv-page.sv-layout-02 [data-brand-step-scroll],
+.sv-page.sv-layout-02 [data-brand-step-shell],
+.sv-page.sv-layout-02 .sv-brand-steps__stage,
+.sv-page.sv-layout-02 .sv-brand-steps__cards{
+  min-height:0!important;
+}
+.sv-page.sv-layout-02 .sv-brand-step-card{
+  left:50%!important;
+  top:50%!important;
+  right:auto!important;
+  bottom:auto!important;
+}
+
+/* Integrations does not need a third scroll-lock. Keep it in normal flow so
+   line drawing/icon arrival can animate without causing page-wide pin jumps. */
+.sv-page.sv-layout-02 .sv-brand-integrations{
+  padding:clamp(82px,8vw,116px) 0!important;
+  overflow:hidden!important;
+}
+.sv-page.sv-layout-02 [data-brand-integrations-pin]{
+  position:relative!important;
+  width:100%!important;
+  height:auto!important;
+  min-height:0!important;
+  max-height:none!important;
+  padding:0!important;
+  display:block!important;
+  overflow:visible!important;
+  transform:none!important;
+}
+.sv-page.sv-layout-02 [data-brand-integrations-head]{
+  width:min(790px,92%)!important;
+  margin:0 auto clamp(28px,4vw,48px)!important;
+  text-align:center!important;
+}
+.sv-page.sv-layout-02 [data-brand-integrations-arc]{
+  position:relative!important;
+  width:min(1120px,98%)!important;
+  height:470px!important;
+  min-height:470px!important;
+  max-height:470px!important;
+  margin:0 auto!important;
+  overflow:hidden!important;
+}
+.sv-page.sv-layout-02 .sv-brand-integrations__curve{overflow:visible!important}
+.sv-page.sv-layout-02 [data-brand-integrations-hub]{z-index:5!important}
+.sv-page.sv-layout-02 [data-brand-integration-item]{z-index:4!important;will-change:opacity,transform!important}
+
+@media (max-width:820px){
+  .sv-page.sv-layout-02 [data-brand-integrations-arc]{height:410px!important;min-height:410px!important;max-height:410px!important}
+}
+@media (max-width:620px){
+  .sv-page.sv-layout-02 .sv-brand-integrations{padding:70px 0!important}
+  .sv-page.sv-layout-02 [data-brand-integrations-arc]{
+    width:720px!important;
+    max-width:none!important;
+    height:330px!important;
+    min-height:330px!important;
+    max-height:330px!important;
+    left:50%!important;
+    transform:translateX(-50%) scale(.62)!important;
+    transform-origin:center top!important;
+    margin-bottom:-110px!important;
+  }
+}

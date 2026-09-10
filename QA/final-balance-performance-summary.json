@@ -1,0 +1,22 @@
+{
+  "date": "2026-09-05",
+  "scope": "Final commercial-terms balance + detail CTA + site performance + source-level QA pass",
+  "checks": {
+    "programTermsBalancedSource": true,
+    "detailCtaCompleteSource": true,
+    "heroPriority": true,
+    "offscreenLazyImages": true,
+    "reducedScrollTriggerParagraphWork": true,
+    "mobileParallaxDisabled": true,
+    "runtimeRefreshDebounced": true,
+    "runtimeMutationDebounced": true,
+    "contentVisibility": true,
+    "cssConsolidated": true,
+    "routeScrollReset": true,
+    "nodeModulesExcluded": true,
+    "imageCount": 430,
+    "uniqueImageHashes": 430,
+    "imageBytes": 12561454
+  },
+  "productionBuild": "NOT RUN \u2014 dependency registry is unavailable in this sandbox; modified TSX/JS/CSS syntax was validated separately."
+}

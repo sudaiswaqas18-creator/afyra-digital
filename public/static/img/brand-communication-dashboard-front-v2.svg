@@ -1,0 +1,102 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="860" viewBox="0 0 1400 860" role="img" aria-labelledby="title desc">
+  <title id="title">Afyra Digital brand communication dashboard front</title>
+  <desc id="desc">Structured interface for brand and creative communication with balanced cards on both sides.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop stop-color="#FBFEFD"/>
+      <stop offset="1" stop-color="#EAF8F5"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" x2="1">
+      <stop stop-color="#00BBA0"/>
+      <stop offset="1" stop-color="#7BE0D1"/>
+    </linearGradient>
+    <linearGradient id="deep" x1="0" x2="1" y1="0" y2="1">
+      <stop stop-color="#00443E"/>
+      <stop offset="1" stop-color="#0F6C63"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="160%">
+      <feDropShadow dx="0" dy="26" stdDeviation="24" flood-color="#00443E" flood-opacity="0.14"/>
+    </filter>
+  </defs>
+
+  <rect width="1400" height="860" rx="42" fill="url(#bg)"/>
+  <rect x="74" y="88" width="1252" height="684" rx="34" fill="#ffffff" stroke="#D8ECE8" filter="url(#shadow)"/>
+  <rect x="74" y="88" width="252" height="684" rx="34" fill="#F5FBFA"/>
+  <rect x="326" y="88" width="1000" height="86" fill="#FBFDFD"/>
+  <line x1="326" y1="174" x2="1326" y2="174" stroke="#E3F0ED"/>
+
+  <image href="/static/img/logo-wide.png" x="106" y="116" width="150" height="48" preserveAspectRatio="xMinYMid meet"/>
+  <text x="366" y="142" font-family="Arial,Helvetica,sans-serif" font-size="13" letter-spacing="2" fill="#6D9089">AFYRA BRAND COMMUNICATION STUDIO</text>
+  <circle cx="1244" cy="132" r="26" fill="#DEF1F0"/>
+  <image href="/static/img/logo-mark.png" x="1226" y="114" width="36" height="36" preserveAspectRatio="xMidYMid meet"/>
+
+  <g font-family="Arial,Helvetica,sans-serif">
+    <rect x="104" y="206" width="190" height="58" rx="16" fill="#ffffff" stroke="#D7ECE7"/>
+    <circle cx="132" cy="235" r="12" fill="#DFF8F3"/>
+    <path d="M126 235h12M132 229v12" stroke="#00BBA0" stroke-width="2.4" stroke-linecap="round"/>
+    <text x="154" y="241" font-size="15" font-weight="700" fill="#00443E">Brand Dashboard</text>
+
+    <g font-size="14" fill="#648681">
+      <rect x="104" y="286" width="190" height="48" rx="15" fill="#ffffff"/><text x="132" y="316">Positioning</text>
+      <rect x="104" y="346" width="190" height="48" rx="15" fill="#ffffff"/><text x="132" y="376">Content Strategy</text>
+      <rect x="104" y="406" width="190" height="48" rx="15" fill="#ffffff"/><text x="132" y="436">Creative Assets</text>
+      <rect x="104" y="466" width="190" height="48" rx="15" fill="#ffffff"/><text x="132" y="496">Trust Signals</text>
+      <rect x="104" y="526" width="190" height="48" rx="15" fill="#EAFBF8" stroke="#BEECE4"/><text x="132" y="556" font-weight="700" fill="#00443E">Communication Focus</text>
+    </g>
+  </g>
+
+  <text x="366" y="254" font-family="Arial,Helvetica,sans-serif" font-size="42" font-weight="700" fill="#00443E">What should your audience feel first?</text>
+  <text x="366" y="300" font-family="Arial,Helvetica,sans-serif" font-size="16" fill="#698B84">Give them a clear, professional and easy-to-trust brand story.</text>
+
+  <rect x="366" y="338" width="888" height="126" rx="26" fill="#F8FCFB" stroke="#DDECE8"/>
+  <text x="398" y="376" font-family="Arial,Helvetica,sans-serif" font-size="12" letter-spacing="1.6" fill="#6F8F89">PRIMARY MESSAGE</text>
+  <text x="398" y="418" font-family="Arial,Helvetica,sans-serif" font-size="26" font-weight="700" fill="#00443E">Build trust with communication that explains value clearly.</text>
+  <rect x="398" y="434" width="116" height="28" rx="14" fill="#E7FAF6"/><text x="423" y="452" font-family="Arial" font-size="11" font-weight="700" fill="#007E70">Trust-led</text>
+  <rect x="526" y="434" width="152" height="28" rx="14" fill="#FFF4E3"/><text x="552" y="452" font-family="Arial" font-size="11" font-weight="700" fill="#B56D00">Educational Content</text>
+  <rect x="690" y="434" width="132" height="28" rx="14" fill="#EDF7F5"/><text x="719" y="452" font-family="Arial" font-size="11" font-weight="700" fill="#416B66">Professional</text>
+
+  <g transform="translate(366 500)">
+    <rect width="262" height="202" rx="24" fill="#ffffff" stroke="#DDEBE8"/>
+    <circle cx="34" cy="34" r="15" fill="#E8FAF7"/>
+    <path d="M28 34h12M34 28v12" stroke="#00BBA0" stroke-width="2" stroke-linecap="round"/>
+    <text x="60" y="40" font-family="Arial" font-size="18" font-weight="700" fill="#00443E">Education</text>
+    <text x="24" y="76" font-family="Arial" font-size="13" fill="#6E8E89">Teach, guide and explain so viewers understand</text>
+    <text x="24" y="95" font-family="Arial" font-size="13" fill="#6E8E89">what makes the brand professional and reliable.</text>
+    <rect x="24" y="126" width="210" height="8" rx="4" fill="#EAF4F2"/>
+    <rect x="24" y="126" width="162" height="8" rx="4" fill="#00BBA0"/>
+    <rect x="24" y="148" width="168" height="8" rx="4" fill="#EAF4F2"/>
+    <rect x="24" y="170" width="188" height="8" rx="4" fill="#EAF4F2"/>
+    <rect x="24" y="184" width="142" height="10" rx="5" fill="#E9FBF8"/>
+    <text x="42" y="192" font-family="Arial" font-size="10" font-weight="700" fill="#008977">CLARITY READY</text>
+  </g>
+
+  <g transform="translate(648 500)">
+    <rect width="270" height="202" rx="24" fill="#ffffff" stroke="#DDEBE8"/>
+    <circle cx="34" cy="34" r="15" fill="#FFF3E1"/>
+    <path d="M28 40l12-12M28 28l12 12" stroke="#FF960D" stroke-width="2" stroke-linecap="round"/>
+    <text x="60" y="40" font-family="Arial" font-size="18" font-weight="700" fill="#00443E">Creative Direction</text>
+    <text x="24" y="76" font-family="Arial" font-size="13" fill="#6E8E89">Short-form content and visuals stay aligned with</text>
+    <text x="24" y="95" font-family="Arial" font-size="13" fill="#6E8E89">the wider communication system and brand tone.</text>
+    <rect x="24" y="126" width="214" height="8" rx="4" fill="#EAF4F2"/>
+    <rect x="24" y="126" width="136" height="8" rx="4" fill="#FF960D"/>
+    <rect x="24" y="148" width="176" height="8" rx="4" fill="#EAF4F2"/>
+    <rect x="24" y="170" width="146" height="8" rx="4" fill="#EAF4F2"/>
+    <rect x="24" y="184" width="152" height="10" rx="5" fill="#FFF6E8"/>
+    <text x="42" y="192" font-family="Arial" font-size="10" font-weight="700" fill="#B96E00">CREATIVE FLOW</text>
+  </g>
+
+  <g transform="translate(938 500)">
+    <rect width="316" height="202" rx="24" fill="url(#deep)"/>
+    <circle cx="34" cy="34" r="15" fill="#0F776D"/>
+    <path d="M28 34l5 5 9-11" fill="none" stroke="#9FF2E5" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="60" y="40" font-family="Arial" font-size="18" font-weight="700" fill="#ffffff">Authority</text>
+    <text x="24" y="76" font-family="Arial" font-size="13" fill="#CBE7E3">Trust grows when educational content, social posts</text>
+    <text x="24" y="95" font-family="Arial" font-size="13" fill="#CBE7E3">and visuals feel consistent across touchpoints.</text>
+    <rect x="24" y="126" width="252" height="8" rx="4" fill="#1D5E58"/>
+    <rect x="24" y="126" width="214" height="8" rx="4" fill="url(#accent)"/>
+    <rect x="24" y="148" width="196" height="8" rx="4" fill="#1D5E58"/>
+    <rect x="24" y="170" width="156" height="8" rx="4" fill="#1D5E58"/>
+    <rect x="24" y="184" width="168" height="10" rx="5" fill="#0F776D"/>
+    <text x="44" y="192" font-family="Arial" font-size="10" font-weight="700" fill="#B8F3EB">READY TO PUBLISH</text>
+  </g>
+</svg>

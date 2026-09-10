@@ -1,0 +1,107 @@
+{
+  "date": "2026-09-05",
+  "target": "Homepage hero scatter-to-dashboard scroll assembly",
+  "reference": "SaaSking Task Management SaaS hero motion",
+  "desktopBehavior": {
+    "assemblyStart": "hero top reaches viewport top",
+    "pinStart": "hero stage top reaches 82px",
+    "pinHoldPx": "clamp(820px, 1.08 x viewport height, 1160px)",
+    "scrubSeconds": 1.2,
+    "dockCompletionAtTimelineProgress": 0.88,
+    "finalPinnedHoldFraction": 0.12,
+    "finalTransform": "x:0, y:0, rotation:0, scale:1",
+    "finalFrameClipping": "enabled from progress >= 0.965 via af-hpd--docked"
+  },
+  "geometry1728": {
+    "board": {
+      "left": 333.0,
+      "top": 28,
+      "right": 1395.0,
+      "bottom": 568
+    },
+    "parts": [
+      {
+        "name": "qualified",
+        "left": 431.0,
+        "top": 100,
+        "right": 637.45,
+        "bottom": 216,
+        "contained": true
+      },
+      {
+        "name": "appointments",
+        "left": 651.45,
+        "top": 100,
+        "right": 857.9,
+        "bottom": 216,
+        "contained": true
+      },
+      {
+        "name": "views",
+        "left": 871.9,
+        "top": 100,
+        "right": 1078.35,
+        "bottom": 216,
+        "contained": true
+      },
+      {
+        "name": "schedule",
+        "left": 1092.35,
+        "top": 100,
+        "right": 1369.0,
+        "bottom": 216,
+        "contained": true
+      },
+      {
+        "name": "chart",
+        "left": 431.0,
+        "top": 230,
+        "right": 1078.35,
+        "bottom": 468,
+        "contained": true
+      },
+      {
+        "name": "inquiries",
+        "left": 1092.35,
+        "top": 230,
+        "right": 1369.0,
+        "bottom": 342,
+        "contained": true
+      },
+      {
+        "name": "visibility",
+        "left": 1092.35,
+        "top": 356,
+        "right": 1369.0,
+        "bottom": 468,
+        "contained": true
+      },
+      {
+        "name": "gbp",
+        "left": 431.0,
+        "top": 482,
+        "right": 857.9,
+        "bottom": 540,
+        "contained": true
+      },
+      {
+        "name": "campaign",
+        "left": 871.9,
+        "top": 482,
+        "right": 1369.0,
+        "bottom": 540,
+        "contained": true
+      }
+    ],
+    "allContained": true,
+    "finalOverlapPairs": []
+  },
+  "validation": {
+    "runtimeJsSyntax": "PASS (node --check)",
+    "cssBraceBalance": "PASS (0)",
+    "finalGridContainment": "PASS",
+    "finalGridOverlap": "PASS",
+    "freshTscBuild": "NOT RUN \u2014 project dependencies/node_modules are not present; global tsc stops at missing vite/client types",
+    "localBrowserScreenshot": "NOT RUN \u2014 managed Chromium policy blocks local/file URLs in this environment"
+  }
+}

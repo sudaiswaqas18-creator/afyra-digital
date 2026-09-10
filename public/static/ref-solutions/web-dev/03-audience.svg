@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="400" viewBox="0 0 640 400">
+<defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#00443E"/><stop offset="1" stop-color="#00685e"/></linearGradient><filter id="s" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="0" dy="18" stdDeviation="18" flood-color="#00443e" flood-opacity=".18"/></filter></defs>
+<rect width="640" height="400" rx="34" fill="#F7FBFA"/><rect x="48" y="52" width="544" height="292" rx="26" fill="url(#g)" filter="url(#s)"/>
+<circle cx="78" cy="74" r="5" fill="#FF960D"/><circle cx="96" cy="74" r="5" fill="#00BBA0"/><circle cx="114" cy="74" r="5" fill="#d7f5f1"/>
+<rect x="72" y="92" width="496" height="196" rx="18" fill="#ffffff"/>
+        <rect x="96" y="118" width="436" height="44" rx="14" fill="#DEF1F0"/>
+        <rect x="112" y="132" width="150" height="14" rx="7" fill="#00BBA0" opacity=".85"/>
+        <rect x="96" y="180" width="132" height="80" rx="14" fill="#00BBA0" opacity=".13"/>
+        <rect x="244" y="180" width="132" height="80" rx="14" fill="#DEF1F0"/>
+        <rect x="392" y="180" width="140" height="80" rx="14" fill="#DEF1F0"/>
+        <circle cx="162" cy="220" r="18" fill="#00BBA0"/><circle cx="310" cy="220" r="18" fill="#00BBA0" opacity=".55"/><circle cx="462" cy="220" r="18" fill="#FF960D" opacity=".65"/>
+<text x="72" y="324" fill="#def1f0" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="700">Audience clarity</text>
+</svg>

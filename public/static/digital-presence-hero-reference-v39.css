@@ -1,0 +1,220 @@
+/* ======================================================================
+   Digital Presence / Advanced Digital Systems — Hero wing parity V39
+   Goal: match the supplied reference composition without changing the
+   already-approved center logo or rising app-icon motion.
+
+   Two copies of the same Afyra-colour video are used. Each is anchored at
+   the center, tilted outward, feather-masked, and allowed to terminate
+   underneath the core circle instead of appearing as rectangular slabs.
+   ====================================================================== */
+
+.rs-layout-03 .dp-hero {
+  --dp-v39-stage-h: 392px;
+  --dp-v39-wing-w: min(590px, 53.5vw);
+  --dp-v39-wing-h: 202px;
+  --dp-v39-core-overlap: 30px;
+}
+
+/* The old global reference rings were visible through the wings and made
+   the video read as blocks. Keep the page background/noise, remove only
+   those oversized circular pseudo-elements from this hero. */
+.rs-layout-03 .dp-hero::before,
+.rs-layout-03 .dp-hero::after {
+  content: none !important;
+  display: none !important;
+}
+
+.rs-layout-03 .dp-hero__stage {
+  min-height: 448px !important;
+  overflow: hidden !important;
+  isolation: isolate;
+}
+
+.rs-layout-03 .dp-hero__visual {
+  width: min(1180px, 100%) !important;
+  height: var(--dp-v39-stage-h) !important;
+  overflow: visible !important;
+  isolation: isolate;
+}
+
+/* Keep center atmosphere light; it should not cover the two video streams. */
+.rs-layout-03 .dp-hero__visual::before {
+  opacity: .34 !important;
+  z-index: 0 !important;
+}
+.rs-layout-03 .dp-hero__visual::after {
+  width: 510px !important;
+  height: 150px !important;
+  bottom: 2px !important;
+  opacity: .48 !important;
+  background: radial-gradient(circle at 50% 54%, rgba(0,187,160,.19), transparent 62%) !important;
+  z-index: 0 !important;
+}
+.rs-layout-03 .dp-hero__beam {
+  width: 470px !important;
+  height: 132px !important;
+  bottom: 6px !important;
+  opacity: .30 !important;
+  z-index: 0 !important;
+}
+
+/* Reference geometry: both streams start high on the outside and converge
+   behind the core circle. The right/left properties deliberately anchor
+   the INNER ends at 50%, removing the empty gap visible in V38. */
+.rs-layout-03 .dp-hero__wing {
+  position: absolute !important;
+  top: auto !important;
+  bottom: 92px !important;
+  width: var(--dp-v39-wing-w) !important;
+  max-width: 590px !important;
+  height: var(--dp-v39-wing-h) !important;
+  overflow: hidden !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  clip-path: none !important;
+  filter: drop-shadow(0 0 11px rgba(0,187,160,.13)) !important;
+  opacity: 1 !important;
+  z-index: 2 !important;
+  will-change: transform;
+  isolation: isolate;
+}
+.rs-layout-03 .dp-hero__wing::before {
+  content: "" !important;
+  display: block !important;
+  position: absolute !important;
+  inset: 0 !important;
+  pointer-events: none !important;
+  z-index: 2 !important;
+  mix-blend-mode: screen !important;
+  opacity: .72 !important;
+}
+.rs-layout-03 .dp-hero__wing::after {
+  content: none !important;
+  display: none !important;
+}
+
+.rs-layout-03 .dp-hero__wing--left {
+  left: auto !important;
+  right: calc(50% - var(--dp-v39-core-overlap)) !important;
+  transform-origin: 100% 50% !important;
+  transform: rotate(17.5deg) !important;
+  -webkit-mask-image: url('/static/ref-solutions/digital-presence-wing-left-v39.svg') !important;
+  mask-image: url('/static/ref-solutions/digital-presence-wing-left-v39.svg') !important;
+  -webkit-mask-repeat: no-repeat !important;
+  mask-repeat: no-repeat !important;
+  -webkit-mask-size: 100% 100% !important;
+  mask-size: 100% 100% !important;
+  -webkit-mask-position: center !important;
+  mask-position: center !important;
+}
+.rs-layout-03 .dp-hero__wing--right {
+  right: auto !important;
+  left: calc(50% - var(--dp-v39-core-overlap)) !important;
+  transform-origin: 0% 50% !important;
+  transform: rotate(-17.5deg) !important;
+  -webkit-mask-image: url('/static/ref-solutions/digital-presence-wing-right-v39.svg') !important;
+  mask-image: url('/static/ref-solutions/digital-presence-wing-right-v39.svg') !important;
+  -webkit-mask-repeat: no-repeat !important;
+  mask-repeat: no-repeat !important;
+  -webkit-mask-size: 100% 100% !important;
+  mask-size: 100% 100% !important;
+  -webkit-mask-position: center !important;
+  mask-position: center !important;
+}
+
+/* Very light Afyra glow near the circle only — no opaque green slab. */
+.rs-layout-03 .dp-hero__wing--left::before {
+  background: radial-gradient(70% 74% at 100% 51%, rgba(0,187,160,.22), transparent 68%) !important;
+}
+.rs-layout-03 .dp-hero__wing--right::before {
+  background: radial-gradient(70% 74% at 0% 51%, rgba(0,187,160,.22), transparent 68%) !important;
+}
+
+.rs-layout-03 .dp-hero__wing-video {
+  position: absolute !important;
+  inset: -9% !important;
+  width: 118% !important;
+  height: 118% !important;
+  max-width: none !important;
+  object-fit: cover !important;
+  object-position: 70% 50% !important;
+  opacity: .98 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  background: transparent !important;
+  mix-blend-mode: screen !important;
+  filter: brightness(.93) contrast(1.24) saturate(1.16) !important;
+  pointer-events: none !important;
+  z-index: 1 !important;
+}
+.rs-layout-03 .dp-hero__wing-video--left {
+  transform: scale(1.16) translateX(-1.5%) !important;
+  -webkit-mask-image: none !important;
+  mask-image: none !important;
+}
+.rs-layout-03 .dp-hero__wing-video--right {
+  transform: scaleX(-1) scale(1.16) translateX(-1.5%) !important;
+  -webkit-mask-image: none !important;
+  mask-image: none !important;
+}
+
+/* The approved core/rising-icon system remains unchanged; only ensure it
+   sits above the converging video tips, as in the supplied reference. */
+.rs-layout-03 .dp-hero__aura,
+.rs-layout-03 .dp-hero__aura--outer { z-index: 3 !important; }
+.rs-layout-03 .dp-hero__core { z-index: 5 !important; }
+.rs-layout-03 .dp-hero__icons { z-index: 6 !important; }
+.rs-layout-03 .dp-hero__side { z-index: 5 !important; }
+
+@media (max-width: 1180px) {
+  .rs-layout-03 .dp-hero {
+    --dp-v39-wing-w: min(52vw, 530px);
+    --dp-v39-wing-h: 184px;
+    --dp-v39-core-overlap: 26px;
+  }
+  .rs-layout-03 .dp-hero__visual { height: 372px !important; }
+  .rs-layout-03 .dp-hero__wing { bottom: 94px !important; }
+}
+
+@media (max-width: 1024px) {
+  .rs-layout-03 .dp-hero {
+    --dp-v39-wing-w: 52%;
+    --dp-v39-wing-h: 158px;
+    --dp-v39-core-overlap: 22px;
+  }
+  .rs-layout-03 .dp-hero__stage { min-height: 388px !important; }
+  .rs-layout-03 .dp-hero__visual { height: 338px !important; }
+  .rs-layout-03 .dp-hero__wing { bottom: 90px !important; }
+  .rs-layout-03 .dp-hero__wing--left { transform: rotate(16deg) !important; }
+  .rs-layout-03 .dp-hero__wing--right { transform: rotate(-16deg) !important; }
+}
+
+@media (max-width: 760px) {
+  .rs-layout-03 .dp-hero {
+    --dp-v39-wing-w: 54%;
+    --dp-v39-wing-h: 112px;
+    --dp-v39-core-overlap: 18px;
+  }
+  .rs-layout-03 .dp-hero__stage { min-height: 330px !important; }
+  .rs-layout-03 .dp-hero__visual { height: 286px !important; overflow: hidden !important; }
+  .rs-layout-03 .dp-hero__wing { bottom: 82px !important; }
+  .rs-layout-03 .dp-hero__wing--left { transform: rotate(14deg) !important; }
+  .rs-layout-03 .dp-hero__wing--right { transform: rotate(-14deg) !important; }
+  .rs-layout-03 .dp-hero__wing-video { filter: brightness(.94) contrast(1.18) saturate(1.12) !important; }
+}
+
+@media (max-width: 480px) {
+  .rs-layout-03 .dp-hero {
+    --dp-v39-wing-w: 55%;
+    --dp-v39-wing-h: 88px;
+    --dp-v39-core-overlap: 14px;
+  }
+  .rs-layout-03 .dp-hero__stage { min-height: 286px !important; }
+  .rs-layout-03 .dp-hero__visual { height: 246px !important; }
+  .rs-layout-03 .dp-hero__wing { bottom: 76px !important; }
+  .rs-layout-03 .dp-hero__wing--left { transform: rotate(13deg) !important; }
+  .rs-layout-03 .dp-hero__wing--right { transform: rotate(-13deg) !important; }
+}

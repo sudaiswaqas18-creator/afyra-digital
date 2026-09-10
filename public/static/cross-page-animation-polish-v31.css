@@ -1,0 +1,240 @@
+/* ======================================================================
+   AFYRA DIGITAL — CROSS-PAGE ANIMATION POLISH V31
+   2026-09-08
+   Scope:
+   1) Website Development Website System stability
+   2) Brand & Creative Features text-first -> cards reveal stage
+   3) Digital Presence ecosystem spacing
+   4) Homepage dashboard exact dock geometry
+   ====================================================================== */
+
+/* ----------------------------------------------------------------------
+   1) WEBSITE DEVELOPMENT — Website System: never enter a blank/black state.
+   CSS supplies a valid visible sticky deck at all times; GSAP only adds the
+   small incoming/receding transform delta.
+   ---------------------------------------------------------------------- */
+.rs-layout-05 .web-system{
+  background:#f7fbfa!important;
+  color:#00443E;
+  isolation:isolate;
+}
+.rs-layout-05 .web-system__stack{
+  position:relative!important;
+  isolation:isolate!important;
+  background:transparent!important;
+}
+.rs-layout-05 .web-system__card{
+  opacity:1;
+  visibility:visible;
+  backface-visibility:hidden!important;
+  -webkit-backface-visibility:hidden!important;
+  transform-style:flat!important;
+  filter:none;
+  overflow:hidden;
+}
+.rs-layout-05 .web-system__card::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  border-radius:inherit;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.75);
+}
+.rs-layout-05 .web-system__visual,
+.rs-layout-05 .web-system__copy{
+  position:relative;
+  z-index:2;
+  opacity:1;
+  visibility:visible;
+}
+@media (min-width:761px){
+  .rs-layout-05 .web-system__card{
+    top:94px!important;
+    margin-bottom:31vh!important;
+  }
+  .rs-layout-05 .web-system__card:last-child{margin-bottom:8vh!important}
+}
+@media (max-width:760px){
+  .rs-layout-05 .web-system__card{
+    opacity:1!important;
+    visibility:visible!important;
+    filter:none!important;
+  }
+}
+
+/* ----------------------------------------------------------------------
+   2) BRAND & CREATIVE COMMUNICATION — same story architecture as the
+   Digital Presence "A Complete Digital Ecosystem": intro first, then bento.
+   Desktop/tablet stage is pinned by GSAP; mobile remains normal-flow.
+   ---------------------------------------------------------------------- */
+.sv-page.sv-layout-02 .sv-brand-features{
+  position:relative!important;
+  padding:0!important;
+  overflow:visible!important;
+  background:linear-gradient(180deg,#F5FAF9 0%,#EEF7F6 100%)!important;
+}
+.sv-page.sv-layout-02 [data-brand-feature-story],
+.sv-page.sv-layout-02 [data-brand-feature-pin]{
+  position:relative!important;
+  width:100%!important;
+  height:auto!important;
+  min-height:0!important;
+  margin:0!important;
+  padding:0!important;
+  overflow:visible!important;
+}
+.sv-page.sv-layout-02 [data-brand-feature-stage]{
+  position:relative!important;
+  width:100%!important;
+  min-height:calc(100svh - 68px)!important;
+  height:calc(100svh - 68px)!important;
+  max-height:none!important;
+  margin:0!important;
+  padding:clamp(72px,7vh,96px) 0 clamp(42px,5vh,66px)!important;
+  border:0!important;
+  border-radius:0!important;
+  background:linear-gradient(180deg,#F5FAF9 0%,#EEF7F6 100%)!important;
+  box-shadow:none!important;
+  overflow:hidden!important;
+  isolation:isolate;
+}
+.sv-page.sv-layout-02 [data-brand-feature-intro]{
+  position:absolute!important;
+  inset:0!important;
+  z-index:5!important;
+  width:100%!important;
+  min-height:0!important;
+  margin:0!important;
+  padding:clamp(32px,6vw,76px)!important;
+  display:grid!important;
+  place-items:center!important;
+  pointer-events:none!important;
+  border:0!important;
+  border-radius:0!important;
+  background:transparent!important;
+  box-shadow:none!important;
+}
+.sv-page.sv-layout-02 .sv-brand-features__intro-card{
+  width:min(720px,92%)!important;
+  padding:clamp(30px,4vw,54px)!important;
+  border-radius:26px!important;
+  border:1px solid rgba(0,68,62,.09)!important;
+  background:rgba(255,255,255,.88)!important;
+  box-shadow:0 26px 72px rgba(0,68,62,.09)!important;
+  backdrop-filter:blur(12px);
+}
+.sv-page.sv-layout-02 [data-brand-feature-grid]{
+  position:absolute!important;
+  left:50%!important;
+  top:50%!important;
+  z-index:3!important;
+  width:min(1180px,calc(100% - 48px))!important;
+  height:min(690px,calc(100% - 118px))!important;
+  min-height:560px!important;
+  margin:0!important;
+  padding:14px!important;
+  transform:translate(-50%,-50%)!important;
+  display:grid!important;
+  grid-template-columns:repeat(12,minmax(0,1fr))!important;
+  grid-template-rows:minmax(280px,1.06fr) minmax(250px,.94fr)!important;
+  gap:14px!important;
+  align-items:stretch!important;
+  border-radius:24px!important;
+  border:1px solid rgba(0,68,62,.075)!important;
+  background:rgba(246,250,249,.82)!important;
+  box-shadow:0 20px 58px rgba(0,68,62,.055)!important;
+}
+.sv-page.sv-layout-02 [data-brand-feature-card]{
+  transform-origin:50% 50%!important;
+  backface-visibility:hidden!important;
+  -webkit-backface-visibility:hidden!important;
+}
+
+/* Tablet: keep the full two-row reference composition inside the pinned stage. */
+@media (max-width:1024px) and (min-width:761px){
+  .sv-page.sv-layout-02 [data-brand-feature-stage]{height:calc(100svh - 58px)!important;min-height:720px!important}
+  .sv-page.sv-layout-02 [data-brand-feature-grid]{width:min(940px,calc(100% - 34px))!important;height:min(650px,calc(100% - 100px))!important;min-height:610px!important}
+}
+
+/* Mobile: no pinned five-card viewport. Preserve the same text-first visual
+   sequence while allowing all cards to occupy their natural document height. */
+@media (max-width:760px){
+  .sv-page.sv-layout-02 .sv-brand-features{padding:62px 0 84px!important;overflow:hidden!important}
+  .sv-page.sv-layout-02 [data-brand-feature-stage]{
+    position:relative!important;
+    height:auto!important;
+    min-height:0!important;
+    padding:0 14px!important;
+    overflow:visible!important;
+    background:transparent!important;
+  }
+  .sv-page.sv-layout-02 [data-brand-feature-intro]{
+    position:relative!important;
+    inset:auto!important;
+    min-height:56svh!important;
+    margin:0 0 24px!important;
+    padding:20px 0!important;
+  }
+  .sv-page.sv-layout-02 .sv-brand-features__intro-card{width:100%!important;padding:30px 20px!important;border-radius:22px!important}
+  .sv-page.sv-layout-02 [data-brand-feature-grid]{
+    position:relative!important;
+    left:auto!important;
+    top:auto!important;
+    width:100%!important;
+    height:auto!important;
+    min-height:0!important;
+    transform:none!important;
+    grid-template-columns:1fr!important;
+    grid-template-rows:none!important;
+    gap:12px!important;
+    padding:10px!important;
+  }
+  .sv-page.sv-layout-02 [data-brand-feature-card]{grid-column:1!important;height:auto!important;min-height:270px!important}
+}
+
+/* ----------------------------------------------------------------------
+   3) DIGITAL PRESENCE — breathing room between pinned story heading and cards.
+   The intro is fixed near the top of the pinned viewport, so the revealed grid
+   is shifted downward instead of touching the heading region.
+   ---------------------------------------------------------------------- */
+.rs-layout-03 .dp-story__grid{
+  padding-top:clamp(118px,15vh,170px)!important;
+  align-self:center!important;
+}
+@media (max-width:1024px){
+  .rs-layout-03 .dp-story__grid{padding-top:clamp(100px,12vh,136px)!important}
+}
+@media (max-width:760px){
+  .rs-layout-03 .dp-story__grid{padding-top:46px!important}
+}
+
+/* ----------------------------------------------------------------------
+   4) HOMEPAGE HERO — exact final docking target. JS snaps the transform delta
+   to zero only at the true end of the scrub, then these coordinates are the
+   authoritative parent-container slots.
+   ---------------------------------------------------------------------- */
+.af-hpd[data-af-hero-reference-dock-v27="true"] .af-hpd__unified-box > .af-hpd__part{
+  transform-origin:50% 50%!important;
+  backface-visibility:hidden!important;
+  -webkit-backface-visibility:hidden!important;
+}
+@media (min-width:621px){
+  .af-hpd[data-af-hero-reference-dock-v27="true"] .af-hpd__stat--qualified{top:62px!important;left:90px!important;width:145px!important;height:94px!important}
+  .af-hpd[data-af-hero-reference-dock-v27="true"] .af-hpd__stat--appointments{top:62px!important;left:246px!important;width:145px!important;height:94px!important}
+  .af-hpd[data-af-hero-reference-dock-v27="true"] .af-hpd__stat--views{top:62px!important;left:402px!important;width:145px!important;height:94px!important}
+  .af-hpd[data-af-hero-reference-dock-v27="true"] .af-hpd__card--schedule{top:62px!important;right:18px!important;width:214px!important;min-height:112px!important}
+  .af-hpd[data-af-hero-reference-dock-v27="true"] .af-hpd__chart-panel{top:166px!important;left:90px!important;width:457px!important;height:176px!important}
+  .af-hpd[data-af-hero-reference-dock-v27="true"] .af-hpd__card--inquiries{top:188px!important;right:18px!important;width:214px!important;min-height:96px!important}
+  .af-hpd[data-af-hero-reference-dock-v27="true"] .af-hpd__card--visibility{top:292px!important;right:18px!important;width:214px!important;min-height:140px!important}
+  .af-hpd[data-af-hero-reference-dock-v27="true"] .af-hpd__activity--gbp{top:350px!important;left:90px!important;width:457px!important;height:36px!important;min-height:36px!important}
+  .af-hpd[data-af-hero-reference-dock-v27="true"] .af-hpd__activity--campaign{top:398px!important;left:90px!important;width:457px!important;height:36px!important;min-height:36px!important}
+  .af-hpd[data-af-hero-reference-dock-v27="true"].af-hpd--docked .af-hpd__unified-box > .af-hpd__part{
+    opacity:1!important;
+  }
+}
+
+@media (prefers-reduced-motion:reduce){
+  .sv-page.sv-layout-02 [data-brand-feature-card],
+  .rs-layout-05 .web-system__card,
+  .af-hpd[data-af-hero-reference-dock-v27="true"] .af-hpd__part{opacity:1!important;transform:none!important;filter:none!important}
+}

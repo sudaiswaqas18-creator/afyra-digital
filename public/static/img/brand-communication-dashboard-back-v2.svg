@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="860" viewBox="0 0 1400 860" role="img" aria-labelledby="title desc">
+  <title id="title">Afyra Digital brand communication dashboard back</title>
+  <desc id="desc">Alternative Afyra creative communication dashboard with a production workflow layout.</desc>
+  <defs>
+    <linearGradient id="bg2" x1="0" x2="1" y1="0" y2="1">
+      <stop stop-color="#FCFEFE"/>
+      <stop offset="1" stop-color="#E7F8F4"/>
+    </linearGradient>
+    <linearGradient id="green2" x1="0" x2="1">
+      <stop stop-color="#00BBA0"/>
+      <stop offset="1" stop-color="#90EBDD"/>
+    </linearGradient>
+    <linearGradient id="dark2" x1="0" x2="1" y1="0" y2="1">
+      <stop stop-color="#00443E"/>
+      <stop offset="1" stop-color="#0D665D"/>
+    </linearGradient>
+    <filter id="shadow2" x="-20%" y="-20%" width="140%" height="160%">
+      <feDropShadow dx="0" dy="24" stdDeviation="22" flood-color="#00443E" flood-opacity="0.13"/>
+    </filter>
+  </defs>
+
+  <rect width="1400" height="860" rx="42" fill="url(#bg2)"/>
+  <rect x="90" y="104" width="1220" height="650" rx="34" fill="#ffffff" stroke="#DAECE8" filter="url(#shadow2)"/>
+  <rect x="90" y="104" width="1220" height="94" rx="34" fill="#FBFDFC"/>
+  <line x1="90" y1="198" x2="1310" y2="198" stroke="#E3F0ED"/>
+  <image href="/static/img/logo-wide.png" x="122" y="132" width="150" height="48" preserveAspectRatio="xMinYMid meet"/>
+  <text x="1148" y="161" font-family="Arial,Helvetica,sans-serif" font-size="13" fill="#6B8E88">Creative workflow • Live</text>
+
+  <rect x="128" y="238" width="1144" height="152" rx="28" fill="#F7FCFB" stroke="#DFECE9"/>
+  <text x="166" y="286" font-family="Arial,Helvetica,sans-serif" font-size="38" font-weight="700" fill="#00443E">Where should your weekly communication start?</text>
+  <text x="166" y="328" font-family="Arial,Helvetica,sans-serif" font-size="15" fill="#668984">Plan the message, structure the asset and keep every channel aligned.</text>
+  <rect x="166" y="344" width="158" height="28" rx="14" fill="#E8FAF7"/><text x="191" y="362" font-family="Arial" font-size="11" font-weight="700" fill="#007E70">Message Planning</text>
+  <rect x="338" y="344" width="142" height="28" rx="14" fill="#ECF6F4"/><text x="366" y="362" font-family="Arial" font-size="11" font-weight="700" fill="#416B66">Creative System</text>
+
+  <g transform="translate(132 438)">
+    <rect width="320" height="252" rx="28" fill="#ffffff" stroke="#DDEBE8"/>
+    <text x="28" y="42" font-family="Arial" font-size="18" font-weight="700" fill="#00443E">Brand Plan</text>
+    <rect x="28" y="60" width="144" height="26" rx="13" fill="#EAFBF8"/>
+    <text x="52" y="77" font-family="Arial" font-size="11" font-weight="700" fill="#008977">WEEKLY CONTENT MAP</text>
+    <rect x="28" y="108" width="264" height="10" rx="5" fill="#EDF4F3"/>
+    <rect x="28" y="108" width="178" height="10" rx="5" fill="#00BBA0"/>
+    <rect x="28" y="132" width="232" height="10" rx="5" fill="#EDF4F3"/>
+    <rect x="28" y="156" width="248" height="10" rx="5" fill="#EDF4F3"/>
+    <rect x="28" y="190" width="264" height="38" rx="18" fill="#F6FBFA" stroke="#DFECE8"/>
+    <text x="48" y="214" font-family="Arial" font-size="13" fill="#4A726C">Audience insight → educational angle → CTA</text>
+  </g>
+
+  <g transform="translate(490 438)">
+    <rect width="372" height="252" rx="28" fill="url(#green2)"/>
+    <text x="28" y="42" font-family="Arial" font-size="18" font-weight="700" fill="#ffffff">Creative Studio</text>
+    <text x="28" y="76" font-family="Arial" font-size="13" fill="#E9FFFB">Connected content directions for captions, short-form video and visuals.</text>
+    <path d="M34 190 C92 142 132 166 170 198 C210 232 252 222 292 178 C312 156 326 144 338 138" fill="none" stroke="#ffffff" stroke-width="6" stroke-linecap="round"/>
+    <path d="M34 208 C92 160 132 184 170 216 C210 250 252 240 292 196 C312 174 326 162 338 156" fill="none" stroke="rgba(255,255,255,.35)" stroke-width="18" stroke-linecap="round"/>
+    <circle cx="170" cy="198" r="8" fill="#ffffff"/>
+    <circle cx="292" cy="178" r="8" fill="#ffffff"/>
+    <rect x="28" y="96" width="112" height="24" rx="12" fill="rgba(255,255,255,.18)"/>
+    <text x="48" y="112" font-family="Arial" font-size="11" font-weight="700" fill="#ffffff">Creative Velocity</text>
+  </g>
+
+  <g transform="translate(900 438)">
+    <rect width="368" height="252" rx="28" fill="url(#dark2)"/>
+    <text x="28" y="42" font-family="Arial" font-size="18" font-weight="700" fill="#ffffff">Publishing Workflow</text>
+    <g font-family="Arial" font-size="13" fill="#D8F4EF">
+      <rect x="28" y="66" width="312" height="42" rx="16" fill="#0F776D"/>
+      <text x="48" y="92">Positioning approved</text>
+      <rect x="28" y="120" width="312" height="42" rx="16" fill="#0D625A"/>
+      <text x="48" y="146">Content drafted and reviewed</text>
+      <rect x="28" y="174" width="312" height="42" rx="16" fill="#0A554E"/>
+      <text x="48" y="200">Creative assets and short-form video ready</text>
+    </g>
+    <rect x="28" y="222" width="148" height="10" rx="5" fill="#1D5E58"/>
+    <rect x="28" y="222" width="120" height="10" rx="5" fill="#81E7D9"/>
+  </g>
+</svg>

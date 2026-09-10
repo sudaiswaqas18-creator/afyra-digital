@@ -1,0 +1,32 @@
+{
+  "name": "webapp",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "npm run clean && npm run build:client && npm run build:worker",
+    "preview": "wrangler pages dev dist",
+    "deploy": "npm run build && wrangler pages deploy dist",
+    "cf-typegen": "wrangler types --env-interface CloudflareBindings",
+    "build:client": "vite build --mode client",
+    "build:worker": "vite build && node scripts/prepare-sites-output.mjs",
+    "clean": "node scripts/clean-output.mjs",
+    "predev": "node scripts/fresh-install-preflight.mjs",
+    "check:setup": "node scripts/fresh-install-preflight.mjs"
+  },
+  "dependencies": {
+    "gsap": "^3.15.0",
+    "hono": "^4.13.5",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "react-router-dom": "^6.30.6"
+  },
+  "devDependencies": {
+    "@hono/vite-build": "^1.11.1",
+    "@hono/vite-dev-server": "^0.26.1",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.7",
+    "@vitejs/plugin-react": "^6.1.1",
+    "vite": "^8.1.4",
+    "wrangler": "^4.110.0"
+  }
+}

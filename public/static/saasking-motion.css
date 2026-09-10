@@ -1,0 +1,440 @@
+/* =========================================================
+   AFYRA DIGITAL — SAASKING-INSPIRED MOTION LAYER
+   Shared GSAP light sweep, icon-ring, pricing beam + image orbit.
+   Brand palette remains Afyra (#00BBA0 / #00443E / #FF960D).
+   ========================================================= */
+
+/* ---------- Six-card light matrices ---------- */
+.af-sk-light-grid {
+  position: relative;
+  isolation: isolate;
+}
+
+.af-sk-light-card {
+  --af-sk-border-angle: 0deg;
+  --af-sk-border-opacity: .54;
+  position: relative !important;
+  isolation: isolate;
+  transform-origin: 50% 50%;
+}
+
+.af-sk-light-card.af-sk-light-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  width: auto !important;
+  height: auto !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  display: block !important;
+  z-index: 8;
+  pointer-events: none;
+  border-radius: inherit;
+  padding: 1px;
+  background:
+    conic-gradient(
+      from var(--af-sk-border-angle),
+      transparent 0deg 268deg,
+      rgba(0,187,160,.06) 286deg,
+      rgba(0,187,160,.74) 314deg,
+      rgba(222,241,240,.98) 326deg,
+      rgba(255,150,13,.92) 334deg,
+      rgba(0,187,160,.62) 344deg,
+      transparent 359deg
+    );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  filter: drop-shadow(0 0 4px rgba(0,187,160,.7)) drop-shadow(0 0 9px rgba(255,150,13,.2));
+  opacity: var(--af-sk-border-opacity);
+  will-change: opacity;
+}
+
+
+/* Preserve each card's native ::before artwork. The animated border owns ::after only. */
+.sv-page .sv-feature-card.af-sk-light-card::after { display: block !important; }
+
+.af-sk-light-icon {
+  --af-sk-ring-angle: 0deg;
+  position: relative !important;
+  isolation: isolate;
+  overflow: visible !important;
+  transform-origin: 50% 50%;
+}
+
+.af-sk-light-icon::after {
+  content: "";
+  position: absolute;
+  inset: -6px;
+  z-index: 5;
+  pointer-events: none;
+  border-radius: 999px;
+  padding: 2px;
+  background:
+    conic-gradient(
+      from var(--af-sk-ring-angle),
+      rgba(0,187,160,.08) 0deg 225deg,
+      rgba(0,187,160,.78) 268deg,
+      rgba(222,241,240,.98) 298deg,
+      rgba(255,150,13,.92) 316deg,
+      rgba(0,187,160,.72) 334deg,
+      rgba(0,187,160,.08) 360deg
+    );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  filter: drop-shadow(0 0 5px rgba(0,187,160,.68)) drop-shadow(0 0 12px rgba(0,187,160,.22));
+}
+
+/* Keep rectangular number markers / card numbers from becoming huge circles. */
+.px-card__num.af-sk-light-icon::after,
+.sv-feature-card__num.af-sk-light-icon::after,
+.rq-benefit-card__num.af-sk-light-icon::after {
+  border-radius: 12px;
+  inset: -4px;
+  padding: 1px;
+}
+
+/* ---------- Homepage pricing: source logo → moving beam → impact ---------- */
+.af-price {
+  --af-price-beam-gap: 300px;
+}
+
+.af-price__mark {
+  top: 66px !important;
+  width: 74px;
+  height: 74px;
+  padding: 13px;
+  border-radius: 50%;
+  background: rgba(3,24,21,.96);
+  border: 1px solid rgba(222,241,240,.38);
+  box-shadow: 0 0 0 7px rgba(0,187,160,.07), 0 0 26px rgba(0,187,160,.18), 0 0 58px rgba(222,241,240,.03);
+  z-index: 5;
+}
+
+.af-price__mark::before,
+.af-price__mark::after {
+  content: "";
+  position: absolute;
+  inset: -11px;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.af-price__mark::before {
+  border: 1px solid rgba(0,187,160,.18);
+  box-shadow: 0 0 30px rgba(0,187,160,.12);
+}
+
+.af-price__mark::after {
+  inset: -27px;
+  background: radial-gradient(circle, rgba(0,187,160,.12), transparent 67%);
+  filter: blur(7px);
+  z-index: -1;
+}
+
+.af-price__mark img {
+  position: relative;
+  z-index: 1;
+  filter: brightness(.92) drop-shadow(0 0 4px rgba(222,241,240,.34));
+}
+
+.af-price__beam {
+  top: 114px !important;
+  width: 360px !important;
+  height: 370px !important;
+  z-index: 1 !important;
+  overflow: visible;
+}
+
+.af-price__beam-core {
+  top: 0 !important;
+  width: 2px !important;
+  height: 300px !important;
+  opacity: .28;
+  background: linear-gradient(180deg, rgba(222,241,240,.58), rgba(0,187,160,.82) 58%, rgba(0,187,160,.2) 88%, transparent);
+  filter: blur(.4px) drop-shadow(0 0 8px rgba(0,187,160,.48));
+}
+
+.af-price__beam-glow {
+  bottom: 18px !important;
+  width: 390px !important;
+  height: 220px !important;
+  opacity: .48;
+  background: radial-gradient(ellipse at bottom, rgba(0,187,160,.42), rgba(0,187,160,.08) 45%, transparent 72%);
+  filter: blur(42px);
+}
+
+.af-price__beam-traveler {
+  position: absolute;
+  top: 3px;
+  left: 50%;
+  width: 5px;
+  height: 42px;
+  transform: translateX(-50%);
+  border-radius: 999px;
+  background: linear-gradient(180deg, rgba(222,241,240,0), #DEF1F0 36%, #00BBA0 70%, rgba(0,187,160,0));
+  box-shadow: 0 0 10px #DEF1F0, 0 0 24px rgba(0,187,160,.92), 0 0 50px rgba(0,187,160,.55);
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+.af-price__beam-impact {
+  position: absolute;
+  left: 50%;
+  bottom: 17px;
+  width: 118px;
+  height: 50px;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: radial-gradient(ellipse, rgba(222,241,240,.95) 0%, rgba(0,187,160,.72) 22%, rgba(0,187,160,.16) 54%, transparent 74%);
+  filter: blur(7px);
+  opacity: 0;
+}
+
+.af-price__wrap {
+  --af-sk-impact-line-opacity: .12;
+  --af-sk-impact-line-scale: .35;
+  margin-top: var(--af-price-beam-gap) !important;
+  border: 1px solid rgba(222,241,240,.07);
+  box-shadow: 0 0 0 8px rgba(222,241,240,.045), 0 -1px 8px rgba(0,187,160,.03), 0 -34px 30px rgba(0,187,160,.015);
+  transition: box-shadow .2s linear, border-color .2s linear;
+}
+
+.af-price__wrap::before {
+  content: "";
+  position: absolute;
+  top: -2px;
+  left: 50%;
+  width: clamp(120px, 21%, 250px);
+  height: 4px;
+  transform: translateX(-50%) scaleX(var(--af-sk-impact-line-scale));
+  transform-origin: 50% 50%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, transparent, rgba(0,187,160,.72), #DEF1F0, rgba(255,150,13,.58), transparent);
+  filter: drop-shadow(0 0 10px rgba(0,187,160,.7));
+  opacity: var(--af-sk-impact-line-opacity);
+  pointer-events: none;
+}
+
+/* ---------- Pricing capability image orbit ---------- */
+.af-price__ring {
+  height: 360px !important;
+  margin: 2px 0 28px !important;
+  overflow: visible;
+  isolation: isolate;
+}
+
+.af-price__ring::before,
+.af-price__ring::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.af-price__ring::before {
+  width: 282px;
+  height: 282px;
+  border: 1px solid rgba(0,187,160,.18);
+  box-shadow: inset 0 0 40px rgba(0,187,160,.025), 0 0 30px rgba(0,187,160,.035);
+}
+
+.af-price__ring::after {
+  width: 340px;
+  height: 340px;
+  border: 1px dashed rgba(222,241,240,.075);
+}
+
+.af-price__ring-track::before,
+.af-price__ring-track::after {
+  content: none !important;
+}
+
+.af-price__ring-track {
+  position: absolute;
+  inset: 0 !important;
+  z-index: 3 !important;
+  pointer-events: none;
+  animation: none !important;
+  transform-origin: 50% 50%;
+  will-change: transform;
+}
+
+.af-price__ring-slot {
+  --af-angle: 0deg;
+  --af-orbit-offset: -154px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 0;
+  height: 0;
+  transform: rotate(var(--af-angle)) translateY(var(--af-orbit-offset));
+  transform-origin: 0 0;
+}
+
+.af-price__ring-card {
+  position: relative;
+  width: 72px;
+  height: 72px;
+  margin-left: -36px;
+  margin-top: -36px;
+  display: grid;
+  place-items: center;
+  border-radius: 22px;
+  overflow: hidden;
+  background: linear-gradient(160deg, rgba(11,54,47,.96), rgba(3,23,20,.99));
+  border: 1px solid rgba(222,241,240,.14);
+  box-shadow: 0 14px 32px rgba(0,0,0,.34), inset 0 1px rgba(255,255,255,.05), 0 0 18px rgba(0,187,160,.06);
+  will-change: transform;
+}
+
+.af-price__ring-card::before {
+  content: "";
+  position: absolute;
+  inset: 1px;
+  border-radius: 20px;
+  background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,0) 52%);
+  opacity: .45;
+  pointer-events: none;
+}
+
+.af-price__ring-card-glow {
+  position: absolute;
+  inset: 8px;
+  border-radius: 16px;
+  background: radial-gradient(circle at 50% 35%, rgba(255,255,255,.22), transparent 60%);
+  filter: blur(4px);
+  opacity: .8;
+}
+
+.af-price__ring-icon {
+  position: relative;
+  z-index: 2;
+  width: 42px;
+  height: 42px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 15px;
+  color: rgba(255,255,255,.96);
+  background: rgba(4,17,15,.32);
+  border: 1px solid rgba(255,255,255,.14);
+  box-shadow: inset 0 1px rgba(255,255,255,.1), 0 10px 18px rgba(0,0,0,.18);
+}
+
+.af-price__ring-icon .af-inline-svg-icon,
+.af-price__ring-icon svg {
+  width: 24px;
+  height: 24px;
+}
+
+.af-price__ring-card--teal {
+  background: linear-gradient(150deg, rgba(17,117,110,.98), rgba(10,49,45,.98));
+}
+
+.af-price__ring-card--mint {
+  background: linear-gradient(150deg, rgba(33,166,142,.95), rgba(11,70,60,.98));
+}
+
+.af-price__ring-card--violet {
+  background: linear-gradient(150deg, rgba(96,67,167,.96), rgba(48,31,92,.98));
+}
+
+.af-price__ring-card--warm {
+  background: linear-gradient(150deg, rgba(202,121,38,.96), rgba(108,65,17,.98));
+}
+
+.af-price__ring-card--olive {
+  background: linear-gradient(150deg, rgba(128,128,51,.94), rgba(73,73,24,.98));
+}
+
+.af-price__ring-card--deep {
+  background: linear-gradient(150deg, rgba(52,72,104,.96), rgba(22,31,49,.98));
+}
+
+.af-price__ring-center {
+  z-index: 5 !important;
+  width: 216px !important;
+  min-height: 216px !important;
+  max-width: 216px !important;
+  padding: 24px 19px !important;
+  border: 1px solid rgba(0,187,160,.22) !important;
+  box-shadow:
+    0 0 0 12px rgba(4,23,20,.48),
+    0 0 46px rgba(0,187,160,.08),
+    0 18px 40px rgba(0,0,0,.2) !important;
+}
+
+@media (max-width: 1180px) {
+  .af-price { --af-price-beam-gap: 260px; }
+  .af-price__ring { height: 334px !important; }
+  .af-price__ring-slot { --af-orbit-offset: -141px; }
+  .af-price__ring::before { width: 258px; height: 258px; }
+  .af-price__ring::after { width: 312px; height: 312px; }
+  .af-price__ring-card { width: 66px; height: 66px; margin-left: -33px; margin-top: -33px; border-radius: 20px; }
+  .af-price__ring-icon { width: 38px; height: 38px; }
+}
+
+@media (max-width: 980px) {
+  .af-price { --af-price-beam-gap: 225px; }
+  .af-price__mark { top: 52px !important; width: 66px; height: 66px; }
+  .af-price__beam { top: 96px !important; height: 315px !important; }
+  .af-price__beam-core { height: 252px !important; }
+  .af-price__wrap { padding-top: 60px !important; }
+  .af-price__ring { width: min(430px, 100%); margin-left: auto !important; margin-right: auto !important; }
+}
+
+@media (max-width: 720px) {
+  .af-sk-light-card.af-sk-light-card::after { padding: .8px; }
+  .af-sk-light-icon::after { inset: -4px; padding: 1.25px; }
+
+  .af-price { --af-price-beam-gap: 180px; padding-top: 96px !important; }
+  .af-price__mark { top: 38px !important; width: 60px; height: 60px; padding: 11px; }
+  .af-price__beam { top: 78px !important; height: 260px !important; width: 250px !important; }
+  .af-price__beam-core { height: 205px !important; }
+  .af-price__beam-glow { width: 260px !important; height: 150px !important; }
+  .af-price__beam-impact { width: 86px; height: 36px; }
+
+  .af-price__ring { height: 300px !important; }
+  .af-price__ring-slot { --af-orbit-offset: -123px; }
+  .af-price__ring::before { width: 224px; height: 224px; }
+  .af-price__ring::after { width: 272px; height: 272px; }
+  .af-price__ring-card { width: 58px; height: 58px; margin-left: -29px; margin-top: -29px; border-radius: 18px; }
+  .af-price__ring-card-glow { inset: 6px; border-radius: 14px; }
+  .af-price__ring-icon { width: 34px; height: 34px; border-radius: 12px; }
+  .af-price__ring-icon .af-inline-svg-icon,
+  .af-price__ring-icon svg { width: 21px; height: 21px; }
+  .af-price__ring-center { width: 176px !important; min-height: 176px !important; max-width: 176px !important; padding: 18px 14px !important; }
+  .af-price__ring-center .af-h4 { font-size: .92rem !important; }
+  .af-price__ring-center .af-p { font-size: 10.8px !important; }
+}
+
+@media (max-width: 480px) {
+  .af-price { --af-price-beam-gap: 155px; }
+  .af-price__ring { height: 270px !important; }
+  .af-price__ring-slot { --af-orbit-offset: -108px; }
+  .af-price__ring::before { width: 198px; height: 198px; }
+  .af-price__ring::after { width: 238px; height: 238px; }
+  .af-price__ring-card { width: 50px; height: 50px; margin-left: -25px; margin-top: -25px; border-radius: 16px; }
+  .af-price__ring-card-glow { inset: 5px; border-radius: 11px; }
+  .af-price__ring-icon { width: 30px; height: 30px; border-radius: 10px; }
+  .af-price__ring-icon .af-inline-svg-icon,
+  .af-price__ring-icon svg { width: 18px; height: 18px; }
+  .af-price__ring-center { width: 154px !important; min-height: 154px !important; max-width: 154px !important; padding: 15px 12px !important; }
+  .af-price__ring-center .af-h4 { font-size: .84rem !important; }
+  .af-price__ring-center .af-p { font-size: 9.8px !important; line-height: 1.4 !important; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .af-sk-light-card.af-sk-light-card::after,
+  .af-sk-light-icon::after { opacity: .42; }
+  .af-price__ring-track { transform: none !important; }
+  .af-price__ring-card { transform: none !important; }
+}

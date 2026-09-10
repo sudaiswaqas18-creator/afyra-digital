@@ -1,0 +1,333 @@
+/* =========================================================
+   AFYRA DIGITAL — HOMEPAGE HERO UNIFIED V25
+   One spatial canvas for the dashboard + all nine floating cards.
+   Reference target: SaaS King Task Management hero.
+   ========================================================= */
+
+.af-hero__stage {
+  min-height: 700px !important;
+  overflow: visible !important;
+  contain: style !important;
+}
+
+.af-hpd--unified-v25,
+.af-hpd[data-af-hero-unified-v25="true"] {
+  --af-scatter-mult: 1;
+  position: relative !important;
+  width: min(1360px, 100%) !important;
+  height: 690px !important;
+  margin: 0 auto !important;
+  overflow: visible !important;
+  isolation: isolate;
+  pointer-events: none;
+}
+
+/* One and only one hero positioning system. Dashboard, glows and every card
+   are direct children of this same canvas. */
+.af-hpd__canvas,
+.af-hpd[data-af-hero-unified-v25="true"] > [data-af-hero-unified-canvas] {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  display: block !important;
+  overflow: visible !important;
+  transform-style: preserve-3d;
+}
+
+.af-hpd__canvas > .af-hpd__board,
+.af-hpd__canvas > [data-af-hero-unified-dashboard] {
+  position: absolute !important;
+  top: 214px !important;
+  left: 50% !important;
+  width: min(790px, 61vw) !important;
+  height: 438px !important;
+  padding: 9px !important;
+  margin: 0 !important;
+  transform: translateX(-50%) !important;
+  border-radius: 26px !important;
+  overflow: hidden !important;
+  z-index: 3 !important;
+}
+
+.af-hpd__canvas > .af-hpd__board > .af-hpd__shell {
+  width: 100% !important;
+  height: 100% !important;
+  overflow: hidden !important;
+}
+
+/* Kill the old second coordinate layer if a legacy bundle briefly renders it. */
+.af-hpd[data-af-hero-unified-v25="true"] .af-hpd__dock {
+  display: contents !important;
+}
+
+.af-hpd__canvas > .af-hpd__part {
+  position: absolute !important;
+  inset: auto !important;
+  grid-column: auto !important;
+  grid-row: auto !important;
+  margin: 0 !important;
+  transform-origin: 50% 50% !important;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  will-change: transform;
+  pointer-events: auto;
+  z-index: 8;
+}
+
+/* Resting positions follow the same asymmetrical composition as the reference:
+   small metric card high-left, chart beneath it, message card overlapping chart;
+   mirrored metric/schedule cards at right; supporting rows across the bottom. */
+.af-hpd__canvas > .af-hpd__stat--qualified {
+  --af-rest-r: -15deg;
+  top: 10px !important;
+  left: 58px !important;
+  width: 164px !important;
+  z-index: 9 !important;
+}
+
+.af-hpd__canvas > .af-hpd__chart-panel {
+  --af-rest-r: -10deg;
+  top: 148px !important;
+  left: -92px !important;
+  width: 448px !important;
+  height: 246px !important;
+  padding: 18px 20px 14px !important;
+  z-index: 8 !important;
+}
+.af-hpd__canvas > .af-hpd__chart-panel .af-db__bars { height: 154px !important; }
+
+.af-hpd__canvas > .af-hpd__card--inquiries {
+  --af-rest-r: -8deg;
+  top: 206px !important;
+  left: 238px !important;
+  width: 218px !important;
+  z-index: 12 !important;
+}
+
+.af-hpd__canvas > .af-hpd__stat--appointments {
+  --af-rest-r: 14deg;
+  top: 0 !important;
+  right: 220px !important;
+  width: 158px !important;
+  z-index: 9 !important;
+}
+
+.af-hpd__canvas > .af-hpd__card--schedule {
+  --af-rest-r: -9deg;
+  top: 103px !important;
+  right: 34px !important;
+  width: 222px !important;
+  z-index: 11 !important;
+}
+
+.af-hpd__canvas > .af-hpd__stat--views {
+  --af-rest-r: 15deg;
+  top: 248px !important;
+  right: -36px !important;
+  width: 166px !important;
+  z-index: 9 !important;
+}
+
+.af-hpd__canvas > .af-hpd__card--visibility {
+  --af-rest-r: 22deg;
+  top: 348px !important;
+  right: 132px !important;
+  width: 184px !important;
+  z-index: 10 !important;
+}
+
+.af-hpd__canvas > .af-hpd__activity--gbp {
+  --af-rest-r: -4deg;
+  left: 252px !important;
+  bottom: 18px !important;
+  width: 310px !important;
+  z-index: 10 !important;
+}
+
+.af-hpd__canvas > .af-hpd__activity--campaign {
+  --af-rest-r: 4deg;
+  right: 236px !important;
+  bottom: 0 !important;
+  width: 330px !important;
+  z-index: 10 !important;
+}
+
+.af-hpd__canvas > .af-hpd__glow {
+  position: absolute !important;
+  pointer-events: none;
+  z-index: 1 !important;
+}
+.af-hpd__canvas > .af-hpd__glow--teal {
+  width: 590px !important;
+  height: 330px !important;
+  left: 29% !important;
+  top: 210px !important;
+}
+.af-hpd__canvas > .af-hpd__glow--warm {
+  width: 400px !important;
+  height: 280px !important;
+  right: 15% !important;
+  top: 300px !important;
+}
+
+/* Pre-GSAP first frame uses the same outward scatter values as the JS hook,
+   preventing a one-frame layout jump before ScrollTrigger initializes. */
+@media (min-width: 621px) and (prefers-reduced-motion: no-preference) {
+  .af-hpd__canvas > .af-hpd__part {
+    transform:
+      translate3d(var(--af-scatter-x, 0px), var(--af-scatter-y, 0px), 0)
+      rotate(calc(var(--af-rest-r, 0deg) + var(--af-scatter-r, 0deg)))
+      scale(var(--af-scatter-s, 1));
+  }
+}
+
+/* Large desktop: preserve the reference's generous edge spacing. */
+@media (min-width: 1500px) {
+  .af-hpd--unified-v25,
+  .af-hpd[data-af-hero-unified-v25="true"] { width: min(1460px, 100%) !important; height: 720px !important; }
+  .af-hpd__canvas > .af-hpd__board { width: 830px !important; height: 454px !important; top: 220px !important; }
+  .af-hpd__canvas > .af-hpd__chart-panel { left: -112px !important; width: 472px !important; }
+  .af-hpd__canvas > .af-hpd__stat--qualified { left: 66px !important; }
+  .af-hpd__canvas > .af-hpd__stat--appointments { right: 242px !important; }
+  .af-hpd__canvas > .af-hpd__card--schedule { right: 52px !important; }
+  .af-hpd__canvas > .af-hpd__stat--views { right: -18px !important; }
+  .af-hpd__canvas > .af-hpd__activity--gbp { left: 282px !important; }
+  .af-hpd__canvas > .af-hpd__activity--campaign { right: 266px !important; }
+}
+
+/* Tablet: scale the entire unified spatial system as one object so card-to-card
+   geometry stays identical instead of being recomputed in separate wrappers. */
+@media (max-width: 1120px) and (min-width: 901px) {
+  .af-hero__stage { min-height: 520px !important; }
+  .af-hpd--unified-v25,
+  .af-hpd[data-af-hero-unified-v25="true"] {
+    --af-scatter-mult: .7;
+    width: 100% !important;
+    height: 500px !important;
+  }
+  .af-hpd__canvas,
+  .af-hpd[data-af-hero-unified-v25="true"] > [data-af-hero-unified-canvas] {
+    width: 1280px !important;
+    height: 690px !important;
+    left: 50% !important;
+    right: auto !important;
+    margin-left: -640px !important;
+    transform: scale(.72) !important;
+    transform-origin: 50% 0 !important;
+  }
+  .af-hpd__canvas > .af-hpd__board { width: 790px !important; }
+}
+
+@media (max-width: 900px) and (min-width: 761px) {
+  .af-hero__stage { min-height: 420px !important; }
+  .af-hpd--unified-v25,
+  .af-hpd[data-af-hero-unified-v25="true"] {
+    --af-scatter-mult: .58;
+    width: 100% !important;
+    height: 405px !important;
+  }
+  .af-hpd__canvas,
+  .af-hpd[data-af-hero-unified-v25="true"] > [data-af-hero-unified-canvas] {
+    width: 1280px !important;
+    height: 690px !important;
+    left: 50% !important;
+    right: auto !important;
+    margin-left: -640px !important;
+    transform: scale(.58) !important;
+    transform-origin: 50% 0 !important;
+  }
+  .af-hpd__canvas > .af-hpd__board { width: 790px !important; }
+}
+
+@media (max-width: 760px) and (min-width: 621px) {
+  .af-hero__stage { min-height: 350px !important; }
+  .af-hpd--unified-v25,
+  .af-hpd[data-af-hero-unified-v25="true"] {
+    --af-scatter-mult: .48;
+    width: 100% !important;
+    height: 338px !important;
+  }
+  .af-hpd__canvas,
+  .af-hpd[data-af-hero-unified-v25="true"] > [data-af-hero-unified-canvas] {
+    width: 1280px !important;
+    height: 690px !important;
+    left: 50% !important;
+    right: auto !important;
+    margin-left: -640px !important;
+    transform: scale(.49) !important;
+    transform-origin: 50% 0 !important;
+  }
+  .af-hpd__canvas > .af-hpd__board { width: 790px !important; }
+}
+
+/* Mobile keeps the exact same single parent but switches its direct children to
+   a readable grid. No floating card can overlap, clip or escape the hero. */
+@media (max-width: 620px) {
+  .af-hero__stage { min-height: 0 !important; overflow: hidden !important; }
+  .af-hpd--unified-v25,
+  .af-hpd[data-af-hero-unified-v25="true"] {
+    --af-scatter-mult: 0;
+    width: 100% !important;
+    height: auto !important;
+    overflow: hidden !important;
+  }
+  .af-hpd__canvas,
+  .af-hpd[data-af-hero-unified-v25="true"] > [data-af-hero-unified-canvas] {
+    position: relative !important;
+    inset: auto !important;
+    width: 100% !important;
+    height: auto !important;
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 10px !important;
+    transform: none !important;
+  }
+  .af-hpd__canvas > .af-hpd__board {
+    position: relative !important;
+    inset: auto !important;
+    grid-column: 1 / -1 !important;
+    width: 100% !important;
+    height: 300px !important;
+    transform: none !important;
+    margin: 0 0 2px !important;
+  }
+  .af-hpd__canvas > .af-hpd__part {
+    position: relative !important;
+    inset: auto !important;
+    width: 100% !important;
+    height: auto !important;
+    transform: none !important;
+    opacity: 1 !important;
+    min-height: 0 !important;
+    contain: layout paint style;
+  }
+  .af-hpd__canvas > .af-hpd__chart-panel {
+    grid-column: 1 / -1 !important;
+    min-height: 205px !important;
+  }
+  .af-hpd__canvas > .af-hpd__activity {
+    grid-column: 1 / -1 !important;
+  }
+  .af-hpd__canvas > .af-hpd__stat { min-height: 108px !important; }
+  .af-hpd__canvas > .af-hpd__card { min-height: 100px !important; }
+  .af-hpd__canvas > .af-hpd__glow { display: none !important; }
+}
+
+@media (max-width: 390px) {
+  .af-hpd__canvas,
+  .af-hpd[data-af-hero-unified-v25="true"] > [data-af-hero-unified-canvas] { grid-template-columns: 1fr !important; }
+  .af-hpd__canvas > .af-hpd__board,
+  .af-hpd__canvas > .af-hpd__chart-panel,
+  .af-hpd__canvas > .af-hpd__activity { grid-column: 1 !important; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .af-hpd__canvas > .af-hpd__part,
+  .af-hpd__canvas > .af-hpd__glow,
+  .af-hpd__canvas > .af-hpd__board > .af-hpd__shell {
+    transform: none !important;
+    opacity: 1 !important;
+    will-change: auto !important;
+  }
+}

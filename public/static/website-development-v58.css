@@ -1,0 +1,252 @@
+/* ======================================================================
+   WEBSITE DEVELOPMENT — HERO FINAL ALIGNMENT V58
+   2026-09-09
+   Scope: /solutions/website-development hero polish after V57
+   ====================================================================== */
+
+.rs-layout-05 .web-hero{
+  min-height: 1180px;
+  padding: 124px 0 58px;
+  overflow: clip;
+}
+
+.rs-layout-05 .web-hero__inner{
+  position: relative;
+  overflow: visible;
+}
+
+.rs-layout-05 .web-hero__copy{
+  max-width: 980px;
+  padding-top: 22px;
+}
+
+.rs-layout-05 .web-hero__copy-frame{
+  position: absolute;
+  left: 50%;
+  top: -6px;
+  width: min(1240px, 98vw);
+  height: 420px;
+  transform: translateX(-50%);
+  pointer-events: none;
+  overflow: visible;
+}
+
+/* small dotted/star panels in top corners like the reference */
+.rs-layout-05 .web-hero__copy-panel{
+  position: absolute;
+  top: 20px;
+  width: 158px;
+  height: 66px;
+  border: 1px solid rgba(100, 245, 229, .05);
+  background:
+    radial-gradient(circle at 14px 14px, rgba(255,255,255,.9) 0 1.1px, transparent 1.2px) 0 0/18px 18px,
+    linear-gradient(180deg, rgba(53, 240, 218, .06), rgba(53, 240, 218, .02));
+  box-shadow: inset 0 0 18px rgba(120, 246, 231, .03);
+  opacity: .72;
+}
+.rs-layout-05 .web-hero__copy-panel--left{left: 108px}
+.rs-layout-05 .web-hero__copy-panel--right{right: 108px}
+
+/* frame lines: top + bottom horizontal and left/right vertical */
+.rs-layout-05 .web-hero__copy-frame::before,
+.rs-layout-05 .web-hero__copy-frame::after{
+  content: "";
+  position: absolute;
+  top: 86px;
+  width: 1px;
+  height: 222px;
+  background: linear-gradient(180deg, rgba(100,245,229,.22), rgba(100,245,229,.12) 55%, rgba(100,245,229,.22));
+}
+.rs-layout-05 .web-hero__copy-frame::before{left: 266px}
+.rs-layout-05 .web-hero__copy-frame::after{right: 266px}
+
+.rs-layout-05 .web-hero__copy-line{
+  height: 1px;
+  background: rgba(92, 240, 222, .2);
+}
+.rs-layout-05 .web-hero__copy-line--top{
+  top: 86px;
+  left: 266px;
+  width: calc(100% - 532px);
+  transform: none;
+  box-shadow: 0 0 18px rgba(92,240,222,.08);
+}
+.rs-layout-05 .web-hero__copy-line--bottom{
+  bottom: 112px;
+  left: 266px;
+  width: calc(100% - 532px);
+  transform: none;
+  box-shadow: 0 0 18px rgba(92,240,222,.08);
+}
+
+.rs-layout-05 .web-hero__copy-dot{
+  width: 8px;
+  height: 8px;
+  background: #59eedb;
+  box-shadow: 0 0 0 6px rgba(89,238,219,.09), 0 0 26px rgba(89,238,219,.44);
+}
+.rs-layout-05 .web-hero__copy-dot--tl{left: 260px; top: 80px}
+.rs-layout-05 .web-hero__copy-dot--tr{right: 260px; top: 80px}
+.rs-layout-05 .web-hero__copy-dot--bl{left: 260px; bottom: 106px}
+.rs-layout-05 .web-hero__copy-dot--br{right: 260px; bottom: 106px}
+
+/* sparkle placement closer to image 2 */
+.rs-layout-05 .web-hero__copy-spark{
+  width: 23px;
+  height: 23px;
+  opacity: .58;
+  filter: drop-shadow(0 0 8px rgba(255,255,255,.2));
+}
+.rs-layout-05 .web-hero__copy-spark::before,
+.rs-layout-05 .web-hero__copy-spark::after{background: rgba(255,255,255,.86)}
+.rs-layout-05 .web-hero__copy-spark::before{width: 23px; height: 2px}
+.rs-layout-05 .web-hero__copy-spark::after{width: 2px; height: 23px}
+.rs-layout-05 .web-hero__copy-spark--1{left: 248px; top: 166px}
+.rs-layout-05 .web-hero__copy-spark--2{right: 248px; top: 164px}
+.rs-layout-05 .web-hero__copy-spark--3{left: 308px; bottom: 146px}
+.rs-layout-05 .web-hero__copy-spark--4{right: 308px; bottom: 144px}
+
+.rs-layout-05 .web-hero .rs-reference-pill{
+  margin-inline: auto;
+  margin-bottom: 24px;
+}
+
+.rs-layout-05 .web-hero__copy h1{
+  max-width: 980px;
+  margin: 0 auto 22px;
+  font: 600 clamp(4rem, 6.25vw, 6.9rem) / .92 var(--af-font-2);
+  letter-spacing: -.065em;
+  color: #f2fffd;
+}
+
+.rs-layout-05 .web-hero__lead{
+  max-width: 760px;
+  margin: 0 auto 14px;
+  color: rgba(231, 255, 252, .76);
+  font-size: 16px;
+  line-height: 1.55;
+}
+
+.rs-layout-05 .web-hero__sub{
+  max-width: 640px;
+  margin: 0 auto;
+  font-size: 12px;
+  line-height: 1.5;
+  color: rgba(231, 255, 252, .52);
+}
+
+.rs-layout-05 .web-hero__actions{margin-top: 30px}
+.rs-layout-05 .web-hero .rs-positioning{margin-top: 24px}
+
+/* mockup should clearly lean forward and then settle on single scroll */
+.rs-layout-05 .web-hero__stage{
+  max-width: 1160px;
+  min-height: 592px;
+  margin-top: 52px;
+  perspective: 2200px;
+}
+
+.rs-layout-05 .web-hero__mockup{
+  position: relative;
+  width: min(1140px, 98%);
+  transform-style: preserve-3d;
+  box-shadow: 0 62px 150px rgba(0,0,0,.46), 0 0 0 1px rgba(255,255,255,.03) inset, 0 0 110px rgba(0,187,160,.12);
+}
+
+.rs-layout-05 .web-hero__browserbar{height: 40px}
+.rs-layout-05 .web-hero__workspace{min-height: 474px}
+.rs-layout-05 .web-hero__workspace figure img{max-height: 474px}
+
+/* moving lower strip */
+.rs-layout-05 .web-hero__trust{
+  max-width: 1120px;
+  margin-top: 22px;
+  padding-top: 24px;
+}
+.rs-layout-05 .web-hero__trust strong{
+  display: block;
+  margin-bottom: 18px;
+  color: #f0fffc;
+  font-size: 12px;
+}
+.rs-layout-05 .web-hero__trust > div{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(32px, 5vw, 76px);
+  min-height: 26px;
+  white-space: nowrap;
+  will-change: transform;
+}
+.rs-layout-05 .web-hero__trust span{
+  display: inline-flex;
+  align-items: center;
+  color: rgba(231,255,252,.46);
+  font-size: 11px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+.rs-layout-05 .web-hero__trust::before{
+  left: -20%;
+  right: -20%;
+  top: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, rgba(93,240,222,.12) 18%, rgba(93,240,222,.82) 50%, rgba(255,150,13,.18) 66%, transparent 100%);
+}
+
+@media (max-width: 1180px){
+  .rs-layout-05 .web-hero__copy-frame{width:min(1160px,98vw)}
+  .rs-layout-05 .web-hero__copy-frame::before{left: 198px}
+  .rs-layout-05 .web-hero__copy-frame::after{right: 198px}
+  .rs-layout-05 .web-hero__copy-line--top,.rs-layout-05 .web-hero__copy-line--bottom{left:198px;width:calc(100% - 396px)}
+  .rs-layout-05 .web-hero__copy-dot--tl,.rs-layout-05 .web-hero__copy-dot--bl{left:192px}
+  .rs-layout-05 .web-hero__copy-dot--tr,.rs-layout-05 .web-hero__copy-dot--br{right:192px}
+  .rs-layout-05 .web-hero__copy-panel--left{left:38px}
+  .rs-layout-05 .web-hero__copy-panel--right{right:38px}
+  .rs-layout-05 .web-hero__copy-spark--1{left:178px}
+  .rs-layout-05 .web-hero__copy-spark--2{right:178px}
+  .rs-layout-05 .web-hero__copy-spark--3{left:228px}
+  .rs-layout-05 .web-hero__copy-spark--4{right:228px}
+}
+
+@media (max-width: 820px){
+  .rs-layout-05 .web-hero{min-height:auto;padding:108px 0 48px}
+  .rs-layout-05 .web-hero__copy{max-width:100%;padding-top:8px}
+  .rs-layout-05 .web-hero__copy-frame{
+    width: calc(100vw - 20px);
+    height: 272px;
+    top: -2px;
+  }
+  .rs-layout-05 .web-hero__copy-panel{width:84px;height:42px;top:26px;background-size:12px 12px}
+  .rs-layout-05 .web-hero__copy-panel--left{left:4px}
+  .rs-layout-05 .web-hero__copy-panel--right{right:4px}
+  .rs-layout-05 .web-hero__copy-frame::before,
+  .rs-layout-05 .web-hero__copy-frame::after{top:74px;height:126px}
+  .rs-layout-05 .web-hero__copy-frame::before{left:22px}
+  .rs-layout-05 .web-hero__copy-frame::after{right:22px}
+  .rs-layout-05 .web-hero__copy-line--top,
+  .rs-layout-05 .web-hero__copy-line--bottom{left:22px;width:calc(100% - 44px)}
+  .rs-layout-05 .web-hero__copy-line--top{top:74px}
+  .rs-layout-05 .web-hero__copy-line--bottom{bottom:72px}
+  .rs-layout-05 .web-hero__copy-dot--tl,.rs-layout-05 .web-hero__copy-dot--bl{left:16px}
+  .rs-layout-05 .web-hero__copy-dot--tr,.rs-layout-05 .web-hero__copy-dot--br{right:16px}
+  .rs-layout-05 .web-hero__copy-dot--tl,.rs-layout-05 .web-hero__copy-dot--tr{top:68px}
+  .rs-layout-05 .web-hero__copy-dot--bl,.rs-layout-05 .web-hero__copy-dot--br{bottom:66px}
+  .rs-layout-05 .web-hero__copy-spark{width:16px;height:16px}
+  .rs-layout-05 .web-hero__copy-spark::before{width:16px}
+  .rs-layout-05 .web-hero__copy-spark::after{height:16px}
+  .rs-layout-05 .web-hero__copy-spark--1{left:22px;top:116px}
+  .rs-layout-05 .web-hero__copy-spark--2{right:22px;top:114px}
+  .rs-layout-05 .web-hero__copy-spark--3{left:40px;bottom:104px}
+  .rs-layout-05 .web-hero__copy-spark--4{right:40px;bottom:102px}
+  .rs-layout-05 .web-hero__copy h1{font-size: clamp(2.9rem, 12vw, 4.2rem);margin-bottom:18px}
+  .rs-layout-05 .web-hero__lead{font-size:14px;max-width:94%}
+  .rs-layout-05 .web-hero__sub{max-width:90%}
+  .rs-layout-05 .web-hero__stage{min-height:362px;margin-top:34px}
+  .rs-layout-05 .web-hero__mockup{width:100%}
+  .rs-layout-05 .web-hero__trust > div{gap:20px;flex-wrap:wrap}
+}
+
+@media (prefers-reduced-motion: reduce){
+  .rs-layout-05 .web-hero__trust::before{animation:none}
+}

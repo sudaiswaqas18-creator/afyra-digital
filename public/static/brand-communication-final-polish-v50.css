@@ -1,0 +1,350 @@
+/* =====================================================================
+   AFYRA DIGITAL — BRAND & CREATIVE COMMUNICATION — FINAL POLISH V50
+   Fixes the production feature-container legacy grid leak, keeps the
+   strategic arc reference-clean, centers How It Works on wide screens,
+   and restores a stable three-icon footer social cluster.
+   ===================================================================== */
+
+/* ---------------------------------------------------------------------
+   01 — FEATURES: neutralize legacy two-column .af-container geometry.
+   premium-pages.css still defines `.sv-brand-features .af-container` as
+   a 280–330px + 1fr grid. With only one story child that rule forces the
+   whole feature experience into the first narrow column. V50 explicitly
+   turns this route container back into a full-width block canvas.
+   --------------------------------------------------------------------- */
+.sv-page.sv-layout-02 .sv-brand-features > .af-container{
+  display:block!important;
+  grid-template-columns:none!important;
+  grid-template-rows:none!important;
+  gap:0!important;
+  align-items:initial!important;
+  justify-items:initial!important;
+  width:min(1400px,calc(100% - 44px))!important;
+  max-width:1400px!important;
+  height:100%!important;
+  margin-inline:auto!important;
+  padding:0!important;
+}
+.sv-page.sv-layout-02 .sv-brand-feature-story,
+.sv-page.sv-layout-02 [data-brand-feature-story]{
+  display:block!important;
+  width:100%!important;
+  max-width:none!important;
+  height:100%!important;
+  margin:0!important;
+  transform:none!important;
+}
+.sv-page.sv-layout-02 .sv-brand-feature-pin,
+.sv-page.sv-layout-02 [data-brand-feature-pin]{
+  left:auto!important;
+  right:auto!important;
+  width:100%!important;
+  max-width:none!important;
+  margin-inline:auto!important;
+  box-sizing:border-box!important;
+  transform:none!important;
+}
+.sv-page.sv-layout-02 .sv-brand-feature-stage,
+.sv-page.sv-layout-02 [data-brand-feature-stage]{
+  width:100%!important;
+  max-width:1400px!important;
+  margin-inline:auto!important;
+  box-sizing:border-box!important;
+  transform:none!important;
+}
+.sv-page.sv-layout-02 .sv-brand-features__intro,
+.sv-page.sv-layout-02 [data-brand-feature-intro]{
+  width:100%!important;
+  max-width:none!important;
+  box-sizing:border-box!important;
+}
+.sv-page.sv-layout-02 .sv-brand-features__intro-card{
+  width:min(760px,calc(100% - 84px))!important;
+  max-width:760px!important;
+  min-width:0!important;
+  margin-inline:auto!important;
+  box-sizing:border-box!important;
+}
+.sv-page.sv-layout-02 .sv-brand-feature-grid,
+.sv-page.sv-layout-02 [data-brand-feature-grid]{
+  left:0!important;
+  top:0!important;
+  right:0!important;
+  bottom:0!important;
+  width:100%!important;
+  height:100%!important;
+  min-height:0!important;
+  max-width:none!important;
+  max-height:none!important;
+  margin:0!important;
+  transform:none!important;
+  translate:none!important;
+  box-sizing:border-box!important;
+  justify-self:stretch!important;
+  align-self:stretch!important;
+}
+.sv-page.sv-layout-02 .sv-brand-feature-grid .sv-brand-display-card:nth-child(1){grid-column:span 5!important}
+.sv-page.sv-layout-02 .sv-brand-feature-grid .sv-brand-display-card:nth-child(2){grid-column:span 7!important}
+.sv-page.sv-layout-02 .sv-brand-feature-grid .sv-brand-display-card:nth-child(3),
+.sv-page.sv-layout-02 .sv-brand-feature-grid .sv-brand-display-card:nth-child(4),
+.sv-page.sv-layout-02 .sv-brand-feature-grid .sv-brand-display-card:nth-child(5){grid-column:span 4!important}
+.sv-page.sv-layout-02 [data-brand-feature-card]{
+  backface-visibility:hidden!important;
+  -webkit-backface-visibility:hidden!important;
+  will-change:transform,opacity!important;
+}
+
+/* ---------------------------------------------------------------------
+   02 — STRATEGIC SOLUTION ARC: clean white dome before entry; one teal
+   luminous band travels along the same round path as the user scrolls.
+   Old pseudo-lines and border-top fallbacks are completely suppressed.
+   --------------------------------------------------------------------- */
+.sv-page.sv-layout-02 .sv-brand-library-section__arc{
+  left:3.25%!important;
+  right:3.25%!important;
+  top:14px!important;
+  height:286px!important;
+  border:0!important;
+  border-top:0!important;
+  border-radius:0!important;
+  background:none!important;
+  filter:none!important;
+  overflow:visible!important;
+}
+.sv-page.sv-layout-02 .sv-brand-library-section__arc::before,
+.sv-page.sv-layout-02 .sv-brand-library-section__arc::after,
+.sv-page.sv-layout-02 .sv-brand-library-section__arc > i{
+  display:none!important;
+  content:none!important;
+}
+.sv-page.sv-layout-02 .sv-brand-library-section__arc svg{
+  display:block!important;
+  width:100%!important;
+  height:100%!important;
+  overflow:visible!important;
+}
+.sv-page.sv-layout-02 .sv-brand-strategic-arc__base{
+  stroke:rgba(255,255,255,.98)!important;
+  stroke-width:1.55!important;
+  filter:drop-shadow(0 1px 0 rgba(0,68,62,.045))!important;
+}
+.sv-page.sv-layout-02 .sv-brand-strategic-arc__progress{
+  stroke:#00BBA0!important;
+  stroke-width:2.35!important;
+  stroke-linecap:round!important;
+  filter:drop-shadow(0 0 8px rgba(0,187,160,.48)) drop-shadow(0 0 18px rgba(0,187,160,.20))!important;
+}
+.sv-page.sv-layout-02 .sv-brand-strategic-arc__tracer{
+  stroke:#9ff8ec!important;
+  stroke-width:3.45!important;
+  stroke-linecap:round!important;
+  filter:drop-shadow(0 0 7px rgba(159,248,236,.95)) drop-shadow(0 0 18px rgba(0,187,160,.78))!important;
+}
+.sv-page.sv-layout-02 .sv-brand-strategic-arc__spark{
+  display:none!important;
+}
+.sv-page.sv-layout-02 .sv-brand-library-section > .af-container{
+  position:relative!important;
+  z-index:2!important;
+}
+
+/* ---------------------------------------------------------------------
+   03 — HOW IT WORKS: viewport-centred sticky composition on large screens.
+   The heading is forced visible and never allowed to be clipped above the
+   sticky stage. The shell remains centred even on ultrawide displays.
+   --------------------------------------------------------------------- */
+.sv-page.sv-layout-02 .sv-brand-steps{
+  width:100vw!important;
+  max-width:100vw!important;
+  margin-left:calc(50% - 50vw)!important;
+  margin-right:calc(50% - 50vw)!important;
+}
+.sv-page.sv-layout-02 .sv-brand-steps > .af-container{
+  display:block!important;
+  grid-template-columns:none!important;
+  grid-template-rows:none!important;
+  gap:0!important;
+  width:100vw!important;
+  max-width:100vw!important;
+  height:100%!important;
+  margin:0!important;
+  padding-inline:clamp(18px,3vw,52px)!important;
+  box-sizing:border-box!important;
+}
+.sv-page.sv-layout-02 [data-brand-step-pin]{
+  width:min(1180px,100%)!important;
+  max-width:1180px!important;
+  margin-inline:auto!important;
+  align-items:center!important;
+  justify-content:center!important;
+  box-sizing:border-box!important;
+  transform:none!important;
+}
+.sv-page.sv-layout-02 [data-brand-steps-head]{
+  position:relative!important;
+  z-index:5!important;
+  display:block!important;
+  width:min(860px,calc(100% - 32px))!important;
+  max-width:860px!important;
+  margin:0 auto 24px!important;
+  padding-top:2px!important;
+  text-align:center!important;
+  opacity:1!important;
+  visibility:visible!important;
+  transform:none!important;
+}
+.sv-page.sv-layout-02 [data-brand-steps-head] .sv-title{
+  display:block!important;
+  max-width:850px!important;
+  margin:18px auto 0!important;
+  overflow:visible!important;
+  opacity:1!important;
+  visibility:visible!important;
+}
+.sv-page.sv-layout-02 [data-brand-step-scroll]{
+  width:min(1080px,100%)!important;
+  max-width:1080px!important;
+  margin-inline:auto!important;
+  align-self:center!important;
+  box-sizing:border-box!important;
+}
+.sv-page.sv-layout-02 [data-brand-step-shell]{
+  width:min(1040px,100%)!important;
+  max-width:1040px!important;
+  margin-inline:auto!important;
+  transform:none!important;
+}
+.sv-page.sv-layout-02 .sv-brand-steps__stage{
+  width:100%!important;
+  height:410px!important;
+  min-height:410px!important;
+}
+.sv-page.sv-layout-02 .sv-brand-step-card{
+  left:50%!important;
+  top:50%!important;
+  right:auto!important;
+  bottom:auto!important;
+  max-width:min(430px,calc(100% - 44px))!important;
+}
+
+/* ---------------------------------------------------------------------
+   04 — FOOTER: WhatsApp + Instagram + Facebook visible as one right-side
+   cluster. Pending social profile URLs are visual controls only, so the
+   website does not invent unverified external links.
+   --------------------------------------------------------------------- */
+.af-footer__social{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:flex-end!important;
+  gap:10px!important;
+  min-width:max-content!important;
+}
+.af-footer__social :is(a,.af-footer__social-static){
+  width:50px!important;
+  height:50px!important;
+  flex:0 0 50px!important;
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  border-radius:14px!important;
+  background:#023c36!important;
+  color:#fff!important;
+  box-shadow:inset 0 0 10px rgba(0,187,160,.28),0 8px 22px rgba(0,0,0,.10)!important;
+  transition:transform .28s ease,background .28s ease,color .28s ease,box-shadow .28s ease!important;
+}
+.af-footer__social :is(a,.af-footer__social-static) :is(svg,.af-inline-svg-icon,.af-icon-img){
+  width:23px!important;
+  height:23px!important;
+}
+.af-footer__social a:hover{
+  background:#00BBA0!important;
+  color:#01201C!important;
+  transform:translateY(-3px)!important;
+  box-shadow:0 10px 24px rgba(0,187,160,.22)!important;
+}
+.af-footer__social-static{
+  cursor:default!important;
+  opacity:.92!important;
+}
+
+@media (min-width:761px){
+  .sv-page.sv-layout-02 .sv-brand-feature-pin,
+  .sv-page.sv-layout-02 [data-brand-feature-pin]{
+    top:72px!important;
+    height:calc(100svh - 72px)!important;
+    min-height:650px!important;
+    padding:16px 0!important;
+  }
+  .sv-page.sv-layout-02 .sv-brand-feature-stage,
+  .sv-page.sv-layout-02 [data-brand-feature-stage]{
+    height:min(760px,calc(100svh - 104px))!important;
+    min-height:620px!important;
+  }
+  .sv-page.sv-layout-02 [data-brand-step-pin]{
+    top:72px!important;
+    height:calc(100svh - 72px)!important;
+    min-height:650px!important;
+    padding:22px 0 26px!important;
+    overflow:hidden!important;
+  }
+}
+
+@media (max-width:1180px) and (min-width:761px){
+  .sv-page.sv-layout-02 .sv-brand-features > .af-container{width:min(100% - 28px,1080px)!important}
+  .sv-page.sv-layout-02 .sv-brand-feature-stage,
+  .sv-page.sv-layout-02 [data-brand-feature-stage]{min-height:650px!important}
+  .sv-page.sv-layout-02 [data-brand-feature-scroll],
+  .sv-page.sv-layout-02 [data-brand-step-scroll]{width:min(100% - 12px,980px)!important}
+  .sv-page.sv-layout-02 .sv-brand-steps__stage{height:400px!important;min-height:400px!important}
+}
+
+@media (max-width:760px){
+  .sv-page.sv-layout-02 .sv-brand-features > .af-container{
+    display:block!important;
+    width:min(100% - 24px,720px)!important;
+    height:auto!important;
+  }
+  .sv-page.sv-layout-02 .sv-brand-feature-story,
+  .sv-page.sv-layout-02 [data-brand-feature-story]{height:auto!important}
+  .sv-page.sv-layout-02 .sv-brand-feature-grid,
+  .sv-page.sv-layout-02 [data-brand-feature-grid]{
+    position:relative!important;
+    inset:auto!important;
+    width:100%!important;
+    height:auto!important;
+    transform:none!important;
+  }
+  .sv-page.sv-layout-02 .sv-brand-feature-grid .sv-brand-display-card:nth-child(n){grid-column:1!important}
+  .sv-page.sv-layout-02 .sv-brand-features__intro-card{width:100%!important;max-width:100%!important}
+
+  .sv-page.sv-layout-02 .sv-brand-library-section__arc{left:-10%!important;right:-10%!important;top:6px!important;height:212px!important}
+
+  .sv-page.sv-layout-02 .sv-brand-steps{
+    width:100%!important;
+    max-width:100%!important;
+    margin-left:0!important;
+    margin-right:0!important;
+  }
+  .sv-page.sv-layout-02 .sv-brand-steps > .af-container{
+    width:100%!important;
+    max-width:100%!important;
+    padding-inline:12px!important;
+  }
+  .sv-page.sv-layout-02 [data-brand-step-pin]{width:100%!important;max-width:100%!important}
+  .sv-page.sv-layout-02 [data-brand-steps-head]{width:min(100% - 16px,680px)!important;margin-bottom:16px!important}
+  .sv-page.sv-layout-02 [data-brand-step-scroll],
+  .sv-page.sv-layout-02 [data-brand-step-shell]{width:100%!important;max-width:100%!important}
+  .sv-page.sv-layout-02 .sv-brand-steps__stage{height:370px!important;min-height:370px!important}
+  .sv-page.sv-layout-02 .sv-brand-step-card{max-width:min(340px,calc(100% - 28px))!important}
+
+  .af-footer__social{width:100%!important;justify-content:center!important}
+  .af-footer__social :is(a,.af-footer__social-static){width:46px!important;height:46px!important;flex-basis:46px!important}
+}
+
+@media (prefers-reduced-motion:reduce){
+  .sv-page.sv-layout-02 .sv-brand-feature-grid,
+  .sv-page.sv-layout-02 [data-brand-feature-grid]{opacity:1!important;transform:none!important}
+  .sv-page.sv-layout-02 [data-brand-steps-head]{opacity:1!important;visibility:visible!important;transform:none!important}
+  .sv-page.sv-layout-02 .sv-brand-strategic-arc__progress{opacity:.72!important;stroke-dasharray:none!important;stroke-dashoffset:0!important}
+  .sv-page.sv-layout-02 .sv-brand-strategic-arc__tracer{display:none!important}
+}

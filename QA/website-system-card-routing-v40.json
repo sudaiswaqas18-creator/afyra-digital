@@ -1,0 +1,24 @@
+{
+  "version": "V40",
+  "date": "2026-09-08",
+  "source_article_elements": 64,
+  "existing_explicit_CardDetailLink_components": 21,
+  "note": "V40 additionally resolves cards without explicit CardDetailLink at runtime/source through CardRouteEnhancer and context detail routes.",
+  "checks": {
+    "website_system_stack_cards_source_uses_first_four_features": true,
+    "website_system_experience_removed_from_website_page_render": true,
+    "v40_smooth_stack_source_present": true,
+    "v40_last_card_release_present": true,
+    "global_card_route_enhancer_mounted": true,
+    "context_detail_fallback_present": true,
+    "unknown_detail_redirect_safe": true,
+    "heading_gsap_line_css_present": true,
+    "whole_card_route_class_present": true,
+    "v40_css_loaded_after_v39": true,
+    "production_runtime_bridge_loaded": true,
+    "runtime_kills_old_web_stack_triggers": true,
+    "runtime_system_experience_removal": true,
+    "runtime_dynamic_card_observer": true
+  },
+  "all_checks_passed": true
+}

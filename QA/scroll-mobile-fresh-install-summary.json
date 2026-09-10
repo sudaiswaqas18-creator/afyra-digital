@@ -1,0 +1,14 @@
+{
+  "freshDevRootCause": "Production-only Cloudflare ASSETS handlers were intercepting local Vite asset requests; dev now loads /src/client/main.tsx and leaves static serving to Vite.",
+  "customScrollbar": true,
+  "mobileDrawerVisibilityFix": true,
+  "socialPageHeroWrapFix": true,
+  "socialBuiltAroundAnimation": "stable one-time stagger; scrub removed",
+  "smallScreenMotionReduction": true,
+  "unusedLenisRemoved": true,
+  "typescriptSyntax": "PASS",
+  "runtimeJsSyntax": "PASS",
+  "cssIntegrity": "PASS",
+  "dependencyDeclarationAudit": "PASS",
+  "cleanInstallAttempt": "BLOCKED_BY_SANDBOX_DNS_EAI_AGAIN"
+}

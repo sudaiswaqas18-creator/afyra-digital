@@ -1,0 +1,287 @@
+/* Afyra Digital — Patient Acquisition interaction repair v18
+   Restores approved Home-04 mechanics after later cross-page rebuilds.
+   Scope: .rs-layout-04 only. */
+
+/* 1) HERO — real Afyra mark in the existing glowing circular top stage. */
+.rs-layout-04 .pa-hero__visual--brand{
+  width:220px;
+  height:190px;
+  margin-bottom:18px;
+  position:relative;
+  display:grid;
+  place-items:center;
+}
+.rs-layout-04 .pa-hero__visual--brand .pa-hero__visual-ring{
+  inset:12px;
+  border:1px dashed rgba(70,255,234,.25);
+  background:radial-gradient(circle,rgba(0,187,160,.10),transparent 65%);
+  box-shadow:0 0 44px rgba(0,187,160,.20),inset 0 0 32px rgba(0,187,160,.08);
+}
+.rs-layout-04 .pa-hero__logo-glow{
+  position:absolute;
+  width:132px;
+  height:132px;
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(36,239,215,.30) 0%,rgba(0,187,160,.12) 45%,transparent 72%);
+  filter:blur(7px);
+  box-shadow:0 0 54px rgba(0,187,160,.24);
+}
+.rs-layout-04 .pa-hero__visual img.pa-hero__brand-logo{
+  position:relative;
+  z-index:2;
+  width:86px!important;
+  height:86px!important;
+  object-fit:contain!important;
+  border-radius:0!important;
+  mask-image:none!important;
+  -webkit-mask-image:none!important;
+  filter:drop-shadow(0 0 20px rgba(0,187,160,.35))!important;
+}
+
+/* 2) INQUIRY — one shared moving gradient phase is handed from card to card. */
+.rs-layout-04 .pa-inquiry__card{
+  --pa-chain-angle:0deg;
+  --pa-chain-color:#00BBA0;
+  --pa-chain-amber:#FF960D;
+  position:relative;
+  isolation:isolate;
+  overflow:hidden;
+  border-color:rgba(0,68,62,.12);
+}
+.rs-layout-04 .pa-inquiry__card::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  padding:2px;
+  border-radius:inherit;
+  opacity:0;
+  pointer-events:none;
+  background:conic-gradient(
+    from var(--pa-chain-angle),
+    transparent 0 55%,
+    color-mix(in srgb,var(--pa-chain-color) 70%,#ffffff 30%) 64%,
+    var(--pa-chain-color) 72%,
+    var(--pa-chain-amber) 80%,
+    var(--pa-chain-color) 89%,
+    transparent 100%
+  );
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor;
+  mask-composite:exclude;
+  transition:opacity .14s ease;
+  z-index:4;
+  filter:drop-shadow(0 0 8px color-mix(in srgb,var(--pa-chain-color) 58%,transparent));
+}
+.rs-layout-04 .pa-inquiry__card::after{
+  content:"";
+  position:absolute;
+  width:148px;
+  height:148px;
+  right:-56px;
+  top:-62px;
+  border-radius:50%;
+  background:radial-gradient(circle,color-mix(in srgb,var(--pa-chain-color) 24%,transparent),transparent 68%);
+  opacity:0;
+  pointer-events:none;
+  transition:opacity .18s ease;
+}
+.rs-layout-04 .pa-inquiry__card.is-chain-active::before,
+.rs-layout-04 .pa-inquiry__card.is-chain-active::after{opacity:1}
+.rs-layout-04 .pa-inquiry__card>*{position:relative;z-index:1}
+
+/* 3) PRICING — preserve a readable 3D fan pose before GSAP straightens the cards. */
+.rs-layout-04 .pa-pricing__grid{
+  perspective:1500px!important;
+  perspective-origin:50% 50%;
+  transform-style:preserve-3d!important;
+  padding:34px 42px 24px;
+  margin-top:-18px;
+}
+.rs-layout-04 .pa-price-card{
+  will-change:transform;
+  backface-visibility:hidden;
+  transform-style:preserve-3d;
+}
+.rs-layout-04 .pa-price-card.is-popular{z-index:3}
+
+/* 4) INTEGRATIONS — one visible circular backbone; badges live directly on its circumference. */
+.rs-layout-04 .pa-touchpoints{
+  padding:118px 0 88px;
+  background:radial-gradient(circle at 50% 64%,rgba(0,187,160,.08),transparent 34%),#fff;
+  overflow:hidden;
+}
+.rs-layout-04 .pa-touchpoints__stage{
+  position:relative;
+  width:min(1060px,100%);
+  height:570px;
+  margin:0 auto;
+  overflow:hidden;
+  display:grid;
+  place-items:center;
+  isolation:isolate;
+}
+.rs-layout-04 .pa-touchpoints__stage::before{display:none!important}
+.rs-layout-04 .pa-touchpoints__orbit-shell{
+  position:absolute;
+  left:50%;
+  top:58%;
+  width:720px;
+  height:720px;
+  transform:translate(-50%,-50%);
+  border-radius:50%;
+  border:42px solid rgba(0,187,160,.055);
+  box-shadow:0 0 66px rgba(0,187,160,.08),inset 0 0 54px rgba(0,187,160,.05);
+  pointer-events:none;
+  z-index:0;
+}
+.rs-layout-04 .pa-touchpoints__orbit-glow{
+  position:absolute;
+  inset:-38px;
+  border-radius:50%;
+  background:radial-gradient(circle at 50% 50%,transparent 57%,rgba(0,187,160,.12) 64%,rgba(255,150,13,.05) 69%,transparent 75%);
+  filter:blur(8px);
+}
+.rs-layout-04 .pa-touchpoints__ring{
+  position:absolute;
+  left:50%;
+  top:58%;
+  bottom:auto;
+  width:720px;
+  height:720px;
+  transform:translate(-50%,-50%);
+  transform-origin:50% 50%;
+  border-radius:50%;
+  z-index:1;
+  will-change:transform;
+}
+.rs-layout-04 .pa-touchpoints__ring-line{
+  position:absolute;
+  inset:0;
+  border-radius:50%;
+  border:2px solid rgba(0,187,160,.22);
+  box-shadow:0 0 22px rgba(0,187,160,.12),inset 0 0 26px rgba(255,150,13,.025);
+}
+.rs-layout-04 .pa-touchpoints__item{
+  --arc-angle:0deg;
+  position:absolute!important;
+  left:50%!important;
+  top:50%!important;
+  right:auto!important;
+  bottom:auto!important;
+  width:92px;
+  margin:0;
+  text-align:center;
+  transform:translate(-50%,-50%) rotate(var(--arc-angle)) translateY(-360px) rotate(calc(var(--arc-angle) * -1));
+  transform-origin:50% 50%;
+  z-index:2;
+  will-change:transform;
+}
+.rs-layout-04 .pa-touchpoints__item--1{--arc-angle:-78deg}
+.rs-layout-04 .pa-touchpoints__item--2{--arc-angle:-55deg}
+.rs-layout-04 .pa-touchpoints__item--3{--arc-angle:-32deg}
+.rs-layout-04 .pa-touchpoints__item--4{--arc-angle:-10deg}
+.rs-layout-04 .pa-touchpoints__item--5{--arc-angle:12deg}
+.rs-layout-04 .pa-touchpoints__item--6{--arc-angle:34deg}
+.rs-layout-04 .pa-touchpoints__item--7{--arc-angle:56deg}
+.rs-layout-04 .pa-touchpoints__item--8{--arc-angle:78deg}
+.rs-layout-04 .pa-touchpoints__item i{
+  width:58px;
+  height:58px;
+  margin:0 auto;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  background:rgba(255,255,255,.96);
+  color:#00443E;
+  border:1px solid rgba(0,68,62,.10);
+  box-shadow:0 12px 32px rgba(0,68,62,.12),0 0 0 7px rgba(0,187,160,.035);
+}
+.rs-layout-04 .pa-touchpoints__item span{
+  display:block;
+  margin-top:7px;
+  color:rgba(0,68,62,.60);
+  font-size:10px;
+  font-weight:700;
+}
+.rs-layout-04 .pa-touchpoints__glass{
+  position:absolute;
+  top:106px;
+  width:185px;
+  height:132px;
+  z-index:5;
+  border-radius:30px;
+  background:linear-gradient(135deg,rgba(222,241,240,.48),rgba(0,187,160,.10));
+  border:1px solid rgba(0,187,160,.14);
+  -webkit-backdrop-filter:blur(16px) saturate(1.2);
+  backdrop-filter:blur(16px) saturate(1.2);
+  box-shadow:0 24px 54px rgba(0,68,62,.10),inset 0 1px 0 rgba(255,255,255,.45);
+  overflow:hidden;
+}
+.rs-layout-04 .pa-touchpoints__glass--left{left:9%;transform:rotate(-27deg)}
+.rs-layout-04 .pa-touchpoints__glass--right{right:9%;transform:rotate(27deg)}
+.rs-layout-04 .pa-touchpoints__glass i{
+  position:absolute;
+  width:56px;
+  height:56px;
+  border-radius:50%;
+  filter:blur(10px);
+  opacity:.9;
+  background:rgba(0,187,160,.38);
+}
+.rs-layout-04 .pa-touchpoints__glass i:first-child{left:34px;top:28px}
+.rs-layout-04 .pa-touchpoints__glass i:last-child{right:28px;bottom:22px;background:rgba(255,150,13,.34)}
+.rs-layout-04 .pa-touchpoints__copy{
+  position:relative;
+  z-index:4;
+  width:510px;
+  max-width:64%;
+  margin-top:126px;
+  text-align:center;
+}
+.rs-layout-04 .pa-touchpoints__copy p{
+  margin:0 0 22px;
+  color:rgba(0,68,62,.66);
+  font-size:14px;
+  line-height:1.72;
+}
+
+/* 5) SYSTEM EXPERIENCE — same homepage Process card visual/hover affordances while pinned. */
+.rs-layout-04 .pa-home-process [data-rs-patient-home-process-card]{
+  transition:border-color .25s ease,background-color .25s ease,box-shadow .25s ease;
+  isolation:isolate;
+}
+.rs-layout-04 .pa-home-process [data-rs-patient-home-process-card] .af-proc__num{
+  opacity:.9;
+  transition:transform .3s ease,opacity .3s ease;
+}
+
+@media (max-width:1024px){
+  .rs-layout-04 .pa-touchpoints__stage{height:500px}
+  .rs-layout-04 .pa-touchpoints__orbit-shell,
+  .rs-layout-04 .pa-touchpoints__ring{width:620px;height:620px;top:60%}
+  .rs-layout-04 .pa-touchpoints__item{transform:translate(-50%,-50%) rotate(var(--arc-angle)) translateY(-310px) rotate(calc(var(--arc-angle) * -1))}
+  .rs-layout-04 .pa-touchpoints__glass{width:150px;height:112px;top:112px}
+  .rs-layout-04 .pa-touchpoints__glass--left{left:3%}
+  .rs-layout-04 .pa-touchpoints__glass--right{right:3%}
+  .rs-layout-04 .pa-pricing__grid{padding-inline:24px}
+}
+@media (max-width:760px){
+  .rs-layout-04 .pa-hero__visual--brand{width:170px;height:150px;margin-bottom:8px}
+  .rs-layout-04 .pa-hero__logo-glow{width:100px;height:100px}
+  .rs-layout-04 .pa-hero__visual img.pa-hero__brand-logo{width:68px!important;height:68px!important}
+  .rs-layout-04 .pa-pricing__grid{padding:20px 0 0;margin-top:0}
+  .rs-layout-04 .pa-touchpoints__stage{height:430px}
+  .rs-layout-04 .pa-touchpoints__orbit-shell,
+  .rs-layout-04 .pa-touchpoints__ring{width:430px;height:430px;top:62%}
+  .rs-layout-04 .pa-touchpoints__item{width:58px;transform:translate(-50%,-50%) rotate(var(--arc-angle)) translateY(-215px) rotate(calc(var(--arc-angle) * -1))}
+  .rs-layout-04 .pa-touchpoints__item i{width:42px;height:42px}
+  .rs-layout-04 .pa-touchpoints__item span{font-size:8px}
+  .rs-layout-04 .pa-touchpoints__glass{width:104px;height:82px;top:122px;border-radius:20px}
+  .rs-layout-04 .pa-touchpoints__copy{width:300px;max-width:70%;margin-top:118px}
+  .rs-layout-04 .pa-touchpoints__copy p{font-size:12px}
+}
+
+@media (prefers-reduced-motion:reduce){
+  .rs-layout-04 .pa-inquiry__card::before,
+  .rs-layout-04 .pa-inquiry__card::after{display:none}
+}

@@ -1,0 +1,346 @@
+/* =========================================================
+   AFYRA DIGITAL — HOMEPAGE HERO REFERENCE DOCK V27
+   Final architecture: ONE dashboard box owns the shell + all 9 cards.
+   The card coordinates below are their final docked coordinates. GSAP only
+   applies/removes scatter transforms, so every module converges into the
+   dashboard in one synchronized motion without layout re-parenting.
+   ========================================================= */
+
+.af-hero__stage {
+  min-height: 700px !important;
+  overflow: visible !important;
+  contain: style !important;
+}
+
+.af-hpd--reference-dock-v27,
+.af-hpd[data-af-hero-reference-dock-v27="true"] {
+  --af-scatter-mult: 1;
+  position: relative !important;
+  width: min(1360px, 100%) !important;
+  height: 720px !important;
+  margin: 0 auto !important;
+  overflow: visible !important;
+  isolation: isolate;
+  transform-style: preserve-3d;
+  pointer-events: none;
+}
+
+.af-hpd[data-af-hero-reference-dock-v27="true"] > .af-hpd__canvas {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  display: block !important;
+  overflow: visible !important;
+  transform: none !important;
+  transform-style: preserve-3d;
+}
+
+/* One unified positioning box: shell + every moving module. */
+.af-hpd[data-af-hero-reference-dock-v27="true"] .af-hpd__unified-box {
+  position: absolute !important;
+  top: 220px !important;
+  left: 50% !important;
+  right: auto !important;
+  bottom: auto !important;
+  width: 830px !important;
+  height: 454px !important;
+  margin: 0 !important;
+  padding: 9px !important;
+  transform: translate3d(-50%, 0, 0) !important;
+  transform-origin: 50% 0 !important;
+  border-radius: 26px !important;
+  overflow: visible !important;
+  z-index: 3 !important;
+  background: linear-gradient(180deg, rgba(222,241,240,.135), rgba(222,241,240,.025)) !important;
+  border: 1px solid rgba(222,241,240,.11) !important;
+  box-shadow: 0 38px 105px rgba(0,0,0,.54), 0 -28px 70px rgba(0,187,160,.08) !important;
+  will-change: auto !important;
+}
+
+/* The dashboard itself never participates in the card scroll tween. */
+.af-hpd[data-af-hero-reference-dock-v27="true"] .af-hpd__unified-box > .af-hpd__shell {
+  position: absolute !important;
+  inset: 9px !important;
+  width: auto !important;
+  height: auto !important;
+  margin: 0 !important;
+  z-index: 1 !important;
+  transform: none !important;
+  opacity: 1 !important;
+  overflow: hidden !important;
+  pointer-events: none;
+}
+
+.af-hpd[data-af-hero-reference-dock-v27="true"] .af-hpd__workspace {
+  inset: 68px 18px 18px 82px !important;
+  opacity: .26 !important;
+  gap: 12px !important;
+}
+
+/* Cards are direct children of the exact box they finally dock into. */
+.af-hpd[data-af-hero-reference-dock-v27="true"] .af-hpd__unified-box > .af-hpd__part {
+  --af-rest-r: 0deg !important;
+  position: absolute !important;
+  inset: auto !important;
+  grid-column: auto !important;
+  grid-row: auto !important;
+  margin: 0 !important;
+  min-width: 0 !important;
+  transform-origin: 50% 50% !important;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  will-change: transform;
+  pointer-events: auto;
+  z-index: 6 !important;
+}
+
+/* Final/docked geometry mirrors the reference dashboard hierarchy:
+   3 compact KPI cards, schedule at right, chart + inquiry detail beneath,
+   two stacked action rows at lower-left and supporting visibility at right. */
+.af-hpd[data-af-hero-reference-dock-v27="true"] .af-hpd__stat--qualified {
+  top: 62px !important;
+  left: 90px !important;
+  width: 145px !important;
+  height: 94px !important;
+}
+.af-hpd[data-af-hero-reference-dock-v27="true"] .af-hpd__stat--appointments {
+  top: 62px !important;
+  left: 246px !important;
+  width: 145px !important;
+  height: 94px !important;
+}
+.af-hpd[data-af-hero-reference-dock-v27="true"] .af-hpd__stat--views {
+  top: 62px !important;
+  left: 402px !important;
+  width: 145px !important;
+  height: 94px !important;
+}
+.af-hpd[data-af-hero-reference-dock-v27="true"] .af-hpd__card--schedule {
+  top: 62px !important;
+  right: 18px !important;
+  width: 214px !important;
+  min-height: 112px !important;
+}
+.af-hpd[data-af-hero-reference-dock-v27="true"] .af-hpd__chart-panel {
+  top: 166px !important;
+  left: 90px !important;
+  width: 457px !important;
+  height: 176px !important;
+  padding: 15px 17px 12px !important;
+}
+.af-hpd[data-af-hero-reference-dock-v27="true"] .af-hpd__chart-panel .af-db__bars {
+  height: 110px !important;
+}
+.af-hpd[data-af-hero-reference-dock-v27="true"] .af-hpd__card--inquiries {
+  top: 188px !important;
+  right: 18px !important;
+  width: 214px !important;
+  min-height: 96px !important;
+}
+.af-hpd[data-af-hero-reference-dock-v27="true"] .af-hpd__card--visibility {
+  top: 292px !important;
+  right: 18px !important;
+  width: 214px !important;
+  min-height: 140px !important;
+}
+.af-hpd[data-af-hero-reference-dock-v27="true"] .af-hpd__activity--gbp {
+  top: 350px !important;
+  left: 90px !important;
+  width: 457px !important;
+  min-height: 36px !important;
+  height: 36px !important;
+  padding-top: 6px !important;
+  padding-bottom: 6px !important;
+}
+.af-hpd[data-af-hero-reference-dock-v27="true"] .af-hpd__activity--campaign {
+  top: 398px !important;
+  left: 90px !important;
+  width: 457px !important;
+  min-height: 36px !important;
+  height: 36px !important;
+  padding-top: 6px !important;
+  padding-bottom: 6px !important;
+}
+
+/* Slightly denser text sizing once the modules are docked into the dashboard. */
+.af-hpd[data-af-hero-reference-dock-v27="true"] .af-hpd__stat {
+  padding: 10px 11px !important;
+}
+.af-hpd[data-af-hero-reference-dock-v27="true"] .af-hpd__stat .af-db__kpi-value {
+  font-size: 20px !important;
+}
+.af-hpd[data-af-hero-reference-dock-v27="true"] .af-hpd__stat .af-db__spark {
+  height: 16px !important;
+  margin-top: 4px !important;
+}
+.af-hpd[data-af-hero-reference-dock-v27="true"] .af-hpd__card {
+  padding: 11px 12px !important;
+  gap: 9px !important;
+}
+.af-hpd[data-af-hero-reference-dock-v27="true"] .af-hpd__activity .af-db__row-title {
+  font-size: 9.8px !important;
+  line-height: 1.15 !important;
+}
+.af-hpd[data-af-hero-reference-dock-v27="true"] .af-hpd__activity .af-db__row-sub {
+  font-size: 8.2px !important;
+  margin-top: 1px !important;
+}
+
+/* Final frame is a real dashboard frame. Before completion overflow stays
+   visible so the scattered cards can live around the board just like reference. */
+.af-hpd[data-af-hero-reference-dock-v27="true"].af-hpd--docked .af-hpd__unified-box {
+  overflow: hidden !important;
+}
+
+/* Glow sits behind the one dashboard box and never creates a second geometry. */
+.af-hpd[data-af-hero-reference-dock-v27="true"] .af-hpd__canvas > .af-hpd__glow {
+  position: absolute !important;
+  pointer-events: none;
+  z-index: 1 !important;
+}
+.af-hpd[data-af-hero-reference-dock-v27="true"] .af-hpd__glow--teal {
+  width: 590px !important;
+  height: 335px !important;
+  left: 29% !important;
+  top: 205px !important;
+}
+.af-hpd[data-af-hero-reference-dock-v27="true"] .af-hpd__glow--warm {
+  width: 390px !important;
+  height: 275px !important;
+  right: 14% !important;
+  top: 300px !important;
+}
+
+/* Match the JS first frame exactly so hydration/ScrollTrigger startup cannot
+   flash the final grid or cause a one-frame jump. */
+@media (min-width: 621px) and (prefers-reduced-motion: no-preference) {
+  .af-hpd[data-af-hero-reference-dock-v27="true"] .af-hpd__unified-box > .af-hpd__part {
+    transform:
+      translate3d(
+        calc(var(--af-scatter-x, 0px) * var(--af-scatter-mult, 1)),
+        calc(var(--af-scatter-y, 0px) * var(--af-scatter-mult, 1)),
+        0
+      )
+      rotate(calc(var(--af-scatter-r, 0deg) * var(--af-scatter-mult, 1)))
+      scale(calc(1 - ((1 - var(--af-scatter-s, 1)) * var(--af-scatter-mult, 1))));
+  }
+}
+
+/* Scale the ONE dashboard box on smaller desktop/tablet widths. Because cards
+   are children of that box, their spacing/overlap stays identical at every size. */
+@media (max-width: 1120px) and (min-width: 901px) {
+  .af-hero__stage { min-height: 555px !important; }
+  .af-hpd[data-af-hero-reference-dock-v27="true"] { height: 530px !important; }
+  .af-hpd[data-af-hero-reference-dock-v27="true"] .af-hpd__unified-box {
+    top: 116px !important;
+    transform: translate3d(-50%, 0, 0) scale(.80) !important;
+  }
+}
+
+@media (max-width: 900px) and (min-width: 761px) {
+  .af-hero__stage { min-height: 465px !important; }
+  .af-hpd[data-af-hero-reference-dock-v27="true"] { height: 445px !important; }
+  .af-hpd[data-af-hero-reference-dock-v27="true"] .af-hpd__unified-box {
+    top: 90px !important;
+    transform: translate3d(-50%, 0, 0) scale(.67) !important;
+  }
+}
+
+@media (max-width: 760px) and (min-width: 621px) {
+  .af-hero__stage { min-height: 385px !important; }
+  .af-hpd[data-af-hero-reference-dock-v27="true"] { height: 365px !important; }
+  .af-hpd[data-af-hero-reference-dock-v27="true"] .af-hpd__unified-box {
+    top: 72px !important;
+    transform: translate3d(-50%, 0, 0) scale(.54) !important;
+  }
+}
+
+/* Mobile: same parent architecture, readable static grid, no scatter/scrub. */
+@media (max-width: 620px) {
+  .af-hero__stage {
+    min-height: 0 !important;
+    overflow: hidden !important;
+  }
+  .af-hpd[data-af-hero-reference-dock-v27="true"] {
+    --af-scatter-mult: 0;
+    width: 100% !important;
+    height: auto !important;
+    overflow: hidden !important;
+  }
+  .af-hpd[data-af-hero-reference-dock-v27="true"] > .af-hpd__canvas {
+    position: relative !important;
+    inset: auto !important;
+    height: auto !important;
+  }
+  .af-hpd[data-af-hero-reference-dock-v27="true"] .af-hpd__unified-box {
+    position: relative !important;
+    inset: auto !important;
+    width: 100% !important;
+    height: auto !important;
+    padding: 7px !important;
+    transform: none !important;
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 10px !important;
+    overflow: hidden !important;
+  }
+  .af-hpd[data-af-hero-reference-dock-v27="true"] .af-hpd__unified-box > .af-hpd__shell {
+    position: relative !important;
+    inset: auto !important;
+    grid-column: 1 / -1 !important;
+    width: 100% !important;
+    height: 145px !important;
+    margin: 0 0 2px !important;
+  }
+  .af-hpd[data-af-hero-reference-dock-v27="true"] .af-hpd__workspace {
+    inset: 58px 10px 10px 54px !important;
+  }
+  .af-hpd[data-af-hero-reference-dock-v27="true"] .af-hpd__unified-box > .af-hpd__part {
+    position: relative !important;
+    inset: auto !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+    transform: none !important;
+    opacity: 1 !important;
+    grid-column: auto !important;
+    will-change: auto !important;
+  }
+  .af-hpd[data-af-hero-reference-dock-v27="true"] .af-hpd__chart-panel,
+  .af-hpd[data-af-hero-reference-dock-v27="true"] .af-hpd__activity--gbp,
+  .af-hpd[data-af-hero-reference-dock-v27="true"] .af-hpd__activity--campaign {
+    grid-column: 1 / -1 !important;
+  }
+  .af-hpd[data-af-hero-reference-dock-v27="true"] .af-hpd__chart-panel {
+    min-height: 205px !important;
+  }
+  .af-hpd[data-af-hero-reference-dock-v27="true"] .af-hpd__chart-panel .af-db__bars {
+    height: 132px !important;
+  }
+  .af-hpd[data-af-hero-reference-dock-v27="true"] .af-hpd__stat { min-height: 105px !important; }
+  .af-hpd[data-af-hero-reference-dock-v27="true"] .af-hpd__card { min-height: 94px !important; }
+  .af-hpd[data-af-hero-reference-dock-v27="true"] .af-hpd__activity { min-height: 56px !important; }
+  .af-hpd[data-af-hero-reference-dock-v27="true"] .af-hpd__canvas > .af-hpd__glow { display: none !important; }
+}
+
+@media (max-width: 390px) {
+  .af-hpd[data-af-hero-reference-dock-v27="true"] .af-hpd__unified-box {
+    grid-template-columns: 1fr !important;
+  }
+  .af-hpd[data-af-hero-reference-dock-v27="true"] .af-hpd__unified-box > .af-hpd__shell,
+  .af-hpd[data-af-hero-reference-dock-v27="true"] .af-hpd__chart-panel,
+  .af-hpd[data-af-hero-reference-dock-v27="true"] .af-hpd__activity--gbp,
+  .af-hpd[data-af-hero-reference-dock-v27="true"] .af-hpd__activity--campaign {
+    grid-column: 1 !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .af-hpd[data-af-hero-reference-dock-v27="true"] .af-hpd__unified-box > .af-hpd__part,
+  .af-hpd[data-af-hero-reference-dock-v27="true"] .af-hpd__glow,
+  .af-hpd[data-af-hero-reference-dock-v27="true"] .af-hpd__shell {
+    transform: none !important;
+    opacity: 1 !important;
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "version": "V42",
+  "date": "2026-09-08",
+  "footer": {
+    "phone_display": "#03111-3111-91",
+    "phone_link": "tel:03111311191",
+    "email": "afyradigital@gmail.com",
+    "company_links": 8,
+    "solution_links": 6,
+    "program_links": 6,
+    "brand_lockup_rebalanced": true
+  },
+  "detail_pages": {
+    "final_cta_uses_detail_title": true,
+    "final_cta_uses_detail_summary": true,
+    "relevant_context_panel": true,
+    "supports_panel_uses_detail_highlights": true,
+    "unsupported_claims_added": false
+  },
+  "website_system": {
+    "single_pinned_stage": true,
+    "single_scrubbed_timeline": true,
+    "card_order": ["01", "02", "03", "04"],
+    "last_card_over_second_last": true,
+    "final_hold": true,
+    "reverse_scroll_supported": true,
+    "mobile_normal_flow": true,
+    "system_experience_removal_preserved": true
+  },
+  "syntax": {
+    "typescript_transpile_diagnostics": "passed"
+  }
+}

@@ -1,0 +1,10 @@
+AFYRA DIGITAL — BUILD NOTE
+
+This ZIP contains the updated React/Vite source, route definitions, SEO data, CSS and assets.
+The sandbox could not reinstall the npm dependency tree, so a fresh production bundle was not generated here.
+
+On the normal project machine/deployment pipeline:
+1. npm install
+2. npm run build
+
+The build command regenerates public/static/client.js and its route chunks from the updated source before building the Hono/Cloudflare worker.

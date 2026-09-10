@@ -1,0 +1,16 @@
+{
+  "scope": "non-home layout balance + request consultation page",
+  "homepageLayoutChanged": false,
+  "homepageLockedFilesVerified": 13,
+  "topLevelPagesAudited": ["solutions", "healthcare", "programs", "about", "insights"],
+  "servicePagesCovered": 6,
+  "sharedDetailTemplateCovered": true,
+  "requestConsultationRoute": "/request-consultation",
+  "requestConsultationSections": ["hero", "form", "benefits", "process", "program-context", "faq", "final-cta"],
+  "responsiveBreakpoints": [1100, 980, 720, 420],
+  "sourceParseSyntax": "PASS",
+  "layoutCssBraceIntegrity": "PASS",
+  "productionBuildRunInThisSandbox": false,
+  "browserPixelCertification": false,
+  "browserNote": "Managed Chromium did not complete localhost screenshot navigation reliably in this environment."
+}

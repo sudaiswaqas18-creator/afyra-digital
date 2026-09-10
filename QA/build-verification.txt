@@ -1,0 +1,11 @@
+Afyra Digital package update — current packaging pass
+
+Status:
+- Sitewide card visuals: UPDATED
+- Shared icon system: UPDATED
+- Footer/social icons: UPDATED
+- Generated card/detail WebP assets: 430 present
+
+Note:
+- A fresh `npm run build` verification was not re-run in this packaging pass.
+- The source package includes the updated runtime assets under `public/generated/cards/`.

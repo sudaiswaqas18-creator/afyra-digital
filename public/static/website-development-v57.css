@@ -1,0 +1,398 @@
+/* ======================================================================
+   WEBSITE DEVELOPMENT — HERO / DIRECTIONS / HOW / PRICING / FAQ POLISH V57
+   2026-09-09
+   Scope: /solutions/website-development (layout 05 only)
+   ====================================================================== */
+
+/* 1) Hero: reference-style centered text frame with four corner sparkles. */
+.rs-layout-05 .web-hero{
+  min-height:1120px;
+  padding:126px 0 56px;
+  background:
+    radial-gradient(circle at 50% 24%,rgba(0,187,160,.16),transparent 24%),
+    radial-gradient(circle at 14% 2%,rgba(0,187,160,.09),transparent 18%),
+    radial-gradient(circle at 86% 2%,rgba(255,150,13,.08),transparent 18%),
+    linear-gradient(180deg,#031413 0%,#001311 42%,#00110f 100%)!important;
+}
+.rs-layout-05 .web-hero__inner{position:relative}
+.rs-layout-05 .web-hero__copy{
+  position:relative;
+  max-width:860px;
+  margin:0 auto;
+  padding:46px 0 0;
+  text-align:center;
+}
+.rs-layout-05 .web-hero__copy-frame{
+  position:absolute;
+  inset:0 auto auto 50%;
+  width:min(980px,96vw);
+  height:350px;
+  transform:translateX(-50%);
+  pointer-events:none;
+  z-index:0;
+}
+.rs-layout-05 .web-hero__copy-line{
+  position:absolute;
+  left:50%;
+  width:min(760px,82vw);
+  height:1px;
+  background:linear-gradient(90deg,transparent,rgba(222,241,240,.12) 16%,rgba(222,241,240,.22) 50%,rgba(222,241,240,.12) 84%,transparent);
+  transform:translateX(-50%);
+}
+.rs-layout-05 .web-hero__copy-line--top{top:18px}
+.rs-layout-05 .web-hero__copy-line--bottom{bottom:76px}
+.rs-layout-05 .web-hero__copy-dot,
+.rs-layout-05 .web-hero__copy-spark{
+  position:absolute;
+  display:block;
+  transform:translateZ(0);
+  will-change:transform,opacity;
+}
+.rs-layout-05 .web-hero__copy-dot{
+  width:8px;height:8px;border-radius:50%;
+  background:#5cf0de;
+  box-shadow:0 0 0 5px rgba(92,240,222,.1),0 0 24px rgba(92,240,222,.45);
+  opacity:.8;
+}
+.rs-layout-05 .web-hero__copy-dot--tl{left:104px;top:12px}
+.rs-layout-05 .web-hero__copy-dot--tr{right:104px;top:12px}
+.rs-layout-05 .web-hero__copy-dot--bl{left:104px;bottom:70px}
+.rs-layout-05 .web-hero__copy-dot--br{right:104px;bottom:70px}
+.rs-layout-05 .web-hero__copy-spark{
+  width:18px;height:18px;opacity:.76;
+}
+.rs-layout-05 .web-hero__copy-spark::before,
+.rs-layout-05 .web-hero__copy-spark::after{
+  content:"";position:absolute;left:50%;top:50%;background:rgba(222,241,240,.88);border-radius:999px;transform:translate(-50%,-50%);
+}
+.rs-layout-05 .web-hero__copy-spark::before{width:18px;height:2px}
+.rs-layout-05 .web-hero__copy-spark::after{width:2px;height:18px}
+.rs-layout-05 .web-hero__copy-spark--1{left:94px;top:100px}
+.rs-layout-05 .web-hero__copy-spark--2{right:92px;top:92px}
+.rs-layout-05 .web-hero__copy-spark--3{left:150px;bottom:102px}
+.rs-layout-05 .web-hero__copy-spark--4{right:138px;bottom:98px}
+.rs-layout-05 .web-hero__copy > *:not(.web-hero__copy-frame){position:relative;z-index:2}
+.rs-layout-05 .web-hero .rs-reference-pill{margin-inline:auto}
+.rs-layout-05 .web-hero__copy h1{
+  max-width:860px;
+  margin:20px auto 16px;
+  font:600 clamp(3.6rem,6.15vw,6.45rem)/.9 var(--af-font-2);
+  letter-spacing:-.06em;
+  color:#effffc;
+  text-wrap:balance;
+}
+.rs-layout-05 .web-hero__lead{max-width:770px;font-size:15px;color:rgba(222,241,240,.8)}
+.rs-layout-05 .web-hero__sub{max-width:620px;font-size:12px;color:rgba(222,241,240,.56)}
+.rs-layout-05 .web-hero__actions{margin-top:26px}
+.rs-layout-05 .web-hero .rs-positioning{margin-top:18px;color:rgba(222,241,240,.45);letter-spacing:.24em}
+
+/* hero mockup closer to the front like the reference */
+.rs-layout-05 .web-hero__stage{
+  max-width:1120px;
+  min-height:560px;
+  margin-top:34px;
+  perspective:2100px;
+}
+.rs-layout-05 .web-hero__mockup{
+  width:min(1120px,98%);
+  border-radius:26px;
+  border-color:rgba(34,235,217,.2);
+  box-shadow:0 56px 140px rgba(0,0,0,.44),0 0 0 1px rgba(255,255,255,.03) inset,0 0 90px rgba(0,187,160,.12);
+}
+.rs-layout-05 .web-hero__workspace{min-height:456px;grid-template-columns:152px 1fr 182px}
+.rs-layout-05 .web-hero__workspace figure{
+  background:
+    radial-gradient(circle at 50% 48%,rgba(0,187,160,.18),transparent 52%),
+    linear-gradient(180deg,#06211d,#041816);
+}
+.rs-layout-05 .web-hero__workspace figure img{max-height:456px}
+.rs-layout-05 .web-hero__trust{
+  position:relative;
+  max-width:1040px;
+  margin:18px auto 0;
+  padding-top:24px;
+  overflow:hidden;
+}
+.rs-layout-05 .web-hero__trust::before{
+  content:"";
+  position:absolute;
+  left:-32%;right:-32%;top:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(0,187,160,.18) 22%,rgba(0,187,160,.72) 50%,rgba(255,150,13,.28) 64%,transparent 82%);
+  animation:webHeroTrustLine 4.6s linear infinite;
+}
+@keyframes webHeroTrustLine{
+  from{transform:translateX(-14%)}
+  to{transform:translateX(14%)}
+}
+
+/* 2) Website directions: stronger pills and visible icons on tabs + cards. */
+.rs-layout-05 .web-templates{padding-top:68px}
+.rs-layout-05 .web-templates__tabs{
+  max-width:1020px;
+  margin-bottom:30px;
+  padding:8px;
+  gap:10px;
+  background:rgba(255,255,255,.92);
+  box-shadow:0 18px 50px rgba(0,68,62,.08);
+}
+.rs-layout-05 .web-templates__tabs button{
+  min-height:38px;
+  border:0;
+  display:inline-flex;
+  align-items:center;
+  gap:9px;
+  padding:10px 16px;
+  border-radius:999px;
+  background:rgba(0,68,62,.04);
+  color:rgba(0,68,62,.74);
+  font:600 11px/1 var(--af-font-1);
+  box-shadow:inset 0 0 0 1px rgba(0,68,62,.04);
+  transition:transform .24s ease,box-shadow .24s ease,background .24s ease,color .24s ease;
+}
+.rs-layout-05 .web-templates__tabs button .af-inline-svg-icon{color:#6d8d88}
+.rs-layout-05 .web-templates__tabs button.is-active{
+  background:linear-gradient(135deg,rgba(0,187,160,.16),rgba(0,187,160,.12));
+  color:#00443e;
+  box-shadow:inset 0 0 0 1px rgba(0,187,160,.2),0 12px 24px rgba(0,187,160,.1);
+}
+.rs-layout-05 .web-templates__tabs button.is-active .af-inline-svg-icon{color:#00bba0}
+.rs-layout-05 .web-templates__grid{gap:18px}
+.rs-layout-05 .web-templates__grid figure{border-radius:24px;box-shadow:0 22px 52px rgba(0,68,62,.08)}
+.rs-layout-05 .web-templates__figure-badge{
+  position:absolute;
+  left:16px;top:14px;z-index:3;
+  display:inline-flex;align-items:center;gap:8px;
+  padding:8px 12px;border-radius:999px;
+  background:rgba(255,255,255,.9);
+  box-shadow:0 10px 22px rgba(0,68,62,.08);
+  color:#00443e;font:700 10px/1 var(--af-font-1);
+}
+.rs-layout-05 .web-templates__figure-badge .af-inline-svg-icon{color:#00bba0}
+.rs-layout-05 .web-templates__grid figcaption{background:rgba(0,68,62,.88)}
+
+/* 3) How it works: stronger travelling band like the reference. */
+.rs-layout-05 .web-how{
+  min-height:810px;
+  padding:116px 0 112px;
+  background:
+    radial-gradient(circle at 50% 34%,rgba(0,187,160,.14),transparent 30%),
+    linear-gradient(180deg,#021715,#001210 100%);
+}
+.rs-layout-05 .web-how__dome{
+  width:min(980px,82vw);
+  height:580px;
+  top:68px;
+  border-color:rgba(0,187,160,.18);
+  box-shadow:0 -40px 120px rgba(0,187,160,.09),inset 0 24px 84px rgba(0,187,160,.04);
+}
+.rs-layout-05 .web-how__dome::before{inset:32px;border-color:rgba(222,241,240,.07)}
+.rs-layout-05 .web-how__dome::after{inset:74px;border-color:rgba(222,241,240,.05)}
+.rs-layout-05 .web-how__dome i{
+  bottom:-6%!important;
+  width:122%!important;
+  height:122%!important;
+  margin-left:-61%;
+  opacity:.9!important;
+  filter:blur(6px)!important;
+  background:conic-gradient(
+    from 0deg at 50% 100%,
+    transparent 0deg 27deg,
+    rgba(0,187,160,.04) 32deg,
+    rgba(0,187,160,.62) 44deg,
+    rgba(222,241,240,.3) 50deg,
+    rgba(255,150,13,.3) 57deg,
+    rgba(0,187,160,.12) 64deg,
+    transparent 74deg 360deg
+  )!important;
+}
+.rs-layout-05 .web-how__head{margin-bottom:86px}
+.rs-layout-05 .web-how__cards{grid-template-columns:repeat(4,1fr);gap:16px;max-width:1120px}
+.rs-layout-05 .web-how__cards article{
+  min-height:238px;
+  border-radius:20px;
+  background:linear-gradient(145deg,rgba(222,241,240,.08),rgba(222,241,240,.024));
+  backdrop-filter:blur(10px);
+}
+.rs-layout-05 .web-how__cards article>span{font-size:21px}
+.rs-layout-05 .web-how__cards h3{margin-top:34px}
+
+/* 4) Pricing: match the reference hierarchy and mood more closely. */
+.rs-layout-05 .web-pricing{
+  padding:112px 0 98px!important;
+  background:
+    radial-gradient(circle at 50% 58%,rgba(0,187,160,.1),transparent 30%),
+    linear-gradient(180deg,#02100f 0%,#000e0d 50%,#01090a 100%)!important;
+}
+.rs-layout-05 .web-pricing::before{
+  bottom:-190px;
+  width:min(1260px,94vw);
+  height:470px;
+  background:
+    linear-gradient(rgba(0,187,160,.1) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(0,187,160,.1) 1px,transparent 1px);
+  background-size:72px 72px;
+  opacity:.28;
+  transform:translateX(-50%) perspective(900px) rotateX(78deg);
+}
+.rs-layout-05 .web-pricing__head{max-width:730px;margin-bottom:28px}
+.rs-layout-05 .web-pricing__head h2{font-size:clamp(2.8rem,4.8vw,4.95rem)}
+.rs-layout-05 .web-pricing__grid{gap:20px;max-width:1060px}
+.rs-layout-05 .web-pricing__card{
+  min-height:580px;
+  padding:28px 24px 24px;
+  border-radius:24px;
+  background:
+    radial-gradient(circle at 50% -10%,rgba(53,82,255,.12),transparent 36%),
+    linear-gradient(180deg,rgba(7,27,25,.96),rgba(3,16,15,.98));
+  box-shadow:0 28px 74px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.04);
+}
+.rs-layout-05 .web-pricing__card::before{
+  content:"";
+  position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(180deg,rgba(255,255,255,.04),transparent 28%);
+  opacity:.7;
+}
+.rs-layout-05 .web-pricing__card.is-popular{
+  transform:translateY(-10px);
+  border-color:rgba(255,150,13,.6);
+  box-shadow:0 34px 84px rgba(0,0,0,.34),0 0 0 1px rgba(255,150,13,.12) inset,0 0 40px rgba(255,150,13,.12);
+}
+.rs-layout-05 .web-pricing__toggle button{min-width:92px}
+.rs-layout-05 .web-pricing__icon{width:54px;height:54px;border-color:rgba(99,132,255,.28);background:rgba(99,132,255,.12);color:#bdd4ff}
+.rs-layout-05 .web-pricing__cta{border-radius:12px}
+.rs-layout-05 .web-pricing__terms{margin-top:20px;border-radius:16px}
+
+/* 5) FAQ: support-card layout like the reference FAQ block. */
+.rs-layout-05 .rs-faq.rs-section--light{
+  padding:118px 0 110px;
+  background:#f7fbfa!important;
+}
+.rs-layout-05 .rs-faq__grid{
+  max-width:1100px;
+  grid-template-columns:.92fr 1.08fr;
+  gap:64px;
+  align-items:start;
+}
+.rs-layout-05 .rs-faq__copy{
+  position:relative;
+  top:auto;
+  padding-top:8px;
+}
+.rs-layout-05 .rs-faq__copy h2{
+  max-width:360px;
+  margin-bottom:18px;
+  font-size:clamp(2.8rem,5.5vw,4.25rem);
+  line-height:.96;
+}
+.rs-layout-05 .rs-faq__copy p{
+  max-width:360px;
+  margin:0 0 28px;
+  color:rgba(0,68,62,.66);
+}
+.rs-layout-05 .rs-faq__support{
+  max-width:360px;
+  margin-top:28px;
+  padding:30px 22px;
+  border-radius:22px;
+  border:1px solid rgba(0,68,62,.08);
+  background:#fff;
+  box-shadow:0 18px 46px rgba(0,68,62,.06);
+}
+.rs-layout-05 .rs-faq__support h3{
+  margin:0 0 10px;
+  color:#062f2b;
+  font:600 1.55rem/1.1 var(--af-font-2);
+}
+.rs-layout-05 .rs-faq__support p{
+  margin:0 0 18px;
+  max-width:none;
+  font-size:12px;
+  line-height:1.6;
+}
+.rs-layout-05 .rs-faq__support .rs-btn{min-width:140px}
+.rs-layout-05 .rs-faq__items{gap:12px}
+.rs-layout-05 .rs-faq__items article{
+  border-radius:24px;
+  border:1px solid rgba(0,68,62,.08);
+  background:#fff;
+  box-shadow:0 8px 26px rgba(0,68,62,.03);
+  transition:border-color .28s ease,box-shadow .28s ease,background .28s ease,transform .28s ease;
+}
+.rs-layout-05 .rs-faq__items button{
+  min-height:76px;
+  padding:0 22px;
+  color:#082e2a;
+  font:500 14px/1.45 var(--af-font-1);
+}
+.rs-layout-05 .rs-faq__items button i{
+  width:36px;height:36px;
+  background:rgba(0,68,62,.05);
+  color:#416763;
+  transition:background .28s ease,color .28s ease,transform .28s ease,box-shadow .28s ease;
+}
+.rs-layout-05 .rs-faq__items article.is-open{
+  background:linear-gradient(180deg,#f4fbf9,#edf7f4 88%);
+  border-color:rgba(0,187,160,.2);
+  box-shadow:0 18px 42px rgba(0,187,160,.08);
+  transform:translateY(-1px);
+}
+.rs-layout-05 .rs-faq__items article.is-open button i{
+  background:linear-gradient(135deg,#79f3e5,#00bba0);
+  color:#003c36;
+  box-shadow:0 8px 18px rgba(0,187,160,.14);
+  transform:rotate(90deg);
+}
+.rs-layout-05 .rs-faq__items article>div>p{
+  padding-inline:22px;
+  color:rgba(0,68,62,.68);
+  font-size:12px;
+}
+.rs-layout-05 .rs-faq__items article.is-open>div>p{padding:0 22px 20px}
+
+@media(max-width:1050px){
+  .rs-layout-05 .web-hero{min-height:auto}
+  .rs-layout-05 .web-hero__copy-frame{width:min(940px,98vw)}
+  .rs-layout-05 .web-hero__copy-dot--tl,.rs-layout-05 .web-hero__copy-dot--bl{left:42px}
+  .rs-layout-05 .web-hero__copy-dot--tr,.rs-layout-05 .web-hero__copy-dot--br{right:42px}
+  .rs-layout-05 .web-hero__copy-spark--1{left:34px}.rs-layout-05 .web-hero__copy-spark--2{right:28px}.rs-layout-05 .web-hero__copy-spark--3{left:88px}.rs-layout-05 .web-hero__copy-spark--4{right:84px}
+  .rs-layout-05 .web-hero__workspace{grid-template-columns:132px 1fr 152px}
+  .rs-layout-05 .web-how__cards{grid-template-columns:repeat(2,1fr);max-width:780px}
+  .rs-layout-05 .rs-faq__grid{grid-template-columns:1fr;gap:42px}
+  .rs-layout-05 .rs-faq__copy h2,.rs-layout-05 .rs-faq__copy p,.rs-layout-05 .rs-faq__support{max-width:none}
+}
+
+@media(max-width:760px){
+  .rs-layout-05 .web-hero{padding:108px 0 42px}
+  .rs-layout-05 .web-hero__copy{padding-top:24px}
+  .rs-layout-05 .web-hero__copy-frame{height:250px}
+  .rs-layout-05 .web-hero__copy-line--bottom{bottom:32px}
+  .rs-layout-05 .web-hero__copy-dot{width:7px;height:7px}
+  .rs-layout-05 .web-hero__copy-dot--tl,.rs-layout-05 .web-hero__copy-dot--tr{top:10px}
+  .rs-layout-05 .web-hero__copy-dot--bl,.rs-layout-05 .web-hero__copy-dot--br{bottom:28px}
+  .rs-layout-05 .web-hero__copy-dot--tl,.rs-layout-05 .web-hero__copy-dot--bl{left:12px}
+  .rs-layout-05 .web-hero__copy-dot--tr,.rs-layout-05 .web-hero__copy-dot--br{right:12px}
+  .rs-layout-05 .web-hero__copy-spark{width:14px;height:14px}
+  .rs-layout-05 .web-hero__copy-spark::before{width:14px}.rs-layout-05 .web-hero__copy-spark::after{height:14px}
+  .rs-layout-05 .web-hero__copy-spark--1{left:8px;top:62px}.rs-layout-05 .web-hero__copy-spark--2{right:8px;top:56px}.rs-layout-05 .web-hero__copy-spark--3{left:24px;bottom:48px}.rs-layout-05 .web-hero__copy-spark--4{right:24px;bottom:44px}
+  .rs-layout-05 .web-hero__stage{min-height:360px;margin-top:26px}
+  .rs-layout-05 .web-hero__mockup{width:100%;border-radius:18px}
+  .rs-layout-05 .web-hero__workspace{grid-template-columns:1fr;min-height:300px}
+  .rs-layout-05 .web-hero__workspace figure img{max-height:300px}
+  .rs-layout-05 .web-hero__trust>div{grid-template-columns:repeat(2,1fr);gap:12px}
+  .rs-layout-05 .web-templates__tabs button{flex:1 1 46%;justify-content:center}
+  .rs-layout-05 .web-templates__figure-badge{left:10px;top:10px;padding:7px 10px}
+  .rs-layout-05 .web-how{min-height:auto;padding:86px 0 78px}
+  .rs-layout-05 .web-how__dome{width:118vw;height:420px;top:48px}
+  .rs-layout-05 .web-how__cards{grid-template-columns:1fr;gap:14px}
+  .rs-layout-05 .web-pricing{padding:84px 0 72px!important}
+  .rs-layout-05 .web-pricing__grid{grid-template-columns:1fr;max-width:640px}
+  .rs-layout-05 .web-pricing__card{min-height:auto;padding:23px 20px;border-radius:18px}
+  .rs-layout-05 .web-pricing__card.is-popular{transform:none}
+  .rs-layout-05 .rs-faq.rs-section--light{padding:88px 0 84px}
+  .rs-layout-05 .rs-faq__items button{padding:0 16px;font-size:13px}
+  .rs-layout-05 .rs-faq__items article.is-open>div>p{padding:0 16px 18px}
+}
+
+@media(prefers-reduced-motion:reduce){
+  .rs-layout-05 .web-hero__trust::before{animation:none}
+}

@@ -1,0 +1,153 @@
+/* =========================================================
+   AFYRA DIGITAL — V38
+   Homepage hero: keep the original V33/V36 dashboard exactly
+   where it was and place the generated Response Rate card only
+   in the genuinely empty bottom-right corner slot.
+
+   Important: V37 remains loaded because it also centers the Brand
+   Communication "How it works" section. These final selectors
+   intentionally override ONLY V37's hero-grid expansion.
+   ========================================================= */
+
+/* Restore the original 3 KPI + 1 utility-column dashboard geometry.
+   This puts Qualified / Appointments / Profile Views / Today's Schedule,
+   chart, inquiries, visibility and both activity rows back in their
+   pre-V37 positions and sizes. */
+.af-hpd[data-af-hero-reference-dock-v33="true"] .af-hpd__dock-grid{
+  grid-template-columns:repeat(3,minmax(0,1fr)) minmax(172px,1.26fr)!important;
+  grid-template-rows:84px 86px 86px 38px 38px!important;
+  gap:9px!important;
+}
+
+.af-hpd[data-af-hero-reference-dock-v33="true"] .af-hpd__stat--qualified{
+  grid-column:1!important;
+  grid-row:1!important;
+}
+.af-hpd[data-af-hero-reference-dock-v33="true"] .af-hpd__stat--appointments{
+  grid-column:2!important;
+  grid-row:1!important;
+}
+.af-hpd[data-af-hero-reference-dock-v33="true"] .af-hpd__stat--views{
+  grid-column:3!important;
+  grid-row:1!important;
+}
+.af-hpd[data-af-hero-reference-dock-v33="true"] .af-hpd__card--schedule{
+  grid-column:4!important;
+  grid-row:1!important;
+}
+.af-hpd[data-af-hero-reference-dock-v33="true"] .af-hpd__chart-panel{
+  grid-column:1 / 4!important;
+  grid-row:2 / 4!important;
+}
+.af-hpd[data-af-hero-reference-dock-v33="true"] .af-hpd__card--inquiries{
+  grid-column:4!important;
+  grid-row:2!important;
+}
+.af-hpd[data-af-hero-reference-dock-v33="true"] .af-hpd__card--visibility{
+  grid-column:4!important;
+  grid-row:3!important;
+}
+.af-hpd[data-af-hero-reference-dock-v33="true"] .af-hpd__activity--gbp{
+  grid-column:1 / 4!important;
+  grid-row:4!important;
+}
+.af-hpd[data-af-hero-reference-dock-v33="true"] .af-hpd__activity--campaign{
+  grid-column:1 / 4!important;
+  grid-row:5!important;
+}
+
+/* Restore the original compact KPI typography/padding that V37 reduced.
+   Existing cards therefore remain visually unchanged. */
+.af-hpd[data-af-hero-reference-dock-v33="true"] .af-hpd__stat{
+  padding:8px 9px!important;
+}
+.af-hpd[data-af-hero-reference-dock-v33="true"] .af-hpd__stat .af-db__kpi-label{
+  font-size:8.2px!important;
+}
+.af-hpd[data-af-hero-reference-dock-v33="true"] .af-hpd__stat .af-db__kpi-value{
+  font-size:17px!important;
+}
+.af-hpd[data-af-hero-reference-dock-v33="true"] .af-hpd__stat .af-db__kpi-trend{
+  font-size:7.5px!important;
+}
+
+/* The only new final slot: the empty right corner underneath Local Visibility.
+   Rows 4 + 5 plus their 9px gap equal ~85px, matching the 84px top card row,
+   so the generated child card lands at the same visual size as the dashboard's
+   other compact cards without replacing or covering any existing card. */
+.af-hpd[data-af-hero-reference-dock-v33="true"] .af-hpd__card--response-corner{
+  grid-column:4!important;
+  grid-row:4 / 6!important;
+  align-self:stretch!important;
+  justify-self:stretch!important;
+  width:auto!important;
+  height:auto!important;
+  min-width:0!important;
+  min-height:0!important;
+  padding:0!important;
+  margin:0!important;
+  overflow:hidden!important;
+  border:0!important;
+  border-radius:12px!important;
+  background:transparent!important;
+  box-shadow:none!important;
+  isolation:isolate;
+}
+
+/* V37's generic generated-card skin created the visible "card inside a card".
+   Remove that wrapper skin and let the tightly-cropped existing PNG itself
+   fill the real grid slot. */
+.af-hpd[data-af-hero-reference-dock-v33="true"] .af-hpd__card--response-corner.af-hpd__generated-stat{
+  background:transparent!important;
+  border:0!important;
+  box-shadow:none!important;
+}
+.af-hpd[data-af-hero-reference-dock-v33="true"] .af-hpd__card--response-corner img{
+  display:block!important;
+  width:100%!important;
+  height:100%!important;
+  max-width:none!important;
+  min-width:100%!important;
+  min-height:100%!important;
+  object-fit:fill!important;
+  object-position:50% 50%!important;
+  user-select:none!important;
+  pointer-events:none!important;
+}
+
+/* Keep V33's mobile normal-flow behavior. The card becomes one ordinary
+   sibling in the same stack and continues to use the same GSAP/mobile reveal. */
+@media (max-width:620px){
+  .af-hpd[data-af-hero-reference-dock-v33="true"] .af-hpd__dock-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    grid-template-rows:none!important;
+    gap:9px!important;
+  }
+  .af-hpd[data-af-hero-reference-dock-v33="true"] .af-hpd__card--response-corner{
+    grid-column:auto!important;
+    grid-row:auto!important;
+    width:100%!important;
+    height:auto!important;
+    min-height:92px!important;
+    aspect-ratio:auto!important;
+  }
+  .af-hpd[data-af-hero-reference-dock-v33="true"] .af-hpd__card--response-corner img{
+    min-height:92px!important;
+  }
+  .af-hpd[data-af-hero-reference-dock-v33="true"] .af-hpd__chart-panel,
+  .af-hpd[data-af-hero-reference-dock-v33="true"] .af-hpd__activity--gbp,
+  .af-hpd[data-af-hero-reference-dock-v33="true"] .af-hpd__activity--campaign{
+    grid-column:1 / -1!important;
+  }
+}
+
+@media (max-width:390px){
+  .af-hpd[data-af-hero-reference-dock-v33="true"] .af-hpd__dock-grid{
+    grid-template-columns:1fr!important;
+  }
+  .af-hpd[data-af-hero-reference-dock-v33="true"] .af-hpd__chart-panel,
+  .af-hpd[data-af-hero-reference-dock-v33="true"] .af-hpd__activity--gbp,
+  .af-hpd[data-af-hero-reference-dock-v33="true"] .af-hpd__activity--campaign{
+    grid-column:1!important;
+  }
+}

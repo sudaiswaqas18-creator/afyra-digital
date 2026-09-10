@@ -1,0 +1,311 @@
+/* ======================================================================
+   AFYRA DIGITAL — FOOTER / DETAIL CTA / WEBSITE SYSTEM V42
+   2026-09-08
+   Scope:
+   1) Sitewide footer information + balanced brand lockup
+   2) Relevant, content-rich detail-page "Let's Grow Together" close
+   3) Website Development / Website System single-stage GSAP card deck
+   ====================================================================== */
+
+/* ----------------------------------------------------------------------
+   1) SITEWIDE FOOTER
+   ---------------------------------------------------------------------- */
+.af-footer{
+  padding-top:48px!important;
+}
+.af-footer__wrap{
+  grid-template-columns:minmax(280px,1.32fr) minmax(150px,.78fr) minmax(230px,1.15fr) minmax(205px,.92fr)!important;
+  gap:clamp(30px,3.2vw,56px)!important;
+  align-items:start!important;
+  padding-bottom:clamp(42px,4.5vw,62px)!important;
+}
+.af-footer__brand{
+  min-width:0;
+}
+.af-footer__logo{
+  display:inline-flex!important;
+  align-items:center!important;
+  gap:12px!important;
+  margin:0 0 20px!important;
+  max-width:none!important;
+  overflow:visible!important;
+}
+.af-footer__logo img{
+  width:56px!important;
+  height:56px!important;
+  flex:0 0 56px!important;
+  object-fit:contain!important;
+}
+.af-footer__wordmark{
+  min-height:56px;
+  display:inline-flex;
+  align-items:center;
+  gap:4px;
+  white-space:nowrap;
+  font-family:var(--af-font-2);
+  font-size:clamp(24px,1.55vw,29px);
+  line-height:1;
+  font-weight:700;
+  letter-spacing:-.035em;
+  color:#fff;
+}
+.af-footer__wordmark strong,
+.af-footer__wordmark em{
+  margin:0;
+  padding:0;
+  font:inherit;
+  line-height:inherit;
+}
+.af-footer__wordmark em{
+  color:var(--af-teal);
+  font-style:normal;
+}
+.af-footer__disc{
+  max-width:390px!important;
+  margin:0 0 16px!important;
+  line-height:1.65!important;
+}
+.af-footer__tagline{
+  margin:0 0 18px!important;
+}
+.af-footer__contact{
+  margin-top:0!important;
+  display:grid!important;
+  gap:8px!important;
+  font-size:13px!important;
+  line-height:1.5!important;
+}
+.af-footer__contact p{
+  margin:0!important;
+  display:grid!important;
+  grid-template-columns:54px minmax(0,1fr)!important;
+  gap:8px!important;
+  align-items:baseline!important;
+}
+.af-footer__contact strong{
+  color:rgba(222,241,240,.58)!important;
+  font-weight:600!important;
+}
+.af-footer__contact a{
+  width:max-content;
+  max-width:100%;
+  color:#f0fffc!important;
+  text-decoration:none;
+  overflow-wrap:anywhere;
+  transition:color .24s ease,transform .24s ease;
+}
+.af-footer__contact a:hover{
+  color:var(--af-teal)!important;
+  transform:translateX(2px);
+}
+.af-footer__col-title{
+  margin-bottom:18px!important;
+}
+.af-footer__col ul{
+  gap:11px!important;
+}
+.af-footer__col a{
+  display:inline-block;
+  max-width:100%;
+  font-size:14.5px!important;
+  line-height:1.42!important;
+}
+.af-footer__big{
+  min-height:clamp(132px,10vw,176px)!important;
+}
+.af-footer__big span{
+  font-size:clamp(5.1rem,10.4vw,9.8rem)!important;
+}
+
+/* ----------------------------------------------------------------------
+   2) DETAIL PAGE — richer relevant closing section
+   ---------------------------------------------------------------------- */
+.dt-final__inner{
+  width:min(1100px,calc(100% - 36px))!important;
+  min-height:0!important;
+  padding:clamp(54px,6vw,76px) clamp(24px,5vw,68px)!important;
+}
+.dt-final__inner>h2{
+  max-width:900px!important;
+}
+.dt-final__inner>p:not(.dt-final__support){
+  max-width:820px!important;
+  font-size:clamp(14px,1.12vw,17px)!important;
+}
+.dt-final__detail-grid{
+  width:min(920px,100%);
+  display:grid;
+  grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);
+  gap:14px;
+  margin:28px auto 0;
+  text-align:left;
+}
+.dt-final__detail-grid article{
+  min-width:0;
+  padding:22px 22px 20px;
+  border:1px solid rgba(222,241,240,.13);
+  border-radius:18px;
+  background:linear-gradient(145deg,rgba(222,241,240,.075),rgba(222,241,240,.025));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.04),0 18px 42px rgba(0,0,0,.12);
+}
+.dt-final__detail-grid article>span{
+  display:block;
+  margin-bottom:9px;
+  color:#62e5d4;
+  font-size:10px;
+  font-weight:700;
+  letter-spacing:.13em;
+  text-transform:uppercase;
+}
+.dt-final__detail-grid article>strong{
+  display:block;
+  color:#f1fffd;
+  font-family:var(--af-font-2);
+  font-size:clamp(18px,1.6vw,23px);
+  line-height:1.16;
+}
+.dt-final__detail-grid article>p{
+  margin:10px 0 0!important;
+  color:rgba(222,241,240,.67)!important;
+  font-size:12px!important;
+  line-height:1.65!important;
+}
+.dt-final__detail-grid ul{
+  list-style:none;
+  margin:4px 0 0;
+  padding:0;
+  display:grid;
+  gap:10px;
+}
+.dt-final__detail-grid li{
+  display:flex;
+  align-items:center;
+  gap:9px;
+  color:rgba(240,255,252,.82);
+  font-size:12px;
+  line-height:1.45;
+}
+.dt-final__detail-grid li svg,
+.dt-final__detail-grid li .af-public-icon{
+  flex:0 0 auto;
+  color:var(--af-teal);
+}
+.dt-final__inner>.dt-final__support{
+  max-width:790px!important;
+  margin:18px auto 0!important;
+}
+
+/* ----------------------------------------------------------------------
+   3) WEBSITE DEVELOPMENT — exact single-stage stacked card choreography.
+   JS owns motion. CSS removes every legacy sticky/margin geometry conflict.
+   ---------------------------------------------------------------------- */
+@media (min-width:761px){
+  .rs-layout-05 .web-system__stack{
+    position:relative!important;
+    width:min(1040px,100%)!important;
+    height:clamp(440px,48vw,500px)!important;
+    min-height:440px!important;
+    margin:0 auto!important;
+    padding:0!important;
+    isolation:isolate!important;
+    overflow:clip!important;
+  }
+  .rs-layout-05 .web-system__card,
+  .rs-layout-05 .web-system__card:nth-child(even),
+  .rs-layout-05 .web-system__card:last-child{
+    position:absolute!important;
+    inset:0 auto auto 0!important;
+    top:0!important;
+    left:0!important;
+    width:100%!important;
+    min-height:390px!important;
+    margin:0!important;
+    transform-origin:50% 0%!important;
+    backface-visibility:hidden!important;
+    -webkit-backface-visibility:hidden!important;
+    will-change:transform!important;
+    contain:paint!important;
+  }
+
+  .rs-layout-05 .web-system__card--1{transform:translate3d(0,0,0) scale(1)}
+  .rs-layout-05 .web-system__card--2{transform:translate3d(0,112%,0) scale(.988)}
+  .rs-layout-05 .web-system__card--3{transform:translate3d(0,116%,0) scale(.988)}
+  .rs-layout-05 .web-system__card--4{transform:translate3d(0,120%,0) scale(.988)}
+  .rs-layout-05 .web-templates{
+    padding-top:clamp(72px,8vw,108px)!important;
+  }
+}
+
+@media (max-width:1180px){
+  .af-footer__wrap{
+    grid-template-columns:minmax(270px,1.15fr) repeat(3,minmax(0,1fr))!important;
+    gap:28px!important;
+  }
+  .af-footer__col a{font-size:13.5px!important}
+}
+
+@media (max-width:920px){
+  .af-footer__wrap{
+    grid-template-columns:1.2fr 1fr!important;
+    gap:38px 44px!important;
+  }
+  .af-footer__brand{grid-row:span 2}
+  .rs-layout-05 .web-system__stack{
+    height:500px!important;
+  }
+}
+
+@media (max-width:760px){
+  .af-footer{padding-top:36px!important}
+  .af-footer__wrap{
+    grid-template-columns:1fr!important;
+    gap:28px!important;
+  }
+  .af-footer__brand{grid-row:auto}
+  .af-footer__logo img{
+    width:50px!important;
+    height:50px!important;
+    flex-basis:50px!important;
+  }
+  .af-footer__wordmark{
+    min-height:50px;
+    font-size:24px!important;
+  }
+  .af-footer__disc{max-width:520px!important}
+  .af-footer__col ul{gap:9px!important}
+  .af-footer__big{min-height:98px!important}
+  .af-footer__big span{font-size:clamp(3.35rem,15vw,5.8rem)!important}
+
+  .dt-final__detail-grid{
+    grid-template-columns:1fr;
+    margin-top:22px;
+  }
+  .dt-final__detail-grid article{padding:19px 18px}
+
+  .rs-layout-05 .web-system__stack{
+    height:auto!important;
+    min-height:0!important;
+    overflow:visible!important;
+  }
+  .rs-layout-05 .web-system__card,
+  .rs-layout-05 .web-system__card:nth-child(even),
+  .rs-layout-05 .web-system__card:last-child{
+    position:relative!important;
+    inset:auto!important;
+    width:auto!important;
+    margin-bottom:16px!important;
+    transform:none!important;
+  }
+}
+
+@media (prefers-reduced-motion:reduce){
+  .rs-layout-05 .web-system__stack{height:auto!important;overflow:visible!important}
+  .rs-layout-05 .web-system__card,
+  .rs-layout-05 .web-system__card:nth-child(even),
+  .rs-layout-05 .web-system__card:last-child{
+    position:relative!important;
+    inset:auto!important;
+    margin-bottom:16px!important;
+    transform:none!important;
+  }
+}

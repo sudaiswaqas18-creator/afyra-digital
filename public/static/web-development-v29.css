@@ -1,0 +1,240 @@
+/* ======================================================================
+   WEBSITE DEVELOPMENT — FINAL MOTION / STACK / PROOF POLISH V29
+   2026-09-08
+   Scope: /solutions/website-development (layout 05 only)
+   ====================================================================== */
+
+/* 1) Hero: one stable perspective surface; GSAP owns the entire settle. */
+.rs-layout-05 .web-hero__stage{
+  perspective:1900px;
+  transform-style:preserve-3d;
+}
+.rs-layout-05 .web-hero__mockup{
+  transform:perspective(1900px) rotateX(17deg) rotateY(-2.8deg) rotateZ(-1.05deg) scale(.93) translate3d(0,32px,0);
+  transform-origin:50% 100%;
+  transform-style:preserve-3d;
+  backface-visibility:hidden;
+  will-change:transform;
+}
+
+/* 2) Website System: keep one clean card state at a time while the deck advances. */
+.rs-layout-05 .web-system__stack{
+  max-width:1040px;
+  padding-bottom:12vh;
+  isolation:isolate;
+}
+.rs-layout-05 .web-system__card{
+  top:98px;
+  margin-bottom:34vh;
+  transform-origin:50% 0%;
+  backface-visibility:hidden;
+  will-change:transform,opacity,filter;
+  contain:paint;
+}
+.rs-layout-05 .web-system__card:last-child{
+  margin-bottom:8vh;
+}
+
+/* 3) How It Works: reference-style half-dome with a visible travelling color band. */
+.rs-layout-05 .web-how{
+  isolation:isolate;
+}
+.rs-layout-05 .web-how__dome{
+  overflow:hidden;
+  isolation:isolate;
+  background:
+    radial-gradient(ellipse at 50% 96%,rgba(0,187,160,.25),rgba(0,68,62,.12) 38%,rgba(0,187,160,.025) 67%,transparent 76%);
+  box-shadow:
+    0 -32px 110px rgba(0,187,160,.12),
+    inset 0 28px 92px rgba(0,187,160,.055);
+}
+.rs-layout-05 .web-how__dome::before,
+.rs-layout-05 .web-how__dome::after{
+  z-index:2;
+  pointer-events:none;
+}
+.rs-layout-05 .web-how__dome i{
+  position:absolute!important;
+  left:50%!important;
+  bottom:-7%!important;
+  top:auto!important;
+  width:118%!important;
+  height:118%!important;
+  margin-left:-59%;
+  border-radius:50% 50% 0 0 / 100% 100% 0 0;
+  clip-path:none!important;
+  opacity:.8!important;
+  filter:blur(7px)!important;
+  mix-blend-mode:screen;
+  background:conic-gradient(
+    from 0deg at 50% 100%,
+    transparent 0deg 31deg,
+    rgba(0,187,160,.03) 36deg,
+    rgba(0,187,160,.56) 48deg,
+    rgba(222,241,240,.28) 55deg,
+    rgba(255,150,13,.28) 61deg,
+    rgba(0,187,160,.09) 69deg,
+    transparent 79deg 360deg
+  )!important;
+  transform-origin:50% 100%!important;
+  will-change:transform;
+  pointer-events:none;
+}
+.rs-layout-05 .web-how__inner,
+.rs-layout-05 .web-how__head,
+.rs-layout-05 .web-how__cards{
+  position:relative;
+  z-index:4;
+}
+
+/* 4) Trust & Proof: restrained 3+2 icon-card grid, matching the light reference. */
+.rs-layout-05 .web-proof{
+  padding:118px 0 126px!important;
+  background:#f7fbfa!important;
+  overflow:hidden;
+}
+.rs-layout-05 .web-proof__grid{
+  max-width:1120px;
+  margin:0 auto;
+  display:grid;
+  grid-template-columns:repeat(6,minmax(0,1fr));
+  gap:14px;
+  align-items:stretch;
+}
+.rs-layout-05 .web-proof__card{
+  --proof-accent:#00BBA0;
+  position:relative;
+  grid-column:span 2;
+  min-height:220px;
+  padding:28px 26px 26px;
+  border-radius:22px;
+  border:1px solid rgba(0,68,62,.09);
+  background:
+    linear-gradient(145deg,rgba(255,255,255,.98),rgba(250,253,252,.94));
+  box-shadow:
+    0 16px 42px rgba(0,68,62,.055),
+    inset 0 1px 0 rgba(255,255,255,.94);
+  overflow:hidden;
+  backface-visibility:hidden;
+  will-change:transform,opacity;
+}
+.rs-layout-05 .web-proof__card:nth-child(2),
+.rs-layout-05 .web-proof__card:nth-child(4){--proof-accent:#FF960D}
+.rs-layout-05 .web-proof__card:nth-child(4),
+.rs-layout-05 .web-proof__card:nth-child(5){grid-column:span 3}
+.rs-layout-05 .web-proof__card::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  background:radial-gradient(circle at 100% 0,color-mix(in srgb,var(--proof-accent) 7%,transparent),transparent 34%);
+  opacity:.8;
+}
+.rs-layout-05 .web-proof__icon{
+  position:relative;
+  z-index:2;
+  width:52px;
+  height:52px;
+  display:grid;
+  place-items:center;
+  border-radius:15px;
+  color:var(--proof-accent);
+  background:color-mix(in srgb,var(--proof-accent) 8%,#fff);
+  border:1px solid color-mix(in srgb,var(--proof-accent) 18%,transparent);
+  box-shadow:0 8px 24px color-mix(in srgb,var(--proof-accent) 9%,transparent);
+}
+.rs-layout-05 .web-proof__card h3{
+  position:relative;
+  z-index:2;
+  margin:31px 0 10px;
+  font:600 21px/1.08 var(--af-font-2);
+  letter-spacing:-.025em;
+  color:#073f3a;
+}
+.rs-layout-05 .web-proof__card p{
+  position:relative;
+  z-index:2;
+  max-width:92%;
+  margin:0;
+  color:rgba(0,68,62,.65);
+  font-size:12px;
+  line-height:1.62;
+}
+.rs-layout-05 .web-proof__edge-light{
+  position:absolute;
+  z-index:5;
+  top:0;
+  width:2px;
+  height:32px;
+  border-radius:999px;
+  opacity:0;
+  pointer-events:none;
+  background:linear-gradient(to bottom,transparent,var(--proof-accent) 38%,var(--proof-accent) 62%,transparent);
+  filter:drop-shadow(0 0 5px color-mix(in srgb,var(--proof-accent) 58%,transparent));
+  will-change:transform,opacity;
+}
+.rs-layout-05 .web-proof__edge-light--left{left:-1px}
+.rs-layout-05 .web-proof__edge-light--right{right:-1px}
+
+@media (hover:hover) and (pointer:fine){
+  .rs-layout-05 .web-proof__card{
+    transition:transform .26s cubic-bezier(.22,.8,.22,1),border-color .26s ease,box-shadow .26s ease;
+  }
+  .rs-layout-05 .web-proof__card:hover{
+    transform:translateY(-4px);
+    border-color:color-mix(in srgb,var(--proof-accent) 26%,rgba(0,68,62,.09));
+    box-shadow:0 22px 52px rgba(0,68,62,.075),0 0 0 1px color-mix(in srgb,var(--proof-accent) 8%,transparent) inset;
+  }
+}
+
+@media(max-width:1050px){
+  .rs-layout-05 .web-system__card{top:86px;margin-bottom:28vh}
+  .rs-layout-05 .web-proof__grid{grid-template-columns:repeat(2,minmax(0,1fr));max-width:820px}
+  .rs-layout-05 .web-proof__card,
+  .rs-layout-05 .web-proof__card:nth-child(4),
+  .rs-layout-05 .web-proof__card:nth-child(5){grid-column:span 1}
+  .rs-layout-05 .web-proof__card:last-child{grid-column:1/-1}
+}
+
+@media(max-width:760px){
+  .rs-layout-05 .web-hero__mockup{
+    transform:perspective(1500px) rotateX(8.5deg) rotateY(-1.35deg) rotateZ(-.55deg) scale(.955) translate3d(0,18px,0);
+  }
+  .rs-layout-05 .web-system__stack{padding-bottom:0}
+  .rs-layout-05 .web-system__card,
+  .rs-layout-05 .web-system__card:last-child{
+    position:relative!important;
+    top:auto!important;
+    margin-bottom:16px!important;
+    transform:none;
+    filter:none!important;
+    contain:layout paint;
+  }
+  .rs-layout-05 .web-how__dome{
+    width:118vw;
+    height:420px;
+    top:50px;
+  }
+  .rs-layout-05 .web-how__dome i{opacity:.66!important;filter:blur(6px)!important}
+  .rs-layout-05 .web-proof{padding:84px 0!important}
+  .rs-layout-05 .web-proof__grid{grid-template-columns:1fr;gap:12px}
+  .rs-layout-05 .web-proof__card,
+  .rs-layout-05 .web-proof__card:nth-child(4),
+  .rs-layout-05 .web-proof__card:nth-child(5),
+  .rs-layout-05 .web-proof__card:last-child{
+    grid-column:1;
+    min-height:190px;
+    padding:23px 21px;
+    border-radius:18px;
+  }
+  .rs-layout-05 .web-proof__card h3{margin-top:24px;font-size:20px}
+  .rs-layout-05 .web-proof__card p{max-width:none}
+}
+
+@media(prefers-reduced-motion:reduce){
+  .rs-layout-05 .web-hero__mockup{transform:none!important}
+  .rs-layout-05 .web-system__card{position:relative!important;top:auto!important;margin-bottom:18px!important;opacity:1!important;transform:none!important;filter:none!important}
+  .rs-layout-05 .web-how__dome i{display:none!important}
+  .rs-layout-05 .web-proof__edge-light{display:none!important}
+  .rs-layout-05 .web-proof__card{opacity:1!important;transform:none!important}
+}

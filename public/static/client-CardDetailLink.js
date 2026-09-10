@@ -1,0 +1,1 @@
+import{M as e,w as t}from"./client.js";import{n}from"./client-SectionLabel.js";var r=t();function i({slug:t,label:i=`Explore details`}){return(0,r.jsxs)(e,{className:`af-card-detail-link`,to:`/details/${t}`,"aria-label":`${i}: ${t.replace(/-/g,` `)}`,children:[(0,r.jsx)(`span`,{children:i}),(0,r.jsx)(n,{name:`arrowRight`,size:16})]})}export{i as t};

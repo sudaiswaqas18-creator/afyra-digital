@@ -1,0 +1,314 @@
+/* Patient Acquisition / Lead Generation — V56 implementation polish
+   Applies the generated Afyra robot asset, reference inquiry grid, Afyra palette,
+   and reference-proportion FAQ layout without changing approved business copy. */
+
+/* HERO — reference composition, Afyra palette, real generated robot asset */
+.rs-layout-04 .pa-hero{
+  min-height:930px;
+  padding:106px 0 34px;
+  background:
+    radial-gradient(circle at 50% 9%, rgba(0,187,160,.22), transparent 22%),
+    radial-gradient(circle at 50% 22%, rgba(0,187,160,.10), transparent 34%),
+    linear-gradient(180deg, #003b35 0%, #002f2a 48%, #00251f 100%);
+}
+.rs-layout-04 .pa-hero__noise{
+  opacity:.48;
+  background:
+    radial-gradient(circle, rgba(222,241,240,.18) 0 1px, transparent 1.25px) left top/7px 7px,
+    radial-gradient(circle, rgba(0,187,160,.10) 0 1px, transparent 1.35px) right top/8px 8px;
+}
+.rs-layout-04 .pa-hero__bg-grid{
+  background:
+    linear-gradient(rgba(0,187,160,.10) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,187,160,.10) 1px, transparent 1px);
+  background-size:76px 34px;
+  opacity:.42;
+}
+.rs-layout-04 .pa-hero__arch{
+  border-color:rgba(0,187,160,.14);
+  background:linear-gradient(180deg, rgba(0,187,160,.12), rgba(0,187,160,.018));
+}
+.rs-layout-04 .pa-hero__arch--one::after,
+.rs-layout-04 .pa-hero__arch--two::after,
+.rs-layout-04 .pa-hero__arch--three::after{
+  background:radial-gradient(circle at 50% 100%, rgba(222,241,240,.98) 0, rgba(0,187,160,.62) 36%, rgba(255,150,13,.30) 64%, rgba(255,255,255,0) 100%);
+  opacity:.62;
+}
+.rs-layout-04 .pa-hero__visual{
+  width:420px;
+  height:306px;
+  margin:8px auto 18px;
+}
+.rs-layout-04 .pa-hero__robot{
+  position:relative;
+  width:340px;
+  height:280px;
+  display:grid;
+  place-items:center;
+  overflow:visible;
+  filter:drop-shadow(0 18px 34px rgba(0,187,160,.22));
+  will-change:transform;
+}
+.rs-layout-04 .pa-hero__robot-image{
+  display:block;
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  user-select:none;
+  pointer-events:none;
+}
+.rs-layout-04 .pa-hero__visual-ring--outer{
+  width:300px;
+  height:300px;
+  border-color:rgba(0,187,160,.13);
+  background:repeating-radial-gradient(circle, transparent 0 20px, rgba(0,187,160,.08) 20px 21px);
+}
+.rs-layout-04 .pa-hero__visual-ring--inner{
+  width:242px;
+  height:242px;
+  border-color:rgba(222,241,240,.13);
+  background:repeating-radial-gradient(circle, transparent 0 17px, rgba(222,241,240,.055) 17px 18px);
+}
+.rs-layout-04 .pa-hero__visual-ring--glow{
+  width:206px;
+  height:206px;
+  background:radial-gradient(circle, rgba(0,187,160,.22), rgba(0,187,160,.06) 54%, transparent 74%);
+}
+.rs-layout-04 .pa-hero__orbit-dot{
+  left:54px;
+  top:78px;
+  background:#DEF1F0;
+  box-shadow:0 0 0 3px rgba(0,187,160,.18),0 0 18px rgba(0,187,160,.42);
+}
+.rs-layout-04 .pa-hero .rs-reference-pill{
+  border-color:rgba(0,187,160,.26);
+  background:rgba(0,44,40,.72);
+  color:#DEF1F0;
+}
+.rs-layout-04 .pa-hero .rs-reference-pill span{
+  background:#00BBA0;
+  box-shadow:0 0 18px rgba(0,187,160,.60);
+}
+.rs-layout-04 .pa-hero__copy h1{max-width:1040px;color:#fff}
+.rs-layout-04 .pa-hero__lead{color:rgba(222,241,240,.74)}
+.rs-layout-04 .pa-hero__actions .af-btn--primary{
+  background:linear-gradient(135deg,#00BBA0 0%,#61d5c6 64%,#FF960D 145%);
+  color:#003b35;
+  border-color:rgba(0,187,160,.55);
+}
+.rs-layout-04 .pa-hero__actions .af-btn--secondary{
+  background:rgba(0,53,47,.82);
+  color:#DEF1F0;
+  border-color:rgba(222,241,240,.18);
+}
+.rs-layout-04 .pa-hero__promise{color:rgba(222,241,240,.46)}
+.rs-layout-04 .pa-hero__trust{border-top-color:rgba(222,241,240,.12)}
+.rs-layout-04 .pa-hero__trust strong{color:rgba(222,241,240,.80)}
+.rs-layout-04 .pa-hero__ticker{
+  border-color:rgba(0,187,160,.15);
+  background:rgba(0,49,44,.62);
+}
+.rs-layout-04 .pa-hero__ticker::before{background:linear-gradient(90deg,#002f2a 0%,rgba(0,47,42,0) 100%)}
+.rs-layout-04 .pa-hero__ticker::after{background:linear-gradient(270deg,#002f2a 0%,rgba(0,47,42,0) 100%)}
+.rs-layout-04 .pa-hero__ticker-track span{color:rgba(222,241,240,.76)}
+
+/* INQUIRY JOURNEY — exact reference grid proportions: 1 visual + 2-column composer, 3 equal cards */
+.rs-layout-04 .pa-inquiry{
+  background:linear-gradient(180deg,#f8fbfb 0%,#f3f8f7 100%);
+}
+.rs-layout-04 .pa-inquiry__grid--reference{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:14px;
+  align-items:stretch;
+}
+.rs-layout-04 .pa-inquiry__feature{
+  grid-column:1;
+  padding:0;
+  min-height:310px;
+  background:#003b35;
+  overflow:hidden;
+  border-color:rgba(0,68,62,.10);
+}
+.rs-layout-04 .pa-inquiry__feature-image{
+  display:block;
+  width:100%;
+  height:100%;
+  min-height:310px;
+  object-fit:cover;
+  object-position:center;
+  border-radius:inherit;
+}
+.rs-layout-04 .pa-inquiry__chat{
+  grid-column:2 / 4;
+  min-height:310px;
+  padding:18px;
+  background:#edf3f4;
+  border-color:rgba(0,68,62,.11);
+}
+.rs-layout-04 .pa-inquiry__chat-window{min-height:274px;border-radius:16px;background:#f8fafb}
+.rs-layout-04 .pa-inquiry__chat-stage{
+  min-height:160px;
+  border-color:rgba(0,68,62,.12);
+  box-shadow:none;
+}
+.rs-layout-04 .pa-inquiry__chat-stage p{color:#365568}
+.rs-layout-04 .pa-inquiry__chat-tools button{
+  border-color:rgba(0,68,62,.10);
+  background:#f4f7f8;
+  color:#4e6877;
+}
+.rs-layout-04 .pa-inquiry__chat-send{
+  background:linear-gradient(135deg,#00BBA0,#008c7e) !important;
+  box-shadow:0 10px 22px rgba(0,187,160,.22);
+}
+.rs-layout-04 .pa-inquiry__card{
+  grid-column:auto;
+  min-height:224px;
+  padding:26px 28px;
+  border-radius:16px;
+  background:#fff;
+  border-color:rgba(0,68,62,.10);
+  box-shadow:0 14px 30px rgba(0,68,62,.045);
+}
+.rs-layout-04 .pa-inquiry__card .pa-inquiry__icon{
+  width:54px;
+  height:54px;
+  background:radial-gradient(circle at 50% 50%,rgba(0,187,160,.18),rgba(0,187,160,.07) 56%,rgba(0,187,160,.02));
+  color:#00BBA0;
+  box-shadow:0 0 0 5px rgba(0,187,160,.06),0 8px 20px rgba(0,187,160,.10);
+}
+.rs-layout-04 .pa-inquiry__card span{margin:22px 0 10px;color:#FF960D}
+.rs-layout-04 .pa-inquiry__card h3{font-size:22px;color:#123146}
+.rs-layout-04 .pa-inquiry__card p{font-size:16px;color:#637a8b}
+
+/* FAQ — reference layout proportions + Afyra palette */
+.rs-layout-04 .pa-faq{
+  padding:108px 0 120px;
+  background:linear-gradient(180deg,#fbfcfc 0%,#f8faf9 100%);
+}
+.rs-layout-04 .pa-faq__grid{
+  display:grid;
+  grid-template-columns:.78fr 1.22fr;
+  gap:72px;
+  align-items:start;
+  max-width:1160px;
+  margin:0 auto;
+}
+.rs-layout-04 .pa-faq__copy .rs-reference-pill,
+.rs-layout-04 .pa-faq__copy .af-section-label{
+  width:max-content;
+  margin:0 0 16px;
+}
+.rs-layout-04 .pa-faq__copy h2{
+  max-width:470px;
+  margin:0 0 18px;
+  font-size:clamp(3rem,4.3vw,4.6rem);
+  line-height:.95;
+  letter-spacing:-.045em;
+  color:#00443E;
+}
+.rs-layout-04 .pa-faq__copy>p{
+  max-width:420px;
+  margin:0;
+  font-size:17px;
+  line-height:1.62;
+  color:#6d848b;
+}
+.rs-layout-04 .pa-faq__contact{
+  position:relative;
+  margin-top:112px;
+  max-width:360px;
+  padding:0 0 0 0;
+  border:0;
+  border-radius:0;
+  background:transparent;
+  box-shadow:none;
+}
+.rs-layout-04 .pa-faq__contact::before,
+.rs-layout-04 .pa-faq__contact::after{
+  content:"✦";
+  position:absolute;
+  left:-18px;
+  color:rgba(0,187,160,.18);
+  font-size:44px;
+  line-height:1;
+}
+.rs-layout-04 .pa-faq__contact::before{top:-30px}
+.rs-layout-04 .pa-faq__contact::after{top:-2px;left:-38px;font-size:25px}
+.rs-layout-04 .pa-faq__contact h3{font-size:18px;color:#00443E;margin-bottom:8px}
+.rs-layout-04 .pa-faq__contact p{font-size:14px;line-height:1.55;color:#6d848b}
+.rs-layout-04 .pa-faq__contact .af-btn--primary{
+  min-height:44px;
+  padding:0 20px;
+  margin-top:14px;
+  border-radius:7px;
+  background:linear-gradient(135deg,#00BBA0,#008e81 70%,#FF960D 140%);
+  color:#fff;
+  box-shadow:0 10px 20px rgba(0,187,160,.16);
+}
+.rs-layout-04 .pa-faq__items{gap:8px}
+.rs-layout-04 .pa-faq__items article{
+  border-radius:8px;
+  background:#f4f5f6;
+  border:1px solid transparent;
+  box-shadow:none;
+  transition:background .28s ease,border-color .28s ease,box-shadow .28s ease;
+}
+.rs-layout-04 .pa-faq__items article.is-open{
+  background:#fff;
+  border-color:rgba(0,187,160,.70);
+  box-shadow:0 10px 26px rgba(0,187,160,.06);
+}
+.rs-layout-04 .pa-faq__items button{
+  min-height:58px;
+  padding:14px 16px;
+  font-size:15px;
+  color:#113344;
+}
+.rs-layout-04 .pa-faq__items button span{gap:10px;line-height:1.45}
+.rs-layout-04 .pa-faq__items button span b{color:#00BBA0;transform:translateY(5px)}
+.rs-layout-04 .pa-faq__items button i{
+  width:24px;
+  height:24px;
+  border-radius:6px;
+  background:#fff;
+  color:#00BBA0;
+  box-shadow:0 3px 8px rgba(0,68,62,.04);
+}
+.rs-layout-04 .pa-faq__answer p{
+  padding:0 18px 18px 38px;
+  color:#627882;
+  font-size:14px;
+  line-height:1.7;
+}
+
+@media (max-width:1050px){
+  .rs-layout-04 .pa-inquiry__grid--reference{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .rs-layout-04 .pa-inquiry__feature{grid-column:1}
+  .rs-layout-04 .pa-inquiry__chat{grid-column:2}
+  .rs-layout-04 .pa-inquiry__card{grid-column:auto}
+  .rs-layout-04 .pa-faq__grid{grid-template-columns:1fr;gap:42px}
+  .rs-layout-04 .pa-faq__copy h2,.rs-layout-04 .pa-faq__copy>p{max-width:680px}
+  .rs-layout-04 .pa-faq__contact{margin-top:34px;max-width:520px}
+}
+
+@media (max-width:760px){
+  .rs-layout-04 .pa-hero{padding-top:96px;min-height:auto}
+  .rs-layout-04 .pa-hero__visual{width:300px;height:250px}
+  .rs-layout-04 .pa-hero__robot{width:286px;height:236px}
+  .rs-layout-04 .pa-hero__visual-ring--outer{width:234px;height:234px}
+  .rs-layout-04 .pa-hero__visual-ring--inner{width:192px;height:192px}
+  .rs-layout-04 .pa-hero__visual-ring--glow{width:166px;height:166px}
+  .rs-layout-04 .pa-hero__orbit-dot{left:36px;top:58px}
+  .rs-layout-04 .pa-inquiry__grid--reference{grid-template-columns:1fr}
+  .rs-layout-04 .pa-inquiry__feature,
+  .rs-layout-04 .pa-inquiry__chat,
+  .rs-layout-04 .pa-inquiry__card{grid-column:1}
+  .rs-layout-04 .pa-inquiry__feature,
+  .rs-layout-04 .pa-inquiry__feature-image{min-height:250px}
+  .rs-layout-04 .pa-inquiry__chat{min-height:280px}
+  .rs-layout-04 .pa-faq__copy h2{font-size:clamp(2.8rem,13vw,3.9rem);max-width:320px}
+  .rs-layout-04 .pa-faq__copy>p{font-size:16px;max-width:340px}
+  .rs-layout-04 .pa-faq__contact{margin-top:30px}
+}

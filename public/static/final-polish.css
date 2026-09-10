@@ -1,0 +1,150 @@
+/* ============================================================
+   AFYRA DIGITAL — Final non-home polish pass
+   Scoped deliberately so the locked homepage layout remains unchanged.
+   ============================================================ */
+
+/* ---------- branded boot / route transition ---------- */
+.af-boot-loader,.af-page-transition{
+  position:fixed;inset:0;z-index:99999;display:grid;place-items:center;
+  background:linear-gradient(145deg,#DEF1F0 0%,#fff 48%,#DEF1F0 100%);
+  transition:opacity .28s ease,visibility .28s ease;overflow:hidden
+}
+.af-boot-loader::before,.af-page-transition::before{
+  content:"";position:absolute;width:420px;height:420px;border-radius:50%;
+  background:rgba(0,187,160,.12);filter:blur(90px);transform:translate(42%,-30%)
+}
+.af-boot-loader__inner,.af-page-transition__inner{position:relative;z-index:2;width:min(380px,78vw);text-align:center}
+.af-boot-loader img,.af-page-transition img{display:block;width:min(290px,68vw);height:auto;margin:0 auto 22px;object-fit:contain}
+.af-boot-loader__line,.af-page-transition__line{height:3px;border-radius:999px;background:rgba(0,68,62,.1);overflow:hidden}
+.af-boot-loader__line span,.af-page-transition__line span{display:block;width:38%;height:100%;border-radius:inherit;background:linear-gradient(90deg,#FF960D,#00BBA0,#00443E);animation:af-route-load 1.05s cubic-bezier(.18,.82,.41,1) infinite}
+.af-boot-loader p,.af-page-transition p{margin:14px 0 0;color:#00443E;font:600 12px/1.4 var(--af-font-1);letter-spacing:.11em;text-transform:uppercase}
+.af-page-transition.is-hidden{opacity:0;visibility:hidden;pointer-events:none}
+.af-page-transition.is-visible{opacity:1;visibility:visible;pointer-events:auto}
+.af-route-suspense{min-height:100vh;background:#DEF1F0}
+html.af-route-transitioning body{overflow:hidden!important}
+@keyframes af-route-load{0%{transform:translateX(-115%)}55%{transform:translateX(115%)}100%{transform:translateX(265%)}}
+
+/* ---------- hero text safety: never split a word ---------- */
+:is(.px-page,.sv-page,.dt-page,.rq-page) :is(h1,.sv-display,.dt-hero h1,.rq-hero h1){
+  overflow-wrap:normal!important;word-break:normal!important;hyphens:none!important;text-wrap:balance
+}
+:is(.px-page,.sv-page,.dt-page,.rq-page) :is(.px-word-wrap,.sv-word-wrap){white-space:nowrap!important;max-width:100%}
+.sv-page .sv-display{font-size:clamp(2.85rem,4.65vw,5.2rem)!important;line-height:.96!important;letter-spacing:-.045em!important;max-width:100%}
+.sv-layout-02 .sv-display{font-size:clamp(2.8rem,4.35vw,4.9rem)!important}
+.sv-layout-06 .sv-display{font-size:clamp(2.7rem,4.15vw,4.7rem)!important}
+.sv-layout-07 .sv-display{font-size:clamp(2.9rem,4.7vw,5.25rem)!important}
+.px-page .px-hero h1{font-size:clamp(3rem,4.9vw,5.35rem)!important;line-height:.96!important;letter-spacing:-.043em!important}
+.dt-page .dt-hero h1{font-size:clamp(3rem,5vw,5.5rem)!important;line-height:.95!important}
+.rq-page .rq-hero h1{font-size:clamp(3rem,5vw,5.35rem)!important;line-height:.95!important}
+
+/* ---------- top-level page hero: image + context rail, no overlapping badges ---------- */
+.px-page .px-hero__visual{display:grid!important;grid-template-rows:minmax(0,1fr) auto!important;gap:14px!important;place-items:stretch!important;min-height:0!important;padding:16px!important;overflow:hidden!important}
+.px-page .px-hero__media{min-width:0;min-height:0;border-radius:25px;overflow:hidden}
+.px-page .px-hero__media>.af-ai-visual{width:100%;min-height:380px;height:100%;border-radius:25px}
+.px-page .px-hero__media>.af-ai-visual img{min-height:380px;object-fit:cover!important}
+.px-page .px-hero__context{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}
+.px-page .px-hero__context-card{min-width:0;padding:12px 13px;border-radius:15px;display:grid;grid-template-columns:auto auto minmax(0,1fr);align-items:center;gap:8px;border:1px solid var(--px-line);background:color-mix(in srgb,var(--px-surface) 91%,transparent);box-shadow:0 8px 20px rgba(0,68,62,.05)}
+.px-page .px-hero__context-card>span{font-size:9px;font-weight:800;letter-spacing:.08em;color:var(--px-accent)}
+.px-page .px-hero__context-card strong{min-width:0;font:600 11px/1.25 var(--af-font-1);color:var(--px-text)}
+.px-page .px-hero__context-card .af-semantic-card-icon{width:28px;height:28px;border-radius:9px;display:grid;place-items:center;background:rgba(0,187,160,.1);color:var(--px-accent)}
+.px-page .px-hero__context-card .af-semantic-card-icon svg{width:16px;height:16px}
+
+/* ---------- service hero 02: eliminate floating-card collisions ---------- */
+.sv-layout-02 .sv-copy-art{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr));grid-template-areas:"main main" "left right";gap:14px!important;align-content:center;place-items:stretch!important;min-height:500px!important;overflow:visible!important}
+.sv-layout-02 .sv-copy-card{position:relative!important;inset:auto!important;left:auto!important;right:auto!important;top:auto!important;bottom:auto!important;transform:none!important}
+.sv-layout-02 .sv-copy-card--main{grid-area:main;width:100%!important;max-width:none!important;min-height:310px!important;padding:34px!important}
+.sv-layout-02 .sv-copy-card--left{grid-area:left;width:100%!important;min-height:82px}
+.sv-layout-02 .sv-copy-card--right{grid-area:right;width:100%!important;min-height:82px}
+.sv-layout-02 .sv-copy-card--main strong{font-size:clamp(1.8rem,2.45vw,2.25rem)!important}
+
+/* Centered digital-presence hero should remain compact rather than leaving a large dead zone. */
+.sv-layout-03 .sv-hero{min-height:auto!important;padding-bottom:95px!important}
+.sv-layout-03 .sv-hero__grid{gap:20px!important}
+.sv-layout-03 .sv-orbit{min-height:390px!important;margin:18px auto 0!important}
+.sv-layout-03 .sv-orbit__ring--one{width:300px!important;height:300px!important}
+.sv-layout-03 .sv-orbit__ring--two{width:440px!important;height:245px!important}
+.sv-layout-03 .sv-orbit__core{width:108px!important;height:108px!important}
+.sv-layout-03 .sv-orbit__caption{bottom:6px!important}
+
+/* ---------- card whitespace audit: natural height, no artificial empty wells ---------- */
+.px-page :is(.px-solution-grid,.px-principles__grid,.px-health-audience__grid,.px-health-needs__stack,.px-journey__line,.px-program-mini,.px-terms__cards,.px-about-positioning__compare,.px-vision__list,.px-values__grid,.px-process-page__grid,.px-insights-grid__cards,.px-decisions__rail){align-items:start!important}
+.px-page :is(.px-solution-card,.px-principles__grid .px-card,.px-health-card,.px-health-needs__stack .px-card,.px-journey__line .px-card,.px-program-mini .px-card,.px-terms__cards .px-card,.px-about-positioning__compare .px-card,.px-vision__list .px-card,.px-values__grid .px-card,.px-process-page__grid .px-card,.px-insight,.px-decisions__rail .px-card){height:auto!important;min-height:0!important}
+.px-page :is(.px-solution-card,.px-process-page__grid .px-card,.px-insight){display:flex!important;flex-direction:column!important}
+.px-page :is(.px-card__link,.af-card-detail-link){margin-top:18px!important}
+.px-page .px-principles__grid .px-card{min-height:0!important}
+.px-page .px-program-mini .px-card{min-height:0!important}
+.px-page .px-values__grid .px-card{min-height:0!important}
+.px-page .px-insight{min-height:0!important}
+
+.sv-page :is(.sv-feature-grid,.sv-showcase__grid,.sv-process-track,.sv-crosslinks__grid,.sv-insights__grid){align-items:start!important}
+.sv-page :is(.sv-feature-card,.sv-showcase__grid article,.sv-process-track article,.sv-crosslinks__grid>a,.sv-insight-card){height:auto!important;min-height:0!important}
+.sv-page :is(.sv-feature-card,.sv-showcase__grid article,.sv-process-track article,.sv-insight-card)>.af-card-detail-link{margin-top:18px!important}
+.sv-page .sv-feature-card p,.sv-page .sv-showcase__grid article p,.sv-page .sv-process-track article p{margin-bottom:0}
+
+/* Cards with intentional long lists retain equal structure, but the text area—not empty padding—does the work. */
+.px-page .px-program-card,.sv-page .sv-price-card{min-height:0!important}
+.px-page .px-program-card__includes,.sv-page .sv-price-card ul{flex:initial!important}
+
+/* ---------- footer visibility and medium social controls: non-home only ---------- */
+:is(.px-page,.sv-page,.dt-page,.rq-page) .af-footer__logo{overflow:visible!important;max-width:100%;gap:13px!important}
+:is(.px-page,.sv-page,.dt-page,.rq-page) .af-footer__logo img{width:48px!important;height:48px!important;flex:0 0 auto}
+:is(.px-page,.sv-page,.dt-page,.rq-page) .af-footer__logo .af-header__name{display:inline-block!important;font-size:21px!important;line-height:1!important;white-space:nowrap!important;overflow:visible!important}
+:is(.px-page,.sv-page,.dt-page,.rq-page) .af-footer__big{height:auto!important;min-height:172px!important;overflow:visible!important;align-items:center!important;margin-top:0!important}
+:is(.px-page,.sv-page,.dt-page,.rq-page) .af-footer__big span{font-size:clamp(5rem,11.5vw,10.5rem)!important;line-height:.78!important;white-space:nowrap!important;letter-spacing:-.045em}
+:is(.px-page,.sv-page,.dt-page,.rq-page) .af-footer__big span::after{content:" Digital"}
+:is(.px-page,.sv-page,.dt-page,.rq-page) .af-footer__social{gap:10px!important}
+:is(.px-page,.sv-page,.dt-page,.rq-page) .af-footer__social a{width:50px!important;height:50px!important;border-radius:14px!important}
+:is(.px-page,.sv-page,.dt-page,.rq-page) .af-footer__social :is(.af-inline-svg-icon,.af-public-icon,.af-icon-img){width:23px!important;height:23px!important}
+:is(.px-page,.sv-page,.dt-page,.rq-page) .af-footer__social svg{width:23px!important;height:23px!important}
+
+/* ---------- site-wide non-home button hover parity with homepage ---------- */
+:is(.px-page,.sv-page,.dt-page,.rq-page) :is(.px-btn,.sv-btn,.af-header__consult){position:relative;isolation:isolate;overflow:hidden;transition:transform .4s cubic-bezier(.18,.82,.41,1),box-shadow .35s ease,color .35s ease,background .35s ease!important}
+:is(.px-page,.sv-page,.dt-page,.rq-page) :is(.px-btn,.sv-btn,.af-header__consult)::before{content:"";position:absolute;inset:-60% -15%;z-index:-1;opacity:0;transform:translateX(-45%) scale(.8);background:radial-gradient(circle at 25% 50%,rgba(255,150,13,.92),transparent 30%),radial-gradient(circle at 78% 50%,rgba(0,187,160,.95),transparent 32%);filter:blur(12px);transition:opacity .35s ease,transform .55s cubic-bezier(.18,.82,.41,1)}
+:is(.px-page,.sv-page,.dt-page,.rq-page) :is(.px-btn,.sv-btn,.af-header__consult):hover{transform:translateY(-3px) scale(1.018)!important;box-shadow:inset 0 0 14px rgba(255,255,255,.55),0 12px 34px rgba(0,187,160,.22)!important}
+:is(.px-page,.sv-page,.dt-page,.rq-page) :is(.px-btn,.sv-btn,.af-header__consult):hover::before{opacity:.62;transform:translateX(5%) scale(1)}
+:is(.px-page,.sv-page,.dt-page,.rq-page) :is(.px-btn,.sv-btn,.af-header__consult):active{transform:translateY(-1px) scale(.99)!important}
+:is(.px-page,.sv-page,.dt-page,.rq-page) :is(.px-btn,.sv-btn,.af-header__consult):hover svg{transform:translateX(4px)!important}
+
+/* ---------- consultation page extra polish ---------- */
+.rq-page .rq-hero__visual{perspective:1200px}
+.rq-page .rq-hero__metric{z-index:4}
+.rq-page .rq-form-shell,.rq-page .rq-benefit-card,.rq-page .rq-process__steps li,.rq-page .rq-faq details{will-change:transform}
+.rq-page .rq-form-shell:hover{box-shadow:0 32px 78px rgba(0,68,62,.13)}
+
+/* ---------- responsive QA ---------- */
+@media(max-width:1100px){
+  .sv-page .sv-display{font-size:clamp(2.8rem,5.6vw,4.6rem)!important}
+  .px-page .px-hero__context-card{grid-template-columns:auto minmax(0,1fr)}
+  .px-page .px-hero__context-card>span{display:none}
+}
+@media(max-width:980px){
+  .px-page .px-hero__visual{max-width:760px;margin-inline:auto}
+  .px-page .px-hero__media>.af-ai-visual,.px-page .px-hero__media>.af-ai-visual img{min-height:360px}
+  .sv-layout-02 .sv-copy-art{max-width:680px;margin-inline:auto}
+  :is(.px-page,.sv-page,.dt-page,.rq-page) .af-footer__big{min-height:140px!important}
+}
+@media(max-width:720px){
+  .px-page .px-hero h1,.sv-page .sv-display,.dt-page .dt-hero h1,.rq-page .rq-hero h1{font-size:clamp(2.55rem,11vw,4rem)!important;line-height:.98!important}
+  .px-page .px-hero__context{grid-template-columns:1fr!important}
+  .px-page .px-hero__media>.af-ai-visual,.px-page .px-hero__media>.af-ai-visual img{min-height:285px}
+  .sv-layout-02 .sv-copy-art{grid-template-columns:1fr;grid-template-areas:"main" "left" "right";min-height:0!important}
+  .sv-layout-02 .sv-copy-card--main{min-height:285px!important;padding:25px!important}
+  .sv-layout-03 .sv-orbit{min-height:330px!important}
+  .sv-layout-03 .sv-orbit__ring--one{width:245px!important;height:245px!important}
+  .sv-layout-03 .sv-orbit__ring--two{width:330px!important;height:190px!important}
+  :is(.px-page,.sv-page,.dt-page,.rq-page) .af-footer__big{min-height:112px!important}
+  :is(.px-page,.sv-page,.dt-page,.rq-page) .af-footer__big span{font-size:clamp(3.4rem,14vw,6rem)!important}
+  :is(.px-page,.sv-page,.dt-page,.rq-page) .af-footer__social a{width:48px!important;height:48px!important}
+}
+@media(max-width:420px){
+  .af-boot-loader img,.af-page-transition img{width:min(250px,72vw)}
+  .px-page .px-hero__media>.af-ai-visual,.px-page .px-hero__media>.af-ai-visual img{min-height:240px}
+  :is(.px-page,.sv-page,.dt-page,.rq-page) .af-footer__logo img{width:43px!important;height:43px!important}
+  :is(.px-page,.sv-page,.dt-page,.rq-page) .af-footer__logo .af-header__name{font-size:18px!important}
+}
+
+@media(prefers-reduced-motion:reduce){
+  .af-boot-loader__line span,.af-page-transition__line span{animation:none!important;width:100%}
+  .af-page-transition{transition:none}
+  :is(.px-page,.sv-page,.dt-page,.rq-page) :is(.px-btn,.sv-btn,.af-header__consult){transition:none!important}
+}

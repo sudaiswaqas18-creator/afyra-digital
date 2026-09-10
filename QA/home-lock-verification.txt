@@ -1,0 +1,16 @@
+src/client/App.tsx: OK
+src/client/components/Header.tsx: OK
+src/client/components/Footer.tsx: OK
+src/client/components/Hero.tsx: OK
+src/client/components/Marquee.tsx: OK
+src/client/components/Features.tsx: OK
+src/client/components/Solutions.tsx: OK
+src/client/components/WhyAfyra.tsx: OK
+src/client/components/Programs.tsx: OK
+src/client/components/Process.tsx: OK
+src/client/components/Faqs.tsx: OK
+src/client/components/Cta.tsx: OK
+src/client/components/ScrollTop.tsx: OK
+src/client/lib/useGsapAnimations.ts: OK
+public/static/style.css: OK
+public/static/sections.css: OK

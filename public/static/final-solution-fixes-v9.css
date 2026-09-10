@@ -1,0 +1,347 @@
+/* =============================================================
+   AFYRA DIGITAL — FINAL SOLUTION FIXES V9
+   1) Connected Platforms full-width marquee + fixed bracket overlay
+   2) Brand Communication deterministic pinned Features / How It Works
+   3) Shared rising app-icon layer in Brand Integrations
+   Loaded LAST to neutralize legacy page-specific overrides.
+   ============================================================= */
+
+/* -------------------------------------------------------------
+   DIGITAL PRESENCE — CONNECTED PLATFORMS
+   The marquee owns the full strip width. The center label/gates are
+   absolute overlays, so neither side of the marquee is consumed/clipped.
+   ------------------------------------------------------------- */
+.rs-layout-03 .dp-trust-reveal{
+  position:relative!important;
+  display:block!important;
+  width:min(100%,980px)!important;
+  max-width:980px!important;
+  min-height:58px!important;
+  margin:0 auto!important;
+  overflow:hidden!important;
+  border-top:1px solid rgba(24,240,219,.13)!important;
+  border-bottom:1px solid rgba(24,240,219,.13)!important;
+  background:linear-gradient(180deg,rgba(1,31,27,.34),rgba(1,22,20,.20))!important;
+  isolation:isolate;
+}
+.rs-layout-03 .dp-trust-reveal__track--full{
+  position:absolute!important;
+  inset:0!important;
+  width:100%!important;
+  height:100%!important;
+  min-height:58px!important;
+  overflow:hidden!important;
+  display:flex!important;
+  align-items:center!important;
+  background:transparent!important;
+  border:0!important;
+  z-index:1!important;
+}
+.rs-layout-03 .dp-trust-reveal__marquee{
+  position:relative!important;
+  display:flex!important;
+  align-items:center!important;
+  min-width:max-content!important;
+  min-height:58px!important;
+  gap:34px!important;
+  padding:0 22px!important;
+  white-space:nowrap!important;
+  color:rgba(222,241,240,.76)!important;
+  font:600 13px/1 var(--af-font-2)!important;
+  letter-spacing:.01em!important;
+  will-change:transform!important;
+}
+.rs-layout-03 .dp-trust-reveal__center{
+  position:absolute!important;
+  left:50%!important;
+  top:50%!important;
+  transform:translate(-50%,-50%)!important;
+  width:max-content!important;
+  min-width:0!important;
+  min-height:32px!important;
+  padding:0 11px!important;
+  display:grid!important;
+  place-items:center!important;
+  z-index:5!important;
+  background:linear-gradient(90deg,rgba(0,35,31,.98),rgba(0,50,44,.99),rgba(0,35,31,.98))!important;
+  box-shadow:0 0 18px 10px rgba(0,35,31,.94)!important;
+  border:0!important;
+  pointer-events:none!important;
+}
+.rs-layout-03 .dp-trust-reveal__center strong{
+  margin:0!important;
+  color:#e6fffc!important;
+  font:700 13px/1 var(--af-font-2)!important;
+  letter-spacing:.14em!important;
+  white-space:nowrap!important;
+}
+.rs-layout-03 .dp-trust-reveal__gate{
+  position:absolute!important;
+  left:50%!important;
+  right:auto!important;
+  top:8px!important;
+  bottom:8px!important;
+  width:2px!important;
+  margin-left:-1px!important;
+  border-radius:999px!important;
+  z-index:7!important;
+  background:linear-gradient(180deg,transparent 0%,#1df2dd 18%,#1df2dd 82%,transparent 100%)!important;
+  box-shadow:0 0 10px rgba(29,242,221,.42),0 0 18px rgba(0,187,160,.22)!important;
+  pointer-events:none!important;
+}
+.rs-layout-03 .dp-trust-reveal__gate::before,
+.rs-layout-03 .dp-trust-reveal__gate::after{
+  content:""!important;
+  position:absolute!important;
+  width:9px!important;
+  height:2px!important;
+  background:#1df2dd!important;
+  box-shadow:0 0 8px rgba(29,242,221,.36)!important;
+}
+.rs-layout-03 .dp-trust-reveal__gate::before{top:0!important}
+.rs-layout-03 .dp-trust-reveal__gate::after{bottom:0!important}
+.rs-layout-03 .dp-trust-reveal__gate--left::before,
+.rs-layout-03 .dp-trust-reveal__gate--left::after{right:0!important}
+.rs-layout-03 .dp-trust-reveal__gate--right::before,
+.rs-layout-03 .dp-trust-reveal__gate--right::after{left:0!important}
+
+/* -------------------------------------------------------------
+   BRAND & CREATIVE COMMUNICATION — PINNED FEATURES
+   One visual frame: intro and cards occupy the same viewport canvas.
+   ScrollTrigger owns pinning; CSS supplies only stable geometry.
+   ------------------------------------------------------------- */
+.sv-page.sv-layout-02 .sv-brand-features{
+  position:relative!important;
+  padding:72px 0!important;
+  overflow:visible!important;
+}
+.sv-page.sv-layout-02 [data-brand-feature-story]{
+  position:relative!important;
+  min-height:0!important;
+  height:auto!important;
+  overflow:visible!important;
+}
+.sv-page.sv-layout-02 [data-brand-feature-pin]{
+  position:relative!important;
+  width:100%!important;
+  height:calc(100svh - 76px)!important;
+  min-height:620px!important;
+  max-height:860px!important;
+  margin:0!important;
+  padding:0!important;
+  overflow:visible!important;
+  box-sizing:border-box!important;
+}
+.sv-page.sv-layout-02 [data-brand-feature-stage]{
+  position:relative!important;
+  inset:auto!important;
+  width:100%!important;
+  height:100%!important;
+  min-height:0!important;
+  max-height:none!important;
+  margin:0!important;
+  padding:22px!important;
+  overflow:hidden!important;
+  border-radius:32px!important;
+  background:linear-gradient(180deg,rgba(255,255,255,.92),rgba(255,255,255,.80))!important;
+  border:1px solid rgba(0,68,62,.08)!important;
+  box-shadow:0 24px 64px rgba(0,68,62,.09)!important;
+  transform:none!important;
+}
+.sv-page.sv-layout-02 [data-brand-feature-intro],
+.sv-page.sv-layout-02 [data-brand-feature-grid]{
+  position:absolute!important;
+  inset:0!important;
+}
+.sv-page.sv-layout-02 [data-brand-feature-intro]{
+  z-index:5!important;
+  display:grid!important;
+  place-content:center!important;
+  justify-items:center!important;
+  text-align:center!important;
+  padding:clamp(28px,5vw,72px)!important;
+  pointer-events:none!important;
+}
+.sv-page.sv-layout-02 [data-brand-feature-grid]{
+  z-index:3!important;
+  left:50%!important;
+  top:50%!important;
+  right:auto!important;
+  bottom:auto!important;
+  width:1040px!important;
+  height:620px!important;
+  transform:translate(-50%,-50%) scale(1)!important;
+  transform-origin:center center!important;
+  display:grid!important;
+  grid-template-columns:repeat(12,minmax(0,1fr))!important;
+  grid-template-rows:1.02fr .98fr!important;
+  gap:16px!important;
+}
+.sv-page.sv-layout-02 [data-brand-feature-card]{
+  position:relative!important;
+  height:100%!important;
+  min-height:0!important;
+  overflow:hidden!important;
+  will-change:opacity,transform!important;
+}
+.sv-page.sv-layout-02 .sv-brand-feature-card--rings,
+.sv-page.sv-layout-02 .sv-brand-feature-card--nodes{grid-column:span 6!important}
+.sv-page.sv-layout-02 .sv-brand-feature-card--highlight,
+.sv-page.sv-layout-02 .sv-brand-feature-card--seo,
+.sv-page.sv-layout-02 .sv-brand-feature-card--library{grid-column:span 4!important}
+
+/* -------------------------------------------------------------
+   BRAND & CREATIVE COMMUNICATION — PINNED HOW IT WORKS
+   Heading + one-card stage are held in one viewport. Cards overlap in
+   the same stage; ScrollTrigger swaps 01→02→03→04 before release.
+   ------------------------------------------------------------- */
+.sv-page.sv-layout-02 .sv-brand-steps{
+  position:relative!important;
+  padding:72px 0!important;
+  overflow:visible!important;
+}
+.sv-page.sv-layout-02 [data-brand-step-pin]{
+  position:relative!important;
+  width:100%!important;
+  height:calc(100svh - 68px)!important;
+  min-height:640px!important;
+  max-height:900px!important;
+  margin:0!important;
+  padding:0!important;
+  display:grid!important;
+  grid-template-rows:auto minmax(0,1fr)!important;
+  gap:16px!important;
+  overflow:visible!important;
+}
+.sv-page.sv-layout-02 [data-brand-step-scroll],
+.sv-page.sv-layout-02 [data-brand-step-shell],
+.sv-page.sv-layout-02 .sv-brand-steps__stage,
+.sv-page.sv-layout-02 .sv-brand-steps__cards{
+  position:relative!important;
+  height:100%!important;
+  min-height:0!important;
+  max-height:none!important;
+}
+.sv-page.sv-layout-02 [data-brand-step-shell]{
+  width:100%!important;
+  margin:0!important;
+  padding:14px!important;
+  display:grid!important;
+  grid-template-rows:auto minmax(0,1fr)!important;
+  gap:12px!important;
+  overflow:hidden!important;
+  border-radius:30px!important;
+  background:rgba(255,255,255,.92)!important;
+  border:1px solid rgba(0,68,62,.08)!important;
+  box-shadow:0 22px 58px rgba(0,68,62,.09)!important;
+  transform:none!important;
+}
+.sv-page.sv-layout-02 .sv-brand-step-card{
+  position:absolute!important;
+  left:50%!important;
+  top:50%!important;
+  right:auto!important;
+  bottom:auto!important;
+  width:min(70%,560px)!important;
+  min-height:300px!important;
+  max-height:calc(100% - 28px)!important;
+  margin:0!important;
+  transform:translate(-50%,-50%)!important;
+  overflow:hidden!important;
+  will-change:opacity,transform!important;
+}
+
+/* -------------------------------------------------------------
+   BRAND CONNECT / INTEGRATIONS — SHARED RISING ICON LOGIC
+   ------------------------------------------------------------- */
+.sv-page.sv-layout-02 .sv-brand-integrations__arc{
+  position:relative!important;
+  isolation:isolate;
+}
+.sv-page.sv-layout-02 .sv-brand-integrations__hub{
+  position:absolute!important;
+  left:50%!important;
+  top:58%!important;
+  width:148px!important;
+  height:148px!important;
+  transform:translate(-50%,-50%)!important;
+  display:grid!important;
+  place-items:center!important;
+  border-radius:50%!important;
+  z-index:4!important;
+  background:radial-gradient(circle at 42% 35%,rgba(222,241,240,.30),transparent 18%),radial-gradient(circle at 62% 40%,rgba(255,150,13,.16),transparent 28%),radial-gradient(circle at center,rgba(0,187,160,.22),rgba(0,68,62,.94))!important;
+  border:1px solid rgba(0,187,160,.28)!important;
+  box-shadow:0 0 0 12px rgba(0,187,160,.05),0 0 42px rgba(0,187,160,.18),inset 0 0 36px rgba(0,187,160,.14)!important;
+}
+.sv-page.sv-layout-02 .sv-brand-integrations__hub-ring{
+  position:absolute!important;
+  inset:-24px!important;
+  border-radius:50%!important;
+  border:1px dashed rgba(0,187,160,.14)!important;
+}
+.sv-page.sv-layout-02 .sv-brand-integrations__hub img{
+  width:62px!important;
+  height:62px!important;
+  object-fit:contain!important;
+  filter:drop-shadow(0 0 14px rgba(0,187,160,.24))!important;
+}
+.sv-page.sv-layout-02 .sv-brand-integrations__rising{
+  position:absolute!important;
+  left:50%!important;
+  bottom:64px!important;
+  width:0!important;
+  height:0!important;
+  z-index:8!important;
+  pointer-events:none!important;
+}
+.sv-page.sv-layout-02 .sv-brand-rising-icon{
+  position:absolute!important;
+  left:50%!important;
+  top:0!important;
+  transform:translateX(-50%);
+  display:grid!important;
+  place-items:center!important;
+  border-radius:50%!important;
+  color:#00443E!important;
+  background:rgba(255,255,255,.98)!important;
+  border:1px solid rgba(255,255,255,.55)!important;
+  box-shadow:0 10px 24px rgba(0,68,62,.16),0 0 18px rgba(0,187,160,.08)!important;
+  will-change:transform,opacity!important;
+}
+.sv-page.sv-layout-02 .sv-brand-rising-icon--1{width:46px!important;height:46px!important}
+.sv-page.sv-layout-02 .sv-brand-rising-icon--2{width:42px!important;height:42px!important}
+.sv-page.sv-layout-02 .sv-brand-rising-icon--3{width:38px!important;height:38px!important}
+.sv-page.sv-layout-02 .sv-brand-rising-icon--4{width:34px!important;height:34px!important}
+
+@media (max-width:1099px){
+  .sv-page.sv-layout-02 [data-brand-feature-grid]{transform:translate(-50%,-50%) scale(.82)!important}
+  .sv-page.sv-layout-02 [data-brand-feature-pin]{height:calc(100svh - 68px)!important;min-height:570px!important}
+  .sv-page.sv-layout-02 [data-brand-step-pin]{height:calc(100svh - 60px)!important;min-height:590px!important}
+  .sv-page.sv-layout-02 .sv-brand-integrations__hub{top:57%!important;width:132px!important;height:132px!important}
+}
+@media (max-width:760px){
+  .rs-layout-03 .dp-trust-reveal{min-height:52px!important;width:100%!important}
+  .rs-layout-03 .dp-trust-reveal__track--full,
+  .rs-layout-03 .dp-trust-reveal__marquee{min-height:52px!important}
+  .rs-layout-03 .dp-trust-reveal__marquee{gap:22px!important;padding:0 12px!important;font-size:10px!important}
+  .rs-layout-03 .dp-trust-reveal__center{min-height:28px!important;padding:0 8px!important}
+  .rs-layout-03 .dp-trust-reveal__center strong{font-size:10px!important;letter-spacing:.10em!important}
+  .rs-layout-03 .dp-trust-reveal__gate{top:7px!important;bottom:7px!important}
+
+  .sv-page.sv-layout-02 .sv-brand-features,
+  .sv-page.sv-layout-02 .sv-brand-steps{padding:54px 0!important}
+  .sv-page.sv-layout-02 [data-brand-feature-pin]{height:calc(100svh - 54px)!important;min-height:520px!important;max-height:760px!important}
+  .sv-page.sv-layout-02 [data-brand-feature-stage]{padding:12px!important;border-radius:24px!important}
+  .sv-page.sv-layout-02 [data-brand-feature-grid]{transform:translate(-50%,-50%) scale(.54)!important}
+  .sv-page.sv-layout-02 [data-brand-step-pin]{height:calc(100svh - 48px)!important;min-height:560px!important;max-height:780px!important;gap:10px!important}
+  .sv-page.sv-layout-02 [data-brand-step-shell]{padding:10px!important;border-radius:24px!important}
+  .sv-page.sv-layout-02 .sv-brand-step-card{width:calc(100% - 18px)!important;min-height:270px!important;padding:20px!important}
+
+  .sv-page.sv-layout-02 .sv-brand-integrations__hub{position:relative!important;left:auto!important;top:auto!important;transform:none!important;width:122px!important;height:122px!important;margin:28px auto 22px!important;grid-column:1/-1!important}
+  .sv-page.sv-layout-02 .sv-brand-integrations__rising{bottom:56px!important}
+}
+@media (max-width:520px){
+  .sv-page.sv-layout-02 [data-brand-feature-grid]{transform:translate(-50%,-50%) scale(.35)!important}
+  .sv-page.sv-layout-02 [data-brand-feature-pin]{min-height:500px!important}
+  .sv-page.sv-layout-02 [data-brand-step-pin]{min-height:535px!important}
+}

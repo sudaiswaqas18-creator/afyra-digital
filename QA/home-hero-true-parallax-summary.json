@@ -1,0 +1,31 @@
+{
+  "sourceHeroLabelCounts": {
+    "Qualified Inquiries": 1,
+    "Appointments": 1,
+    "Profile Views": 1,
+    "Google Business Profile optimized": 1,
+    "Campaign live \u2014 Aesthetic consultations": 1,
+    "New Inquiries": 1,
+    "Today's Schedule": 1,
+    "Local Visibility": 1
+  },
+  "sourceUsesDashboardComponent": false,
+  "runtimeUsesCloneNode": false,
+  "runtimeMovesExistingKpis": true,
+  "runtimeMovesExistingRows": true,
+  "scrollStartTopTop": true,
+  "scrollEndBottomTop": true,
+  "scrubOne": true,
+  "desktopBreak": 960,
+  "movement": [
+    -5,
+    -15,
+    -18,
+    -20,
+    -24,
+    -26,
+    -30,
+    -32,
+    -35
+  ]
+}

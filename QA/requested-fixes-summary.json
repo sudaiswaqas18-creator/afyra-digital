@@ -1,0 +1,41 @@
+{
+  "date": "2026-09-05",
+  "solutionsHeroLayouts": [
+    "02",
+    "03",
+    "04",
+    "05",
+    "06",
+    "07"
+  ],
+  "orbitCapabilities": [
+    "Strategy",
+    "Content",
+    "Reels",
+    "Ads",
+    "GBP",
+    "WhatsApp",
+    "SEO",
+    "Reports",
+    "Branding",
+    "Support"
+  ],
+  "topLevelPagesFixed": [
+    "healthcare",
+    "programs",
+    "about",
+    "insights"
+  ],
+  "homepageConsultationPath": "/request-consultation",
+  "footerContact": {
+    "phone": "PENDING FOUNDER INPUT",
+    "email": "PENDING FOUNDER INPUT",
+    "sourceStatus": "not present in supplied Master Knowledge Base"
+  },
+  "syntaxChecks": {
+    "typescriptTranspile": "PASS",
+    "runtimeJs": "PASS",
+    "cssBraceIntegrity": "PASS"
+  },
+  "freshProductionBuild": "NOT RUN - npm registry unavailable in sandbox"
+}

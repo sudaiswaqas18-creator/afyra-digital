@@ -1,0 +1,217 @@
+/* Website Development v17 — requested interaction fixes only */
+
+/* 1) Home-05 style perspective start state for the hero editor mockup. GSAP settles this to flat. */
+.rs-layout-05 .web-hero__stage{
+  perspective:1900px!important;
+  perspective-origin:50% 44%;
+}
+.rs-layout-05 .web-hero__mockup{
+  transform:perspective(1900px) rotateX(18deg) rotateY(-3.2deg) rotateZ(-1.25deg) scale(.925) translateY(34px);
+  transform-origin:50% 100%;
+  transform-style:preserve-3d;
+  backface-visibility:hidden;
+  will-change:transform;
+}
+.rs-layout-05 .web-hero__anchor{
+  opacity:.9;
+  box-shadow:0 0 0 4px rgba(0,187,160,.15),0 0 24px rgba(0,187,160,.68)!important;
+}
+
+/* 2) Functional Website Directions tabs + keyed grid transition. */
+.rs-layout-05 .web-templates__tabs button{
+  appearance:none;
+  border:0;
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:10px 14px;
+  border-radius:999px;
+  font:600 11px/1.1 var(--af-font-1);
+  color:rgba(0,68,62,.72);
+  background:rgba(0,68,62,.035);
+  cursor:pointer;
+  transition:background .24s ease,color .24s ease,box-shadow .24s ease,transform .24s ease;
+}
+.rs-layout-05 .web-templates__tabs button:hover,
+.rs-layout-05 .web-templates__tabs button:focus-visible{
+  color:#00443e;
+  background:rgba(0,187,160,.09);
+  outline:none;
+}
+.rs-layout-05 .web-templates__tabs button.is-active{
+  background:rgba(0,187,160,.14);
+  color:#00443e;
+  box-shadow:inset 0 0 0 1px rgba(0,187,160,.22),0 7px 20px rgba(0,187,160,.08);
+  transform:translateY(-1px);
+}
+.rs-layout-05 .web-templates__grid figure{
+  animation:web-direction-grid-in .48s cubic-bezier(.22,.8,.22,1) both;
+  animation-delay:calc(var(--web-template-order,0) * 55ms);
+}
+@keyframes web-direction-grid-in{
+  from{opacity:0;transform:translateY(18px) scale(.985)}
+  to{opacity:1;transform:translateY(0) scale(1)}
+}
+
+/* 3) Moving color band on the How It Works dome. */
+.rs-layout-05 .web-how__dome{
+  overflow:hidden;
+  isolation:isolate;
+}
+.rs-layout-05 .web-how__dome i{
+  position:absolute!important;
+  inset:-6% -2% -2%!important;
+  width:auto!important;
+  height:auto!important;
+  left:auto!important;
+  top:auto!important;
+  border-radius:inherit;
+  clip-path:none!important;
+  opacity:.72!important;
+  filter:blur(5px)!important;
+  mix-blend-mode:screen;
+  background:conic-gradient(
+    from 0deg at 50% 100%,
+    transparent 0deg 34deg,
+    rgba(0,187,160,.06) 42deg,
+    rgba(0,187,160,.58) 54deg,
+    rgba(222,241,240,.22) 62deg,
+    rgba(255,150,13,.16) 68deg,
+    rgba(0,187,160,.05) 78deg,
+    transparent 88deg 360deg
+  )!important;
+  transform-origin:50% 100%!important;
+  will-change:transform;
+  pointer-events:none;
+}
+.rs-layout-05 .web-how__dome::before,
+.rs-layout-05 .web-how__dome::after{z-index:2}
+
+/* 4) Current Programs rebuilt as SaaS-style pricing cards while preserving approved Afyra pricing. */
+.rs-layout-05 .web-pricing{
+  padding:110px 0 104px!important;
+  background:
+    radial-gradient(ellipse at 50% 92%,rgba(0,187,160,.12),transparent 42%),
+    linear-gradient(180deg,#020d0c 0%,#001411 52%,#00100e 100%)!important;
+  color:#effffc;
+  overflow:hidden;
+}
+.rs-layout-05 .web-pricing::before{
+  content:"";
+  position:absolute;
+  left:50%;
+  top:auto;
+  bottom:-210px;
+  border:0;
+  border-radius:0;
+  box-shadow:none;
+  width:min(1120px,88vw);
+  height:440px;
+  transform:translateX(-50%);
+  background:
+    linear-gradient(rgba(0,187,160,.09) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(0,187,160,.09) 1px,transparent 1px);
+  background-size:70px 70px;
+  transform-origin:50% 100%;
+  mask-image:linear-gradient(to top,#000,transparent 78%);
+  opacity:.32;
+  pointer-events:none;
+}
+.rs-layout-05 .web-pricing__inner{position:relative;z-index:2}
+.rs-layout-05 .web-pricing__head{max-width:820px;margin:0 auto 26px;text-align:center}
+.rs-layout-05 .web-pricing__head h2{
+  margin:16px 0 12px;
+  color:#f2fffd;
+  font:600 clamp(2.75rem,4.8vw,4.75rem)/.97 var(--af-font-2);
+  letter-spacing:-.05em;
+}
+.rs-layout-05 .web-pricing__head p{max-width:735px;margin:0 auto;color:rgba(222,241,240,.62);font-size:13px;line-height:1.65}
+.rs-layout-05 .web-pricing__toggle-wrap{display:grid;place-items:center;gap:9px;margin:26px auto 34px}
+.rs-layout-05 .web-pricing__toggle{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  padding:5px;
+  border:1px solid rgba(222,241,240,.16);
+  border-radius:999px;
+  background:rgba(1,18,16,.82);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.04),0 16px 42px rgba(0,0,0,.18);
+}
+.rs-layout-05 .web-pricing__toggle button{
+  appearance:none;border:0;background:transparent;color:rgba(222,241,240,.67);padding:9px 15px;border-radius:999px;font:700 12px/1 var(--af-font-1);cursor:pointer;transition:.22s ease;
+}
+.rs-layout-05 .web-pricing__toggle button.is-active{background:linear-gradient(135deg,#16d0bf,#00bba0);color:#003e38;box-shadow:0 0 18px rgba(0,187,160,.2)}
+.rs-layout-05 .web-pricing__term-badge{padding:8px 10px;border-radius:999px;background:rgba(255,150,13,.15);border:1px solid rgba(255,150,13,.22);color:#ffc35b;font:800 10px/1 var(--af-font-1);white-space:nowrap}
+.rs-layout-05 .web-pricing__billing-note{margin:0;color:rgba(222,241,240,.5);font-size:10px;text-align:center}
+.rs-layout-05 .web-pricing__grid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:18px;
+  max-width:1120px;
+  margin:0 auto;
+  align-items:stretch;
+}
+.rs-layout-05 .web-pricing__card{
+  position:relative;
+  min-height:590px;
+  padding:28px 26px 25px;
+  border-radius:22px;
+  border:1px solid rgba(222,241,240,.15);
+  background:
+    radial-gradient(circle at 86% 12%,rgba(0,187,160,.08),transparent 34%),
+    linear-gradient(180deg,rgba(7,29,27,.9),rgba(2,17,16,.95));
+  box-shadow:0 24px 70px rgba(0,0,0,.28),inset 0 1px 0 rgba(255,255,255,.035);
+  overflow:hidden;
+  will-change:transform;
+}
+.rs-layout-05 .web-pricing__card.is-popular{
+  border-color:rgba(255,150,13,.52);
+  box-shadow:0 28px 78px rgba(0,0,0,.34),0 0 0 1px rgba(255,150,13,.11) inset,0 0 36px rgba(255,150,13,.1);
+}
+.rs-layout-05 .web-pricing__popular{position:absolute;right:18px;top:18px;padding:7px 10px;border-radius:999px;background:linear-gradient(135deg,#ffd36f,#ff960d);color:#4a2a00;font:800 10px/1 var(--af-font-1);box-shadow:0 8px 22px rgba(255,150,13,.25)}
+.rs-layout-05 .web-pricing__icon{width:52px;height:52px;display:grid;place-items:center;border-radius:50%;background:rgba(0,187,160,.09);border:1px solid rgba(0,187,160,.24);color:#79f6e6;box-shadow:inset 0 0 18px rgba(0,187,160,.08),0 0 18px rgba(0,187,160,.05)}
+.rs-layout-05 .web-pricing__card h3{margin:28px 0 8px;color:#f3fffd;font:600 25px/1.05 var(--af-font-2);letter-spacing:-.025em}
+.rs-layout-05 .web-pricing__purpose{min-height:44px;margin:0;color:rgba(222,241,240,.6);font-size:12px;line-height:1.55}
+.rs-layout-05 .web-pricing__price{display:flex;align-items:flex-end;gap:5px;margin:28px 0 5px;padding-top:23px;border-top:1px solid rgba(222,241,240,.09)}
+.rs-layout-05 .web-pricing__price small{margin-bottom:7px;color:#dffffa;font:800 11px/1 var(--af-font-1)}
+.rs-layout-05 .web-pricing__price strong{color:#fff;font:600 clamp(2.25rem,3.2vw,3.15rem)/.88 var(--af-font-2);letter-spacing:-.05em}
+.rs-layout-05 .web-pricing__price span{margin-bottom:6px;color:rgba(222,241,240,.54);font-size:12px}
+.rs-layout-05 .web-pricing__rate-note{min-height:31px;margin:0 0 18px!important;color:rgba(222,241,240,.45)!important;font-size:10px!important;line-height:1.45!important}
+.rs-layout-05 .web-pricing__cta{min-height:48px;display:flex;align-items:center;justify-content:center;gap:8px;width:100%;border-radius:10px;background:linear-gradient(135deg,#00bba0,#14d2bf);color:#003b35;font:800 12px/1 var(--af-font-1);box-shadow:0 12px 30px rgba(0,187,160,.14);text-decoration:none;transition:transform .25s ease,box-shadow .25s ease}
+.rs-layout-05 .web-pricing__cta:hover{transform:translateY(-2px);box-shadow:0 16px 34px rgba(0,187,160,.2)}
+.rs-layout-05 .web-pricing__includes{margin:25px 0 13px;color:#f3fffd;font:800 12px/1 var(--af-font-1);letter-spacing:.06em;text-transform:uppercase}
+.rs-layout-05 .web-pricing__card ul{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.rs-layout-05 .web-pricing__card li{display:flex;align-items:flex-start;gap:8px;color:rgba(222,241,240,.72);font-size:11px;line-height:1.45}
+.rs-layout-05 .web-pricing__card li svg{flex:0 0 auto;color:#16dcc5;margin-top:1px}
+.rs-layout-05 .web-pricing__terms{display:flex;justify-content:center;flex-wrap:wrap;gap:8px 22px;max-width:1120px;margin:18px auto 0;padding:14px 18px;border:1px solid rgba(222,241,240,.08);border-radius:14px;background:rgba(1,18,16,.55)}
+.rs-layout-05 .web-pricing__terms span{color:rgba(222,241,240,.5);font-size:10px}
+
+/* 5) Make the travelling proof border visibly continuous and crisp. */
+.rs-layout-05 .web-proof__border rect{
+  stroke-width:2.2!important;
+  stroke-dasharray:5 95!important;
+  stroke-linecap:round!important;
+  opacity:1;
+  will-change:stroke-dashoffset;
+}
+.rs-layout-05 .web-proof__row--1 .web-proof__border rect{filter:drop-shadow(0 0 7px rgba(0,187,160,.95))}
+.rs-layout-05 .web-proof__row--2 .web-proof__border rect{filter:drop-shadow(0 0 7px rgba(255,150,13,.95))}
+.rs-layout-05 .web-proof__row--3 .web-proof__border rect{filter:drop-shadow(0 0 7px rgba(142,108,255,.85))}
+.rs-layout-05 .web-proof__row--4 .web-proof__border rect{filter:drop-shadow(0 0 7px rgba(255,140,98,.88))}
+
+@media(max-width:1050px){
+  .rs-layout-05 .web-pricing__grid{grid-template-columns:1fr;max-width:650px}
+  .rs-layout-05 .web-pricing__card{min-height:auto}
+}
+@media(max-width:760px){
+  .rs-layout-05 .web-hero__mockup{transform:perspective(1500px) rotateX(9deg) rotateY(-1.5deg) rotateZ(-.65deg) scale(.95) translateY(20px)}
+  .rs-layout-05 .web-templates__tabs button{flex:1 1 45%;justify-content:center;padding:10px 9px;font-size:10px}
+  .rs-layout-05 .web-pricing{padding:82px 0 72px!important}
+  .rs-layout-05 .web-pricing__head h2{font-size:2.75rem}
+  .rs-layout-05 .web-pricing__toggle{max-width:100%;flex-wrap:wrap;justify-content:center}
+  .rs-layout-05 .web-pricing__grid{gap:14px}
+  .rs-layout-05 .web-pricing__card{padding:23px 20px;border-radius:18px}
+  .rs-layout-05 .web-pricing__card h3{font-size:23px}
+  .rs-layout-05 .web-pricing__price strong{font-size:2.45rem}
+  .rs-layout-05 .web-pricing__terms{justify-content:flex-start}
+}

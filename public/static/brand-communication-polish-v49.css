@@ -1,0 +1,391 @@
+/* =====================================================================
+   AFYRA DIGITAL — BRAND COMMUNICATION — ANIMATION/LAYOUT POLISH V49
+   Final route-scoped correction for hero flip, feature story, strategic
+   arc tracer and centered How It Works. No generated visual assets.
+   ===================================================================== */
+
+.sv-page.sv-layout-02{
+  --v49-ink:#00443E;
+  --v49-teal:#00BBA0;
+  --v49-mint:#DEF1F0;
+  --v49-amber:#FF960D;
+  --v49-bg:#f1f5f4;
+  --v49-line:rgba(0,68,62,.13);
+}
+
+/* ---------- HERO: complete content visible + stable reference composition ---------- */
+.sv-page.sv-layout-02 .sv-hero--brand-reference{
+  min-height:clamp(860px,96svh,990px)!important;
+  padding:78px 0 84px!important;
+}
+.sv-page.sv-layout-02 .sv-hero--brand-reference .af-container.sv-hero__grid{
+  width:min(1220px,calc(100% - 44px))!important;
+  max-width:1220px!important;
+  gap:28px!important;
+}
+.sv-page.sv-layout-02 .sv-hero--brand-reference .sv-hero__copy{
+  width:min(960px,100%)!important;
+  max-width:960px!important;
+  position:relative!important;
+  z-index:4!important;
+}
+.sv-page.sv-layout-02 .sv-hero--brand-reference .sv-rating-pill--brand{
+  margin-bottom:14px!important;
+}
+.sv-page.sv-layout-02 .sv-hero--brand-reference .sv-display--brand{
+  width:min(940px,100%)!important;
+  font-size:clamp(46px,4.4vw,70px)!important;
+  line-height:.96!important;
+}
+.sv-page.sv-layout-02 .sv-hero--brand-reference .sv-lead{
+  display:block!important;
+  max-width:720px!important;
+  margin:22px auto 0!important;
+  font-size:15px!important;
+  line-height:1.62!important;
+}
+.sv-page.sv-layout-02 .sv-hero--brand-reference .sv-actions{
+  display:flex!important;
+  margin-top:22px!important;
+}
+.sv-page.sv-layout-02 .sv-hero--brand-reference .sv-copy-art{
+  width:min(820px,76vw)!important;
+  margin:2px auto 0!important;
+  position:relative!important;
+  z-index:3!important;
+}
+.sv-page.sv-layout-02 .sv-copy-card-stack--reference{
+  aspect-ratio:1400/820!important;
+}
+.sv-page.sv-layout-02 .sv-copy-card-stack--reference .sv-copy-flip{
+  will-change:transform!important;
+  transform-origin:50% 50%!important;
+}
+
+/* ---------- FEATURE STORY: one centered sticky stage, no left drift ---------- */
+.sv-page.sv-layout-02 .sv-brand-features{
+  position:relative!important;
+  height:calc(100svh + 900px)!important;
+  min-height:1420px!important;
+  margin:0!important;
+  padding:0!important;
+  background:#eef2f1!important;
+  overflow:visible!important;
+}
+.sv-page.sv-layout-02 .sv-brand-features>.af-container{
+  width:min(1400px,calc(100% - 44px))!important;
+  max-width:1400px!important;
+  height:100%!important;
+  margin-inline:auto!important;
+  padding:0!important;
+}
+.sv-page.sv-layout-02 .sv-brand-feature-story{
+  position:relative!important;
+  width:100%!important;
+  height:100%!important;
+  min-height:0!important;
+  margin:0 auto!important;
+}
+.sv-page.sv-layout-02 .sv-brand-feature-pin{
+  position:sticky!important;
+  top:68px!important;
+  width:100%!important;
+  height:calc(100svh - 68px)!important;
+  min-height:680px!important;
+  max-height:none!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  margin:0!important;
+  padding:18px 0!important;
+  overflow:hidden!important;
+  transform:none!important;
+}
+.sv-page.sv-layout-02 .sv-brand-feature-stage{
+  position:relative!important;
+  width:100%!important;
+  height:min(760px,calc(100svh - 104px))!important;
+  min-height:640px!important;
+  margin:0 auto!important;
+  border:1px solid rgba(0,68,62,.11)!important;
+  border-radius:24px!important;
+  background:rgba(255,255,255,.52)!important;
+  box-shadow:0 22px 58px rgba(0,68,62,.065)!important;
+  overflow:hidden!important;
+}
+.sv-page.sv-layout-02 .sv-brand-features__intro{
+  position:absolute!important;
+  inset:0!important;
+  z-index:3!important;
+  display:grid!important;
+  place-items:center!important;
+  padding:34px!important;
+}
+.sv-page.sv-layout-02 .sv-brand-features__intro-card{
+  width:min(720px,72%)!important;
+  min-height:360px!important;
+  padding:58px 66px!important;
+  border-radius:18px!important;
+  background:#fff!important;
+  border:1px solid rgba(0,68,62,.08)!important;
+  box-shadow:0 24px 62px rgba(0,68,62,.11)!important;
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:center!important;
+  justify-content:center!important;
+  text-align:center!important;
+  overflow:hidden!important;
+}
+.sv-page.sv-layout-02 .sv-brand-features__intro-card .sv-title{
+  max-width:620px!important;
+  margin:24px auto 16px!important;
+  font-size:clamp(38px,3.7vw,58px)!important;
+  line-height:1.01!important;
+  letter-spacing:-.05em!important;
+  color:var(--v49-ink)!important;
+}
+.sv-page.sv-layout-02 .sv-brand-features__intro-card p{
+  max-width:620px!important;
+  margin:0 auto!important;
+  font-size:14px!important;
+  line-height:1.62!important;
+  color:rgba(0,68,62,.62)!important;
+}
+
+/* Reference-style 2 + 3 card display lives inside the same stage. */
+.sv-page.sv-layout-02 .sv-brand-feature-grid{
+  position:absolute!important;
+  inset:0!important;
+  z-index:2!important;
+  display:grid!important;
+  grid-template-columns:repeat(12,minmax(0,1fr))!important;
+  grid-template-rows:minmax(0,1.02fr) minmax(0,.98fr)!important;
+  gap:14px!important;
+  padding:18px!important;
+  align-items:stretch!important;
+  transform-origin:50% 50%!important;
+}
+.sv-page.sv-layout-02 .sv-brand-feature-grid .sv-brand-display-card{
+  position:relative!important;
+  min-width:0!important;
+  min-height:0!important;
+  height:100%!important;
+  padding:26px 28px!important;
+  border:1px solid rgba(0,68,62,.11)!important;
+  border-radius:14px!important;
+  background:rgba(255,255,255,.92)!important;
+  overflow:hidden!important;
+  box-shadow:0 8px 20px rgba(0,68,62,.055)!important;
+  display:flex!important;
+  flex-direction:column!important;
+  justify-content:space-between!important;
+  transform-style:preserve-3d!important;
+}
+.sv-page.sv-layout-02 .sv-brand-feature-grid .sv-brand-display-card:nth-child(1){grid-column:span 5!important}
+.sv-page.sv-layout-02 .sv-brand-feature-grid .sv-brand-display-card:nth-child(2){grid-column:span 7!important}
+.sv-page.sv-layout-02 .sv-brand-feature-grid .sv-brand-display-card:nth-child(3){grid-column:span 3!important}
+.sv-page.sv-layout-02 .sv-brand-feature-grid .sv-brand-display-card:nth-child(4){grid-column:span 5!important}
+.sv-page.sv-layout-02 .sv-brand-feature-grid .sv-brand-display-card:nth-child(5){grid-column:span 4!important}
+.sv-page.sv-layout-02 .sv-brand-feature-grid .sv-brand-display-card__copy{
+  position:relative!important;
+  z-index:4!important;
+  max-width:94%!important;
+}
+.sv-page.sv-layout-02 .sv-brand-feature-grid .sv-brand-display-card__copy h3{
+  margin:0 0 8px!important;
+  color:#143f32!important;
+  font-size:clamp(18px,1.35vw,24px)!important;
+  line-height:1.08!important;
+  letter-spacing:-.025em!important;
+}
+.sv-page.sv-layout-02 .sv-brand-feature-grid .sv-brand-display-card__copy p{
+  margin:0!important;
+  max-width:620px!important;
+  color:rgba(0,68,62,.64)!important;
+  font-size:12px!important;
+  line-height:1.48!important;
+}
+.sv-page.sv-layout-02 .sv-brand-feature-grid .sv-brand-display-card__visual{
+  position:relative!important;
+  height:clamp(152px,21vh,205px)!important;
+  margin-top:10px!important;
+  overflow:hidden!important;
+}
+.sv-page.sv-layout-02 .sv-brand-feature-grid .sv-brand-display-card.is-accent{
+  background:linear-gradient(148deg,#00BBA0 0%,#008f7d 100%)!important;
+  border-color:rgba(0,187,160,.55)!important;
+}
+.sv-page.sv-layout-02 .sv-brand-feature-grid .sv-brand-display-card.is-accent .sv-brand-display-card__copy h3,
+.sv-page.sv-layout-02 .sv-brand-feature-grid .sv-brand-display-card.is-accent .sv-brand-display-card__copy p{color:#fff!important}
+
+/* Card 01 — semicircular tool orbits like the reference. */
+.sv-page.sv-layout-02 .sv-brand-display-visual--orbit{position:absolute!important;inset:0!important;overflow:hidden!important}
+.sv-page.sv-layout-02 .sv-brand-display-visual--orbit .sv-orbit-ring{
+  position:absolute!important;left:50%!important;bottom:-72px!important;border:1.5px dashed rgba(0,187,160,.34)!important;border-radius:50%!important;transform:translateX(-50%)!important
+}
+.sv-page.sv-layout-02 .sv-brand-display-visual--orbit .sv-orbit-ring--1{width:440px!important;height:250px!important}
+.sv-page.sv-layout-02 .sv-brand-display-visual--orbit .sv-orbit-ring--2{width:330px!important;height:188px!important}
+.sv-page.sv-layout-02 .sv-brand-display-visual--orbit .sv-orbit-ring--3{width:218px!important;height:132px!important}
+.sv-page.sv-layout-02 .sv-brand-display-visual--orbit .sv-orbit-core{
+  position:absolute!important;left:50%!important;bottom:36px!important;width:58px!important;height:58px!important;border-radius:50%!important;transform:translateX(-50%)!important;background:#fff!important;box-shadow:0 0 0 13px rgba(0,187,160,.065),0 0 30px rgba(0,187,160,.23)!important;display:grid!important;place-items:center!important
+}
+.sv-page.sv-layout-02 .sv-brand-display-visual--orbit .sv-orbit-core img{width:30px!important;height:30px!important;object-fit:contain!important}
+.sv-page.sv-layout-02 .sv-brand-display-visual--orbit .sv-orbit-node{position:absolute!important;width:38px!important;height:38px!important;border-radius:50%!important;background:#fff!important;color:var(--v49-ink)!important;display:grid!important;place-items:center!important;border:1px solid rgba(0,187,160,.19)!important;box-shadow:0 7px 18px rgba(0,68,62,.10)!important}
+.sv-page.sv-layout-02 .sv-brand-display-visual--orbit .sv-orbit-node--1{left:17%!important;top:29%!important}.sv-page.sv-layout-02 .sv-brand-display-visual--orbit .sv-orbit-node--2{left:43%!important;top:14%!important}.sv-page.sv-layout-02 .sv-brand-display-visual--orbit .sv-orbit-node--3{right:13%!important;top:36%!important}.sv-page.sv-layout-02 .sv-brand-display-visual--orbit .sv-orbit-node--4{left:10%!important;bottom:22%!important}.sv-page.sv-layout-02 .sv-brand-display-visual--orbit .sv-orbit-node--5{right:30%!important;bottom:23%!important}
+.sv-page.sv-layout-02 .sv-brand-display-visual--orbit em{position:absolute!important;left:50%!important;bottom:2px!important;transform:translateX(-50%)!important;padding:8px 16px!important;border-radius:999px!important;background:#fff!important;color:#256253!important;font-size:11px!important;font-style:normal!important;box-shadow:0 8px 20px rgba(0,68,62,.08)!important}
+
+/* Card 02 — central hub and six connected pills. */
+.sv-page.sv-layout-02 .sv-brand-display-visual--hub{position:absolute!important;inset:0!important;background:radial-gradient(circle at 50% 54%,rgba(0,187,160,.16),transparent 35%)!important}
+.sv-page.sv-layout-02 .sv-brand-hub-lines{position:absolute!important;inset:9% 2% 3%!important;width:96%!important;height:88%!important;overflow:visible!important}
+.sv-page.sv-layout-02 .sv-brand-hub-lines path{fill:none!important;stroke:rgba(0,187,160,.22)!important;stroke-width:1.35!important;vector-effect:non-scaling-stroke!important}
+.sv-page.sv-layout-02 .sv-brand-display-visual--hub .center{position:absolute!important;left:50%!important;top:55%!important;transform:translate(-50%,-50%)!important;width:82px!important;height:82px!important;border-radius:50%!important;background:#fff!important;display:grid!important;place-items:center!important;box-shadow:0 0 0 12px rgba(0,187,160,.065),0 0 34px rgba(0,187,160,.22)!important}
+.sv-page.sv-layout-02 .sv-brand-display-visual--hub .center img{width:40px!important;height:40px!important;object-fit:contain!important}
+.sv-page.sv-layout-02 .sv-brand-display-visual--hub>span{position:absolute!important;padding:8px 13px!important;border-radius:999px!important;background:#fff!important;border:1px solid rgba(0,68,62,.09)!important;color:#285f53!important;font-size:10px!important;box-shadow:0 7px 16px rgba(0,68,62,.055)!important}
+.sv-page.sv-layout-02 .sv-brand-display-visual--hub>span:nth-of-type(1){left:2%!important;top:8%!important}.sv-page.sv-layout-02 .sv-brand-display-visual--hub>span:nth-of-type(2){left:0!important;top:51%!important}.sv-page.sv-layout-02 .sv-brand-display-visual--hub>span:nth-of-type(3){left:8%!important;bottom:0!important}.sv-page.sv-layout-02 .sv-brand-display-visual--hub>span:nth-of-type(4){right:2%!important;top:8%!important}.sv-page.sv-layout-02 .sv-brand-display-visual--hub>span:nth-of-type(5){right:0!important;top:51%!important}.sv-page.sv-layout-02 .sv-brand-display-visual--hub>span:nth-of-type(6){right:8%!important;bottom:0!important}
+
+/* Card 03 — teal chat/workflow panel. */
+.sv-page.sv-layout-02 .sv-brand-display-visual--message{position:absolute!important;inset:4px 0 0!important;padding:18px!important;border-radius:13px!important;background:rgba(0,68,62,.18)!important;color:#fff!important;box-shadow:inset 0 0 0 1px rgba(255,255,255,.09)!important;overflow:hidden!important}
+.sv-page.sv-layout-02 .sv-message-avatar{width:38px!important;height:38px!important;border-radius:50%!important;background:linear-gradient(145deg,#fff,var(--v49-mint))!important;color:var(--v49-teal)!important;display:grid!important;place-items:center!important;margin-bottom:10px!important;box-shadow:0 7px 16px rgba(0,68,62,.15)!important}
+.sv-page.sv-layout-02 .sv-brand-display-visual--message strong{display:block!important;font-size:14px!important;margin-bottom:6px!important}.sv-page.sv-layout-02 .sv-brand-display-visual--message p{margin:0 0 10px!important;color:rgba(255,255,255,.88)!important;font-size:10px!important;line-height:1.42!important}
+.sv-page.sv-layout-02 .sv-message-chat{padding:7px 9px!important;border-radius:8px!important;font-size:8px!important;line-height:1.35!important;margin-top:6px!important;background:rgba(255,255,255,.15)!important;border:1px solid rgba(255,255,255,.12)!important}.sv-page.sv-layout-02 .sv-message-chat--two{margin-left:12%!important;background:rgba(255,255,255,.23)!important}
+.sv-page.sv-layout-02 .sv-brand-display-visual--message>b{display:block!important;height:4px!important;border-radius:8px!important;background:rgba(255,255,255,.24)!important;margin-top:7px!important}.sv-page.sv-layout-02 .sv-brand-display-visual--message>b:nth-of-type(1){width:86%!important}.sv-page.sv-layout-02 .sv-brand-display-visual--message>b:nth-of-type(2){width:72%!important}.sv-page.sv-layout-02 .sv-brand-display-visual--message>b:nth-of-type(3){width:55%!important}
+
+/* Card 04 — browser/content workflow. */
+.sv-page.sv-layout-02 .sv-brand-display-visual--timeline{position:absolute!important;inset:0!important}
+.sv-page.sv-layout-02 .sv-mini-browser{position:absolute!important;left:0!important;top:0!important;width:58%!important;height:96px!important;border-radius:10px!important;background:#fff!important;border:1px solid rgba(0,68,62,.08)!important;box-shadow:0 8px 20px rgba(0,68,62,.08)!important;overflow:hidden!important}
+.sv-page.sv-layout-02 .sv-mini-browser__bar{height:24px!important;padding:0 8px!important;display:flex!important;align-items:center!important;gap:4px!important;border-bottom:1px solid rgba(0,68,62,.06)!important;background:#f7f9f8!important}.sv-page.sv-layout-02 .sv-mini-browser__bar i{width:5px!important;height:5px!important;border-radius:50%!important;background:rgba(0,68,62,.34)!important}.sv-page.sv-layout-02 .sv-mini-browser__bar span{margin-left:5px!important;font-size:7px!important;color:rgba(0,68,62,.46)!important}
+.sv-page.sv-layout-02 .sv-mini-browser__canvas{position:relative!important;padding:10px!important}.sv-page.sv-layout-02 .sv-mini-browser__canvas>span{display:inline-block!important;padding:3px 8px!important;border-radius:999px!important;background:rgba(0,187,160,.10)!important;color:#378a79!important;font-size:7px!important}.sv-page.sv-layout-02 .sv-mini-browser__canvas>b{display:block!important;width:82%!important;height:4px!important;margin-top:7px!important;border-radius:6px!important;background:#e5ebe9!important}.sv-page.sv-layout-02 .sv-mini-browser__canvas>b:nth-of-type(2){width:68%!important}.sv-page.sv-layout-02 .sv-mini-browser__canvas>b:nth-of-type(3){width:74%!important}.sv-page.sv-layout-02 .sv-mini-browser__canvas>em{position:absolute!important;right:8px!important;bottom:8px!important;font-size:7px!important;color:var(--v49-teal)!important;font-style:normal!important}
+.sv-page.sv-layout-02 .sv-brand-display-visual--timeline .sv-badge{position:absolute!important;left:0!important;bottom:50px!important;display:inline-block!important;padding:8px 12px!important;border-radius:999px!important;background:var(--v49-teal)!important;color:#fff!important;font-size:10px!important;font-weight:700!important}.sv-page.sv-layout-02 .sv-brand-display-visual--timeline .sv-lines{position:absolute!important;left:0!important;right:0!important;bottom:4px!important;height:42px!important;border:1px solid rgba(0,68,62,.08)!important;border-radius:9px!important;padding:8px 12px!important;background:#fbfdfc!important}.sv-page.sv-layout-02 .sv-brand-display-visual--timeline .sv-lines i{display:block!important;height:5px!important;margin:4px 0!important;border-radius:8px!important;background:#e4ebe9!important}.sv-page.sv-layout-02 .sv-brand-display-visual--timeline .sv-pointer{position:absolute!important;left:8%!important;bottom:41px!important;width:0!important;height:0!important;border-left:7px solid transparent!important;border-right:7px solid transparent!important;border-top:13px solid var(--v49-amber)!important;filter:drop-shadow(0 4px 6px rgba(255,150,13,.25))!important}
+
+/* Card 05 — template/library sheet and connected nodes. */
+.sv-page.sv-layout-02 .sv-brand-display-visual--sheet{position:absolute!important;inset:0!important;display:grid!important;place-items:end center!important}
+.sv-page.sv-layout-02 .sv-sheet-network{position:absolute!important;left:50%!important;top:3px!important;width:210px!important;height:64px!important;transform:translateX(-50%)!important}.sv-page.sv-layout-02 .sv-sheet-network::before,.sv-page.sv-layout-02 .sv-sheet-network::after{content:"";position:absolute;top:26px;height:1px;background:rgba(0,187,160,.38)!important}.sv-page.sv-layout-02 .sv-sheet-network::before{left:22px;right:50%}.sv-page.sv-layout-02 .sv-sheet-network::after{left:50%;right:22px}.sv-page.sv-layout-02 .sv-sheet-network span{position:absolute!important;top:8px!important;width:34px!important;height:34px!important;border-radius:50%!important;background:#fff!important;border:1px solid rgba(0,68,62,.09)!important;box-shadow:0 6px 14px rgba(0,68,62,.07)!important}.sv-page.sv-layout-02 .sv-sheet-network span:nth-child(1){left:10px!important}.sv-page.sv-layout-02 .sv-sheet-network span:nth-child(2){left:50%!important;transform:translateX(-50%)!important;border-color:rgba(0,187,160,.55)!important;box-shadow:0 0 0 6px rgba(0,187,160,.07)!important}.sv-page.sv-layout-02 .sv-sheet-network span:nth-child(3){right:10px!important}.sv-page.sv-layout-02 .sv-sheet-network i{position:absolute!important;left:50%!important;top:18px!important;width:14px!important;height:14px!important;border-radius:50%!important;transform:translateX(-50%)!important;background:var(--v49-teal)!important}
+.sv-page.sv-layout-02 .sv-brand-display-visual--sheet::before{content:"";position:absolute;width:58%;height:56%;bottom:22px;border:1px solid rgba(0,68,62,.08);border-radius:12px;background:#fff}
+.sv-page.sv-layout-02 .sv-brand-display-visual--sheet .sv-sheet{position:relative!important;z-index:2!important;width:82%!important;min-height:90px!important;padding:16px!important;border:1px solid rgba(0,187,160,.48)!important;border-radius:12px!important;background:#fff!important;box-shadow:0 10px 22px rgba(0,68,62,.075)!important}.sv-page.sv-layout-02 .sv-brand-display-visual--sheet .sv-sheet strong{display:block!important;color:#1c5347!important;margin-bottom:10px!important}.sv-page.sv-layout-02 .sv-brand-display-visual--sheet .sv-sheet b{display:block!important;width:88%!important;height:5px!important;margin-top:6px!important;background:#e3eae8!important;border-radius:8px!important}.sv-page.sv-layout-02 .sv-brand-display-visual--sheet .sv-sheet b:nth-of-type(2){width:72%!important}.sv-page.sv-layout-02 .sv-brand-display-visual--sheet .sv-sheet b:nth-of-type(3){width:58%!important}
+
+/* Old separated V48 display section is intentionally retired. */
+.sv-page.sv-layout-02 .sv-brand-display{display:none!important}
+
+/* ---------- STRATEGIC SOLUTION: only a round arc, white first, teal light on scroll ---------- */
+.sv-page.sv-layout-02 .sv-brand-library-section{
+  position:relative!important;
+  padding:188px 0 100px!important;
+  overflow:hidden!important;
+}
+.sv-page.sv-layout-02 .sv-brand-library-section__arc{
+  position:absolute!important;
+  left:5%!important;
+  right:5%!important;
+  top:20px!important;
+  height:275px!important;
+  border:0!important;
+  border-radius:0!important;
+  filter:none!important;
+  pointer-events:none!important;
+  z-index:0!important;
+}
+.sv-page.sv-layout-02 .sv-brand-library-section__arc::before,
+.sv-page.sv-layout-02 .sv-brand-library-section__arc::after,
+.sv-page.sv-layout-02 .sv-brand-library-section__arc>i{display:none!important}
+.sv-page.sv-layout-02 .sv-brand-library-section__arc svg{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;overflow:visible!important}
+.sv-page.sv-layout-02 .sv-brand-strategic-arc__base,
+.sv-page.sv-layout-02 .sv-brand-strategic-arc__progress,
+.sv-page.sv-layout-02 .sv-brand-strategic-arc__tracer{fill:none!important;vector-effect:non-scaling-stroke!important}
+.sv-page.sv-layout-02 .sv-brand-strategic-arc__base{stroke:rgba(255,255,255,.98)!important;stroke-width:1.25!important}
+.sv-page.sv-layout-02 .sv-brand-strategic-arc__progress{stroke:rgba(0,187,160,.82)!important;stroke-width:2!important;filter:drop-shadow(0 0 12px rgba(0,187,160,.55))!important}
+.sv-page.sv-layout-02 .sv-brand-strategic-arc__tracer{stroke:#7ce6d7!important;stroke-width:3.2!important;filter:drop-shadow(0 0 14px rgba(0,187,160,.8))!important}
+.sv-page.sv-layout-02 .sv-brand-strategic-arc__spark{position:absolute!important;left:50%!important;top:3px!important;width:7px!important;height:7px!important;border-radius:50%!important;background:#b6fff3!important;box-shadow:0 0 0 4px rgba(0,187,160,.08),0 0 24px rgba(0,187,160,.9)!important;transform:translateX(-50%)!important}
+
+/* ---------- HOW IT WORKS: preserve mechanics; center the entire stage ---------- */
+.sv-page.sv-layout-02 .sv-brand-steps{
+  width:100%!important;
+  margin:0!important;
+  overflow:visible!important;
+}
+.sv-page.sv-layout-02 .sv-brand-steps>.af-container{
+  width:100%!important;
+  max-width:none!important;
+  margin:0 auto!important;
+  padding:0!important;
+}
+.sv-page.sv-layout-02 [data-brand-step-pin]{
+  width:100%!important;
+  align-items:center!important;
+  justify-content:center!important;
+}
+.sv-page.sv-layout-02 [data-brand-steps-head]{
+  width:min(840px,calc(100% - 40px))!important;
+  margin:0 auto 26px!important;
+  text-align:center!important;
+  flex:0 0 auto!important;
+}
+.sv-page.sv-layout-02 [data-brand-step-scroll]{
+  width:min(1080px,calc(100% - 56px))!important;
+  max-width:1080px!important;
+  margin-inline:auto!important;
+  align-self:center!important;
+  flex:0 0 auto!important;
+}
+.sv-page.sv-layout-02 [data-brand-step-shell]{margin-inline:auto!important}
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width:1080px){
+  .sv-page.sv-layout-02 .sv-brand-feature-grid{gap:12px!important;padding:14px!important}
+  .sv-page.sv-layout-02 .sv-brand-feature-grid .sv-brand-display-card{padding:22px!important}
+  .sv-page.sv-layout-02 .sv-brand-feature-grid .sv-brand-display-card__visual{height:170px!important}
+}
+@media (max-width:760px){
+  .sv-page.sv-layout-02 .sv-hero--brand-reference{min-height:0!important;padding:48px 0 64px!important}
+  .sv-page.sv-layout-02 .sv-hero--brand-reference .sv-copy-art{width:96%!important}
+  .sv-page.sv-layout-02 .sv-brand-features{height:auto!important;min-height:0!important;padding:54px 0 70px!important;overflow:hidden!important}
+  .sv-page.sv-layout-02 .sv-brand-features>.af-container{width:min(100% - 24px,720px)!important;height:auto!important}
+  .sv-page.sv-layout-02 .sv-brand-feature-story{height:auto!important}
+  .sv-page.sv-layout-02 .sv-brand-feature-pin{position:relative!important;top:auto!important;height:auto!important;min-height:0!important;padding:0!important;display:block!important;overflow:visible!important}
+  .sv-page.sv-layout-02 .sv-brand-feature-stage{height:auto!important;min-height:0!important;padding:12px!important;overflow:visible!important;background:rgba(255,255,255,.38)!important}
+  .sv-page.sv-layout-02 .sv-brand-features__intro{position:relative!important;inset:auto!important;min-height:440px!important;padding:0!important;margin-bottom:14px!important}
+  .sv-page.sv-layout-02 .sv-brand-features__intro-card{width:100%!important;min-height:410px!important;padding:42px 26px!important}
+  .sv-page.sv-layout-02 .sv-brand-features__intro-card .sv-title{font-size:36px!important}
+  .sv-page.sv-layout-02 .sv-brand-feature-grid{position:relative!important;inset:auto!important;grid-template-columns:1fr!important;grid-template-rows:none!important;padding:0!important;gap:12px!important}
+  .sv-page.sv-layout-02 .sv-brand-feature-grid .sv-brand-display-card:nth-child(n){grid-column:1!important;min-height:300px!important;height:auto!important}
+  .sv-page.sv-layout-02 .sv-brand-feature-grid .sv-brand-display-card__visual{height:170px!important}
+  .sv-page.sv-layout-02 .sv-brand-library-section{padding:130px 0 72px!important}
+  .sv-page.sv-layout-02 .sv-brand-library-section__arc{left:-12%!important;right:-12%!important;top:6px!important;height:210px!important}
+  .sv-page.sv-layout-02 [data-brand-step-scroll]{width:min(100% - 20px,680px)!important}
+}
+@media (prefers-reduced-motion:reduce){
+  .sv-page.sv-layout-02 .sv-brand-feature-grid{opacity:1!important;transform:none!important}
+  .sv-page.sv-layout-02 .sv-brand-feature-grid .sv-brand-display-card{opacity:1!important;transform:none!important}
+  .sv-page.sv-layout-02 .sv-brand-strategic-arc__progress{opacity:.75!important;stroke-dasharray:none!important;stroke-dashoffset:0!important}
+  .sv-page.sv-layout-02 .sv-brand-strategic-arc__tracer{display:none!important}
+}
+
+/* Neutralize historical absolute-centering transforms that previously pulled
+   the feature composition toward the left after the DOM was rebuilt. */
+.sv-page.sv-layout-02 [data-brand-feature-grid]{
+  left:0!important;top:0!important;right:0!important;bottom:0!important;
+  width:auto!important;height:auto!important;min-height:0!important;
+  transform:none!important;
+}
+@media (max-width:760px){
+  .sv-page.sv-layout-02 [data-brand-feature-grid]{left:auto!important;top:auto!important;right:auto!important;bottom:auto!important;width:100%!important;height:auto!important}
+}
+
+/* Specificity lock: V48 deliberately used high-specificity !important route
+   guards. V49 owns the rebuilt feature story, so these later selectors are
+   equally/more specific and prevent the old non-sticky geometry returning. */
+@media (min-width:761px){
+  .sv-page.sv-layout-02 .sv-brand-features [data-brand-feature-story]{
+    position:relative!important;width:100%!important;height:100%!important;min-height:0!important;margin:0 auto!important;overflow:visible!important;
+  }
+  .sv-page.sv-layout-02 .sv-brand-features [data-brand-feature-pin]{
+    position:sticky!important;top:68px!important;width:100%!important;height:calc(100svh - 68px)!important;min-height:680px!important;max-height:none!important;margin:0!important;padding:18px 0!important;display:flex!important;align-items:center!important;justify-content:center!important;overflow:hidden!important;transform:none!important;
+  }
+  .sv-page.sv-layout-02 .sv-brand-features [data-brand-feature-stage]{
+    position:relative!important;inset:auto!important;width:100%!important;height:min(760px,calc(100svh - 104px))!important;min-height:640px!important;max-height:none!important;margin:0 auto!important;padding:0!important;overflow:hidden!important;border-radius:24px!important;background:rgba(255,255,255,.52)!important;transform:none!important;
+  }
+}
+@media (max-width:760px){
+  .sv-page.sv-layout-02 .sv-brand-features [data-brand-feature-story]{height:auto!important;min-height:0!important;overflow:visible!important}
+  .sv-page.sv-layout-02 .sv-brand-features [data-brand-feature-pin]{position:relative!important;top:auto!important;height:auto!important;min-height:0!important;max-height:none!important;padding:0!important;overflow:visible!important;display:block!important;transform:none!important}
+  .sv-page.sv-layout-02 .sv-brand-features [data-brand-feature-stage]{position:relative!important;inset:auto!important;height:auto!important;min-height:0!important;max-height:none!important;padding:12px!important;overflow:visible!important;transform:none!important}
+}

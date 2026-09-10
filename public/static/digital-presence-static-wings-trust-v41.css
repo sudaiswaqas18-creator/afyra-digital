@@ -1,0 +1,221 @@
+/* ======================================================================
+   Digital Presence / Advanced Digital Systems — V41
+   Static Afyra-colour wing artwork + center-opening connected-platform bar.
+   Keeps the existing Afyra core logo and continuous rising app-icon loop.
+   ====================================================================== */
+
+.rs-layout-03 .dp-hero__stage {
+  min-height: 472px !important;
+  overflow: hidden !important;
+}
+
+.rs-layout-03 .dp-hero__visual {
+  width: min(1220px, 100%) !important;
+  height: 430px !important;
+  overflow: visible !important;
+  isolation: isolate;
+  background-image: url('/static/ref-solutions/digital-presence-wings-afyra-v41.png') !important;
+  background-repeat: no-repeat !important;
+  background-position: 50% 26px !important;
+  background-size: min(1260px, 116vw) auto !important;
+}
+
+/* V39 video slabs are retired. V41 uses one transparent symmetrical artwork. */
+.rs-layout-03 .dp-hero__wing,
+.rs-layout-03 .dp-hero__wing-video {
+  display: none !important;
+}
+
+.rs-layout-03 .dp-hero__wing-art {
+  position: absolute;
+  z-index: 2;
+  left: 50%;
+  top: 26px;
+  width: min(1260px, 116vw);
+  max-width: none;
+  height: auto;
+  transform: translateX(-50%) scaleY(.93);
+  transform-origin: 50% 58%;
+  opacity: .98;
+  pointer-events: none;
+  user-select: none;
+  filter: saturate(1.08) contrast(1.04) brightness(.95) drop-shadow(0 18px 30px rgba(0,0,0,.25));
+}
+
+/* Make sure generated wing art sits behind the real animated UI. */
+.rs-layout-03 .dp-hero__beam { z-index: 1 !important; opacity: .34 !important; }
+.rs-layout-03 .dp-hero__aura { z-index: 3 !important; }
+.rs-layout-03 .dp-hero__core { z-index: 5 !important; }
+.rs-layout-03 .dp-hero__icons { z-index: 7 !important; }
+.rs-layout-03 .dp-hero__side { z-index: 6 !important; }
+
+/* Reduce visual competition with the hero image while retaining depth. */
+.rs-layout-03 .dp-hero__visual::before { opacity: .18 !important; }
+.rs-layout-03 .dp-hero__visual::after { opacity: .28 !important; }
+
+/* ----------------------------------------------------------------------
+   Connected platforms — closed at center, opens outward during scroll.
+   ---------------------------------------------------------------------- */
+.rs-layout-03 .dp-trust-reveal {
+  position: relative !important;
+  display: block !important;
+  width: min(1180px, 100%) !important;
+  min-height: 92px !important;
+  margin: 0 auto 10px !important;
+  border: 0 !important;
+  overflow: visible !important;
+  isolation: isolate;
+  background: transparent !important;
+}
+
+.rs-layout-03 .dp-trust-reveal::before,
+.rs-layout-03 .dp-trust-reveal::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  width: min(1040px, 92%);
+  height: 42px;
+  pointer-events: none;
+  opacity: calc(.10 + (var(--dp-open, 0) * .48));
+  transform: translateX(-50%) scaleX(calc(.45 + (var(--dp-open, 0) * .55)));
+  transform-origin: 50% 50%;
+  z-index: 0;
+}
+.rs-layout-03 .dp-trust-reveal::before {
+  top: -12px;
+  background: radial-gradient(ellipse at center bottom, rgba(0,187,160,.24), transparent 63%);
+  border-top: 1px solid rgba(0,187,160,.18);
+  border-radius: 50% 50% 0 0;
+}
+.rs-layout-03 .dp-trust-reveal::after {
+  bottom: -10px;
+  background: radial-gradient(ellipse at center top, rgba(255,150,13,.11), transparent 64%);
+  border-bottom: 1px solid rgba(0,187,160,.13);
+  border-radius: 0 0 50% 50%;
+}
+
+.rs-layout-03 .dp-trust-reveal__track--full {
+  position: absolute !important;
+  z-index: 1 !important;
+  inset: 10px 0 !important;
+  min-height: 72px !important;
+  display: flex !important;
+  align-items: center !important;
+  overflow: hidden !important;
+  border: 1px solid rgba(0,187,160,.16) !important;
+  border-left-color: rgba(0,187,160,.06) !important;
+  border-right-color: rgba(0,187,160,.06) !important;
+  border-radius: 18px !important;
+  background:
+    linear-gradient(180deg, rgba(0,68,62,.52), rgba(0,35,31,.72)),
+    radial-gradient(circle at 50% 50%, rgba(0,187,160,.09), transparent 42%) !important;
+  box-shadow: inset 0 1px 0 rgba(222,241,240,.04), 0 16px 44px rgba(0,25,22,.18) !important;
+  will-change: transform, clip-path;
+}
+
+.rs-layout-03 .dp-trust-reveal__marquee {
+  display: flex !important;
+  align-items: center !important;
+  gap: 38px !important;
+  min-width: max-content !important;
+  white-space: nowrap !important;
+  padding: 0 30px !important;
+  color: rgba(222,241,240,.82) !important;
+  font: 650 14px/1 var(--af-font-2) !important;
+  letter-spacing: .01em !important;
+}
+.rs-layout-03 .dp-trust-reveal__marquee span {
+  position: relative;
+  padding-left: 19px;
+}
+.rs-layout-03 .dp-trust-reveal__marquee span::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 8px;
+  height: 8px;
+  transform: translateY(-50%) rotate(45deg);
+  border: 1px solid rgba(0,187,160,.9);
+  box-shadow: 0 0 12px rgba(0,187,160,.28);
+}
+.rs-layout-03 .dp-trust-reveal__marquee span:nth-child(3n)::before {
+  border-color: rgba(255,150,13,.94);
+  box-shadow: 0 0 12px rgba(255,150,13,.22);
+}
+
+.rs-layout-03 .dp-trust-reveal__center {
+  position: absolute !important;
+  z-index: 4 !important;
+  left: 50% !important;
+  top: 50% !important;
+  min-width: 176px !important;
+  min-height: 58px !important;
+  transform: translate(-50%, -50%);
+  display: grid !important;
+  place-items: center !important;
+  padding: 0 20px !important;
+  border: 0 !important;
+  background: radial-gradient(circle, rgba(0,68,62,.9), rgba(0,39,35,.72) 68%, transparent 72%) !important;
+  box-shadow: none !important;
+  pointer-events: none;
+}
+.rs-layout-03 .dp-trust-reveal__center strong {
+  color: #DEF1F0 !important;
+  font: 750 14px/1 var(--af-font-2) !important;
+  letter-spacing: .13em !important;
+  text-shadow: 0 0 18px rgba(0,187,160,.28);
+}
+
+.rs-layout-03 .dp-trust-reveal__gate {
+  position: absolute !important;
+  z-index: 5 !important;
+  left: 50%;
+  right: auto !important;
+  top: 12px !important;
+  bottom: 12px !important;
+  width: 8px !important;
+  height: auto !important;
+  margin-left: -4px !important;
+  border-radius: 5px !important;
+  background: linear-gradient(180deg, #DEF1F0 0%, #00BBA0 22%, #00BBA0 76%, #FF960D 100%) !important;
+  box-shadow: 0 0 14px rgba(0,187,160,.52), 0 0 30px rgba(0,187,160,.2) !important;
+  transform: none !important;
+  transform-origin: 50% 50%;
+}
+.rs-layout-03 .dp-trust-reveal__gate--left { left: calc(50% - 12px); }
+.rs-layout-03 .dp-trust-reveal__gate--right { left: calc(50% + 12px); }
+
+.rs-layout-03 .dp-trust-reveal__gate::before,
+.rs-layout-03 .dp-trust-reveal__gate::after {
+  content: "";
+  position: absolute;
+  width: 14px;
+  height: 5px;
+  background: inherit;
+  border-radius: 5px;
+  box-shadow: inherit;
+}
+.rs-layout-03 .dp-trust-reveal__gate::before { top: 0; }
+.rs-layout-03 .dp-trust-reveal__gate::after { bottom: 0; }
+.rs-layout-03 .dp-trust-reveal__gate--left::before,
+.rs-layout-03 .dp-trust-reveal__gate--left::after { right: 0; }
+.rs-layout-03 .dp-trust-reveal__gate--right::before,
+.rs-layout-03 .dp-trust-reveal__gate--right::after { left: 0; }
+
+@media (max-width: 1024px) {
+  .rs-layout-03 .dp-hero__stage { min-height: 438px !important; }
+  .rs-layout-03 .dp-hero__visual { height: 400px !important; background-position: 50% 38px !important; background-size: 1210px auto !important; }
+  .rs-layout-03 .dp-hero__wing-art { top: 38px; width: 1210px; }
+}
+
+@media (max-width: 760px) {
+  .rs-layout-03 .dp-hero__stage { min-height: 355px !important; }
+  .rs-layout-03 .dp-hero__visual { height: 320px !important; background-position: 50% 54px !important; background-size: 870px auto !important; }
+  .rs-layout-03 .dp-hero__wing-art { top: 54px; width: 870px; opacity: .92; }
+  .rs-layout-03 .dp-trust-reveal { min-height: 80px !important; }
+  .rs-layout-03 .dp-trust-reveal__track--full { inset: 8px 0 !important; min-height: 64px !important; }
+  .rs-layout-03 .dp-trust-reveal__center { min-width: 148px !important; }
+  .rs-layout-03 .dp-trust-reveal__center strong { font-size: 11px !important; }
+  .rs-layout-03 .dp-trust-reveal__gate { top: 10px !important; bottom: 10px !important; }
+}

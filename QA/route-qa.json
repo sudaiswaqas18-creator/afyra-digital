@@ -1,0 +1,14 @@
+{
+  "routes_tested": 227,
+  "detail_routes": 215,
+  "errors": [],
+  "error_count": 0,
+  "unique_detail_titles": 215,
+  "duplicate_title_groups": 0,
+  "unique_detail_descriptions": 215,
+  "duplicate_description_groups": 0,
+  "sitemap_urls": 227,
+  "sitemap_content_type": "application/xml; charset=UTF-8",
+  "robots_has_sitemap": true,
+  "robots_content_type": "text/plain;charset=UTF-8"
+}

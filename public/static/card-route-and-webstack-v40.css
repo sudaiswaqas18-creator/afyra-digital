@@ -1,0 +1,78 @@
+/* ======================================================================
+   AFYRA DIGITAL — WEBSITE STACK + UNIVERSAL CARD ROUTES V40
+   2026-09-08
+   ====================================================================== */
+
+/* Website Development / Website System — compact, smooth sticky stack. */
+@media (min-width: 761px){
+  .rs-layout-05 .web-system__stack{
+    max-width:1040px!important;
+    margin:0 auto!important;
+    padding-bottom:clamp(24px,4vh,52px)!important;
+    isolation:isolate!important;
+  }
+  .rs-layout-05 .web-system__card,
+  .rs-layout-05 .web-system__card:nth-child(even){
+    position:sticky!important;
+    top:clamp(86px,10vh,108px)!important;
+    min-height:390px!important;
+    margin-bottom:clamp(112px,18vh,190px)!important;
+    will-change:transform,box-shadow!important;
+    transform-origin:50% 0%!important;
+    backface-visibility:hidden!important;
+    -webkit-backface-visibility:hidden!important;
+    transform-style:flat!important;
+  }
+  .rs-layout-05 .web-system__card:last-child{
+    margin-bottom:0!important;
+  }
+}
+
+/* Route-bearing card headings. The line itself is driven by GSAP. */
+.af-card-route-title{
+  position:relative!important;
+  display:inline-block!important;
+  width:max-content;
+  max-width:100%;
+  cursor:pointer;
+  outline:none;
+}
+.af-card-route-title:focus-visible{
+  border-radius:4px;
+  box-shadow:0 0 0 3px rgba(0,187,160,.18);
+}
+.af-card-route-line{
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:-5px;
+  height:2px;
+  border-radius:999px;
+  pointer-events:none;
+  transform:scaleX(0);
+  transform-origin:0 50%;
+  background:linear-gradient(90deg,#00BBA0 0%,#00BBA0 35%,#FF960D 68%,#00BBA0 100%);
+  background-size:220% 100%;
+  box-shadow:0 0 10px rgba(0,187,160,.28);
+}
+
+@media (prefers-reduced-motion: reduce){
+  .af-card-route-line{transition:none!important}
+}
+
+/* Requested removal: Website Development "System experience" section. */
+.rs-layout-05 .web-experience,
+.rs-layout-05 [data-rs-web-experience]{
+  display:none!important;
+}
+
+/* The card body also routes to its resolved detail destination. Existing buttons/links
+   retain their own behavior; the GSAP line remains attached to the title only. */
+.af-card-route-card{cursor:pointer}
+.af-card-route-card a,
+.af-card-route-card button,
+.af-card-route-card input,
+.af-card-route-card select,
+.af-card-route-card textarea{cursor:auto}
+.af-card-route-card a,
+.af-card-route-card button{cursor:pointer}

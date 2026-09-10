@@ -1,0 +1,298 @@
+/* ======================================================================
+   Digital Presence / Advanced Digital Systems — V43
+   Requested repair:
+   1) One clean LEFT wing image + one clean RIGHT wing image only.
+   2) No full-width hero artwork behind the core (prevents double/triple bg).
+   3) Keep the existing Afyra core + rising app icon animation untouched.
+   4) Connected Platforms is CSS/DOM only: closed at center, opens outward
+      from the middle as the visitor scrolls into the strip.
+   ====================================================================== */
+
+.rs-layout-03 .dp-hero {
+  --dp-v43-wing-w: min(575px, 48.5vw);
+  --dp-v43-wing-h: 210px;
+  --dp-v43-wing-overlap: 82px;
+}
+
+/* Remove the old one-piece V41 artwork completely. */
+.rs-layout-03 .dp-hero__visual {
+  background: none !important;
+  background-image: none !important;
+  width: min(1180px, 100%) !important;
+  height: 430px !important;
+  overflow: visible !important;
+  isolation: isolate !important;
+}
+
+/* Keep only the approved center atmosphere; no duplicate wing-like layers. */
+.rs-layout-03 .dp-hero__visual::before {
+  opacity: .16 !important;
+}
+.rs-layout-03 .dp-hero__visual::after {
+  width: 450px !important;
+  height: 128px !important;
+  bottom: 7px !important;
+  opacity: .26 !important;
+  background: radial-gradient(circle at 50% 52%, rgba(0,187,160,.16), transparent 65%) !important;
+}
+.rs-layout-03 .dp-hero__beam {
+  width: 420px !important;
+  height: 116px !important;
+  bottom: 10px !important;
+  opacity: .22 !important;
+}
+
+/* Two separate, narrow wing images. The old video remains in markup for
+   compatibility but is fully retired visually. */
+.rs-layout-03 .dp-hero__wing {
+  display: block !important;
+  position: absolute !important;
+  top: auto !important;
+  bottom: 119px !important;
+  width: var(--dp-v43-wing-w) !important;
+  max-width: 575px !important;
+  height: var(--dp-v43-wing-h) !important;
+  overflow: visible !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background-color: transparent !important;
+  background-repeat: no-repeat !important;
+  background-position: center !important;
+  background-size: 100% 100% !important;
+  box-shadow: none !important;
+  clip-path: none !important;
+  -webkit-mask: none !important;
+  mask: none !important;
+  opacity: .98 !important;
+  z-index: 2 !important;
+  will-change: transform;
+  pointer-events: none !important;
+  filter: brightness(1.32) contrast(1.08) saturate(1.18)
+          drop-shadow(0 0 8px rgba(0,187,160,.18)) !important;
+}
+.rs-layout-03 .dp-hero__wing::before,
+.rs-layout-03 .dp-hero__wing::after {
+  content: none !important;
+  display: none !important;
+}
+.rs-layout-03 .dp-hero__wing-video {
+  display: none !important;
+  visibility: hidden !important;
+}
+
+.rs-layout-03 .dp-hero__wing--left {
+  left: auto !important;
+  right: calc(50% - var(--dp-v43-wing-overlap)) !important;
+  transform-origin: 100% 58% !important;
+  transform: rotate(8.5deg) !important;
+  background-image: url('/static/ref-solutions/digital-presence-wing-left-v43.png') !important;
+}
+.rs-layout-03 .dp-hero__wing--right {
+  right: auto !important;
+  left: calc(50% - var(--dp-v43-wing-overlap)) !important;
+  transform-origin: 0% 58% !important;
+  transform: rotate(-8.5deg) !important;
+  background-image: url('/static/ref-solutions/digital-presence-wing-right-v43.png') !important;
+}
+
+/* Preserve the approved core and rising icon layer. */
+.rs-layout-03 .dp-hero__aura,
+.rs-layout-03 .dp-hero__aura--outer { z-index: 3 !important; }
+.rs-layout-03 .dp-hero__core { z-index: 6 !important; }
+.rs-layout-03 .dp-hero__icons { z-index: 8 !important; }
+.rs-layout-03 .dp-hero__side { z-index: 7 !important; }
+
+/* ----------------------------------------------------------------------
+   Connected Platforms: no image. It is a real animated strip.
+   --dp-v43-inset: 50% at closed, 0% at open.
+   --dp-v43-shift: 0px at closed, grows outward on scroll.
+   ---------------------------------------------------------------------- */
+.rs-layout-03 .dp-trust-reveal {
+  --dp-v43-inset: 50%;
+  --dp-v43-shift: 0px;
+  --dp-v43-label: 0;
+  position: relative !important;
+  display: block !important;
+  width: min(1160px, calc(100% - 28px)) !important;
+  min-height: 78px !important;
+  margin: 0 auto 10px !important;
+  border: 0 !important;
+  background: transparent !important;
+  overflow: visible !important;
+  isolation: isolate !important;
+}
+
+/* Remove V41 decorative image-like glow rails around the strip. */
+.rs-layout-03 .dp-trust-reveal::before,
+.rs-layout-03 .dp-trust-reveal::after {
+  content: none !important;
+  display: none !important;
+}
+
+.rs-layout-03 .dp-trust-reveal__track--full {
+  position: absolute !important;
+  z-index: 1 !important;
+  inset: 8px 0 !important;
+  min-height: 62px !important;
+  display: flex !important;
+  align-items: center !important;
+  overflow: hidden !important;
+  opacity: 1 !important;
+  border: 1px solid rgba(0,187,160,.20) !important;
+  border-radius: 10px !important;
+  background: linear-gradient(180deg, rgba(0,68,62,.26), rgba(0,31,28,.34)) !important;
+  box-shadow: inset 0 1px 0 rgba(222,241,240,.04) !important;
+  clip-path: inset(0 var(--dp-v43-inset) 0 var(--dp-v43-inset) round 10px) !important;
+  -webkit-clip-path: inset(0 var(--dp-v43-inset) 0 var(--dp-v43-inset) round 10px) !important;
+  transform: none !important;
+  transform-origin: 50% 50% !important;
+  will-change: clip-path !important;
+}
+
+.rs-layout-03 .dp-trust-reveal__marquee {
+  min-height: 62px !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 42px !important;
+  min-width: max-content !important;
+  white-space: nowrap !important;
+  padding: 0 34px !important;
+  color: rgba(222,241,240,.86) !important;
+  font: 650 13px/1 var(--af-font-2) !important;
+  letter-spacing: .01em !important;
+}
+.rs-layout-03 .dp-trust-reveal__marquee span {
+  position: relative !important;
+  padding-left: 18px !important;
+}
+.rs-layout-03 .dp-trust-reveal__marquee span::before {
+  content: "" !important;
+  position: absolute !important;
+  left: 0 !important;
+  top: 50% !important;
+  width: 8px !important;
+  height: 8px !important;
+  transform: translateY(-50%) rotate(45deg) !important;
+  border: 1px solid rgba(0,187,160,.88) !important;
+  box-shadow: 0 0 10px rgba(0,187,160,.25) !important;
+  background: transparent !important;
+}
+.rs-layout-03 .dp-trust-reveal__marquee span:nth-child(3n)::before {
+  border-color: rgba(255,150,13,.92) !important;
+  box-shadow: 0 0 10px rgba(255,150,13,.20) !important;
+}
+
+/* Text only; no center image/card. */
+.rs-layout-03 .dp-trust-reveal__center {
+  position: absolute !important;
+  z-index: 4 !important;
+  left: 50% !important;
+  top: 50% !important;
+  min-width: 184px !important;
+  min-height: 34px !important;
+  transform: translate(-50%, -50%) scale(calc(.94 + (var(--dp-v43-label) * .06))) !important;
+  display: grid !important;
+  place-items: center !important;
+  padding: 0 18px !important;
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  opacity: var(--dp-v43-label) !important;
+  pointer-events: none !important;
+}
+.rs-layout-03 .dp-trust-reveal__center strong {
+  color: #DEF1F0 !important;
+  font: 760 13px/1 var(--af-font-2) !important;
+  letter-spacing: .13em !important;
+  text-shadow: 0 0 16px rgba(0,187,160,.28) !important;
+}
+
+/* Two illuminated brackets begin together at the center and travel outward. */
+.rs-layout-03 .dp-trust-reveal__gate {
+  display: block !important;
+  position: absolute !important;
+  z-index: 5 !important;
+  top: 8px !important;
+  bottom: 8px !important;
+  width: 7px !important;
+  height: auto !important;
+  margin: 0 !important;
+  border-radius: 4px !important;
+  background: linear-gradient(180deg, #DEF1F0 0%, #00BBA0 20%, #00BBA0 78%, #FF960D 100%) !important;
+  box-shadow: 0 0 13px rgba(0,187,160,.52), 0 0 26px rgba(0,187,160,.17) !important;
+  transform: none !important;
+  will-change: left !important;
+}
+.rs-layout-03 .dp-trust-reveal__gate--left {
+  left: calc(50% - 10px - var(--dp-v43-shift)) !important;
+  right: auto !important;
+}
+.rs-layout-03 .dp-trust-reveal__gate--right {
+  left: calc(50% + 10px + var(--dp-v43-shift)) !important;
+  right: auto !important;
+}
+.rs-layout-03 .dp-trust-reveal__gate::before,
+.rs-layout-03 .dp-trust-reveal__gate::after {
+  content: "" !important;
+  position: absolute !important;
+  width: 13px !important;
+  height: 4px !important;
+  border-radius: 4px !important;
+  background: inherit !important;
+  box-shadow: inherit !important;
+}
+.rs-layout-03 .dp-trust-reveal__gate::before { top: 0 !important; }
+.rs-layout-03 .dp-trust-reveal__gate::after { bottom: 0 !important; }
+.rs-layout-03 .dp-trust-reveal__gate--left::before,
+.rs-layout-03 .dp-trust-reveal__gate--left::after { right: 0 !important; }
+.rs-layout-03 .dp-trust-reveal__gate--right::before,
+.rs-layout-03 .dp-trust-reveal__gate--right::after { left: 0 !important; }
+
+@media (max-width: 1180px) {
+  .rs-layout-03 .dp-hero {
+    --dp-v43-wing-w: min(545px, 49vw);
+    --dp-v43-wing-h: 198px;
+    --dp-v43-wing-overlap: 72px;
+  }
+  .rs-layout-03 .dp-hero__wing { bottom: 122px !important; }
+}
+
+@media (max-width: 1024px) {
+  .rs-layout-03 .dp-hero {
+    --dp-v43-wing-w: 49%;
+    --dp-v43-wing-h: 164px;
+    --dp-v43-wing-overlap: 58px;
+  }
+  .rs-layout-03 .dp-hero__visual { height: 350px !important; }
+  .rs-layout-03 .dp-hero__wing { bottom: 102px !important; }
+  .rs-layout-03 .dp-hero__wing--left { transform: rotate(8deg) !important; }
+  .rs-layout-03 .dp-hero__wing--right { transform: rotate(-8deg) !important; }
+}
+
+@media (max-width: 760px) {
+  .rs-layout-03 .dp-hero {
+    --dp-v43-wing-w: 52%;
+    --dp-v43-wing-h: 108px;
+    --dp-v43-wing-overlap: 38px;
+  }
+  .rs-layout-03 .dp-hero__visual { height: 286px !important; overflow: hidden !important; }
+  .rs-layout-03 .dp-hero__wing { bottom: 82px !important; filter: brightness(1.34) contrast(1.06) saturate(1.15) !important; }
+  .rs-layout-03 .dp-hero__wing--left { transform: rotate(7deg) !important; }
+  .rs-layout-03 .dp-hero__wing--right { transform: rotate(-7deg) !important; }
+  .rs-layout-03 .dp-trust-reveal { width: calc(100% - 18px) !important; min-height: 70px !important; }
+  .rs-layout-03 .dp-trust-reveal__track--full { inset: 7px 0 !important; min-height: 56px !important; }
+  .rs-layout-03 .dp-trust-reveal__marquee { min-height: 56px !important; gap: 24px !important; padding: 0 18px !important; font-size: 11px !important; }
+  .rs-layout-03 .dp-trust-reveal__center { min-width: 150px !important; }
+  .rs-layout-03 .dp-trust-reveal__center strong { font-size: 10px !important; }
+  .rs-layout-03 .dp-trust-reveal__gate { top: 7px !important; bottom: 7px !important; }
+}
+
+@media (max-width: 480px) {
+  .rs-layout-03 .dp-hero {
+    --dp-v43-wing-w: 54%;
+    --dp-v43-wing-h: 84px;
+    --dp-v43-wing-overlap: 28px;
+  }
+  .rs-layout-03 .dp-hero__visual { height: 246px !important; }
+  .rs-layout-03 .dp-hero__wing { bottom: 72px !important; }
+}

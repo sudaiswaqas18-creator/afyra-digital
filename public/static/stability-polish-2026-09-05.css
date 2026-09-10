@@ -1,0 +1,329 @@
+/* ============================================================
+   AFYRA DIGITAL — STABILITY / POLISH PASS — 2026-09-05
+   Scope: route scroll reset, loader failsafe, shared section labels,
+   card-header cleanup, detail CTA visibility, Insights completeness,
+   About + Healthcare layout repairs, service hero stability.
+   ============================================================ */
+
+/* 1. Loader must never remain stuck. React still controls normal timing; this is a visual failsafe. */
+.af-boot-loader{animation:af-loader-failsafe 1.35s ease forwards}
+.af-page-transition.is-visible{animation:af-route-failsafe 1.25s ease forwards}
+@keyframes af-loader-failsafe{0%,72%{opacity:1;visibility:visible}100%{opacity:0;visibility:hidden;pointer-events:none}}
+@keyframes af-route-failsafe{0%,72%{opacity:1;visibility:visible}100%{opacity:0;visibility:hidden;pointer-events:none}}
+
+/* 2. Homepage How-We-Work eyebrow visual language reused for section-intro labels. */
+.af-global-section-label,
+.af-runtime-section-label{
+  display:inline-flex!important;
+  align-items:center!important;
+  width:max-content!important;
+  max-width:100%;
+  border:1px solid rgba(222,241,240,.2)!important;
+  border-radius:999px!important;
+  padding:3px 14px 3px 3px!important;
+  margin:0 0 16px!important;
+  position:relative!important;
+  overflow:hidden!important;
+  background:#071f1c!important;
+  color:#fff!important;
+  text-transform:none!important;
+  letter-spacing:0!important;
+  font-size:13.5px!important;
+  line-height:1!important;
+  font-weight:400!important;
+  box-shadow:0 7px 18px rgba(0,68,62,.1)!important;
+  z-index:1!important;
+}
+.af-global-section-label::before,
+.af-runtime-section-label::before{
+  content:"";position:absolute;inset:0 auto 0 -28%;width:30%;
+  background:linear-gradient(90deg,transparent,rgba(222,241,240,.22),transparent);
+  animation:af-global-label-sweep 4s linear infinite;z-index:-1
+}
+@keyframes af-global-label-sweep{to{left:110%}}
+.af-global-section-label .af-eyebrow__text{display:flex!important;gap:9px!important;align-items:center!important;color:#fff!important;margin:0!important}
+.af-runtime-section-label__tag{
+  display:inline-flex;align-items:center;justify-content:center;
+  padding:6px 13px;border-radius:999px;background:#00BBA0;color:#01201C;
+  box-shadow:inset 0 0 8px rgba(255,255,255,.55);font-weight:700;line-height:1
+}
+.af-runtime-section-label__rest{white-space:nowrap;color:#fff;font-weight:500}
+.px-section-head>.af-global-section-label,.px-section-head>.af-runtime-section-label{margin-inline:auto!important}
+.px-section-head.is-left>.af-global-section-label,.px-section-head.is-left>.af-runtime-section-label{margin-left:0!important;margin-right:0!important}
+.sv-section-head>.af-global-section-label,.sv-section-head>.af-runtime-section-label{margin-inline:auto!important}
+.sv-connected__copy>.af-global-section-label,.sv-faq__head>.af-global-section-label,.sv-proof .af-global-section-label{margin-left:0!important}
+
+/* 3. Detail CTA copy must always be visible; no animation may leave a blank CTA shell. */
+.dt-final__inner{display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;min-height:420px!important;text-align:center!important}
+.dt-final__inner>h2,.dt-final__inner>p,.dt-final__inner>.dt-actions,.dt-final__inner>.af-global-section-label,.dt-final__inner>.af-runtime-section-label{
+  opacity:1!important;visibility:visible!important;transform:none!important;filter:none!important
+}
+.dt-final__inner>h2{max-width:780px!important;margin:18px auto 18px!important}
+.dt-final__inner>p{max-width:760px!important;margin:0 auto!important;line-height:1.7!important}
+.dt-final__inner>.dt-actions{margin-top:30px!important;justify-content:center!important}
+
+/* 4. Clean card image/header presentation: remove redundant over-image caption/gradient,
+      keep semantic icon neat, and keep number badges outside the image area. */
+.af-card-visual::after{display:none!important}
+.af-card-visual figcaption{display:none!important}
+.af-card-visual img{filter:none!important}
+.af-card-visual .af-semantic-card-icon{top:12px!important;right:12px!important;bottom:auto!important;box-shadow:0 8px 22px rgba(0,68,62,.12)!important}
+.px-process-page__grid .px-card>span,
+.px-decisions__rail .px-card>span,
+.px-terms__cards .px-card>span,
+.px-health-needs__stack .px-card>span,
+.px-vision__list .px-card>span,
+.sv-process-num,
+.sv-showcase__grid article>span{
+  position:static!important;inset:auto!important;transform:none!important;
+  display:inline-grid!important;place-items:center!important;width:42px!important;height:42px!important;
+  min-width:42px!important;border-radius:999px!important;margin:0 0 14px!important;
+  background:#00BBA0!important;color:#00443E!important;border:1px solid rgba(0,68,62,.08)!important;
+  box-shadow:0 0 0 7px rgba(0,187,160,.09)!important;font-size:10px!important;font-weight:800!important;
+  z-index:3!important
+}
+.px-card>.af-card-visual:first-child{margin-top:0!important}
+
+/* 5. Insights cards: supporting copy is always visible and fills the editorial card intentionally. */
+.px-insights-grid__cards .px-card,.px-decisions__rail .px-card{display:flex!important;flex-direction:column!important;align-items:stretch!important;height:100%!important}
+.px-insights-grid__cards .px-card>p,.px-decisions__rail .px-card>.px-card__summary{
+  display:block!important;opacity:1!important;visibility:visible!important;min-height:58px!important;
+  margin:10px 0 18px!important;color:rgba(0,68,62,.72)!important;line-height:1.65!important
+}
+.px-theme-contrast .px-insights-grid__cards .px-card>p,.px-theme-contrast .px-decisions__rail .px-card>.px-card__summary{color:rgba(0,68,62,.72)!important}
+.px-insights-grid__cards .af-card-detail-link,.px-decisions__rail .af-card-detail-link{margin-top:auto!important}
+
+/* 6. About — strategic partner section: deliberate 42/58 split, equal comparison cards. */
+@media(min-width:981px){
+  .px-about-positioning__grid{grid-template-columns:minmax(360px,.78fr) minmax(0,1.22fr)!important;gap:clamp(56px,6vw,92px)!important;align-items:center!important}
+  .px-about-positioning__grid>div:first-child{max-width:560px!important}
+  .px-about-positioning__compare{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:20px!important;align-items:stretch!important}
+  .px-about-positioning__compare .px-card{height:100%!important;display:flex!important;flex-direction:column!important;padding:22px!important}
+  .px-about-positioning__compare .af-card-visual{aspect-ratio:16/8!important;margin-bottom:18px!important}
+  .px-about-positioning__compare .px-card ul{margin:14px 0 18px!important;gap:11px!important}
+  .px-about-positioning__compare .af-card-detail-link{margin-top:auto!important}
+}
+
+/* 7. About — founder vision: CSS sticky instead of jittery GSAP pin; cards remain in sync. */
+.px-vision{overflow:visible!important}
+@media(min-width:981px){
+  .px-vision__grid{grid-template-columns:minmax(390px,.92fr) minmax(0,1.08fr)!important;gap:clamp(58px,6.5vw,96px)!important;align-items:start!important}
+  .px-vision__sticky{position:sticky!important;top:118px!important;align-self:start!important;transform:none!important;max-width:620px!important}
+  .px-vision__list{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:16px!important;align-items:stretch!important}
+  .px-vision__list .px-card{display:flex!important;flex-direction:column!important;align-items:stretch!important;height:100%!important;padding:20px!important;min-width:0!important}
+  .px-vision__list .px-card>.px-card__content{min-height:105px!important}
+  .px-vision__list .px-card>.af-card-visual{width:100%!important;grid-column:auto!important;grid-row:auto!important;aspect-ratio:16/9!important;margin:10px 0 0!important}
+  .px-vision__list .px-card>.af-card-detail-link{margin-top:auto!important}
+  .px-vision__list .px-card:last-child{grid-column:1/-1!important;display:grid!important;grid-template-columns:44px minmax(0,1fr) minmax(260px,.72fr)!important;gap:18px!important;align-items:center!important}
+  .px-vision__list .px-card:last-child>.af-card-visual{grid-column:3!important;grid-row:1/3!important;margin:0!important}
+  .px-vision__list .px-card:last-child>.af-card-detail-link{grid-column:2!important}
+}
+
+/* 8. Healthcare — Why Healthcare Is Different: balanced intro + 2x4 card system. */
+@media(min-width:981px){
+  .px-health-needs__grid{grid-template-columns:minmax(360px,.88fr) minmax(0,1.12fr)!important;gap:clamp(54px,6vw,88px)!important;align-items:start!important}
+  .px-health-needs__grid>div:first-child{position:sticky!important;top:118px!important;max-width:580px!important}
+  .px-health-needs__stack{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:16px!important;align-items:stretch!important}
+  .px-health-needs__stack .px-card{display:flex!important;flex-direction:column!important;height:100%!important;padding:20px!important}
+  .px-health-needs__stack .px-card .af-card-visual{aspect-ratio:16/8.6!important;margin:0 0 16px!important}
+  .px-health-needs__stack .px-card h3{margin:0 0 8px!important}
+  .px-health-needs__stack .px-card .px-card__summary{min-height:58px!important;margin-bottom:14px!important}
+  .px-health-needs__stack .af-card-detail-link{margin-top:auto!important}
+}
+
+/* 9. Service hero panels: keep purpose-built graphics stable, unclipped and responsive. */
+.sv-page .sv-hero__art{overflow:hidden!important;isolation:isolate!important;will-change:transform,opacity!important}
+.sv-layout-02 .sv-copy-art{overflow:visible!important}
+.sv-layout-02 .sv-copy-card--left,.sv-layout-02 .sv-copy-card--right{z-index:4!important;max-width:190px!important}
+.sv-layout-04 .sv-chat__bubble{min-height:70px!important}
+.sv-layout-04 .sv-chat__activity{margin-top:16px!important}
+.sv-layout-05 .sv-browser__canvas,.sv-layout-06 .sv-support__main{min-height:0!important}
+.sv-layout-07 .sv-growth-map{min-height:430px!important}
+
+/* Responsive consistency */
+@media(max-width:980px){
+  .px-about-positioning__grid,.px-vision__grid,.px-health-needs__grid{grid-template-columns:1fr!important;gap:42px!important}
+  .px-vision__sticky,.px-health-needs__grid>div:first-child{position:relative!important;top:auto!important;max-width:760px!important}
+  .px-vision__list{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  .px-health-needs__stack{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  .px-about-positioning__compare{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+}
+@media(max-width:720px){
+  .af-global-section-label,.af-runtime-section-label{font-size:12px!important;max-width:100%!important}
+  .af-runtime-section-label__rest,.af-eyebrow__text>span:last-child{white-space:normal!important}
+  .px-about-positioning__compare,.px-vision__list,.px-health-needs__stack{grid-template-columns:1fr!important}
+  .px-vision__list .px-card:last-child{display:flex!important;grid-template-columns:none!important}
+  .px-vision__list .px-card:last-child>.af-card-visual,.px-vision__list .px-card:last-child>.af-card-detail-link{grid-column:auto!important;grid-row:auto!important}
+  .dt-final__inner{min-height:0!important;padding:42px 22px!important}
+  .sv-layout-02 .sv-copy-card--left,.sv-layout-02 .sv-copy-card--right{position:relative!important;inset:auto!important;max-width:none!important;width:100%!important;margin-top:12px!important}
+  .sv-layout-07 .sv-growth-map{min-height:340px!important}
+}
+@media(max-width:420px){
+  .px-health-needs__stack .px-card,.px-about-positioning__compare .px-card,.px-vision__list .px-card{padding:18px!important}
+  .af-runtime-section-label__tag{padding:5px 10px}
+}
+
+@media(prefers-reduced-motion:reduce){
+  .af-boot-loader,.af-page-transition.is-visible,.af-global-section-label::before,.af-runtime-section-label::before{animation:none!important}
+  .af-boot-loader{opacity:0!important;visibility:hidden!important;pointer-events:none!important}
+}
+
+/* Card sequence ordering: keep numbered identity above the media instead of colliding with it. */
+.px-process-page__grid .px-card,
+.px-decisions__rail .px-card,
+.px-terms__cards .px-card,
+.px-health-needs__stack .px-card{display:flex!important;flex-direction:column!important;align-items:stretch!important}
+.px-process-page__grid .px-card>span,
+.px-decisions__rail .px-card>span,
+.px-terms__cards .px-card>span,
+.px-health-needs__stack .px-card>span{order:0!important;align-self:flex-start!important}
+.px-process-page__grid .px-card>.af-card-visual,
+.px-decisions__rail .px-card>.af-card-visual,
+.px-terms__cards .px-card>.af-card-visual,
+.px-health-needs__stack .px-card>.af-card-visual{order:1!important}
+.px-process-page__grid .px-card>h3,
+.px-decisions__rail .px-card>h3,
+.px-terms__cards .px-card>h3,
+.px-health-needs__stack .px-card>h3{order:2!important}
+.px-process-page__grid .px-card>p,
+.px-decisions__rail .px-card>p,
+.px-terms__cards .px-card>p,
+.px-health-needs__stack .px-card>p{order:3!important}
+.px-process-page__grid .px-card>.af-card-detail-link,
+.px-decisions__rail .px-card>.af-card-detail-link,
+.px-terms__cards .px-card>.af-card-detail-link,
+.px-health-needs__stack .px-card>.af-card-detail-link{order:4!important;margin-top:auto!important}
+.px-insights-grid__cards .px-insight,.px-decisions__rail .px-card{min-height:0!important;padding:20px!important}
+.px-insights-grid__cards .px-insight .af-card-visual,.px-decisions__rail .px-card .af-card-visual{aspect-ratio:16/9!important;margin-bottom:16px!important}
+.dt-final__inner .px-word,.dt-final__inner .px-char{opacity:1!important;transform:none!important;filter:none!important;visibility:visible!important}
+/* Afyra Digital — final balance + rendering performance pass (2026-09-05)
+   Purpose: commercial-terms balance, detail CTA completeness, and lower-cost offscreen rendering.
+   Existing colors/content/layout language are preserved. */
+
+/* Programs — balanced commercial terms */
+.px-page .px-terms__grid{
+  grid-template-columns:minmax(360px,.92fr) minmax(0,1.08fr)!important;
+  gap:clamp(46px,5.5vw,78px)!important;
+  align-items:stretch!important;
+}
+.px-page .px-terms__intro{
+  display:flex!important;
+  flex-direction:column!important;
+  justify-content:center!important;
+  align-self:stretch!important;
+  min-width:0!important;
+  padding:clamp(8px,1vw,16px) 0!important;
+}
+.px-page .px-terms__intro .px-section-head{margin-bottom:24px!important}
+.px-page .px-terms__intro .px-section-head p{
+  max-width:520px!important;
+  margin-top:16px!important;
+  line-height:1.7!important;
+}
+.px-page .px-terms__assurance{
+  display:grid!important;
+  grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  gap:12px!important;
+  margin-top:12px!important;
+}
+.px-page .px-terms__assurance>div{
+  min-height:92px!important;
+  padding:17px 18px!important;
+  border:1px solid rgba(0,68,62,.12)!important;
+  border-radius:18px!important;
+  background:rgba(222,241,240,.54)!important;
+  display:flex!important;
+  flex-direction:column!important;
+  justify-content:center!important;
+  gap:6px!important;
+  box-shadow:0 12px 30px rgba(0,68,62,.05)!important;
+}
+.px-page .px-terms__assurance strong{
+  font:600 13px/1.25 var(--af-font-2)!important;
+  color:#00443E!important;
+}
+.px-page .px-terms__assurance span{
+  font:500 12px/1.4 var(--af-font-1)!important;
+  color:rgba(0,68,62,.68)!important;
+}
+.px-page .px-terms__note{
+  max-width:520px!important;
+  margin:18px 0 0!important;
+  padding-top:16px!important;
+  border-top:1px solid rgba(0,68,62,.10)!important;
+  font-size:12px!important;
+  line-height:1.7!important;
+  color:rgba(0,68,62,.62)!important;
+}
+.px-page .px-terms__cards{align-self:stretch!important}
+.px-page .px-terms__cards .px-card{height:100%!important}
+
+/* Detail CTA — remove the visual dead zone and force complete copy visible. */
+.dt-final__inner{
+  min-height:340px!important;
+  gap:0!important;
+  justify-content:center!important;
+  padding-top:clamp(46px,6vw,72px)!important;
+  padding-bottom:clamp(46px,6vw,72px)!important;
+}
+.dt-final__inner>h2,
+.dt-final__inner>p,
+.dt-final__inner>.dt-actions,
+.dt-final__inner .px-word,
+.dt-final__inner .px-char{
+  opacity:1!important;
+  visibility:visible!important;
+  transform:none!important;
+  filter:none!important;
+}
+.dt-final__inner>h2{margin:18px auto 14px!important}
+.dt-final__inner>p{margin:0 auto!important}
+.dt-final__inner>.dt-final__support{
+  max-width:660px!important;
+  margin:10px auto 0!important;
+  font-size:12px!important;
+  color:rgba(222,241,240,.58)!important;
+}
+.dt-final__inner>.dt-actions{margin-top:26px!important}
+
+/* Rendering performance: lower sections avoid full paint/layout work until near viewport.
+   Intrinsic height protects scroll geometry so ScrollTrigger measurements remain stable. */
+@supports (content-visibility:auto){
+  .px-page main>.px-section:not(.px-system-band):not(.px-vision),
+  .px-page main>.px-final,
+  .dt-page main>.dt-section,
+  .dt-page main>.dt-final,
+  .rq-page main>.rq-section,
+  .sv-page main>section:not(.sv-hero):not(.sv-gap){
+    content-visibility:auto;
+    contain-intrinsic-size:auto 760px;
+  }
+}
+
+/* Prevent expensive paint spill from card grids without changing geometry. */
+.px-page :is(.px-programs-full__grid,.px-terms__cards,.px-insights-grid__cards,.px-decisions__rail,.px-values__grid),
+.dt-page :is(.dt-highlight-list,.dt-system-flow__steps),
+.sv-page :is(.sv-feature-grid,.sv-showcase__grid,.sv-process-grid,.sv-price-grid){
+  contain:layout style;
+}
+
+/* Media stability and lower image decode jank. */
+.af-card-visual img,.af-ai-visual img,.dt-hero__visual img,.px-hero__media img{
+  backface-visibility:hidden;
+  transform:translateZ(0);
+}
+
+@media(max-width:980px){
+  .px-page .px-terms__grid{grid-template-columns:1fr!important;gap:38px!important}
+  .px-page .px-terms__intro{max-width:760px!important;padding:0!important}
+  .px-page .px-terms__assurance{max-width:760px!important}
+}
+@media(max-width:620px){
+  .px-page .px-terms__assurance{grid-template-columns:1fr!important}
+  .px-page .px-terms__assurance>div{min-height:76px!important}
+  .dt-final__inner{min-height:0!important;padding:40px 20px!important}
+}
+
+@media(prefers-reduced-motion:reduce){
+  .af-card-visual img,.af-ai-visual img,.dt-hero__visual img,.px-hero__media img{transform:none!important}
+}

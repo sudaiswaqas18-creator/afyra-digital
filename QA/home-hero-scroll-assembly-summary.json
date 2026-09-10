@@ -1,0 +1,19 @@
+{
+  "implementation": "scroll-linked scattered-to-assembled dashboard",
+  "sourceComponent": "src/client/components/HeroParallaxDashboard.tsx",
+  "animationHook": "src/client/lib/useGsapAnimations.ts",
+  "runtimeCompatibility": "public/static/home-hero-parallax-2026-09-05.js",
+  "desktop": {
+    "scrollTrigger": true,
+    "scrub": 1.15,
+    "start": "top top",
+    "end": "max(680px,82vh)",
+    "parts": 9,
+    "glows": 2
+  },
+  "tablet": "assembled layout + lightweight entrance; scroll scrub disabled",
+  "mobile": "single-column safe layout; scroll scrub disabled",
+  "reducedMotion": "assembled static state",
+  "duplicateHeroLabels": 0,
+  "desktopCollisionSimulation": "PASS"
+}

@@ -1,0 +1,88 @@
+/* Afyra Digital — Patient Acquisition final interaction polish v28
+   Scope: /solutions/patient-acquisition-lead-generation (.rs-layout-04 only)
+   Fixes: pricing fan -> aligned scrub, homepage-identical loaded Process state, hero-logo cursor micro-parallax. */
+
+/* Hero logo moves only inside its existing stationary ring. */
+.rs-layout-04 [data-rs-patient-hero-logo]{
+  will-change:transform;
+  backface-visibility:hidden;
+  -webkit-backface-visibility:hidden;
+  transform:translate3d(0,0,0);
+}
+
+/* Pricing deck: reserve comfortable fan space while preserving the final grid. */
+.rs-layout-04 .pa-pricing__grid{
+  position:relative;
+  isolation:isolate;
+  perspective:1600px!important;
+  perspective-origin:50% 58%;
+  transform-style:preserve-3d!important;
+}
+.rs-layout-04 .pa-price-card{
+  backface-visibility:hidden;
+  -webkit-backface-visibility:hidden;
+  transform-style:preserve-3d!important;
+  transform-origin:50% 100%;
+}
+.rs-layout-04 .pa-price-card.is-popular{z-index:3}
+
+/* Process / How We Work: never inherit the homepage-only .af-reveal hidden state on a service route.
+   All four cards, the description and center hub are complete as soon as the section is reached. */
+.rs-layout-04 .pa-home-process .af-reveal,
+.rs-layout-04 .pa-home-process [data-rs-patient-home-process-card],
+.rs-layout-04 .pa-home-process .af-proc__hub{
+  opacity:1!important;
+  visibility:visible!important;
+}
+.rs-layout-04 .pa-home-process [data-rs-patient-home-process-card]{
+  will-change:transform,box-shadow,border-color,background-color!important;
+}
+.rs-layout-04 .pa-home-process .af-proc__hub{
+  transform:none;
+}
+.rs-layout-04 .pa-home-process .af-proc__hub-core img{
+  display:block;
+  width:64px!important;
+  height:64px!important;
+  object-fit:contain;
+  opacity:1!important;
+  filter:drop-shadow(0 0 12px rgba(0,187,160,.26));
+}
+
+@media (max-width:1050px){
+  .rs-layout-04 .pa-pricing__grid{overflow:visible}
+}
+
+@media (max-width:760px){
+  .rs-layout-04 [data-rs-patient-hero-logo]{will-change:auto}
+  .rs-layout-04 .pa-home-process .af-proc__hub-core img{
+    width:54px!important;
+    height:54px!important;
+  }
+}
+
+@media (prefers-reduced-motion:reduce){
+  .rs-layout-04 [data-rs-patient-hero-logo],
+  .rs-layout-04 .pa-price-card{
+    transform:none!important;
+    will-change:auto!important;
+  }
+}
+
+/* Paint the reference fan pose immediately, before the effect hook attaches.
+   GSAP writes inline transforms during scrub and therefore cleanly owns the settled state. */
+@media (min-width:1051px) and (prefers-reduced-motion:no-preference){
+  .rs-layout-04 .pa-pricing__grid > .pa-price-card:nth-child(1){transform:translate3d(86px,50px,-46px) rotate(-11.5deg) scale(.94)}
+  .rs-layout-04 .pa-pricing__grid > .pa-price-card:nth-child(2){transform:translate3d(0,-30px,64px) rotate(0deg) scale(1.055)}
+  .rs-layout-04 .pa-pricing__grid > .pa-price-card:nth-child(3){transform:translate3d(-86px,50px,-46px) rotate(11.5deg) scale(.94)}
+}
+@media (min-width:761px) and (max-width:1050px) and (prefers-reduced-motion:no-preference){
+  .rs-layout-04 .pa-pricing__grid > .pa-price-card:nth-child(1){transform:translate3d(-10px,24px,0) rotate(-4.25deg) scale(.985)}
+  .rs-layout-04 .pa-pricing__grid > .pa-price-card:nth-child(2){transform:translate3d(8px,12px,12px) rotate(1.2deg) scale(1.01)}
+  .rs-layout-04 .pa-pricing__grid > .pa-price-card:nth-child(3){transform:translate3d(10px,24px,0) rotate(4.25deg) scale(.985)}
+}
+@media (max-width:760px) and (prefers-reduced-motion:no-preference){
+  .rs-layout-04 .pa-pricing__grid > .pa-price-card:nth-child(1){transform:translate3d(-5px,16px,0) rotate(-2.7deg) scale(.992)}
+  .rs-layout-04 .pa-pricing__grid > .pa-price-card:nth-child(2){transform:translate3d(4px,10px,8px) rotate(.8deg) scale(1.006)}
+  .rs-layout-04 .pa-pricing__grid > .pa-price-card:nth-child(3){transform:translate3d(5px,16px,0) rotate(2.7deg) scale(.992)}
+}

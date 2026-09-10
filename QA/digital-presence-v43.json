@@ -1,0 +1,20 @@
+{
+  "version": "V43",
+  "page": "/solutions/digital-presence-advanced-systems",
+  "hero": {
+    "full_width_v41_background_disabled": true,
+    "separate_left_wing": true,
+    "separate_right_wing": true,
+    "existing_core_preserved": true,
+    "rising_icons_preserved": true,
+    "video_visuals_retired": true
+  },
+  "connected_platforms": {
+    "image_used": false,
+    "initial_state": "closed at center",
+    "scroll_behavior": "opens from center outward",
+    "brackets_move_outward": true,
+    "marquee_preserved": true
+  },
+  "trust_claim": "unsupported 500+ claim removed"
+}

@@ -1,0 +1,131 @@
+/* Afyra Digital — final balance + rendering performance pass (2026-09-05)
+   Purpose: commercial-terms balance, detail CTA completeness, and lower-cost offscreen rendering.
+   Existing colors/content/layout language are preserved. */
+
+/* Programs — balanced commercial terms */
+.px-page .px-terms__grid{
+  grid-template-columns:minmax(360px,.92fr) minmax(0,1.08fr)!important;
+  gap:clamp(46px,5.5vw,78px)!important;
+  align-items:stretch!important;
+}
+.px-page .px-terms__intro{
+  display:flex!important;
+  flex-direction:column!important;
+  justify-content:center!important;
+  align-self:stretch!important;
+  min-width:0!important;
+  padding:clamp(8px,1vw,16px) 0!important;
+}
+.px-page .px-terms__intro .px-section-head{margin-bottom:24px!important}
+.px-page .px-terms__intro .px-section-head p{
+  max-width:520px!important;
+  margin-top:16px!important;
+  line-height:1.7!important;
+}
+.px-page .px-terms__assurance{
+  display:grid!important;
+  grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  gap:12px!important;
+  margin-top:12px!important;
+}
+.px-page .px-terms__assurance>div{
+  min-height:92px!important;
+  padding:17px 18px!important;
+  border:1px solid rgba(0,68,62,.12)!important;
+  border-radius:18px!important;
+  background:rgba(222,241,240,.54)!important;
+  display:flex!important;
+  flex-direction:column!important;
+  justify-content:center!important;
+  gap:6px!important;
+  box-shadow:0 12px 30px rgba(0,68,62,.05)!important;
+}
+.px-page .px-terms__assurance strong{
+  font:600 13px/1.25 var(--af-font-2)!important;
+  color:#00443E!important;
+}
+.px-page .px-terms__assurance span{
+  font:500 12px/1.4 var(--af-font-1)!important;
+  color:rgba(0,68,62,.68)!important;
+}
+.px-page .px-terms__note{
+  max-width:520px!important;
+  margin:18px 0 0!important;
+  padding-top:16px!important;
+  border-top:1px solid rgba(0,68,62,.10)!important;
+  font-size:12px!important;
+  line-height:1.7!important;
+  color:rgba(0,68,62,.62)!important;
+}
+.px-page .px-terms__cards{align-self:stretch!important}
+.px-page .px-terms__cards .px-card{height:100%!important}
+
+/* Detail CTA — remove the visual dead zone and force complete copy visible. */
+.dt-final__inner{
+  min-height:340px!important;
+  gap:0!important;
+  justify-content:center!important;
+  padding-top:clamp(46px,6vw,72px)!important;
+  padding-bottom:clamp(46px,6vw,72px)!important;
+}
+.dt-final__inner>h2,
+.dt-final__inner>p,
+.dt-final__inner>.dt-actions,
+.dt-final__inner .px-word,
+.dt-final__inner .px-char{
+  opacity:1!important;
+  visibility:visible!important;
+  transform:none!important;
+  filter:none!important;
+}
+.dt-final__inner>h2{margin:18px auto 14px!important}
+.dt-final__inner>p{margin:0 auto!important}
+.dt-final__inner>.dt-final__support{
+  max-width:660px!important;
+  margin:10px auto 0!important;
+  font-size:12px!important;
+  color:rgba(222,241,240,.58)!important;
+}
+.dt-final__inner>.dt-actions{margin-top:26px!important}
+
+/* Rendering performance: lower sections avoid full paint/layout work until near viewport.
+   Intrinsic height protects scroll geometry so ScrollTrigger measurements remain stable. */
+@supports (content-visibility:auto){
+  .px-page main>.px-section:not(.px-system-band):not(.px-vision),
+  .px-page main>.px-final,
+  .dt-page main>.dt-section,
+  .dt-page main>.dt-final,
+  .rq-page main>.rq-section,
+  .sv-page main>section:not(.sv-hero):not(.sv-gap){
+    content-visibility:auto;
+    contain-intrinsic-size:auto 760px;
+  }
+}
+
+/* Prevent expensive paint spill from card grids without changing geometry. */
+.px-page :is(.px-programs-full__grid,.px-terms__cards,.px-insights-grid__cards,.px-decisions__rail,.px-values__grid),
+.dt-page :is(.dt-highlight-list,.dt-system-flow__steps),
+.sv-page :is(.sv-feature-grid,.sv-showcase__grid,.sv-process-grid,.sv-price-grid){
+  contain:layout style;
+}
+
+/* Media stability and lower image decode jank. */
+.af-card-visual img,.af-ai-visual img,.dt-hero__visual img,.px-hero__media img{
+  backface-visibility:hidden;
+  transform:translateZ(0);
+}
+
+@media(max-width:980px){
+  .px-page .px-terms__grid{grid-template-columns:1fr!important;gap:38px!important}
+  .px-page .px-terms__intro{max-width:760px!important;padding:0!important}
+  .px-page .px-terms__assurance{max-width:760px!important}
+}
+@media(max-width:620px){
+  .px-page .px-terms__assurance{grid-template-columns:1fr!important}
+  .px-page .px-terms__assurance>div{min-height:76px!important}
+  .dt-final__inner{min-height:0!important;padding:40px 20px!important}
+}
+
+@media(prefers-reduced-motion:reduce){
+  .af-card-visual img,.af-ai-visual img,.dt-hero__visual img,.px-hero__media img{transform:none!important}
+}

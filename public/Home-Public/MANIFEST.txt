@@ -1,0 +1,49 @@
+Afyra Digital — Recolored Homepage Assets
+Palette: #DEF1F0, #00BBA0, #00443E, #FF960D
+Processed images: 51
+
+01. b1-bg-shape-1-recolored.webp
+02. b1-bg-shape-2-recolored.webp
+03. b1-card-bg-2-recolored.webp
+04. b1-card-bg-recolored.webp
+11. cta-1-bg-img-1-recolored.webp
+12. cta-1-mask-1-recolored.webp
+13. cta-1-mask-2-recolored.webp
+14. f1-img-1-recolored.webp
+15. f1-item-1-glow-1-recolored.webp
+16. f1-item-1-glow-2-recolored.webp
+17. f1-item-1-glow-3-recolored.webp
+18. f1-item-3-glow-1-recolored.webp
+19. f1-item-3-glow-2-recolored.webp
+20. f1-item-4-bg-img-recolored.webp
+21. f1-item-4-glow-recolored.webp
+22. f1-sec-bg-clr (1)-recolored.webp
+23. f1-sec-bg-clr-recolored.webp
+24. h1-bg-line-recolored.webp
+25. h1-bg-noise-1-recolored.webp
+26. h1-bg-noise-2-recolored.webp
+27. h1-bg-shape-1-recolored.webp
+28. h1-bg-shape-2-recolored.webp
+29. h1-d-img-1-recolored.webp
+30. h1-d-img-2-recolored.webp
+31. h1-d-img-3-recolored.webp
+32. h1-d-img-4-recolored.webp
+33. h1-d-img-5-recolored.webp
+34. h1-d-img-6-recolored.webp
+35. h1-d-img-7-recolored.webp
+36. h1-d-img-8-recolored.webp
+37. h1-glow-img-recolored.webp
+38. p1-bg-clr-shape-recolored.webp
+39. p1-bg-noise-recolored.webp
+40. p1-bg-shape-1-recolored.webp
+41. p1-card-bg-recolored.webp
+42. t1-author-1-recolored.webp
+43. t1-author-2-recolored.webp
+44. t1-author-3-recolored.webp
+45. t1-author-4-recolored.webp
+46. t1-author-5-recolored.webp
+47. t1-author-6-recolored.webp
+48. t1-author-7-recolored.webp
+49. t1-author-8-recolored.webp
+50. t1-bg-clr-glow-1-recolored.webp
+51. t1-bg-clr-glow-3-recolored.webp

@@ -1,0 +1,106 @@
+{
+  "homepageInputLockPassed": true,
+  "homepageFilesCompared": 16,
+  "generatedCardDetailImages": 430,
+  "loadingTransition": true,
+  "requestConsultationRoute": true,
+  "heroVariantsAudited": [
+    "02",
+    "03",
+    "04",
+    "05",
+    "06",
+    "07"
+  ],
+  "responsiveBreakpoints": [
+    1100,
+    980,
+    720,
+    420
+  ],
+  "browserVisualQa": "blocked by managed Chromium administrator policy",
+  "workerBuild": "not completed in sandbox; dependency registry timeout",
+  "clientStaticAssetsUpdated": true,
+  "homeChecks": [
+    {
+      "path": "src/client/App.tsx",
+      "matchesInputPackage": true,
+      "sha256": "ca33175d4b86f298d29cfe06e9521f0e6389c478fa49a9b138a03129faf111c3"
+    },
+    {
+      "path": "src/client/components/Header.tsx",
+      "matchesInputPackage": true,
+      "sha256": "bb69edc778c078b3eacaf05a1bbd7e368d6be15d95dfdd915b3e41d38282510c"
+    },
+    {
+      "path": "src/client/components/Footer.tsx",
+      "matchesInputPackage": true,
+      "sha256": "9847ca60b4441fe3d9e879a351e9ba368ecef028a05b241281d3451710256e92"
+    },
+    {
+      "path": "src/client/components/Hero.tsx",
+      "matchesInputPackage": true,
+      "sha256": "71890c20f1fb143c8a5120aa121beb28c1e13ddef7ef354fbdda64145025f49e"
+    },
+    {
+      "path": "src/client/components/Marquee.tsx",
+      "matchesInputPackage": true,
+      "sha256": "0b900ff37c9fa7248bad11219d09a90d1552f75f4d73bad2ce9ca579c8c511a4"
+    },
+    {
+      "path": "src/client/components/Features.tsx",
+      "matchesInputPackage": true,
+      "sha256": "3c71d6e90b5e37ff441873833fc1451c36426a6aa217440156d8a6037669d71c"
+    },
+    {
+      "path": "src/client/components/Solutions.tsx",
+      "matchesInputPackage": true,
+      "sha256": "2e4c8a4fecee3b17314c1b59b77bdb309d982912fd18dabcb5dc4b12a4e69506"
+    },
+    {
+      "path": "src/client/components/WhyAfyra.tsx",
+      "matchesInputPackage": true,
+      "sha256": "f9d1cf73886da7e62f7acd6d933024f4661654f4d9cdcf5254c9e65dce0e2c9e"
+    },
+    {
+      "path": "src/client/components/Programs.tsx",
+      "matchesInputPackage": true,
+      "sha256": "82e0ce1e4b7cc9ab2b17e1c4e2eecb81ca0b5b32c0b0945b2cde395eed41c792"
+    },
+    {
+      "path": "src/client/components/Process.tsx",
+      "matchesInputPackage": true,
+      "sha256": "cb854b488b56971859ae983e7bdbd6c88fc20b2f94e9a690964401553ded42af"
+    },
+    {
+      "path": "src/client/components/Faqs.tsx",
+      "matchesInputPackage": true,
+      "sha256": "753cd5eacee083a517e4aeacd8d5e77ea3994b6318708293964931f1435cb4b4"
+    },
+    {
+      "path": "src/client/components/Cta.tsx",
+      "matchesInputPackage": true,
+      "sha256": "3d287f7a9265abcd440addac79e161d12fe8766d9e07b9803d3354d8c1c5abc7"
+    },
+    {
+      "path": "src/client/components/ScrollTop.tsx",
+      "matchesInputPackage": true,
+      "sha256": "b1ae35be9137fd3340c7a1328bf0e48f22941751913b059e4e1685516d569216"
+    },
+    {
+      "path": "src/client/lib/useGsapAnimations.ts",
+      "matchesInputPackage": true,
+      "sha256": "1be7a2e01b934d2e58c8469767cb477d9c61be68b9cf78dbfadac36ef2eb310d"
+    },
+    {
+      "path": "public/static/style.css",
+      "matchesInputPackage": true,
+      "sha256": "3b958c46afc866d6fdaac1e0c6b9fcd62dde0c88bd37e753bd5f20d0f3805194"
+    },
+    {
+      "path": "public/static/sections.css",
+      "matchesInputPackage": true,
+      "sha256": "58ad9e79d7a85b1ec12268295a64852110c8ba1f91119a93cd1049a12d478e9a"
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "date": "2026-09-05",
+  "scope": "homepage hero scatter-to-assembly",
+  "architecture": "single final CSS docking grid; GSAP transforms only",
+  "sourceComponent": "src/client/components/HeroParallaxDashboard.tsx",
+  "sourceAnimation": "src/client/lib/useGsapAnimations.ts",
+  "productionCompatibility": "public/static/home-hero-parallax-2026-09-05.js",
+  "styles": "public/static/sections.css",
+  "desktop": {
+    "enabledAbovePx": 960,
+    "scrollLinked": true,
+    "scrub": 0.85,
+    "ease": "none",
+    "targetState": { "x": 0, "y": 0, "rotation": 0, "scale": 1 }
+  },
+  "validation": {
+    "tsxTranspileSyntax": "PASS",
+    "gsapHookTranspileSyntax": "PASS",
+    "runtimeNodeSyntax": "PASS",
+    "cssBraceIntegrity": "PASS",
+    "cssBraceCounts": { "open": 522, "close": 522 },
+    "sourceRequiredLabelCount": "1 each",
+    "runtimeCloneNodeCount": 0,
+    "collisionSamples": {
+      "0": 0,
+      "0.25": 0,
+      "0.5": 0,
+      "0.75": 0,
+      "1": 0
+    }
+  },
+  "fullFreshBuild": {
+    "status": "NOT_RUN",
+    "reason": "project npm dependencies are not installed in the sandbox; external package installation unavailable"
+  }
+}

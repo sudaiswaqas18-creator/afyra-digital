@@ -1,0 +1,204 @@
+/* =========================================================
+   AFYRA DIGITAL — V37
+   1) Homepage hero: add the generated Response Rate child card
+      to the SAME V33/V34 dock/GSAP assembly as every other card.
+   2) Brand Communication: center the complete How It Works sticky
+      composition in the viewport without changing the V36 scroll timing.
+   ========================================================= */
+
+/* ---------- TASK 1: HOMEPAGE HERO / RESPONSE RATE CHILD CARD ---------- */
+
+/* Four KPI cards + the wider right utility column. The board size stays
+   unchanged; only the native final dock grid gains the missing KPI slot. */
+.af-hpd[data-af-hero-reference-dock-v33="true"] .af-hpd__dock-grid{
+  grid-template-columns:repeat(4,minmax(0,1fr)) minmax(160px,1.30fr)!important;
+  gap:8px!important;
+}
+
+.af-hpd[data-af-hero-reference-dock-v33="true"] .af-hpd__stat--qualified{
+  grid-column:1!important;
+  grid-row:1!important;
+}
+.af-hpd[data-af-hero-reference-dock-v33="true"] .af-hpd__stat--appointments{
+  grid-column:2!important;
+  grid-row:1!important;
+}
+.af-hpd[data-af-hero-reference-dock-v33="true"] .af-hpd__stat--views{
+  grid-column:3!important;
+  grid-row:1!important;
+}
+.af-hpd[data-af-hero-reference-dock-v33="true"] .af-hpd__stat--response{
+  grid-column:4!important;
+  grid-row:1!important;
+}
+.af-hpd[data-af-hero-reference-dock-v33="true"] .af-hpd__card--schedule{
+  grid-column:5!important;
+  grid-row:1!important;
+}
+.af-hpd[data-af-hero-reference-dock-v33="true"] .af-hpd__chart-panel{
+  grid-column:1 / 5!important;
+  grid-row:2 / 4!important;
+}
+.af-hpd[data-af-hero-reference-dock-v33="true"] .af-hpd__card--inquiries{
+  grid-column:5!important;
+  grid-row:2!important;
+}
+.af-hpd[data-af-hero-reference-dock-v33="true"] .af-hpd__card--visibility{
+  grid-column:5!important;
+  grid-row:3!important;
+}
+.af-hpd[data-af-hero-reference-dock-v33="true"] .af-hpd__activity--gbp{
+  grid-column:1 / 5!important;
+  grid-row:4!important;
+}
+.af-hpd[data-af-hero-reference-dock-v33="true"] .af-hpd__activity--campaign{
+  grid-column:1 / 5!important;
+  grid-row:5!important;
+}
+
+/* The generated PNG itself is the child card skin. The wrapper remains the
+   GSAP transform target, so it receives the exact same scatter -> dock ->
+   hover lifecycle as the existing children. */
+.af-hpd[data-af-hero-reference-dock-v33="true"] .af-hpd__generated-stat{
+  position:relative!important;
+  min-width:0!important;
+  min-height:0!important;
+  padding:0!important;
+  overflow:hidden!important;
+  border-radius:12px!important;
+  background:#03241f!important;
+  border:1px solid rgba(0,187,160,.18)!important;
+  box-shadow:0 10px 28px rgba(0,68,62,.18)!important;
+  isolation:isolate;
+}
+.af-hpd[data-af-hero-reference-dock-v33="true"] .af-hpd__generated-stat img{
+  display:block!important;
+  width:100%!important;
+  height:100%!important;
+  max-width:none!important;
+  object-fit:cover!important;
+  object-position:center!important;
+  user-select:none!important;
+  pointer-events:none!important;
+}
+
+/* With four compact KPIs, keep their existing HTML cards visually balanced. */
+.af-hpd[data-af-hero-reference-dock-v33="true"] .af-hpd__stat{
+  padding:7px 8px!important;
+}
+.af-hpd[data-af-hero-reference-dock-v33="true"] .af-hpd__stat .af-db__kpi-label{
+  font-size:7.7px!important;
+}
+.af-hpd[data-af-hero-reference-dock-v33="true"] .af-hpd__stat .af-db__kpi-value{
+  font-size:16px!important;
+}
+.af-hpd[data-af-hero-reference-dock-v33="true"] .af-hpd__stat .af-db__kpi-trend{
+  font-size:7px!important;
+}
+
+/* Mobile keeps the existing normal-flow two/one column treatment. Explicitly
+   release V37 desktop slots so the generated card behaves like every sibling. */
+@media (max-width:620px){
+  .af-hpd[data-af-hero-reference-dock-v33="true"] .af-hpd__dock-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    gap:9px!important;
+  }
+  .af-hpd[data-af-hero-reference-dock-v33="true"] .af-hpd__stat--response{
+    grid-column:auto!important;
+    grid-row:auto!important;
+    min-height:102px!important;
+  }
+  .af-hpd[data-af-hero-reference-dock-v33="true"] .af-hpd__card--schedule,
+  .af-hpd[data-af-hero-reference-dock-v33="true"] .af-hpd__card--inquiries,
+  .af-hpd[data-af-hero-reference-dock-v33="true"] .af-hpd__card--visibility{
+    grid-column:auto!important;
+    grid-row:auto!important;
+  }
+  .af-hpd[data-af-hero-reference-dock-v33="true"] .af-hpd__chart-panel,
+  .af-hpd[data-af-hero-reference-dock-v33="true"] .af-hpd__activity--gbp,
+  .af-hpd[data-af-hero-reference-dock-v33="true"] .af-hpd__activity--campaign{
+    grid-column:1 / -1!important;
+  }
+}
+
+@media (max-width:390px){
+  .af-hpd[data-af-hero-reference-dock-v33="true"] .af-hpd__dock-grid{
+    grid-template-columns:1fr!important;
+  }
+  .af-hpd[data-af-hero-reference-dock-v33="true"] .af-hpd__chart-panel,
+  .af-hpd[data-af-hero-reference-dock-v33="true"] .af-hpd__activity--gbp,
+  .af-hpd[data-af-hero-reference-dock-v33="true"] .af-hpd__activity--campaign{
+    grid-column:1!important;
+  }
+}
+
+/* ---------- TASK 2: BRAND COMMUNICATION / CENTER HOW IT WORKS ---------- */
+
+/* Force this one story section to use a viewport-wide centering context even
+   if an older route-level .af-container rule resolves to a narrower width. */
+.sv-page.sv-layout-02 .sv-brand-steps{
+  width:100vw!important;
+  max-width:100vw!important;
+  margin-left:calc(50% - 50vw)!important;
+  margin-right:calc(50% - 50vw)!important;
+}
+.sv-page.sv-layout-02 .sv-brand-steps > .af-container{
+  width:100vw!important;
+  max-width:100vw!important;
+  margin:0!important;
+  padding-left:clamp(16px,3vw,48px)!important;
+  padding-right:clamp(16px,3vw,48px)!important;
+  box-sizing:border-box!important;
+}
+
+/* Center the whole sticky composition. Do not change its sticky top, height,
+   V36 runway, or GSAP card timeline. */
+.sv-page.sv-layout-02 [data-brand-step-pin]{
+  width:min(1180px,100%)!important;
+  max-width:1180px!important;
+  margin-left:auto!important;
+  margin-right:auto!important;
+}
+.sv-page.sv-layout-02 [data-brand-steps-head]{
+  margin-left:auto!important;
+  margin-right:auto!important;
+  text-align:center!important;
+}
+.sv-page.sv-layout-02 [data-brand-step-scroll]{
+  width:100%!important;
+  margin-left:auto!important;
+  margin-right:auto!important;
+}
+.sv-page.sv-layout-02 [data-brand-step-shell]{
+  width:min(1040px,100%)!important;
+  max-width:1040px!important;
+  margin-left:auto!important;
+  margin-right:auto!important;
+}
+
+@media (max-width:760px){
+  .sv-page.sv-layout-02 .sv-brand-steps > .af-container{
+    padding-left:12px!important;
+    padding-right:12px!important;
+  }
+  .sv-page.sv-layout-02 [data-brand-step-pin],
+  .sv-page.sv-layout-02 [data-brand-step-shell]{
+    max-width:100%!important;
+  }
+}
+
+@media (prefers-reduced-motion:reduce){
+  .sv-page.sv-layout-02 .sv-brand-steps{
+    width:100%!important;
+    max-width:100%!important;
+    margin-left:0!important;
+    margin-right:0!important;
+  }
+  .sv-page.sv-layout-02 .sv-brand-steps > .af-container{
+    width:min(1180px,calc(100% - 32px))!important;
+    margin-left:auto!important;
+    margin-right:auto!important;
+    padding-left:0!important;
+    padding-right:0!important;
+  }
+}
