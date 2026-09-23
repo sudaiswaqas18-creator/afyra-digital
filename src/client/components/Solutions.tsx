@@ -1,9 +1,47 @@
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { solutions, audience } from '../data/content'
+import { solutions as fallbackSolutions, audience } from '../data/content'
 import { Eyebrow, Icon } from './ui'
 import GeneratedVisual from './GeneratedVisual'
+import { apiGetSolutions } from '../lib/api'
+import { useHomeSection } from '../lib/liveContent'
 
 export default function Solutions() {
+  const solutions = fallbackSolutions
+  const [items, setItems] = useState(fallbackSolutions.items)
+  const { section: audienceSection } = useHomeSection('audience')
+  const liveAudience = audienceSection ? {
+    title: audienceSection.title || audience.title,
+    description: audienceSection.description || audience.description,
+    items: (audienceSection.items || []).map((item, index) => ({
+      label: item.title || item.label || '',
+      icon: (item.icon || audience.items[index]?.icon || 'doctor') as keyof typeof Icon
+    }))
+  } : audience
+
+  useEffect(() => {
+    let isMounted = true
+    apiGetSolutions('home')
+      .then((res) => {
+        if (isMounted && res?.ok && Array.isArray(res.data)) {
+          const mapped = res.data.map((s: any) => {
+            const fallback = fallbackSolutions.items.find((item) => item.href.endsWith(`/${s.slug}`))
+            return {
+              icon: fallback?.icon || 'star',
+              title: s.title || s.name,
+              href: `/solutions/${s.slug}`,
+              description: s.description
+            }
+          })
+          setItems(mapped)
+        }
+      })
+      .catch((error) => console.warn('[Afyra API] Solutions unavailable; using bundled fallback.', error))
+    return () => {
+      isMounted = false
+    }
+  }, [])
+
   return (
     <section className="af-section af-pillars">
       <div className="af-pillars__shape af-pillars__shape--l" data-af-breathe aria-hidden="true" />
@@ -16,8 +54,8 @@ export default function Solutions() {
         </div>
 
         <div className="af-pillars__grid" data-af-stagger>
-          {solutions.items.map((item, index) => {
-            const Ico = Icon[item.icon]
+          {items.map((item, index) => {
+            const Ico = Icon[item.icon as keyof typeof Icon] || Icon.star
             return (
               <Link
                 className="af-pillar af-pillar--link"
@@ -43,11 +81,11 @@ export default function Solutions() {
         {/* who we help */}
         <div className="af-audience af-reveal">
           <div className="af-audience__head">
-            <h3 className="af-h3">{audience.title}</h3>
-            <p className="af-p af-p--sm">{audience.description}</p>
+            <h3 className="af-h3">{liveAudience.title}</h3>
+            <p className="af-p af-p--sm">{liveAudience.description}</p>
           </div>
           <div className="af-audience__list">
-            {audience.items.map((a) => {
+            {liveAudience.items.map((a) => {
               const Ico = Icon[a.icon]
               return (
                 <span className="af-audience__item" key={a.label}>

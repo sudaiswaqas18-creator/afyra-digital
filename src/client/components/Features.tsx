@@ -1,7 +1,8 @@
 import { features } from '../data/content'
+import { useHomeSection } from '../lib/liveContent'
 import { SectionHead } from './ui'
 
-type FeatureItem = (typeof features.items)[number]
+type FeatureItem = { id: string; title: string; description: string; kind?: string }
 
 function VisibilityDisplay() {
   return (
@@ -128,29 +129,45 @@ function FeatureVisual({ item }: { item: FeatureItem }) {
 }
 
 export default function Features() {
-  const [a, b, c, d] = features.items
+  const { section } = useHomeSection('features')
+  const liveItems: FeatureItem[] | null = section ? (section.items || []).map((item, index) => ({
+    id: item.label || features.items[index]?.id || `feature-${item.id}`,
+    title: item.title || item.label || '',
+    description: item.description || '',
+    kind: item.icon || features.items[index]?.kind
+  })) : null
+  const content = section ? {
+    eyebrow: { tag: section.eyebrow_tag || features.eyebrow.tag, text: section.eyebrow_text || features.eyebrow.text },
+    title: section.title || features.title,
+    description: section.description || features.description,
+    items: liveItems || []
+  } : features
+  const [a, b, c, d] = content.items
 
-  const Card = ({ item, className }: { item: FeatureItem; className: string }) => (
-    <article className={`af-feat ${className}`} data-af-stagger-item data-af-feature-kind={item.id}>
-      <div className="af-feat__glow" aria-hidden="true" />
-      <div className="af-feat__body">
-        <h4 className="af-h4 af-feat__title">{item.title}</h4>
-        <p className="af-p af-p--sm af-feat__disc">{item.description}</p>
-      </div>
-      <div className="af-feat__visual af-feat__visual--motion">
-        <FeatureVisual item={item} />
-      </div>
-    </article>
-  )
+  const Card = ({ item, className }: { item?: FeatureItem; className: string }) => {
+    if (!item) return null
+    return (
+      <article className={`af-feat ${className}`} data-af-stagger-item data-af-feature-kind={item.id}>
+        <div className="af-feat__glow" aria-hidden="true" />
+        <div className="af-feat__body">
+          <h4 className="af-h4 af-feat__title">{item.title}</h4>
+          <p className="af-p af-p--sm af-feat__disc">{item.description}</p>
+        </div>
+        <div className="af-feat__visual af-feat__visual--motion">
+          <FeatureVisual item={item} />
+        </div>
+      </article>
+    )
+  }
 
   return (
     <section id="solutions" className="af-section af-features">
       <div className="af-features__bg" aria-hidden="true" />
       <div className="af-container">
         <SectionHead
-          eyebrow={features.eyebrow}
-          title={features.title}
-          description={features.description}
+          eyebrow={content.eyebrow}
+          title={content.title}
+          description={content.description}
         />
 
         <div className="af-features__wrap" data-af-stagger data-af-feature-reference>

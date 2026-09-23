@@ -34,3 +34,11 @@ lerna-debug.log*
 .DS_Store
 
 .vercel
+
+# QA temp artifacts
+qa-*/browser/
+qa-*/**/browser/
+*-check.png
+
+qa-*/
+qa-*.mjs

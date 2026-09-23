@@ -9,6 +9,7 @@ const requiredFiles = [
   'src/index.tsx',
   'src/client/main.tsx',
   'src/client/App.tsx',
+  'src/client/styles/testimonials-v71.css',
   'public/static/style.css',
   'public/static/sections.css',
   'public/static/home-hero-reference-dock-v27.css',

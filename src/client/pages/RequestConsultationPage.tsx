@@ -8,12 +8,14 @@ import SectionLabel from '../components/SectionLabel'
 import CardVisual from '../components/CardVisual'
 import PublicIcon from '../components/PublicIcon'
 import SemanticCardIcon from '../components/SemanticCardIcon'
-import { brand, cta, faqs, process, programs } from '../data/content'
-import { serviceNav } from '../data/servicePages'
+import { brand, cta, faqs, process } from '../data/content'
 import { cardKey } from '../data/cardDetails'
 import { usePageSeo } from '../lib/usePageSeo'
 import { useMarketingAnimations } from '../lib/useMarketingAnimations'
 import { useSaasKingEffects } from '../lib/useSaasKingEffects'
+import { apiSubmitInquiry } from '../lib/api'
+import { useLiveProgramsData } from '../lib/useLiveProgramsData'
+import { useLiveSolutionsNav } from '../lib/useLiveSolutionsNav'
 
 type Status = 'idle' | 'sending' | 'done' | 'error'
 
@@ -46,6 +48,9 @@ const consultationBenefits = [
 export default function RequestConsultationPage() {
   const [status, setStatus] = useState<Status>('idle')
   const [form, setForm] = useState<ConsultationForm>({ name: '', business: '', contact: '', interest: '', message: '' })
+  const [errors, setErrors] = useState<Record<string, string>>({})
+  const programs = useLiveProgramsData()
+  const serviceNav = useLiveSolutionsNav()
 
   usePageSeo(
     'Request a Consultation | Afyra Digital',
@@ -55,24 +60,85 @@ export default function RequestConsultationPage() {
   useMarketingAnimations('request-consultation')
   useSaasKingEffects()
 
+  const validateField = (key: keyof ConsultationForm, val: string): string => {
+    const v = val.trim()
+    if (key === 'name') {
+      if (!v) return 'Please enter your full name.'
+      if (v.length < 2) return 'Name must be at least 2 characters.'
+    }
+    if (key === 'business') {
+      if (!v) return 'Please enter your clinic or business name.'
+    }
+    if (key === 'contact') {
+      if (!v) return 'Please provide your WhatsApp number or email.'
+      const hasAt = v.includes('@') && v.includes('.')
+      const digits = v.replace(/\D/g, '')
+      if (!hasAt && digits.length < 7) {
+        return 'Please enter a valid phone number (at least 7 digits) or email address.'
+      }
+    }
+    if (key === 'interest') {
+      if (!v) return 'Please select an area of interest.'
+    }
+    if (key === 'message') {
+      if (!v) return 'Please share a brief note on what outcome you want to strengthen.'
+      if (v.length < 5) return 'Please provide a little more detail.'
+    }
+    return ''
+  }
+
   const update = (key: keyof ConsultationForm) => (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    setForm((current) => ({ ...current, [key]: event.target.value }))
+    const val = event.target.value
+    setForm((current) => ({ ...current, [key]: val }))
+    if (errors[key]) {
+      const fieldError = validateField(key, val)
+      setErrors((prev) => {
+        const next = { ...prev }
+        if (!fieldError) delete next[key]
+        else next[key] = fieldError
+        return next
+      })
+    }
+  }
+
+  const handleBlur = (key: keyof ConsultationForm) => () => {
+    const err = validateField(key, form[key])
+    if (err) {
+      setErrors((prev) => ({ ...prev, [key]: err }))
+    }
   }
 
   async function submit(event: React.FormEvent) {
     event.preventDefault()
     if (status === 'sending') return
+
+    const newErrors: Record<string, string> = {}
+    ;(Object.keys(form) as Array<keyof ConsultationForm>).forEach((k) => {
+      const err = validateField(k, form[k])
+      if (err) newErrors[k] = err
+    })
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors)
+      const firstKey = Object.keys(newErrors)[0]
+      const el = document.querySelector(`[name="${firstKey}"]`) as HTMLElement
+      if (el) el.focus()
+      return
+    }
+
     setStatus('sending')
     try {
       const message = [form.interest ? `Area of interest: ${form.interest}` : '', form.message].filter(Boolean).join('\n\n')
-      const response = await fetch('/api/inquiry', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name: form.name, business: form.business, contact: form.contact, message })
+      await apiSubmitInquiry({
+        name: form.name.trim(),
+        business: form.business.trim(),
+        contact: form.contact.trim(),
+        message,
+        page_url: window.location.href
       })
-      if (!response.ok) throw new Error('request failed')
       setStatus('done')
       setForm({ name: '', business: '', contact: '', interest: '', message: '' })
+      setErrors({})
     } catch {
       setStatus('error')
     }
@@ -129,21 +195,86 @@ export default function RequestConsultationPage() {
                   <Link className="px-btn px-btn--ghost" to="/"><span>Return Home</span><PublicIcon name="arrowRight" size={17} /></Link>
                 </div>
               ) : (
-                <form className="rq-form" onSubmit={submit}>
+                <form className="rq-form" onSubmit={submit} noValidate>
                   <div className="rq-form__head">
                     <span className="px-kicker">Consultation request</span>
                     <h2>Tell Us About Your Business.</h2>
                     <p>Required fields help us understand who you are and how to contact you.</p>
                   </div>
                   <div className="rq-field-grid">
-                    <label><span>Your name</span><input type="text" required value={form.name} onChange={update('name')} placeholder="Your name" /></label>
-                    <label><span>Clinic / business name</span><input type="text" required value={form.business} onChange={update('business')} placeholder="Business name" /></label>
+                    <label>
+                      <span>Your name *</span>
+                      <input
+                        type="text"
+                        name="name"
+                        className={errors.name ? 'is-invalid' : ''}
+                        value={form.name}
+                        onChange={update('name')}
+                        onBlur={handleBlur('name')}
+                        placeholder="Your name"
+                      />
+                      {errors.name && <span className="rq-field-error">⚠ {errors.name}</span>}
+                    </label>
+                    <label>
+                      <span>Clinic / business name *</span>
+                      <input
+                        type="text"
+                        name="business"
+                        className={errors.business ? 'is-invalid' : ''}
+                        value={form.business}
+                        onChange={update('business')}
+                        onBlur={handleBlur('business')}
+                        placeholder="Business name"
+                      />
+                      {errors.business && <span className="rq-field-error">⚠ {errors.business}</span>}
+                    </label>
                   </div>
-                  <label><span>WhatsApp number or email</span><input type="text" required value={form.contact} onChange={update('contact')} placeholder="How should we contact you?" /></label>
-                  <label><span>Area of interest</span><select value={form.interest} onChange={update('interest')}><option value="">Select an area</option>{serviceNav.map((service) => <option key={service.href} value={service.name}>{service.name}</option>)}<option value="Marketing Programs">Marketing Programs</option></select></label>
-                  <label><span>What growth outcome are you looking for?</span><textarea rows={5} value={form.message} onChange={update('message')} placeholder="Tell us what you want to improve — visibility, trust, inquiries, patient acquisition, digital presence, positioning or another business outcome." /></label>
+                  <label>
+                    <span>WhatsApp number or email *</span>
+                    <input
+                      type="text"
+                      name="contact"
+                      className={errors.contact ? 'is-invalid' : ''}
+                      value={form.contact}
+                      onChange={update('contact')}
+                      onBlur={handleBlur('contact')}
+                      placeholder="e.g. 0300-1234567 or doctor@clinic.com"
+                    />
+                    {errors.contact && <span className="rq-field-error">⚠ {errors.contact}</span>}
+                  </label>
+                  <label>
+                    <span>Area of interest *</span>
+                    <select
+                      name="interest"
+                      className={errors.interest ? 'is-invalid' : ''}
+                      value={form.interest}
+                      onChange={update('interest')}
+                      onBlur={handleBlur('interest')}
+                    >
+                      <option value="">Select an area</option>
+                      {serviceNav.map((service) => <option key={service.href} value={service.name}>{service.name}</option>)}
+                      <option value="Marketing Programs">Marketing Programs</option>
+                    </select>
+                    {errors.interest && <span className="rq-field-error">⚠ {errors.interest}</span>}
+                  </label>
+                  <label>
+                    <span>What growth outcome are you looking for? *</span>
+                    <textarea
+                      name="message"
+                      rows={5}
+                      className={errors.message ? 'is-invalid' : ''}
+                      value={form.message}
+                      onChange={update('message')}
+                      onBlur={handleBlur('message')}
+                      placeholder="Tell us what you want to improve — visibility, trust, inquiries, patient acquisition, digital presence, positioning or another business outcome."
+                    />
+                    {errors.message && <span className="rq-field-error">⚠ {errors.message}</span>}
+                  </label>
                   <div className="rq-form__actions">
-                    <button className="px-btn px-btn--primary" type="submit" disabled={status === 'sending'}><span>{status === 'sending' ? 'Sending…' : 'Request Consultation'}</span><PublicIcon name="arrowRight" size={17} /></button>
+                    <button className="px-btn px-btn--primary" type="submit" disabled={status === 'sending'}>
+                      <span>{status === 'sending' ? 'Submitting Request…' : 'Request Consultation'}</span>
+                      <PublicIcon name="arrowRight" size={17} />
+                    </button>
                     {status === 'error' ? <span className="rq-form__error">Something went wrong. Please try again.</span> : null}
                   </div>
                   <p className="rq-form__notice">{cta.notice}</p>

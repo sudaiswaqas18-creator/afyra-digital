@@ -1,10 +1,17 @@
-import { useEffect, useState, type CSSProperties, type ReactNode } from 'react'
+import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import type { ServicePageData } from '../data/servicePages'
-import { process, programs } from '../data/content'
+import { process, brand as socialBrand } from '../data/content'
+import { apiSubmitInquiry } from '../lib/api'
+import { useLiveProgramsData } from '../lib/useLiveProgramsData'
+import { useScopedFaqs } from '../lib/useScopedFaqs'
 import PublicIcon from './PublicIcon'
 import SectionLabel from './SectionLabel'
+import BillingToggle from './BillingToggle'
+import TestimonialsSection from './TestimonialsSection'
+import PatientRobotTestimonials from './PatientRobotTestimonials'
 import { ProcessLayout } from './Process'
 
 const visualByLayout: Record<string, string> = {
@@ -211,6 +218,7 @@ function ProcessSection({ data, bright = false, pathStyle = false }: { data: Ser
 }
 
 function ProgramsSection({ data, bright = false, perspective = false }: { data: ServicePageData; bright?: boolean; perspective?: boolean }) {
+  const programs = useLiveProgramsData()
   const websiteNote = data.layout === '05'
   return (
     <section id="rs-programs" className={`rs-programs ${bright ? 'rs-section--light' : ''} ${perspective ? 'rs-programs--perspective' : ''}`} data-rs-pricing>
@@ -257,12 +265,13 @@ function TrustFramework({ bright = false }: { bright?: boolean }) {
 
 function FaqSection({ bright = false, variant = 'default' }: { bright?: boolean; variant?: 'default' | 'support-card' | 'social-reference' }) {
   const [open, setOpen] = useState(0)
+  const scopedFaqs = useScopedFaqs(faqs)
   return (
     <section className={`rs-faq ${bright ? 'rs-section--light' : ''} ${variant === 'support-card' ? 'rs-faq--support-card' : ''} ${variant === 'social-reference' ? 'rs-faq--social-reference' : ''}`} data-rs-faq>
       <div className="af-container rs-faq__grid">
         <div className="rs-faq__copy" data-rs-reveal>
           <SectionLabel text="Frequently asked questions" />
-          <h2>Questions Before We Grow Together?</h2>
+          <h2 className={variant === 'social-reference' ? 'social-faq-heading' : undefined}>{variant === 'social-reference' ? 'Everything You Need to Know' : 'Questions Before We Grow Together?'}</h2>
           <p>Clear answers based on Afyra Digital’s current approved positioning and program terms.</p>
           {variant === 'support-card' ? (
             <div className="rs-faq__support">
@@ -274,7 +283,7 @@ function FaqSection({ bright = false, variant = 'default' }: { bright?: boolean;
             <PrimaryButton>Request Consultation</PrimaryButton>
           )}
         </div>
-        <div className="rs-faq__items">{faqs.map((item, index) => <article className={open === index ? 'is-open' : ''} data-rs-faq-item key={item.q}><button type="button" onClick={() => setOpen(open === index ? -1 : index)} aria-expanded={open === index}><span>{item.q}</span><i>{open === index ? '−' : '+'}</i></button><div><p>{item.a}</p></div></article>)}</div>
+        <div className="rs-faq__items">{scopedFaqs.map((item, index) => <article className={open === index ? 'is-open' : ''} data-rs-faq-item key={item.q}><button type="button" onClick={() => setOpen(open === index ? -1 : index)} aria-expanded={open === index}><span>{variant === 'social-reference' ? `${index + 1}. ` : ''}{item.q}</span><i>{open === index ? '−' : '+'}</i></button><div><p>{item.a}</p></div></article>)}</div>
       </div>
     </section>
   )
@@ -357,12 +366,12 @@ function PatientHero({ data }: { data: ServicePageData }) {
       <div className="pa-hero__arch pa-hero__arch--three" aria-hidden="true" />
       <div className="af-container pa-hero__inner">
         <div className="pa-hero__visual pa-hero__visual--robot" data-rs-hero-stage>
-          <div className="pa-hero__visual-ring pa-hero__visual-ring--outer" data-rs-patient-hero-swirl aria-hidden="true" />
+          <svg className="pa-hero__spiral" viewBox="0 0 500 500" aria-hidden="true">{Array.from({length:36},(_,i)=><ellipse key={i} cx="250" cy="250" rx="120" ry="228" transform={`rotate(${i*5} 250 250)`} />)}</svg>
           <div className="pa-hero__visual-ring pa-hero__visual-ring--inner" data-rs-patient-hero-swirl aria-hidden="true" />
           <div className="pa-hero__visual-ring pa-hero__visual-ring--glow" aria-hidden="true" />
           <div className="pa-hero__orbit-dot" data-rs-patient-hero-orbit-dot aria-hidden="true" />
           <div className="pa-hero__robot" data-rs-patient-hero-bot data-rs-patient-hero-logo>
-            <img className="pa-hero__robot-image" src="/generated/patient-acquisition/afyra-ai-robot-hero.webp" alt="Afyra AI assistant robot" />
+            <img className="pa-hero__robot-image" src="/static/reference-v86/patient-hero.webp" alt="Afyra AI assistant robot" />
           </div>
         </div>
         <div className="pa-hero__copy" data-rs-hero-copy>
@@ -401,7 +410,7 @@ function PatientInquirySection({ data }: { data: ServicePageData }) {
         </div>
         <div className="pa-inquiry__grid pa-inquiry__grid--reference">
           <article className="pa-inquiry__feature" data-rs-patient-inquiry-feature>
-            <img className="pa-inquiry__feature-image" src="/generated/patient-acquisition/instant-inquiry-visual.webp" alt="Instant AI inquiry response visual" loading="lazy" decoding="async" />
+            <div className="pa-response-copy"><h3>Instant AI<br/>Responses</h3><p>Deliver accurate, human-like answers in seconds with intelligent inquiry support.</p></div><img className="pa-response-robot" src="/static/reference-v92/inquiry-robot.png" alt="AI assistant for inquiry responses" loading="lazy" />
           </article>
           <article className="pa-inquiry__chat" data-rs-patient-inquiry-chat>
             <div className="pa-inquiry__chat-window">
@@ -459,97 +468,85 @@ function PatientGrowthSystem({ data }: { data: ServicePageData }) {
 }
 
 function PatientProgramsSection() {
+  const programs = useLiveProgramsData()
+  const pricingRef = useRef<HTMLElement>(null)
+  const [billingMode, setBillingMode] = useState<'monthly' | 'yearly'>('monthly')
+  const isYearly = billingMode === 'yearly'
+  const pricingKey = programs.plans.map(plan => plan.id).join('|')
+  useEffect(() => {
+    const root = pricingRef.current
+    if (!root || !pricingKey) return
+    gsap.registerPlugin(ScrollTrigger)
+    const media = gsap.matchMedia()
+    media.add('(min-width: 761px) and (prefers-reduced-motion: no-preference)', () => {
+      const cards = Array.from(root.querySelectorAll<HTMLElement>('[data-rs-patient-price]'))
+      const grid = root.querySelector('.pa-pricing__grid')
+      if (!grid || !cards.length) return
+      const timeline = gsap.timeline({scrollTrigger: {trigger: grid, start: 'top 65%', end: '+=300', scrub: .65, invalidateOnRefresh: true}})
+      cards.forEach((card, index) => {
+        gsap.set(card, {zIndex: index === 1 ? 3 : 1, transformOrigin: '50% 100%'})
+        timeline.fromTo(card, {'--price-rotate': `${index === 0 ? -12 : index === 2 ? 12 : 0}deg`, '--price-x': `${index === 0 ? 18 : index === 2 ? -18 : 0}%`, '--price-y': `${index === 1 ? 0 : 35}px`}, {'--price-rotate':'0deg','--price-x':'0%','--price-y':'0px',ease:'none',duration:1}, 0)
+      })
+    }, root)
+    const refresh = () => ScrollTrigger.refresh()
+    const observer = new ResizeObserver(refresh)
+    observer.observe(root)
+    document.fonts.ready.then(refresh)
+    return () => { observer.disconnect(); media.revert() }
+  }, [pricingKey])
   return (
-    <section id="rs-programs" className="pa-pricing rs-section--light" data-rs-patient-pricing>
+    <section ref={pricingRef} id="rs-programs" className="pa-pricing rs-section--light" data-rs-patient-pricing>
       <div className="af-container">
         <div className="rs-section-head pa-section-head pa-pricing__head" data-rs-patient-price-head>
           <SectionLabel text="Current programs" />
           <h2>Choose the Program That Matches Your Growth Stage.</h2>
           <p>Current approved Afyra Digital programs and pricing. Customized programs are available according to business requirements.</p>
         </div>
-        <div className="pa-pricing__toggle"><span>Monthly</span><i aria-hidden="true" /><b>Current pricing</b></div>
+        <BillingToggle value={billingMode} onChange={setBillingMode} />
         <div className="pa-pricing__grid">
-          {programs.plans.map((plan) => (
-            <article className={`pa-price-card ${plan.popular ? 'is-popular' : ''}`} data-rs-patient-price key={plan.id}>
-              {plan.popular ? <span className="pa-price-card__popular">Most Popular</span> : null}
-              <div className="pa-price-card__icon"><PublicIcon name={plan.icon} size={20} /></div>
-              <h3>{plan.name}</h3>
-              <div className="pa-price-card__price"><small>PKR</small>{plan.price.toLocaleString()}<span>/month</span></div>
-              <p>{plan.purpose}</p>
-              <div className="pa-price-card__includes">What’s Included:</div>
-              <ul>{plan.includes.slice(0, 5).map((item) => <li key={item}><PublicIcon name="check" size={14} />{item}</li>)}</ul>
-              <PrimaryButton>Program Inquiry</PrimaryButton>
-            </article>
-          ))}
+          {programs.plans.map((plan) => {
+            const price = isYearly ? Math.round(plan.price * 0.8) : plan.price
+            return (
+              <article className={`pa-price-card ${plan.popular ? 'is-popular' : ''}`} data-rs-patient-price key={plan.id}>
+                {plan.popular ? <span className="pa-price-card__popular">Most Popular</span> : null}
+                <div className="pa-price-card__icon"><PublicIcon name={plan.icon} size={20} /></div>
+                <h3>{plan.name}</h3>
+                <div className="pa-price-card__price"><small>PKR</small>{price.toLocaleString()}<span>{isYearly ? '/mo (annual)' : '/month'}</span></div>
+                <p>{plan.purpose}</p>
+                <div className="pa-price-card__includes">What’s Included:</div>
+                <ul>{plan.includes.slice(0, 5).map((item) => <li key={item}><PublicIcon name="check" size={14} />{item}</li>)}</ul>
+                <PrimaryButton>Program Inquiry</PrimaryButton>
+              </article>
+            )
+          })}
         </div>
-        <p className="pa-pricing__term">{programs.terms[0]}</p>
+        <p className="pa-pricing__term">{isYearly ? 'Annual plans include 20% discount. First month is charged at 25% extra for setup.' : programs.terms[0]}</p>
       </div>
     </section>
   )
 }
 
 function PatientIntegrationArc() {
-  return (
-    <section className="pa-touchpoints rs-section--light" data-rs-patient-arc>
-      <div className="af-container">
-        <div className="rs-section-head pa-section-head" data-rs-reveal>
-          <SectionLabel text="Connected touchpoints" />
-          <h2>Connect the Channels That Influence Discovery, Trust and Conversion.</h2>
-        </div>
-        <div className="pa-touchpoints__stage" data-rs-patient-arc-stage>
-          <div className="pa-touchpoints__orbit-shell" aria-hidden="true">
-            <div className="pa-touchpoints__orbit-glow" />
-          </div>
-          <div className="pa-touchpoints__ring" data-rs-patient-arc-ring>
-            <div className="pa-touchpoints__ring-line" aria-hidden="true" />
-            {patientTouchpointIcons.map((item, index) => {
-              const position = patientTouchpointPositions[index]
-              return (
-                <div
-                  className={`pa-touchpoints__item pa-touchpoints__item--${index + 1}`}
-                  data-rs-patient-arc-item
-                  style={{ '--pa-x': `${position.x}%`, '--pa-y': `${position.y}%` } as CSSProperties}
-                  key={item.label}
-                >
-                  <i><PublicIcon name={item.icon} size={19} /></i><span>{item.label}</span>
-                </div>
-              )
-            })}
-          </div>
-          <div className="pa-touchpoints__glass pa-touchpoints__glass--left" aria-hidden="true"><i /><i /></div>
-          <div className="pa-touchpoints__glass pa-touchpoints__glass--right" aria-hidden="true"><i /><i /></div>
-          <div className="pa-touchpoints__copy">
-            <p>Afyra connects campaigns, local discovery, lead communication and key platforms into one acquisition system.</p>
-            <PrimaryButton>Request Consultation</PrimaryButton>
-          </div>
-        </div>
-      </div>
-    </section>
-  )
+ const apps=['Google','Google Ads','Google Translate','HubSpot','Integrations','Collaboration','Zendesk','OpenAI','Notion','Zapier','Intercom','Automation'];
+ return (<section className="pa-touchpoints rs-section--light" data-rs-patient-arc><div className="af-container">
+ <div className="rs-section-head pa-section-head" data-rs-reveal><SectionLabel text="Connected touchpoints"/><h2>Connect the Channels That Influence Discovery, Trust and Conversion.</h2></div>
+ <div className="pa-orbit-stage"><div className="pa-orbit-disc" aria-hidden="true"/><div className="pa-orbit-ring" data-rs-patient-arc-ring>{apps.map((name,i)=>{const angle=(i*30-105)*Math.PI/180;return <div className="pa-orbit-app" data-rs-patient-arc-item key={name} style={{left:(50+46*Math.cos(angle))+'%',top:(50+46*Math.sin(angle))+'%'}}><img src={'/static/reference-v86/app-'+i+'.webp'} alt={name} loading="lazy"/></div>})}</div>
+ <svg width="0" height="0" aria-hidden="true" style={{position:'absolute'}}><defs><clipPath id="pa-glass-left" clipPathUnits="objectBoundingBox"><path d="M.042 .30 A.5 .5 0 0 1 .197 .102 L.249 .17 A.414 .414 0 0 0 .121 .334 Z"/></clipPath><clipPath id="pa-glass-right" clipPathUnits="objectBoundingBox"><path d="M.803 .102 A.5 .5 0 0 1 .958 .30 L.879 .334 A.414 .414 0 0 0 .751 .17 Z"/></clipPath></defs></svg>
+ <div className="pa-orbit-glass is-left" aria-hidden="true"/><div className="pa-orbit-glass is-right" aria-hidden="true"/>
+ <div className="pa-orbit-copy"><p>Afyra connects campaigns, local discovery, lead communication and key platforms into one acquisition system.</p><PrimaryButton>Request Consultation</PrimaryButton></div></div></div></section>
+ )
 }
 
 const patientProcessSteps = process.steps
 
 
-function PatientSystemExperience({ data: _data }: { data: ServicePageData }) {
-  return (
-    <ProcessLayout
-      steps={patientProcessSteps}
-      eyebrow={process.eyebrow}
-      title={process.title}
-      description={process.description}
-      className="pa-home-process"
-      containerClassName="pa-home-process__frame"
-      sectionData={{ 'data-rs-patient-home-process': true }}
-      containerData={{ 'data-rs-patient-home-process-frame': true }}
-      cardData={() => ({ 'data-rs-patient-home-process-card': true })}
-      enableStagger={false}
-    />
-  )
+function PatientSystemExperience({ data }: { data: ServicePageData }) {
+ return <section className="pa-reference-process" data-rs-patient-process><div className="af-container"><div className="rs-section-head" data-rs-reveal><SectionLabel text="How it works"/><h2>A Connected System for Better Patient Journeys.</h2><p>Bring discovery, communication and continuous improvement together.</p></div><div className="pa-reference-process__stage"><svg className="pa-process-lines" viewBox="0 0 1200 560" preserveAspectRatio="none" aria-hidden="true"><path d="M330 115 H410 Q432 115 443 145 L600 450 M330 345 H425 Q450 345 465 365 L600 450 M870 115 H790 Q768 115 757 145 L600 450 M870 345 H775 Q750 345 735 365 L600 450"/></svg><img className="pa-reference-process__robot" src="/static/reference-v86/patient-process.webp" alt="Afyra patient communication assistant"/><img className="pa-reference-process__platform" src="/static/reference-v86/patient-platform.webp" alt=""/>{data.process.slice(0,4).map((step,i)=><article key={step.title} className={`pa-process-step pa-process-step--${i+1}`} data-rs-process-card><span>{i+1}</span><div><PublicIcon name={i%2?'growth':'message'} size={24}/><h3>{step.title}</h3><p>{step.description}</p></div></article>)}</div></div></section>
 }
 
 function PatientFaqSection() {
   const [open, setOpen] = useState(0)
+  const scopedFaqs = useScopedFaqs(patientFaqs)
   const toggleFaq = (index: number, button: HTMLButtonElement) => {
     const section = button.closest('[data-rs-patient-faq]')
     if (!section) return
@@ -581,7 +578,7 @@ function PatientFaqSection() {
           <div className="pa-faq__contact"><h3>Still have questions?</h3><p>Talk to us about your business, current growth system and the next step.</p><PrimaryButton>Contact Us</PrimaryButton></div>
         </div>
         <div className="pa-faq__items">
-          {patientFaqs.map((item, index) => (
+          {scopedFaqs.map((item, index) => (
             <article className={open === index ? 'is-open' : ''} data-rs-patient-faq-item key={item.q}>
               <button type="button" onClick={(event) => toggleFaq(index, event.currentTarget)} aria-expanded={open === index}><span><b aria-hidden="true">✦</b>{item.q}</span><i>{open === index ? '⌄' : '»'}</i></button>
               <div className="pa-faq__answer" style={{ height: open === index ? 'auto' : 0, opacity: open === index ? 1 : 0 }}><p>{item.a}</p></div>
@@ -602,7 +599,7 @@ function PatientAcquisitionReferencePage({ data }: { data: ServicePageData }) {
       <PatientProgramsSection />
       <PatientIntegrationArc />
       <PatientSystemExperience data={data} />
-      <TrustFramework bright />
+      <PatientRobotTestimonials />
       <PatientFaqSection />
       <FinalCta bright />
     </>
@@ -610,10 +607,10 @@ function PatientAcquisitionReferencePage({ data }: { data: ServicePageData }) {
 }
 
 const websiteFeatureVisuals = [
-  '/static/ref-solutions/web-dev/01-credibility.svg',
-  '/static/ref-solutions/web-dev/02-positioning.svg',
-  '/static/ref-solutions/web-dev/03-audience.svg',
-  '/static/ref-solutions/web-dev/04-proof.svg'
+  '/static/reference-v86/f5-img-1.webp',
+  '/static/reference-v86/f5-img-2.webp',
+  '/static/reference-v86/f5-img-3.webp',
+  '/static/reference-v86/f5-img-4.webp'
 ] as const
 
 const websiteModuleBullets = [
@@ -624,10 +621,10 @@ const websiteModuleBullets = [
 ] as const
 
 const websiteTemplates = [
-  { label: 'Clinics & Practices', image: '/static/ref-solutions/web-dev/template-clinic.svg', icon: 'clinic' },
-  { label: 'Healthcare Brands', image: '/static/ref-solutions/web-dev/template-practice.svg', icon: 'brand' },
-  { label: 'Authority & Trust', image: '/static/ref-solutions/web-dev/template-brand.svg', icon: 'trust' },
-  { label: 'Multi-location', image: '/static/ref-solutions/web-dev/template-multilocation.svg', icon: 'location' }
+  { label: 'Clinics & Practices', image: '/static/reference-v86/p5-img-1.webp', icon: 'clinic' },
+  { label: 'Healthcare Brands', image: '/static/reference-v86/p5-img-2.webp', icon: 'brand' },
+  { label: 'Authority & Trust', image: '/static/reference-v86/p5-img-3.webp', icon: 'trust' },
+  { label: 'Multi-location', image: '/static/reference-v86/p5-img-4.webp', icon: 'location' }
 ] as const
 
 function WebsiteHero({ data }: { data: ServicePageData }) {
@@ -666,16 +663,7 @@ function WebsiteHero({ data }: { data: ServicePageData }) {
 
         <div className="web-hero__stage" data-rs-hero-stage>
           <div className="web-hero__mockup" data-rs-web-hero-mockup>
-            <i className="web-hero__anchor web-hero__anchor--tl" aria-hidden="true" />
-            <i className="web-hero__anchor web-hero__anchor--tr" aria-hidden="true" />
-            <i className="web-hero__anchor web-hero__anchor--bl" aria-hidden="true" />
-            <i className="web-hero__anchor web-hero__anchor--br" aria-hidden="true" />
-            <div className="web-hero__browserbar"><span /><span /><span /><b>Afyra Website System</b><em>Preview</em></div>
-            <div className="web-hero__workspace">
-              <aside><b>Structure</b><span>Pages</span><span>Navigation</span><span>Proof</span><span>Conversion</span><span>SEO</span></aside>
-              <figure><img src={visualByLayout['05']} alt="Website development system preview" loading="eager" decoding="async" /></figure>
-              <div className="web-hero__controls"><b>Business Asset</b><span>Credibility</span><span>Positioning</span><span>Trust</span><span>Qualified Inquiries</span></div>
-            </div>
+            <img className="web-hero__reference-image" src="/static/reference-v86/h5-img-1.webp" alt="Visual website editor and responsive website preview" />
           </div>
         </div>
 
@@ -718,6 +706,7 @@ function WebsiteModules({ data }: { data: ServicePageData }) {
           </div>
         </div>
 
+        <WebsiteHowItWorks data={data} />
         <div className="web-templates" data-rs-web-templates>
           <div className="rs-section-head web-section-head web-templates__head" data-rs-reveal>
             <SectionLabel text="Website directions" />
@@ -734,7 +723,7 @@ function WebsiteModules({ data }: { data: ServicePageData }) {
                 onClick={() => setActiveDirection(index)}
                 key={item.label}
               >
-                <PublicIcon name={item.icon} size={14} />{item.label}
+                <span className="web-direction-icon"><PublicIcon name={item.icon} size={16} /></span>{item.label}
               </button>
             ))}
           </div>
@@ -756,7 +745,7 @@ function WebsiteModules({ data }: { data: ServicePageData }) {
 function WebsiteHowItWorks({ data }: { data: ServicePageData }) {
   return (
     <section className="web-how" data-rs-web-how>
-      <div className="web-how__dome" data-rs-web-how-dome aria-hidden="true"><i /></div>
+      <div className="web-how__dome" data-rs-web-how-dome aria-hidden="true"><div className="web-how__sweep" data-rs-web-how-sweep><svg viewBox="0 0 800 800" width="100%" height="100%"><defs><linearGradient id="web-sweep-color" x1="0" y1="0" x2="1" y2="1"><stop stopColor="#00bba0" stopOpacity=".85"/><stop offset="1" stopColor="#006b5d" stopOpacity=".35"/></linearGradient></defs><path d="M400 400 L400 0 A400 400 0 0 1 746.41 600 Z" fill="url(#web-sweep-color)"/></svg></div></div>
       <div className="af-container web-how__inner">
         <div className="rs-section-head web-how__head" data-rs-reveal>
           <SectionLabel text="How it works" />
@@ -764,7 +753,7 @@ function WebsiteHowItWorks({ data }: { data: ServicePageData }) {
           <p>The structure stays simple: understand the business, connect the right growth components, improve the journey and manage toward long-term value.</p>
         </div>
         <div className="web-how__cards">
-          {data.process.map((step, index) => (
+          {[data.process[0], data.process[1], { title: 'Launch & Improve', description: data.process.slice(2).map(step => step.description).join(' ') }].map((step, index) => (
             <article className={index === 1 ? 'is-active' : ''} data-rs-web-how-card key={step.title}>
               <div><PublicIcon name={index % 3 === 0 ? 'website' : index % 3 === 1 ? 'spark' : 'growth'} size={22} /></div>
               <span>0{index + 1}</span>
@@ -779,11 +768,13 @@ function WebsiteHowItWorks({ data }: { data: ServicePageData }) {
 }
 
 function WebsiteCurrentPrograms() {
+  const programs = useLiveProgramsData()
   const [billing, setBilling] = useState<'monthly' | 'yearly'>('monthly')
   const yearly = billing === 'yearly'
 
   return (
     <section id="rs-programs" className="web-current web-pricing" data-rs-web-current>
+      <video className="web-pricing__video" autoPlay muted loop playsInline preload="metadata" aria-hidden="true" tabIndex={-1}><source src="/static/reference-v86/Afyra-p5-video.mp4" type="video/mp4" /></video>
       <div className="af-container web-pricing__inner">
         <div className="rs-section-head web-pricing__head" data-rs-reveal>
           <SectionLabel text="Current programs" />
@@ -792,13 +783,9 @@ function WebsiteCurrentPrograms() {
         </div>
 
         <div className="web-pricing__toggle-wrap">
-          <div className="web-pricing__toggle" role="group" aria-label="Billing preference">
-            <button type="button" className={!yearly ? 'is-active' : ''} aria-pressed={!yearly} onClick={() => setBilling('monthly')}>Monthly</button>
-            <span className="web-pricing__term-badge">1st month +25%</span>
-            <button type="button" className={yearly ? 'is-active' : ''} aria-pressed={yearly} onClick={() => setBilling('yearly')}>Yearly</button>
-          </div>
+          <BillingToggle value={billing} onChange={setBilling} />
           <p className="web-pricing__billing-note" aria-live="polite">
-            {yearly ? 'Annual pricing is not currently published. Request a consultation for billing options.' : 'Current approved monthly pricing.'}
+            {yearly ? 'Annual billing rate with 20% savings applied.' : 'Current approved monthly pricing.'}
           </p>
         </div>
 
@@ -807,7 +794,8 @@ function WebsiteCurrentPrograms() {
             // Canonical program data stores the checklist in `includes`.
             // Normalize it here so malformed or missing data can never crash this page.
             const includedFeatures = Array.isArray(plan.includes) ? plan.includes : []
-            const displayPrice = typeof plan.price === 'number' ? plan.price.toLocaleString() : '—'
+            const price = typeof plan.price === 'number' ? (yearly ? Math.round(plan.price * 0.8) : plan.price) : '—'
+            const displayPrice = typeof price === 'number' ? price.toLocaleString() : price
 
             return (
               <article className={`web-pricing__card ${plan.popular ? 'is-popular' : ''}`} data-rs-web-price-card key={plan.id}>
@@ -815,8 +803,8 @@ function WebsiteCurrentPrograms() {
                 <div className="web-pricing__icon"><PublicIcon name={plan.icon} size={22} /></div>
                 <h3>{plan.name}</h3>
                 <p className="web-pricing__purpose">{plan.purpose}</p>
-                <div className="web-pricing__price"><small>PKR</small><strong>{displayPrice}</strong><span>/month</span></div>
-                <p className="web-pricing__rate-note">{yearly ? 'Monthly rate shown; annual billing options available on request.' : 'Current monthly program rate.'}</p>
+                <div className="web-pricing__price"><small>PKR</small><strong>{displayPrice}</strong><span>{yearly ? '/mo (annual)' : '/month'}</span></div>
+                <p className="web-pricing__rate-note">{yearly ? 'Annual billing rate (20% savings applied).' : 'Current monthly program rate.'}</p>
                 <Link className="web-pricing__cta" to="/request-consultation">Get Started Now <PublicIcon name="arrowRight" size={15} /></Link>
                 <div className="web-pricing__includes">What’s Included</div>
                 <ul>
@@ -890,14 +878,31 @@ function WebsiteTrustProof() {
   )
 }
 
+function WebsiteInsights(){return <section className="web-insights rs-section--light"><div className="af-container"><div className="rs-section-head" data-rs-reveal><SectionLabel text="Insights & resources"/><h2>Build a Stronger Digital Presence.</h2><p>Explore practical ideas for clearer websites and better customer journeys.</p></div><div className="web-insights__grid">{['Turn Your Website Into a Business Asset','Build Trust Through Clear Communication','Create a Better Path to Inquiry'].map((title,i)=><Link to="/insights" key={title}><img src={`/static/reference-v86/b5-img-${i+1}.webp`} alt="" loading="lazy"/><small>Afyra Digital · Website insights</small><h3>{title} ↗</h3></Link>)}</div></div></section>}
+
+function WebsiteWhyChoose() {
+  const benefits = [
+    ['website', 'Build Faster, Launch Sooner', 'Move from a clear website strategy to a polished launch with a focused design and development process.'],
+    ['growth', 'Scale Without Limits', 'Build a flexible foundation for new services, locations and content as your business grows.'],
+    ['location', 'Reach the Right Audience', 'Create accessible, responsive experiences that help people discover your business across devices and locations.'],
+    ['analytics', 'Support Conversions & Growth', 'Guide visitors through clear messages, useful content and meaningful next steps that support qualified inquiries.'],
+    ['program', 'Focus on Business, Not Code', 'Keep your attention on your business while Afyra handles the website structure, performance and technical implementation.']
+  ]
+  return <section className="web-benefits rs-section--light"><div className="af-container">
+    <div className="rs-section-head" data-rs-reveal><SectionLabel text="Why choose us?" /><h2>A Stronger Website.<br />Built Around Your Business.</h2><p>Thoughtful design and connected systems to support trust, clarity and long-term growth.</p></div>
+    <div className="web-benefits__grid">{benefits.map(([icon, title, description]) => <article className="web-benefits__card" key={title} tabIndex={0}><div className="web-benefits__surface"><span className="web-benefits__icon"><PublicIcon name={icon} size={25} /></span><h3>{title}</h3><p>{description}</p></div></article>)}</div>
+  </div></section>
+}
+
 function WebsiteDevelopmentReferencePage({ data }: { data: ServicePageData }) {
   return (
     <>
       <WebsiteHero data={data} />
       <WebsiteModules data={data} />
-      <WebsiteHowItWorks data={data} />
+      <WebsiteWhyChoose />
       <WebsiteCurrentPrograms />
-      <WebsiteTrustProof />
+      <TestimonialsSection pageSlug="solution:website-development" variant="website" />
+      <WebsiteInsights />
       <FaqSection bright variant="support-card" />
       <FinalCta bright />
     </>
@@ -927,14 +932,19 @@ const socialChannels = [
 const socialTrustItems = ['Doctors', 'Clinics', 'Hospitals', 'Aesthetic Centers', 'Cosmetic Centers'] as const
 
 
+function SocialDashboard() {
+  return <div className="social-dashboard"><img src="/static/reference-v90/Home-6/h6-dashboard.webp" alt="Communication analytics dashboard preview" /><div className="social-dashboard__bars" aria-hidden="true">{[38,65,25,84,57,72,41,94,67,88,49,98,28,64,52,91,40,77].map((height,i)=><i key={i} style={{height: `${height}%`, '--bar-delay': `${i*.08}s`} as CSSProperties}/>)}</div></div>
+}
+
 function SocialHero({ data }: { data: ServicePageData }) {
   return (
     <section className="social-hero" data-rs-hero data-rs-social-hero>
-      <div className="social-hero__stars" aria-hidden="true" />
+      <video className="social-hero__video" autoPlay muted loop playsInline preload="metadata" aria-hidden="true"><source src="/static/reference-v90/Home-6/h6-video-4.mp4" type="video/mp4" /></video><div className="social-hero__stars" aria-hidden="true" />
       <div className="social-hero__halo social-hero__halo--outer" aria-hidden="true" />
       <div className="social-hero__halo social-hero__halo--inner" aria-hidden="true" />
       <div className="af-container social-hero__inner">
         <div className="social-hero__copy" data-rs-hero-copy>
+          <div className="social-hero__portraits" aria-hidden="true">{[1,2,3].map(i=><img key={i} src={`/Home-Public/t1-author-${i}-recolored.webp`} alt=""/>)}</div>
           <div className="rs-reference-pill"><span /> {pageMicrocopy['06'].heroTag}</div>
           <h1>{data.title}</h1>
           <p className="social-hero__lead">{data.description}</p>
@@ -952,7 +962,7 @@ function SocialHero({ data }: { data: ServicePageData }) {
             <i className="social-hero__anchor social-hero__anchor--bl" aria-hidden="true" />
             <i className="social-hero__anchor social-hero__anchor--br" aria-hidden="true" />
             <div className="social-hero__mockup-bar"><span /><span /><span /><b>Unified Communication System</b><em>Live</em></div>
-            <img src={visualByLayout['06']} alt="Afyra Digital social media, community and lead communication dashboard" loading="eager" decoding="async" />
+            <SocialDashboard />
           </figure>
         </div>
 
@@ -1009,28 +1019,7 @@ function SocialGrowthVisual({ index }: { index: number }) {
       </div>
     )
   }
-  if (index === 2) {
-    return (
-      <div className="social-stack-visual social-stack-visual--live-chat" aria-hidden="true">
-        <div className="social-live-chat__toolbar"><i /><i /><i /><b>Overview</b><span>Data sync</span></div>
-        <div className="social-live-chat__frame">
-          <div className="social-live-chat__rail">{['social', 'content', 'message', 'analytics'].map((icon) => <i key={icon}><PublicIcon name={icon} size={15} /></i>)}</div>
-          <div className="social-live-chat__chart">
-            <div className="social-live-chat__tabs"><span>Clicks</span><span>Views</span></div>
-            <div className="social-live-chat__bars">{[56, 82, 66, 88, 58, 100, 44, 92, 72].map((value, barIndex) => <b key={barIndex} style={{ height: `${value}%` }} />)}</div>
-          </div>
-          <div className="social-live-chat__code">
-            <span>// reply pipeline</span>
-            <span>const route = &quot;community&quot;;</span>
-            <span>const priority = &quot;high&quot;;</span>
-            <span>if (intent === &quot;inquiry&quot;) {'{'}</span>
-            <span>&nbsp;&nbsp;return &quot;send to lead desk&quot;;</span>
-            <span>{'}'}</span>
-          </div>
-        </div>
-      </div>
-    )
-  }
+  if (index === 2) return <div className="social-stack-visual social-stack-visual--live-chat"><SocialDashboard /></div>
   if (index === 3) {
     return (
       <div className="social-stack-visual social-stack-visual--tickets" aria-hidden="true">
@@ -1044,7 +1033,7 @@ function SocialGrowthVisual({ index }: { index: number }) {
   }
   return (
     <div className="social-stack-visual social-stack-visual--collaboration" aria-hidden="true">
-      <div className="social-collab__globe"><i /><span /></div>
+      <div className="social-collab__globe"><img src="/static/reference-v90/Home-6/f6-d-img-5-earth.webp" alt="" /><i /><span /></div>
       <div className="social-collab__arc social-collab__arc--one" />
       <div className="social-collab__arc social-collab__arc--two" />
       {['message', 'instagram', 'whatsapp', 'analytics'].map((icon, i) => <b className={`social-collab__node social-collab__node--${i + 1}`} key={icon}><PublicIcon name={icon} size={15} /></b>)}
@@ -1062,7 +1051,7 @@ function SocialGrowthSystem({ data }: { data: ServicePageData }) {
           <p>{pageMicrocopy['06'].systemText}</p>
         </div>
         <div className="social-growth__grid" data-rs-social-growth-grid>
-          {data.features.map((feature, index) => (
+          {[...data.features.slice(0, 4), { title: "Team Collaboration", description: "Keep content, community management and lead communication connected across your team." }].map((feature, index) => (
             <article
               className={`social-growth__card social-growth__card--${index + 1}`}
               data-rs-social-growth-card
@@ -1079,13 +1068,16 @@ function SocialGrowthSystem({ data }: { data: ServicePageData }) {
             </article>
           ))}
         </div>
+        <div className="social-growth__bowl" aria-hidden="true"><div className="social-growth__bowl-effects"><span />{Array.from({length:30},(_,i)=><i key={i} style={{left:`${8+(i*29)%84}%`,bottom:`${25+(i*17)%65}px`,animationDelay:`${i*.12}s`}}/>)}</div><svg viewBox="0 0 1000 120" preserveAspectRatio="none"><defs><clipPath id="social-bowl-boundary" clipPathUnits="objectBoundingBox"><path d="M0 0H1V.166667Q.5 1.291667 0 .166667Z"/></clipPath></defs><path d="M0 20 Q500 155 1000 20" fill="none" stroke="#00bba0" strokeWidth="2" /></svg></div>
       </div>
     </section>
   )
 }
 
 function SocialProgramsSection() {
+  const programs = useLiveProgramsData()
   const [billingMode, setBillingMode] = useState<'monthly' | 'yearly'>('monthly')
+  const isYearly = billingMode === 'yearly'
   const primaryPlans = programs.plans.slice(0, 2)
   const enterprisePlan = programs.plans[2]
 
@@ -1097,36 +1089,35 @@ function SocialProgramsSection() {
           <h2>Choose the Program That Matches Your Growth Stage.</h2>
           <p>Current approved Afyra Digital programs and pricing. Customized programs are available according to business requirements.</p>
         </div>
-        <div className="social-programs__billing" aria-label="Pricing display mode">
-          <button type="button" className={billingMode === 'monthly' ? 'is-active' : ''} onClick={() => setBillingMode('monthly')} aria-pressed={billingMode === 'monthly'}>Monthly</button>
-          <button type="button" className={billingMode === 'yearly' ? 'is-active' : ''} onClick={() => setBillingMode('yearly')} aria-pressed={billingMode === 'yearly'}>Yearly</button>
-          <span>Current pricing</span>
-        </div>
-        {billingMode === 'yearly' ? <p className="social-programs__billing-note">Approved monthly pricing is shown; yearly pricing is not defined in the current program data.</p> : null}
+        <div className="social-billing-tabs" role="group" aria-label="Billing period"><button type="button" aria-pressed={!isYearly} onClick={()=>setBillingMode('monthly')}>Monthly</button><button type="button" aria-pressed={isYearly} onClick={()=>setBillingMode('yearly')}>Yearly<span>Save 20%</span></button></div>
+
 
         <div className="social-programs__grid social-programs__grid--reference">
-          {primaryPlans.map((plan, index) => (
-            <article className={`social-program-card social-program-card--reference ${plan.popular ? 'is-popular' : ''}`} data-rs-price-card key={plan.id}>
-              <div className="social-program-card__label">{index === 0 ? 'Starter' : 'Pro Plan'}</div>
-              <h3>{plan.name}</h3>
-              <p>{plan.purpose}</p>
-              <div className="social-program-card__price"><strong>${plan.price.toLocaleString()}</strong><span>/month</span></div>
-              <div className="social-program-card__micro">Current approved monthly program</div>
-              <h4>What&apos;s Included</h4>
-              <ul>{plan.includes.slice(0, 6).map((item) => <li key={item}><PublicIcon name="check" size={14} />{item}</li>)}</ul>
-              <PrimaryButton>Program Inquiry</PrimaryButton>
-              <div className="social-program-card__note">Based on the selected program stage.</div>
-            </article>
-          ))}
+          {primaryPlans.map((plan, index) => {
+            const price = typeof plan.price === 'number' ? (isYearly ? Math.round(plan.price * 0.8) : plan.price) : plan.price
+            return (
+              <article className={`social-program-card social-program-card--reference ${plan.popular ? 'is-popular' : ''}`} data-rs-price-card key={plan.id}>
+                <div className="social-program-card__label">{index === 0 ? 'Starter' : 'Pro Plan'}</div>
+                <h3>{plan.name}</h3>
+                <p>{plan.purpose}</p>
+                <div className="social-program-card__price"><strong><small>PKR </small>{typeof price === 'number' ? price.toLocaleString() : price}</strong><span>{isYearly ? '/month (annual)' : '/month'}</span></div>
+                <div className="social-program-card__micro">{isYearly ? 'Annual billing rate with 20% savings' : 'Current approved monthly program'}</div>
+                <h4>What&apos;s Included</h4>
+                <ul>{plan.includes.slice(0, 6).map((item) => <li key={item}><PublicIcon name="check" size={14} />{item}</li>)}</ul>
+                <PrimaryButton>Program Inquiry</PrimaryButton>
+                <div className="social-program-card__note">Based on the selected program stage.</div>
+              </article>
+            )
+          })}
 
           <div className="social-programs__stack">
             <article className="social-program-card social-program-card--compact" data-rs-price-card>
               <div className="social-program-card__label">Enterprise Plan</div>
-              <h3>{enterprisePlan.name}</h3>
-              <p>{enterprisePlan.purpose}</p>
+              <h3>{enterprisePlan?.name || "Custom Program"}</h3>
+              <p>{enterprisePlan?.purpose || "A tailored system for your business."}</p>
               <SecondaryButton>Request Consultation</SecondaryButton>
               <ul>
-                {enterprisePlan.includes.slice(0, 3).map((item) => <li key={item}><PublicIcon name="check" size={14} />{item}</li>)}
+                {(enterprisePlan?.includes || []).slice(0, 3).map((item) => <li key={item}><PublicIcon name="check" size={14} />{item}</li>)}
               </ul>
             </article>
 
@@ -1144,57 +1135,32 @@ function SocialProgramsSection() {
 }
 
 function SocialConnectedTouchpoints() {
-  return (
-    <section className="social-touchpoints" data-rs-social-touchpoints>
-      <div className="af-container">
-        <div className="rs-section-head social-touchpoints__head" data-rs-reveal>
-          <SectionLabel text="Connected touchpoints" />
-          <h2>Connect the Channels That Influence Trust, Discovery and Conversion.</h2>
-          <p>Afyra’s approach treats each channel as part of one growth system instead of a separate task list.</p>
-        </div>
-        <div className="social-touchpoints__stage" data-rs-social-orbit-stage>
-          <div className="social-touchpoints__ceiling" aria-hidden="true" />
-          <div className="social-touchpoints__dome" aria-hidden="true">
-            <i className="social-touchpoints__arc-base" />
-            <i className="social-touchpoints__dome-sector" data-rs-social-orbit-sector />
-            <i className="social-touchpoints__arc-light" data-rs-social-orbit-glow />
-            <i className="social-touchpoints__arc-light social-touchpoints__arc-light--soft" data-rs-social-orbit-glow-soft />
-            <i className="social-touchpoints__arc-inner" />
-            <i className="social-touchpoints__dome-fill" />
-          </div>
-          <div className="social-touchpoints__orbit-ring" data-rs-social-orbit-ring>
-            {socialChannels.map((item, index) => (
-              <div
-                className={`social-touchpoint social-touchpoint--${item.tone}`}
-                data-rs-social-orbit-item
-                style={{ '--orbit-angle': `${(360 / socialChannels.length) * index - 180}deg`, '--orbit-counter-angle': `${180 - (360 / socialChannels.length) * index}deg`, '--orbit-index': index } as CSSProperties}
-                key={`${item.label}-${index}`}
-                aria-label={item.label}
-              >
-                <i data-rs-social-orbit-item-icon><PublicIcon name={item.icon} size={20} /></i>
-                <span>{item.label}</span>
-              </div>
-            ))}
-          </div>
-          <div className="social-touchpoints__core" aria-hidden="true"><img src="/static/img/logo-mark.png" alt="" /></div>
-        </div>
-      </div>
-    </section>
-  )
+  const icons = ['a6-logo-1-10.png', 'a6-logo-10-1.png', 'a6-logo-11.png', 'a6-logo-12-1.png', 'a6-logo-13-1.png', 'a6-logo-14-1.png', 'a6-logo-15-1.png', 'a6-logo-16-1.png', 'a6-logo-17-1.png', 'a6-logo-18-1.png', 'a6-logo-19-1.png', 'a6-logo-20-1.png', 'a6-logo-21-1.png', 'a6-logo-22-1.png', 'a6-logo-23-1.png', 'a6-logo-3-1.png', 'a6-logo-4-1.png', 'a6-logo-5-1.png', 'a6-logo-6-1.png', 'a6-logo-7-1.png', 'a6-logo-8-1.png', 'a6-logo-9-1.png']
+  return <section className="social-v90-touchpoints"><div className="af-container"><div className="rs-section-head"><SectionLabel text="Connected touchpoints"/><h2>Connect the Channels That Influence Trust, Discovery and Conversion.</h2><p>Bring your communication tools together in one coordinated growth system.</p></div>
+    <div className="social-v90-orbit"><div className="social-v90-orbit__color" />{[0,1].map(ring=><div className={`social-v90-orbit__ring ring-${ring}`} key={ring}>{icons.slice(ring*11,ring*11+11).map((file,i)=><div className="social-v90-orbit__position" key={file} style={{transform:`rotate(${i*360/11}deg)`}}><img src={`/static/reference-v90/Home-6/${file}`} alt="" loading="lazy" style={{'--counter':`${-i*360/11}deg`} as CSSProperties}/></div>)}</div>)}<div className="social-v90-orbit__core"><img src="/static/img/logo-mark.png" alt="Afyra Digital"/></div></div>
+    </div><div className="social-v90-divider" aria-hidden="true" /></section>
+}
+
+function SocialContact() {
+  const [status,setStatus]=useState('')
+  const [busy,setBusy]=useState(false)
+  return <section className="social-contact" id="social-contact"><div className="af-container social-contact__grid"><div><SectionLabel text="Let’s get in touch"/><h2>Need Help? Our Team Is Ready.</h2><p>Talk to us about your social presence, community and lead communication.</p><a className="social-contact__detail" href={`mailto:${socialBrand.email}`}><PublicIcon name="message" size={30}/><h3>Email Address</h3>{socialBrand.email}</a><a className="social-contact__detail" href={socialBrand.phoneHref}><PublicIcon name="social" size={30}/><h3>Contact Us</h3>{socialBrand.phone}</a></div>
+  <form onSubmit={async event=>{event.preventDefault();const form=event.currentTarget;const fields=new FormData(form);setBusy(true);setStatus('');try{const result=await apiSubmitInquiry({name:`${fields.get('first')} ${fields.get('last')}`,business:'Social Media inquiry',contact:`${fields.get('email')} | ${fields.get('phone')}`,message:`${fields.get('subject')}: ${fields.get('message')}`,page_url:window.location.href});if(!result?.ok)throw new Error('Submission failed');setStatus('Thank you. Your inquiry has been sent.');form.reset()}catch{setStatus('Unable to send right now. Please try again or contact us by email.')}finally{setBusy(false)}}}>
+  <div className="social-contact__fields">{[['first','First Name','text'],['last','Last Name','text'],['email','Email Address','email'],['phone','Phone Number','tel']].map(([name,label,type])=><label key={name}>{label}<input name={name} type={type} placeholder={label} data-social-placeholder={label} required maxLength={160}/></label>)}</div><label>Choose a subject<input name="subject" placeholder="Subject" data-social-placeholder="Choose a subject" required maxLength={200}/></label><label>Message<textarea name="message" placeholder="Write your message" data-social-placeholder="Write your message here" required rows={5} maxLength={5000}/></label><button type="submit" disabled={busy}>{busy?'Sending…':'Send Message'} <span className="af-diagonal-arrow">↗</span></button><p role="status">{status}</p></form></div></section>
 }
 
 function SocialMediaReferencePage({ data }: { data: ServicePageData }) {
   return (
-    <>
+    <div className="social-v90">
       <SocialHero data={data} />
       <CommunicationMetrics data={data} />
       <SocialGrowthSystem data={data} />
       <SocialProgramsSection />
       <SocialConnectedTouchpoints />
-      <TrustFramework />
+      <TestimonialsSection pageSlug="solution:social-media-community-lead-communication" variant="social" />
       <FaqSection variant="social-reference" />
-      <FinalCta />
-    </>
+      <SocialContact />
+    </div>
   )
 }
 
@@ -1237,7 +1203,7 @@ function CommunicationMetrics({ data }: { data: ServicePageData }) {
             </div>
           </div>
         </div>
-        <div className="rs-comms-metrics__grid">{points.map(([title, text], index) => <article data-rs-metric-card key={title}><span>0{index + 1}</span><h3>{title}</h3><p>{text}</p></article>)}</div>
+        <div className="rs-comms-metrics__grid">{points.map(([title, text], index) => <article className="social-metric-clean" data-rs-metric-card key={title}><i className="social-metric-border" aria-hidden="true"/><span>0{index + 1}</span><h3>{title}</h3><p>{text}</p></article>)}</div>
       </div>
     </section>
   )
@@ -1314,7 +1280,7 @@ function GrowthStrategyHero({ data }: { data: ServicePageData }) {
       <div className="af-container gs7-hero__grid">
         <div className="gs7-hero__copy" data-rs-hero-copy>
           <div className="rs-reference-pill"><span /> {pageMicrocopy['07'].heroTag}</div>
-          <h1><span>Digital</span><span>Growth &amp;</span><span>Marketing</span><span>Strategy</span></h1>
+          <h1>Grow Your Business<br/><span>With Intelligent <em>Digital</em></span><br/>Marketing Strategy</h1>
           <p className="gs7-hero__lead">Build a clear growth direction around strategy, planning, positioning, audience understanding and measurable business outcomes.</p>
           <p className="gs7-hero__sub">Create a clear growth direction around positioning, audience understanding and measurable business outcomes.</p>
           <div className="gs7-hero__actions"><PrimaryButton>Request Consultation</PrimaryButton><SecondaryButton>View Programs</SecondaryButton></div>
@@ -1325,7 +1291,7 @@ function GrowthStrategyHero({ data }: { data: ServicePageData }) {
           <div className="gs7-hero__ring gs7-hero__ring--two" aria-hidden="true" />
           <div className="gs7-hero__panel" aria-hidden="true" />
           <figure className="gs7-hero__phone" data-rs-growth-phone>
-            <img src="/static/ref-solutions/growth-strategy-phone-hand.webp" alt="Afyra Digital growth strategy dashboard shown on a phone held in hand" />
+            <img src="/static/reference-v91/home-7/h7-img-1.webp" alt="Afyra Digital growth strategy dashboard shown on a phone held in hand" />
           </figure>
           <div className="gs7-hero__metric gs7-hero__metric--visibility" data-rs-growth-chip><i><PublicIcon name="growth" size={18} /></i><div><b>Visibility</b><span>Connected reach</span></div></div>
           <div className="gs7-hero__metric gs7-hero__metric--trust" data-rs-growth-chip><i><PublicIcon name="trust" size={18} /></i><div><b>Trust</b><span>Professional positioning</span></div></div>
@@ -1334,7 +1300,7 @@ function GrowthStrategyHero({ data }: { data: ServicePageData }) {
         </div>
       </div>
       <div className="af-container gs7-hero__trust" data-rs-hero-trust>
-        <strong>We Don’t Run Ads. We Bring Leads.</strong>
+        <div className="gs7-v91-marquee" aria-hidden="true"><div>{[0,1].map(i=><span key={i}>GROWTH STRATEGY • DIGITAL MARKETING • </span>)}</div></div><strong>We Don’t Run Ads. We Bring Leads.</strong>
         <div className="gs7-hero__trust-marquee">
           <div className="gs7-hero__trust-track" data-rs-growth-trust-track>
             {[...growthTrustItems, ...growthTrustItems].map((item, index) => <span key={`${item}-${index}`}>{item}</span>)}
@@ -1386,24 +1352,14 @@ function GrowthSystem07({ data }: { data: ServicePageData }) {
               <p>Strategy gives each channel a clear role while every touchpoint stays connected to the same growth outcome.</p>
             </div>
             <div className="gs7-feature-network" aria-hidden="true">
-              <svg viewBox="0 0 500 270" preserveAspectRatio="none">
-                <path data-rs-growth-node-line d="M250 135 C190 135 178 58 118 58" />
-                <path data-rs-growth-node-line d="M250 135 C310 135 322 58 382 58" />
-                <path data-rs-growth-node-line d="M250 135 C182 135 164 212 102 212" />
-                <path data-rs-growth-node-line d="M250 135 C318 135 336 212 398 212" />
-                <path data-rs-growth-node-line d="M250 135 C250 185 250 202 250 238" />
-              </svg>
-              <div className="gs7-feature-network__core" data-rs-growth-hub-core><img src="/static/img/logo-mark.png" alt="" /></div>
-              <div className="gs7-feature-network__node gs7-feature-network__node--1" data-rs-growth-hub-node><PublicIcon name="strategy" size={20} /><span>Strategy</span></div>
-              <div className="gs7-feature-network__node gs7-feature-network__node--2" data-rs-growth-hub-node><PublicIcon name="content" size={20} /><span>Content</span></div>
-              <div className="gs7-feature-network__node gs7-feature-network__node--3" data-rs-growth-hub-node><PublicIcon name="social" size={20} /><span>Social</span></div>
-              <div className="gs7-feature-network__node gs7-feature-network__node--4" data-rs-growth-hub-node><PublicIcon name="target" size={20} /><span>Paid</span></div>
-              <div className="gs7-feature-network__node gs7-feature-network__node--5" data-rs-growth-hub-node><PublicIcon name="location" size={20} /><span>Local</span></div>
+              <svg viewBox="0 0 500 270" preserveAspectRatio="none">{['M250 135H170Q155 135 155 120V65Q155 55 140 55H80','M250 135H80','M250 135H170Q155 135 155 150V215H80','M250 135H330Q345 135 345 120V65Q345 55 360 55H420','M250 135H420','M250 135H330Q345 135 345 150V215H420'].map(path=><g key={path}><path className="growth-network-base" d={path}/><path className="growth-network-light" d={path}/></g>)}</svg>
+              <div className="gs7-feature-network__core" data-rs-growth-hub-core><img src="/static/img/logo-mark.png" alt=""/></div>
+              {['cart','growth','card','globe','send','lock'].map((icon,index)=><div className={`gs7-feature-network__node gs7-feature-network__node--${index+1}`} key={icon}><PublicIcon name={icon} size={20}/></div>)}
             </div>
           </article>
 
           <article className="gs7-feature-card gs7-feature-card--brief" data-rs-growth-feature-card>
-            <div className="gs7-feature-brief" aria-hidden="true">
+            <div className="gs7-feature-brief" aria-hidden="true"><img className="growth-v91-brief-image" src="/static/reference-v91/home-7/f7-3-1.webp" alt=""/>
               <div data-rs-growth-card-float><small>Strategic brief</small><b>Audience + positioning</b><span>Business goal first</span></div>
               <div data-rs-growth-card-float><small>Content direction</small><b>Trust + clarity</b><span>Connected message</span></div>
               <div data-rs-growth-card-float><small>Channel role</small><b>Visibility + response</b><span>Clear next step</span></div>
@@ -1413,7 +1369,7 @@ function GrowthSystem07({ data }: { data: ServicePageData }) {
 
           <article className="gs7-feature-card gs7-feature-card--performance" data-rs-growth-feature-card>
             <div className="gs7-feature-card__copy gs7-feature-card__copy--top"><h3>Channel Performance</h3><p>Bring social presence, paid campaigns, Google Business Profile and lead communication into one measurable view.</p></div>
-            <div className="gs7-feature-performance" aria-hidden="true" data-rs-growth-card-float>
+            <div className="gs7-feature-performance" aria-hidden="true" data-rs-growth-card-float><img className="growth-v91-phone-image" src="/static/reference-v91/home-7/phone-1.webp" alt=""/>
               <div className="gs7-feature-performance__screen">
                 <div className="gs7-feature-performance__head"><span>Growth overview</span><i>•••</i></div>
                 <div className="gs7-feature-performance__bars"><i /><i /><i /><i /><i /></div>
@@ -1447,9 +1403,9 @@ function GrowthTextReveal07() {
         <p aria-label="Strategy connects visibility, trust, inquiries, conversion and long-term brand value into one clear growth direction.">
           {words.map((word, index) => (
             <span className="gs7-text-reveal__cluster" key={`${word}-${index}`}>
-              <span className="gs7-text-reveal__word" data-rs-growth-text-word>{word}</span>
-              {index === 1 ? <span className="gs7-text-reveal__badge" data-rs-growth-text-badge><PublicIcon name="target" size={18} /></span> : null}
-              {index === 8 ? <span className="gs7-text-reveal__badge gs7-text-reveal__badge--amber" data-rs-growth-text-badge><PublicIcon name="growth" size={18} /></span> : null}
+              <span className="gs7-text-reveal__word" data-rs-growth-text-word>{word}{' '}</span>
+              {index === 1 ? <span className="gs7-text-reveal__badge" data-rs-growth-text-badge><img src="/static/reference-v91/home-7/hi-emoji.svg" alt="Waving hand" /></span> : null}
+              {index === 8 ? <span className="gs7-text-reveal__badge gs7-text-reveal__badge--amber" data-rs-growth-text-badge><img src="/static/reference-v91/home-7/hi-emoji-2.svg" alt="Smiling face" /></span> : null}
             </span>
           ))}
         </p>
@@ -1478,11 +1434,7 @@ function GrowthQuickStart07() {
         <div className="gs7-quick__stage" data-rs-growth-quick-stage>
           {growthQuickSteps.map((step, index) => (
             <article className={`gs7-quick__card gs7-quick__card--${index + 1}`} data-rs-growth-quick-card key={step.title}>
-              <div className="gs7-quick__mockup">
-                <div className="gs7-quick__mockup-head"><span>{step.metric}</span><i>•••</i></div>
-                <div className="gs7-quick__chart"><b /><b /><b /><b /><b /><svg viewBox="0 0 300 90" preserveAspectRatio="none"><path d={index === 0 ? 'M0 66 C45 55 58 68 92 50 S150 35 184 43 S234 22 300 28' : index === 1 ? 'M0 72 C35 62 65 58 90 62 S145 48 170 44 S230 36 300 20' : 'M0 70 C42 68 70 50 106 54 S168 38 205 42 S254 24 300 16'} /></svg></div>
-                <div className="gs7-quick__stats"><span><b>{step.value}</b>Stage</span><span><b>{index === 0 ? 'Clear' : index === 1 ? 'Connected' : 'Measured'}</b>Status</span><span><b>{index === 2 ? 'Growth' : 'Next'}</b>Focus</span></div>
-              </div>
+              <div className="gs7-quick__mockup"><img src={`/static/reference-v91/home-7/c7-img-${index+1}.webp`} alt={`${step.title} dashboard illustration`} /></div>
               <div className="gs7-quick__content"><span>{step.number}</span><h3>{step.title}</h3><p>{step.description}</p><div className="gs7-quick__links"><i><PublicIcon name={index === 0 ? 'strategy' : index === 1 ? 'social' : 'analytics'} size={18} /></i><i><PublicIcon name={index === 0 ? 'target' : index === 1 ? 'whatsapp' : 'growth'} size={18} /></i></div></div>
             </article>
           ))}
@@ -1493,21 +1445,102 @@ function GrowthQuickStart07() {
 }
 
 function GrowthRoadmap07({ data }: { data: ServicePageData }) {
+  const wrap = (text: string, limit: number) => {
+    const lines: string[] = []
+    text.split(/\s+/).forEach(word => {
+      if (!lines.length || lines[lines.length - 1].length + word.length + 1 > limit) lines.push(word)
+      else lines[lines.length - 1] += ' ' + word
+    })
+    return lines
+  }
   return (
-    <section className="gs7-roadmap rs-section--light" data-rs-growth-roadmap>
+    <section className="gs7-roadmap roadmap-v93 rs-section--light" data-rs-growth-roadmap>
       <div className="af-container">
-        <div className="rs-section-head gs7-roadmap__head" data-rs-reveal><SectionLabel text="Growth roadmap" /><h2>Follow a Clear Route From Strategy to Long-Term Growth.</h2><p>{data.intro}</p></div>
+        <div className="rs-section-head gs7-roadmap__head">
+          <SectionLabel text="Growth roadmap" />
+          <h2>Follow a Clear Route From Strategy to Long-Term Growth.</h2>
+        </div>
         <div className="gs7-roadmap__canvas">
-          <svg viewBox="0 0 1000 1080" preserveAspectRatio="none" aria-hidden="true">
-            <path className="gs7-roadmap__base" d="M120 105 C820 80 900 220 835 330 C755 465 275 395 235 555 C190 735 820 650 770 825 C735 947 380 940 220 1010" />
-            <path className="gs7-roadmap__fill" data-rs-growth-roadmap-path d="M120 105 C820 80 900 220 835 330 C755 465 275 395 235 555 C190 735 820 650 770 825 C735 947 380 940 220 1010" />
+          <svg viewBox="0 -100 1000 1000" preserveAspectRatio="xMidYMin meet" aria-hidden="true">
+            <defs>
+              <linearGradient id="growth-roadmap-end" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stopColor="white" />
+                <stop offset=".78" stopColor="white" />
+                <stop offset="1" stopColor="black" />
+              </linearGradient>
+              <mask id="growth-roadmap-fade">
+                <rect width="1000" height="850" fill="url(#growth-roadmap-end)" />
+              </mask>
+              <linearGradient id="growth-roadmap-wash" x1="0" y1="0" x2="0" y2="1">
+                <stop stopColor="#00bba0" stopOpacity=".3" />
+                <stop offset="1" stopColor="#00bba0" stopOpacity="0" />
+              </linearGradient>
+            </defs>
+            <path className="gs7-roadmap__wash" d="M820 270 C820 370 570 420 390 565 C300 635 240 720 200 800 H820Z" fill="url(#growth-roadmap-wash)" />
+            <path className="gs7-roadmap__base" d="M200 100 C480 95 820 130 820 270 C820 370 570 420 390 565 C300 635 240 720 200 800" />
+            <path className="gs7-roadmap__fill" mask="url(#growth-roadmap-fade)" data-rs-growth-roadmap-path d="M200 100 C480 95 820 130 820 270 C820 370 570 420 390 565 C300 635 240 720 200 800" />
           </svg>
-          {data.process.slice(0, 4).map((step, index) => (
-            <article className={`gs7-roadmap__step gs7-roadmap__step--${index + 1}`} data-rs-growth-roadmap-step key={step.title}>
-              <i data-rs-growth-roadmap-dot />
-              <div><span>{String(index + 1).padStart(2, '0')}</span><h3>{step.title}</h3><p>{step.description}</p></div>
-            </article>
-          ))}
+          <svg className="roadmap-annotations" viewBox="0 -100 1000 1000" preserveAspectRatio="xMidYMin meet" aria-label="Growth roadmap milestones">
+            {data.process.slice(0, 4).map((step, index) => {
+              const isLeft = index >= 2
+              const lineD = "M0 -125V-12"
+              return (
+                <g
+                  className={`roadmap-node ${index === 0 ? 'is-active' : ''}`}
+                  data-rs-growth-roadmap-step
+                  data-active={index === 0 ? 'true' : 'false'}
+                  transform={`translate(${[200, 624, 691, 401][index]} ${[100, 133, 391, 556][index]})`}
+                  key={step.title}
+                >
+                  <circle className="roadmap-dot-glow" r="13" fill="#00bba0" fillOpacity={index === 0 ? 0.3 : 0.12} />
+                  <circle className="roadmap-dot" r="5.5" fill="#00bba0" />
+                  <g
+                    className="roadmap-caption"
+                    data-step-index={index}
+                    style={{ display: index === 0 ? 'inline' : 'none' }}
+                  >
+                    <path d={lineD} fill="none" stroke="#00bba0" strokeWidth="2.5" strokeOpacity=".75" strokeLinecap="round" strokeLinejoin="round" />
+                    {isLeft ? (
+                      <>
+                        <text x="-300" y="-132" fill="#00443e" fontSize="22" fontFamily="Arial, sans-serif" fontWeight="600">
+                          {step.title}
+                        </text>
+                        <text x="-24" y="-132" fill="#ff960d" fontSize="18" fontFamily="Arial, sans-serif" fontWeight="600" textAnchor="end">
+                          0{index + 1}
+                        </text>
+                        <text x="0" y="-132" fill="#00bba0" fontSize="18" fontFamily="Arial, sans-serif" fontWeight="600" textAnchor="middle">
+                          ✦
+                        </text>
+                        <text x="-300" y="-98" fill="#61776e" fontSize="15.5" fontFamily="Arial, sans-serif">
+                          {wrap(step.description, 36).map((line, i) => (
+                            <tspan x="-300" dy={i === 0 ? 0 : 23} key={i}>
+                              {line}
+                            </tspan>
+                          ))}
+                        </text>
+                      </>
+                    ) : (
+                      <>
+                        <text x="20" y="-132" fill="#00443e" fontSize="22" fontFamily="Arial, sans-serif" fontWeight="600">
+                          <tspan fill="#00bba0" fontSize="18">✦ </tspan>{step.title}
+                        </text>
+                        <text x="300" y="-132" fill="#ff960d" fontSize="18" fontFamily="Arial, sans-serif" fontWeight="600" textAnchor="end">
+                          0{index + 1}
+                        </text>
+                        <text x="20" y="-98" fill="#61776e" fontSize="15.5" fontFamily="Arial, sans-serif">
+                          {wrap(step.description, 36).map((line, i) => (
+                            <tspan x="20" dy={i === 0 ? 0 : 23} key={i}>
+                              {line}
+                            </tspan>
+                          ))}
+                        </text>
+                      </>
+                    )}
+                  </g>
+                </g>
+              )
+            })}
+          </svg>
         </div>
       </div>
     </section>
@@ -1515,7 +1548,8 @@ function GrowthRoadmap07({ data }: { data: ServicePageData }) {
 }
 
 function GrowthPrograms07() {
-  const [billingMode, setBillingMode] = useState<'monthly' | 'yearly'>('yearly')
+  const programs = useLiveProgramsData()
+  const [billingModes, setBillingModes] = useState<Record<string, 'monthly' | 'yearly'>>({})
 
   return (
     <section id="rs-programs" className="gs7-programs rs-section--light" data-rs-growth-programs>
@@ -1532,26 +1566,31 @@ function GrowthPrograms07() {
         </div>
 
         <div className="gs7-programs__grid gs7-programs__grid--reference">
-          {programs.plans.map((plan, index) => (
-            <article className={`gs7-price-card gs7-price-card--reference ${plan.popular ? 'is-popular' : ''}`} data-rs-growth-price-card key={plan.id}>
-              <div className="gs7-price-card__top"><span>{index === 0 ? 'Started Plan' : index === 1 ? 'Growth Plan' : 'Authority Plan'}</span>{plan.popular ? <b>Most Popular</b> : null}</div>
-              <h3>{plan.name}</h3>
-              <p>{plan.purpose}</p>
-              <div className="gs7-price-card__price"><small>PKR</small>{plan.price.toLocaleString()}<span>/month</span></div>
-              <button className="gs7-price-card__billing" type="button" aria-pressed={billingMode === 'yearly'} onClick={() => setBillingMode(billingMode === 'yearly' ? 'monthly' : 'yearly')} title="Display indicator only"><i /><span>{billingMode === 'yearly' ? 'Annually billed' : 'Monthly billed'}</span></button>
-              <PrimaryButton>{index === 2 ? 'Get Started' : 'Program Inquiry'}</PrimaryButton>
-              <div className="gs7-price-card__trial"><PublicIcon name="check" size={12} /> Get your free 7-day trial today!</div>
-              <div className="gs7-price-card__includes">What’s Included</div>
-              <ul>{plan.includes.slice(0, 6).map((item) => <li key={item}><PublicIcon name="check" size={14} />{item}</li>)}</ul>
-            </article>
-          ))}
+          {programs.plans.map((plan, index) => {
+            const billingMode = billingModes[String(plan.id)] || 'monthly'
+            const isYearly = billingMode === 'yearly'
+            const price = typeof plan.price === 'number' ? (isYearly ? Math.round(plan.price * 0.8) : plan.price) : plan.price
+            return (
+              <article className={`gs7-price-card gs7-price-card--reference ${plan.popular ? 'is-popular' : ''}`} data-rs-growth-price-card key={plan.id}>
+                <div className="gs7-price-card__top"><span>{index === 0 ? 'Started Plan' : index === 1 ? 'Growth Plan' : 'Authority Plan'}</span>{plan.popular ? <b>Most Popular</b> : null}</div>
+                <h3>{plan.name}</h3>
+                <p>{plan.purpose}</p>
+                <div className="gs7-price-card__price"><small>PKR</small>{typeof price === 'number' ? price.toLocaleString() : price}<span>{isYearly ? '/mo (annual)' : '/month'}</span></div>
+                <BillingToggle value={billingMode} onChange={value => setBillingModes(previous => ({...previous, [String(plan.id)]: value}))} />
+                <PrimaryButton>{index === 2 ? 'Get Started' : 'Program Inquiry'}</PrimaryButton>
+                <div className="gs7-price-card__trial"><PublicIcon name="check" size={12} /> Discuss the right program for your business.</div>
+                <div className="gs7-price-card__includes">What’s Included</div>
+                <ul>{plan.includes.slice(0, 6).map((item) => <li key={item}><PublicIcon name="check" size={14} />{item}</li>)}</ul>
+              </article>
+            )
+          })}
         </div>
 
         <div className="gs7-programs__support-row" data-rs-growth-price-extra>
           <article className="gs7-programs__support-card gs7-programs__support-card--quote">
-            <h3>Increased conversion rate by 400%</h3>
-            <p>“We needed a high-converting website, and Bravio delivered. Their expertise helped us increase conversion rate by 400%”</p>
-            <div className="gs7-programs__support-person"><i>S</i><div><b>Savannah Nguyen</b><span>Product owner</span></div></div>
+            <h3>Strategy built around your business</h3>
+            <p>Connect positioning, channels and lead communication through a clear plan for sustainable growth.</p>
+            <div className="gs7-programs__support-person"><img src="/static/img/logo-mark.png" alt="" width="32"/><div><b>Afyra Digital</b><span>Strategy • Systems • Growth</span></div></div>
           </article>
           <article className="gs7-programs__support-card gs7-programs__support-card--cta">
             <h3>Can&apos;t decide? Let&apos;s talk</h3>
@@ -1571,19 +1610,7 @@ function GrowthSystemExperience07() {
         <div className="gs7-integrations__box" data-rs-growth-integrations-box>
           <div className="gs7-integrations__gridlines" aria-hidden="true" />
           <svg className="gs7-integrations__connectors" viewBox="0 0 1000 590" preserveAspectRatio="none" aria-hidden="true">
-            {growthIntegrationNodes.map((item, index) => {
-              const targetX = item.x * 10
-              const targetY = item.y * 5.9
-              const controlX = 500 + (targetX - 500) * .48
-              const controlY = 295 + (targetY - 295) * .18
-              const path = `M500 295 C${controlX} 295 ${controlX} ${controlY} ${targetX} ${targetY}`
-              return (
-                <g key={`connector-${item.label}`}>
-                  <path className="gs7-integrations__connector-base" data-rs-growth-integration-base d={path} />
-                  <path className="gs7-integrations__connector-light" data-rs-growth-integration-line data-line-index={index} d={path} />
-                </g>
-              )
-            })}
+            {['M500 350 H390','M500 350 H610','M390 350 L270 230 V140 L160 30','M390 350 L270 230 H175 L35 90','M390 350 L275 350 L200 400 H0','M390 350 L330 290 V200 L300 180','M610 350 L730 230 V140 L840 30','M610 350 L730 230 H825 L965 90','M610 350 L725 350 L800 400 H1000','M610 350 L670 290 V200 L700 180'].map((path,index)=><g key={path}><path className="gs7-integrations__connector-base" data-rs-growth-integration-base d={path}/><path className="gs7-integrations__connector-light" data-rs-growth-integration-line d={path}/></g>)}
           </svg>
           <div className="gs7-integrations__core" data-rs-growth-integrations-core>
             <SectionLabel text="Plug & play growth" />
@@ -1594,7 +1621,7 @@ function GrowthSystemExperience07() {
           </div>
           {growthIntegrationNodes.map((item, index) => (
             <div className={`gs7-integration-node gs7-integration-node--${index + 1}`} data-rs-growth-integration-node style={{ left: `${item.x}%`, top: `${item.y}%` } as CSSProperties} key={item.label}>
-              <i><PublicIcon name={item.icon} size={18} /></i><span>{item.label}</span>
+              <i><img src={`/static/reference-v91/home-7/a7-icon-${index+1}.svg`} alt="" /></i><span>{item.label}</span>
             </div>
           ))}
         </div>
@@ -1626,6 +1653,7 @@ function GrowthMobileApp07() {
 
 function GrowthFaq07() {
   const [open, setOpen] = useState(0)
+  const scopedFaqs = useScopedFaqs(growthFaqs)
   const toggleFaq = (index: number, button: HTMLButtonElement) => {
     const section = button.closest('[data-rs-growth-faq]')
     if (!section || index === open) return
@@ -1656,7 +1684,7 @@ function GrowthFaq07() {
           <div className="gs7-faq__support"><h3>Can’t find your answer?</h3><p>Talk to Afyra about the growth direction, program fit or the role each channel should play.</p><PrimaryButton>Request Consultation</PrimaryButton></div>
         </div>
         <div className="gs7-faq__items">
-          {growthFaqs.map((item, index) => (
+          {scopedFaqs.map((item, index) => (
             <article className={open === index ? 'is-open' : ''} data-rs-growth-faq-item key={item.q}>
               <button type="button" onClick={(event) => toggleFaq(index, event.currentTarget)} aria-expanded={open === index}><span><b>{index + 1}.</b> {item.q}</span><i>{open === index ? '×' : '+'}</i></button>
               <div className="gs7-faq__answer" style={{ height: open === index ? 'auto' : 0, opacity: open === index ? 1 : 0 }}><p>{item.a}</p></div>
@@ -1670,19 +1698,19 @@ function GrowthFaq07() {
 
 function GrowthStrategyReferencePage({ data }: { data: ServicePageData }) {
   return (
-    <>
+    <div className="growth-v91">
       <GrowthStrategyHero data={data} />
       <GrowthSystem07 data={data} />
       <GrowthTextReveal07 />
       <GrowthQuickStart07 />
       <GrowthRoadmap07 data={data} />
       <GrowthPrograms07 />
+      <TestimonialsSection pageSlug="solution:digital-growth-marketing-strategy" variant="strategy" />
       <GrowthSystemExperience07 />
-      <TrustFramework bright />
       <GrowthMobileApp07 />
       <GrowthFaq07 />
-      <FinalCta bright />
-    </>
+      <section className="growth-v91-cta"><h2>Ready? Let’s Talk!</h2><p>Build a clear strategy for your next stage of growth.</p><PrimaryButton>Request Consultation</PrimaryButton></section>
+    </div>
   )
 }
 
@@ -1855,7 +1883,11 @@ function DigitalPresenceFeatureVisual({ variant }: { variant?: string }) {
 }
 
 function DigitalPresenceReferencePage({ data }: { data: ServicePageData }) {
+  const programs = useLiveProgramsData()
   const [open, setOpen] = useState(0)
+  const [pricingMode, setPricingMode] = useState<'monthly' | 'yearly'>('monthly')
+  const yearlyPricing = pricingMode === 'yearly'
+  const scopedFaqs = useScopedFaqs(digitalPresenceFaqs)
 
   useEffect(() => {
     const items = Array.from(document.querySelectorAll<HTMLElement>('.rs-layout-03 [data-rs-faq-item]'))
@@ -1876,7 +1908,7 @@ function DigitalPresenceReferencePage({ data }: { data: ServicePageData }) {
 
   return (
     <>
-      <section className="rs-hero dp-hero" data-rs-hero>
+      <section className="rs-hero dp-hero dp-hero-v92" data-rs-hero>
         <div className="rs-hero__noise dp-hero__noise" aria-hidden="true" />
         <div className="dp-hero__edge dp-hero__edge--left" aria-hidden="true" />
         <div className="dp-hero__edge dp-hero__edge--right" aria-hidden="true" />
@@ -1892,18 +1924,13 @@ function DigitalPresenceReferencePage({ data }: { data: ServicePageData }) {
 
           <div className="rs-hero__stage dp-hero__stage" data-rs-hero-stage>
             <div className="dp-hero__visual">
-              <div className="dp-hero__wing dp-hero__wing--left" data-rs-hero-wing aria-hidden="true" />
-              <div className="dp-hero__wing dp-hero__wing--right" data-rs-hero-wing aria-hidden="true" />
-              <div className="dp-hero__beam" aria-hidden="true" />
-              <div className="dp-hero__aura" data-rs-orbit aria-hidden="true" />
-              <div className="dp-hero__aura dp-hero__aura--outer" data-rs-orbit-reverse aria-hidden="true" />
-              <div className="dp-hero__icons" data-rs-hero-icons>
-                <div className="dp-hero__social dp-hero__social--1" data-rs-hero-icon data-af-rising-icon data-rise-start="110" data-rise-distance="248" data-rise-duration="7.4" data-rise-drift="-7" data-rise-opacity="1"><PublicIcon name="whatsapp" size={20} /></div>
-                <div className="dp-hero__social dp-hero__social--2" data-rs-hero-icon data-af-rising-icon data-rise-start="168" data-rise-distance="276" data-rise-duration="6.8" data-rise-drift="5" data-rise-opacity=".96"><PublicIcon name="linkedin" size={18} /></div>
-                <div className="dp-hero__social dp-hero__social--3" data-rs-hero-icon data-af-rising-icon data-rise-start="224" data-rise-distance="292" data-rise-duration="6.2" data-rise-drift="-3" data-rise-opacity=".88"><PublicIcon name="instagram" size={18} /></div>
-                <div className="dp-hero__social dp-hero__social--4" data-rs-hero-icon data-af-rising-icon data-rise-start="284" data-rise-distance="314" data-rise-duration="5.9" data-rise-drift="4" data-rise-opacity=".72"><PublicIcon name="facebook" size={16} /></div>
-                <div className="dp-hero__social dp-hero__social--5" data-rs-hero-icon data-af-rising-icon data-rise-start="334" data-rise-distance="330" data-rise-duration="5.4" data-rise-drift="-5" data-rise-opacity=".56"><i>G</i></div>
-              </div>
+              <svg width="0" height="0" aria-hidden="true" style={{position:'absolute'}}><defs><clipPath id="dp-wing-curve" clipPathUnits="objectBoundingBox"><path d="M0 0 H.36 C.55 .3 .8 .44 1 .64 V1 C.7 .72 .27 .6 0 0Z"/></clipPath></defs></svg>
+              <div className="dp-video-wing dp-video-wing--left" aria-hidden="true"><video autoPlay muted loop playsInline preload="metadata" src="/static/digital-hero-v92/h3-video-1-afyra.mp4" /></div>
+              <div className="dp-video-wing dp-video-wing--right" aria-hidden="true"><video autoPlay muted loop playsInline preload="metadata" src="/static/digital-hero-v92/h3-video-1-afyra.mp4" /></div>
+              <svg className="dp-hero-streams" viewBox="0 0 1200 420" preserveAspectRatio="none" aria-hidden="true">
+                {['M0 18 C160 215 340 170 600 350','M1200 18 C1040 215 860 170 600 350'].map(d=><g key={d}><path d={d} stroke="#00bba022"/><path className="dp-hero-stream" d={d} stroke="#00bba0"/></g>)}
+              </svg>
+              <div className="dp-v92-apps" aria-hidden="true">{[1,2,3,4,5,6,7,8,9,10,11,12].map((icon,i)=><img className="dp-v92-app" key={icon} src={`/static/digital-reference-v85/a3-icon-${icon}.svg`} alt="" style={{left:`${44+(i%3)*6}%`,top:`65%`}}/>)}</div>
               <figure className="dp-hero__core">
                 <img src="/static/img/logo-mark.png" alt="Afyra Digital mark" loading="eager" decoding="async" />
               </figure>
@@ -1913,8 +1940,14 @@ function DigitalPresenceReferencePage({ data }: { data: ServicePageData }) {
           </div>
 
           <div className="dp-trust-reveal" data-rs-hero-trust data-rs-hero-line>
-            <div className="dp-trust-reveal__track dp-trust-reveal__track--full">
-              <div className="dp-trust-reveal__marquee" data-rs-hero-marquee>
+            <div className="dp-trust-reveal__track dp-trust-reveal__track--full dp-trust-reveal__track--left">
+              <div className="dp-trust-reveal__marquee dp-trust-reveal__marquee--left" data-rs-hero-marquee>
+                <span>Google Business</span><span>Google</span><span>Meta</span><span>Instagram</span><span>LinkedIn</span><span>YouTube</span>
+                <span>Google Business</span><span>Google</span><span>Meta</span><span>Instagram</span><span>LinkedIn</span><span>YouTube</span>
+              </div>
+            </div>
+            <div className="dp-trust-reveal__track dp-trust-reveal__track--full dp-trust-reveal__track--right">
+              <div className="dp-trust-reveal__marquee dp-trust-reveal__marquee--right" data-rs-hero-marquee>
                 <span>Google Business</span><span>Google</span><span>Meta</span><span>Instagram</span><span>LinkedIn</span><span>YouTube</span>
                 <span>Google Business</span><span>Google</span><span>Meta</span><span>Instagram</span><span>LinkedIn</span><span>YouTube</span>
               </div>
@@ -1939,20 +1972,46 @@ function DigitalPresenceReferencePage({ data }: { data: ServicePageData }) {
             <p>From visibility to automation, we build connected digital systems that help healthcare businesses grow, engage and thrive.</p>
           </div>
           <div className="rs-story__grid dp-story__grid" data-rs-story-grid>
-            {digitalPresenceFeatureCards.map((feature, index) => (
-              <article className={`rs-feature dp-feature ${feature.size === 'large' ? 'is-large' : 'is-small'}`} data-rs-feature key={feature.title}>
+            {digitalPresenceFeatureCards.slice(0, 3).map((feature, index) => (
+              <article className="rs-feature dp-feature is-large" data-rs-feature key={feature.title}>
                 <div className="dp-feature__badge"><PublicIcon name={feature.icon} size={18} /></div>
                 <h3>{feature.title}</h3>
                 <p>{feature.description}</p>
                 <DigitalPresenceFeatureVisual variant={'variant' in feature ? feature.variant : undefined} />
-                {feature.size === 'small' ? <div className="dp-feature__line" aria-hidden="true" /> : null}
                 <span className="dp-feature__count">{String(index + 1).padStart(2, '0')}</span>
               </article>
             ))}
+            <div className="dp-feature-suite" data-rs-feature-suite>
+              <div className="dp-feature-suite__rail" aria-hidden="true" />
+              <div className="dp-feature-suite__grid dp-exact-suite"><svg className="dp-exact-outline" viewBox="0 0 1200 238" preserveAspectRatio="none" aria-hidden="true"><path d="M0 1 H280 Q300 1 300 21 V238 M300 21 Q300 1 320 1 H580 Q600 1 600 21 V238 M600 21 Q600 1 620 1 H880 Q900 1 900 21 V238 M900 21 Q900 1 920 1 H1200"/></svg>
+                {digitalPresenceFeatureCards.slice(3).map((feature, index) => (
+                  <article className={`rs-feature dp-feature is-small dp-feature--suite-${index + 1}`} data-rs-feature key={feature.title}>
+                    <div className="dp-feature__badge dp-badge" data-af-badge>
+                      <span className="dp-badge-glow" aria-hidden="true" />
+                      <PublicIcon name={feature.icon} size={20} />
+                    </div>
+                    <h3>{feature.title}</h3>
+                    <p>{feature.description}</p>
+                    <div className="dp-feature__line" aria-hidden="true" />
+                  </article>
+                ))}
+              </div>
+              <div className="dp-feature-suite__action" data-rs-feature-action>
+                <div className="dp-feature-suite__stem" aria-hidden="true" />
+                <div className="dp-feature-suite__baseline">
+                  <span className="dp-feature-suite__line dp-feature-suite__line--left" aria-hidden="true" />
+                  <span className="dp-feature-suite__dot dp-feature-suite__dot--left" aria-hidden="true" />
+                  <button type="button" className="dp-feature-suite__btn">View All Features</button>
+                  <span className="dp-feature-suite__dot dp-feature-suite__dot--right" aria-hidden="true" />
+                  <span className="dp-feature-suite__line dp-feature-suite__line--right" aria-hidden="true" />
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
+      <div className="dp-integration-scroll-rail">
       <section className="rs-orbit-section dp-orbit-section" data-rs-integration data-rs-integration-sequence>
         <div className="af-container dp-integration-pin" data-rs-integration-pin>
           <div className="rs-section-head dp-section-head dp-integration-intro" data-rs-integration-intro>
@@ -1968,15 +2027,15 @@ function DigitalPresenceReferencePage({ data }: { data: ServicePageData }) {
               <div className="dp-orbit__hub-ring" aria-hidden="true" />
               <img src="/static/img/logo-mark.png" alt="Afyra Digital mark" loading="lazy" decoding="async" />
             </div>
-            {digitalPresenceOrbitTools.map((item, index) => (
-              <div className={`rs-integration dp-orbit__item dp-orbit__item--${index + 1}`} data-rs-integration-item key={item.label}>
-                <i><PublicIcon name={item.icon} size={20} /></i>
-                <span>{item.label}</span>
+            {Array.from({ length: 12 }, (_, index) => (
+              <div className={`rs-integration dp-orbit__item dp-orbit__item--${index + 1}`} data-rs-integration-item key={index} aria-hidden="true">
+                <i><img src={`/static/digital-reference-v85/a3-icon-${index + 1}.svg`} alt="" /></i>
               </div>
             ))}
           </div>
         </div>
       </section>
+      </div>
 
       <section className="dp-usecases" data-rs-proof>
         <div className="af-container">
@@ -1989,13 +2048,16 @@ function DigitalPresenceReferencePage({ data }: { data: ServicePageData }) {
             <h2>How Afyra Digital Enhances <br />Your Digital Presence.</h2>
             <p>Strategic solutions for healthcare businesses at every stage of their journey.</p>
           </div>
-          <div className="dp-usecases__grid">
-            {digitalPresenceJourneyCards.map((card) => (
-              <article className="dp-usecase" data-rs-proof-card key={card.title}>
-                <div className="dp-usecase__icon"><PublicIcon name={card.icon} size={20} /></div>
+          <div className="dp-usecases__grid dp-exact-journey"><svg className="dp-exact-outline" viewBox="0 0 1200 340" preserveAspectRatio="none" aria-hidden="true"><path d="M0 1 H266 Q300 1 300 35 V305 Q300 339 334 339 H566 Q600 339 600 305 V35 Q600 1 634 1 H866 Q900 1 900 35 V305 Q900 339 934 339 H1200"/></svg>
+            {digitalPresenceJourneyCards.map((card, index) => (
+              <article className={`dp-usecase dp-usecase--${index + 1}`} data-rs-proof-card key={card.title}>
+                <div className="dp-usecase__badge dp-badge" data-af-badge>
+                  <span className="dp-badge-glow" aria-hidden="true" />
+                  <PublicIcon name={card.icon} size={22} />
+                </div>
                 <h3>{card.title}</h3>
                 <p>{card.description}</p>
-                <button type="button">{card.cta} <PublicIcon name="arrowRight" size={14} /></button>
+                <button type="button" className="dp-usecase__btn">{card.cta}</button>
               </article>
             ))}
           </div>
@@ -2016,27 +2078,32 @@ function DigitalPresenceReferencePage({ data }: { data: ServicePageData }) {
             <p>Current approved monthly programs designed around presence, qualified inquiries and long-term authority building.</p>
           </div>
           <div className="dp-programs__grid">
-            {programs.plans.map((plan) => (
-              <article className={`rs-price-card dp-program ${plan.popular ? 'is-popular' : ''}`} data-rs-price-card key={plan.id}>
-                {plan.popular ? <span className="dp-program__popular">Most Popular</span> : null}
-                <div className="dp-program__icon"><PublicIcon name={plan.icon} size={20} /></div>
-                <h3>{plan.name}</h3>
-                <p>{plan.purpose}</p>
-                <div className="dp-program__price"><small>PKR</small>{plan.price.toLocaleString()}<span>/Per Month</span></div>
-                <button type="button" className="dp-program__cta">Get Started <PublicIcon name="arrowRight" size={14} /></button>
-                <div className="dp-program__includes">What’s Included:</div>
-                <ul>
-                  {plan.includes.slice(0, 5).map((item) => <li key={item}><PublicIcon name="check" size={14} />{item}</li>)}
-                </ul>
-              </article>
-            ))}
+            {programs.plans.map((plan) => {
+              const price = yearlyPricing ? Math.round(plan.price * 0.8) : plan.price
+              return (
+                <article className={`rs-price-card dp-program ${plan.popular ? 'is-popular' : ''}`} data-rs-price-card key={plan.id}>
+                  {plan.popular ? <span className="dp-program__popular">Most Popular</span> : null}
+                  <div className="dp-program__icon"><PublicIcon name={plan.icon} size={20} /></div>
+                  <h3>{plan.name}</h3>
+                  <p>{plan.purpose}</p>
+                  <div className="dp-program__price"><small>PKR</small>{price.toLocaleString()}<span>{yearlyPricing ? '/mo (annual)' : '/Per Month'}</span></div>
+                  <Link to="/request-consultation" className="dp-program__cta">Get Started <PublicIcon name="arrowRight" size={14} /></Link>
+                  <div className="dp-program__includes">What’s Included:</div>
+                  <ul>
+                    {plan.includes.slice(0, 5).map((item) => <li key={item}><PublicIcon name="check" size={14} />{item}</li>)}
+                  </ul>
+                </article>
+              )
+            })}
           </div>
           <div className="dp-programs__terms">
-            <span>{programs.terms[0]}</span>
-            <div className="dp-programs__mode"><b>Monthly</b><i aria-hidden="true" /><span>Current pricing</span></div>
+            <span>{yearlyPricing ? 'Annual billing options applied with 20% savings.' : programs.terms[0]}</span>
+            <BillingToggle value={pricingMode} onChange={setPricingMode} />
           </div>
         </div>
       </section>
+
+      <TestimonialsSection pageSlug="solution:digital-presence-advanced-systems" variant="digital" />
 
       <section className="rs-faq dp-faq" data-rs-faq id="faqs">
         <div className="dp-faq__ornament" aria-hidden="true">
@@ -2049,7 +2116,7 @@ function DigitalPresenceReferencePage({ data }: { data: ServicePageData }) {
             <p>Everything you need to know about Afyra Digital’s digital presence solutions.</p>
           </div>
           <div className="dp-faq__items">
-            {digitalPresenceFaqs.map((item, index) => (
+            {scopedFaqs.map((item, index) => (
               <article className={open === index ? 'is-open' : ''} data-rs-faq-item key={item.q}>
                 <span className="dp-faq__wash" aria-hidden="true" /><span className="dp-faq__sweep" aria-hidden="true" />
                 <button type="button" onClick={() => setOpen(open === index ? -1 : index)} aria-expanded={open === index}>
@@ -2066,6 +2133,7 @@ function DigitalPresenceReferencePage({ data }: { data: ServicePageData }) {
       <section className="rs-final dp-final">
         <div className="af-container">
           <div className="dp-final__box" data-rs-final>
+            <div className="dp-final__planet" aria-hidden="true"><div className="dp-globe__sphere" /></div>
             <div>
               <h2>Ready to Build a Stronger Digital Presence?</h2>
               <p>Let’s create a tailored strategy for your healthcare business.</p>

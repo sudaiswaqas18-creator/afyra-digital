@@ -101,53 +101,35 @@ export function useServiceAnimations(layout: ServiceLayout) {
         const pen = typeBox?.querySelector<HTMLElement>('.sv-hero-typebox__pen')
         const words = Array.from(root.querySelectorAll<HTMLElement>('[data-brand-typebox-word]'))
         const hint = root.querySelector<HTMLElement>('[data-brand-typebox-hint]')
-        if (typeBox && panel && pen && words.length && hint) {
-          gsap.set(panel, { transformOrigin: 'left center', scaleX: 1 })
-          gsap.set(words, { autoAlpha: 0, y: 12, position: 'absolute' })
-          gsap.set(words[0], { autoAlpha: 1, y: 0, position: 'relative' })
-          const typeTimeline = gsap.timeline({ repeat: -1, delay: 1.6 })
-          const sequence = [...words.slice(1), words[0]]
-          sequence.forEach((next) => {
-            typeTimeline
-              .to(panel, { scaleX: .11, duration: .34, ease: 'power2.in' }, '+=1.5')
-              .to(pen, { x: () => -(Math.max(180, panel.offsetWidth * .83)), y: -2, rotation: -18, duration: .34, ease: 'power2.in' }, '<')
-              .call(() => {
-                gsap.set(words, { autoAlpha: 0, y: 12, position: 'absolute' })
-                hint.textContent = next.dataset.hint || ''
-                gsap.set(next, { position: 'relative' })
-              })
-              .to(panel, { scaleX: 1, duration: .5, ease: 'power3.out' })
-              .to(pen, { x: 12, y: 2, rotation: 8, duration: .48, ease: 'power3.out' }, '<')
-              .fromTo(next, { autoAlpha: 0, y: 14 }, { autoAlpha: 1, y: 0, duration: .34, ease: 'power3.out' }, '<.08')
-              .to(pen, { x: 0, y: 0, rotation: 0, duration: .2, ease: 'power2.out' })
+        if (typeBox && panel && pen && words.length) {
+          gsap.set(words, { autoAlpha: 0, yPercent: 100 })
+          gsap.set(words[0], { autoAlpha: 1, yPercent: 0 })
+          const typeTimeline = gsap.timeline({ repeat: -1, repeatDelay: .7 })
+          words.forEach((word, index) => {
+            const next = words[(index + 1) % words.length]
+            typeTimeline.to({}, { duration: 2 })
+              .to(typeBox, { '--type-reveal': '0%', duration: .4, ease: 'power2.inOut' })
+              .to(pen, { rotation: -12, duration: .4, ease: 'power2.inOut' }, '<')
+              .set(word, { autoAlpha: 0, yPercent: 100 })
+              .set(next, { autoAlpha: 1, yPercent: 0 })
+              .to(typeBox, { '--type-reveal': '100%', duration: .65, ease: 'power2.out' })
+              .to(pen, { x: 0, rotation: 0, duration: .65, ease: 'power2.out' }, '<')
           })
+          cleanup.push(() => typeTimeline.kill())
         }
-
         /* Reference hero dashboard: no auto-flip. The front turns to the back only
            as the visitor scrolls through the lower half of the hero. */
         const flip = root.querySelector<HTMLElement>('[data-brand-flip]')
         if (flip && hero) {
-          gsap.set(flip, {
-            transformStyle: 'preserve-3d',
-            transformPerspective: 1800,
-            transformOrigin: '50% 50%',
-            rotationX: 0,
-            force3D: true
-          })
-          const flipTween = gsap.to(flip, {
-            rotationX: 180,
-            ease: 'none',
-            force3D: true,
-            scrollTrigger: {
-              trigger: hero,
-              start: 'top top',
-              end: '+=280',
-              scrub: .22,
-              invalidateOnRefresh: true,
-              onLeave: () => gsap.set(flip, { rotationX: 180 }),
-              onLeaveBack: () => gsap.set(flip, { rotationX: 0 })
-            }
-          })
+          const front = flip.querySelector('.sv-copy-flip__face--front')
+          const back = flip.querySelector('.sv-copy-flip__face--back')
+          const flipTween = gsap.timeline({ scrollTrigger: {
+            trigger: heroStack || hero, start: 'top 65%', end: 'bottom 45%', scrub: .3, invalidateOnRefresh: true
+          } })
+          if (front && back) {
+            flipTween.fromTo(front, { '--face-angle': '0deg' }, { '--face-angle': '-180deg', duration: 1, ease: 'none' }, 0)
+              .fromTo(back, { '--face-angle': '180deg' }, { '--face-angle': '0deg', duration: 1, ease: 'none' }, 0)
+          }
           cleanup.push(() => flipTween.kill())
         }
         root.querySelectorAll<HTMLElement>('[data-brand-hero-bottom]').forEach((badge, i) => {
@@ -178,14 +160,9 @@ export function useServiceAnimations(layout: ServiceLayout) {
         const referenceTrack = root.querySelector<HTMLElement>('.sv-brand-reference-strip__track')
         const referencePoints = Array.from(root.querySelectorAll<HTMLElement>('.sv-brand-reference-strip__point'))
         if (referenceStrip && referenceTrack) {
-          gsap.fromTo(referenceTrack, { autoAlpha: 0, scaleX: .86 }, {
-            autoAlpha: 1,
-            scaleX: 1,
-            duration: .72,
-            ease: 'power3.out',
-            transformOrigin: '50% 50%',
-            scrollTrigger: { trigger: referenceStrip, start: 'top 90%', once: true }
-          })
+          const marquee = gsap.fromTo(referenceTrack, { '--brand-marquee-x': '0%' }, { '--brand-marquee-x': '-50%', duration: 32, repeat: -1, ease: 'none',
+            scrollTrigger: { trigger: referenceStrip, start: 'top bottom', end: 'bottom top', toggleActions: 'play pause resume pause' } })
+          cleanup.push(() => marquee.kill())
           if (referencePoints.length) {
             gsap.fromTo(referencePoints, { scale: 0, autoAlpha: 0 }, {
               scale: 1,
@@ -195,21 +172,6 @@ export function useServiceAnimations(layout: ServiceLayout) {
               ease: 'back.out(1.7)',
               scrollTrigger: { trigger: referenceStrip, start: 'top 88%', once: true }
             })
-          }
-        }
-
-        const brandFeatureIntro = root.querySelector<HTMLElement>('[data-brand-feature-intro]')
-        if (brandFeatureIntro) {
-          const introCard = brandFeatureIntro.querySelector<HTMLElement>('.sv-brand-features__intro-card')
-          if (introCard) {
-            const introReveal = gsap.fromTo(introCard,
-              { autoAlpha: 0, y: 34, scale: .965 },
-              {
-                autoAlpha: 1, y: 0, scale: 1, duration: .82, ease: 'power4.out',
-                scrollTrigger: { trigger: brandFeatureIntro, start: 'top 84%', once: true }
-              }
-            )
-            cleanup.push(() => introReveal.kill())
           }
         }
 
@@ -232,130 +194,68 @@ export function useServiceAnimations(layout: ServiceLayout) {
             if (triggerEl === featureSection || triggerEl === featureStory || triggerEl === featurePin || triggerEl === featureStage || pinEl === featurePin || pinEl === featureStage) trigger.kill(true)
           })
 
-          const prepareCardInternals = (card: HTMLElement) => ({
-            orbitRings: Array.from(card.querySelectorAll<HTMLElement>('.sv-orbit-ring')),
-            orbitNodes: Array.from(card.querySelectorAll<HTMLElement>('.sv-orbit-node')),
-            orbitGlyphs: Array.from(card.querySelectorAll<SVGElement>('.sv-orbit-node > .af-inline-svg-icon > svg')),
-            orbitCore: card.querySelector<HTMLElement>('.sv-orbit-core'),
-            hubCore: card.querySelector<HTMLElement>('.sv-brand-display-visual--hub .center'),
-            hubPills: Array.from(card.querySelectorAll<HTMLElement>('.sv-brand-display-visual--hub > span')),
-            hubLines: Array.from(card.querySelectorAll<SVGPathElement>('.sv-brand-hub-lines path')),
-            messageParts: Array.from(card.querySelectorAll<HTMLElement>('.sv-message-avatar,.sv-brand-display-visual--message strong,.sv-brand-display-visual--message p,.sv-message-chat,.sv-brand-display-visual--message > b')),
-            browser: card.querySelector<HTMLElement>('.sv-mini-browser'),
-            browserParts: Array.from(card.querySelectorAll<HTMLElement>('.sv-mini-browser__canvas > span,.sv-mini-browser__canvas > b,.sv-mini-browser__canvas > em,.sv-brand-display-visual--timeline .sv-badge,.sv-brand-display-visual--timeline .sv-lines')),
-            sheetParts: Array.from(card.querySelectorAll<HTMLElement>('.sv-sheet-network span,.sv-sheet-network i,.sv-brand-display-visual--sheet .sv-sheet,.sv-brand-display-visual--sheet .sv-sheet > b'))
-          })
-
-          const animateInternals = (timeline: gsap.core.Timeline, card: HTMLElement, at: number) => {
-            const parts = prepareCardInternals(card)
-            if (parts.orbitRings.length) timeline.fromTo(parts.orbitRings, { autoAlpha: 0, scale: .76, rotation: -12 }, { autoAlpha: 1, scale: 1, rotation: 0, duration: .38, stagger: .05, ease: 'back.out(1.35)' }, at)
-            if (parts.orbitCore) timeline.fromTo(parts.orbitCore, { autoAlpha: 0, scale: .72 }, { autoAlpha: 1, scale: 1, duration: .32, ease: 'back.out(1.55)' }, at + .03)
-            if (parts.orbitNodes.length) timeline.fromTo(parts.orbitNodes, { autoAlpha: 0, scale: .58, y: 10 }, { autoAlpha: 1, scale: 1, y: 0, duration: .3, stagger: .035, ease: 'back.out(1.7)' }, at + .06)
-            if (parts.orbitGlyphs.length) timeline.fromTo(parts.orbitGlyphs, { scale: .35, rotation: -26, transformOrigin: '50% 50%' }, { scale: 1, rotation: 0, duration: .34, stagger: .04, ease: 'back.out(1.9)' }, at + .09)
-            if (parts.hubCore) timeline.fromTo(parts.hubCore, { autoAlpha: 0, scale: .72 }, { autoAlpha: 1, scale: 1, duration: .34, ease: 'back.out(1.6)' }, at)
-            if (parts.hubLines.length) timeline.fromTo(parts.hubLines, { autoAlpha: 0 }, { autoAlpha: 1, duration: .3, stagger: .025, ease: 'power2.out' }, at + .02)
-            if (parts.hubPills.length) timeline.fromTo(parts.hubPills, { autoAlpha: 0, scale: .8, y: 8 }, { autoAlpha: 1, scale: 1, y: 0, duration: .3, stagger: .04, ease: 'power3.out' }, at + .05)
-            if (parts.messageParts.length) timeline.fromTo(parts.messageParts, { autoAlpha: 0, y: 9 }, { autoAlpha: 1, y: 0, duration: .3, stagger: .035, ease: 'power3.out' }, at)
-            if (parts.browser) timeline.fromTo(parts.browser, { autoAlpha: 0, y: -14, scale: .96 }, { autoAlpha: 1, y: 0, scale: 1, duration: .34, ease: 'power3.out' }, at)
-            if (parts.browserParts.length) timeline.fromTo(parts.browserParts, { autoAlpha: 0, y: 7 }, { autoAlpha: 1, y: 0, duration: .26, stagger: .035, ease: 'power2.out' }, at + .06)
-            if (parts.sheetParts.length) timeline.fromTo(parts.sheetParts, { autoAlpha: 0, y: 9, scale: .94 }, { autoAlpha: 1, y: 0, scale: 1, duration: .3, stagger: .04, ease: 'power3.out' }, at)
-          }
-
           gsap.set([featurePin, featureStage], { clearProps: 'transform' })
-
-          if (!compact) {
-            gsap.set(featureIntro, { autoAlpha: 1, y: 0, scale: 1 })
-            gsap.set(featureGrid, { autoAlpha: 0 })
-            gsap.set(featureCards, { autoAlpha: 0, y: 38, scale: .97, rotateX: -2.5, transformOrigin: '50% 50%' })
-
-            // One compact sticky story: intro is fully visible first, then the five-card
-            // reference grid replaces it without an empty frame and holds before release.
-            const featureTimeline = gsap.timeline({ paused: true, defaults: { ease: 'none' } })
-              .to({}, { duration: .11 })
-              .to(featureIntro, { autoAlpha: 0, y: -18, scale: .99, duration: .22, ease: 'power2.inOut' })
-              .to(featureGrid, { autoAlpha: 1, duration: .16, ease: 'power2.out' }, '-=.11')
-              .to(featureCards, { autoAlpha: 1, y: 0, scale: 1, rotateX: 0, duration: .50, stagger: .06, ease: 'power3.out' }, '-=.07')
-              .to({}, { duration: .20 })
-
-            featureCards.forEach((card, index) => animateInternals(featureTimeline, card, .32 + index * .06))
-
-            const featureTrigger = ScrollTrigger.create({
-              animation: featureTimeline,
-              trigger: featureStory,
-              start: 'top top+=72',
-              end: 'bottom bottom',
-              scrub: .42,
-              invalidateOnRefresh: true,
-              onLeave: () => featureTimeline.progress(1),
-              onLeaveBack: () => featureTimeline.progress(0)
-            })
-            cleanup.push(() => { featureTrigger.kill(true); featureTimeline.kill() })
-          } else {
-            // Mobile stays in natural document flow: the intro scrolls away normally and
-            // each card reveals as it enters, avoiding any tall pinned blank region.
-            gsap.set(featureIntro, { autoAlpha: 1, y: 0, scale: 1 })
-            gsap.set(featureGrid, { autoAlpha: 1 })
-            gsap.set(featureCards, { autoAlpha: 0, y: 26, scale: .985, rotateX: 0 })
-
-            const introExit = gsap.to(featureIntro, {
-              autoAlpha: .18,
-              y: -18,
-              ease: 'none',
-              scrollTrigger: { trigger: featureIntro, start: 'top top+=74', end: 'bottom top+=118', scrub: .25 }
-            })
-            cleanup.push(() => introExit.kill())
-
-            featureCards.forEach((card, index) => {
-              const cardTween = gsap.to(card, {
-                autoAlpha: 1,
-                y: 0,
-                scale: 1,
-                duration: .58,
-                delay: Math.min(index * .035, .12),
-                ease: 'power3.out',
-                scrollTrigger: { trigger: card, start: 'top 90%', once: true }
-              })
-              cleanup.push(() => cardTween.kill())
-            })
+          // Decorative motion has separate targets from the card reveal timeline.
+          const living = gsap.timeline({ repeat: -1, yoyo: true, defaults: { duration: 2.4, ease: 'sine.inOut' },
+            scrollTrigger: { trigger: featureSection, start: 'top bottom', end: 'bottom top', toggleActions: 'play pause resume pause' } })
+          living.to(featureSection.querySelectorAll('.sv-orbit-node'), { y: (i: number) => i % 2 ? -7 : 7, stagger: .08 }, 0)
+            .to(featureSection.querySelectorAll('.sv-orbit-core,.sv-brand-display-visual--hub .center'), { scale: 1.055 }, 0)
+            .to(featureSection.querySelectorAll('.sv-brand-display-visual--hub > span'), { y: (i: number) => i % 2 ? 3 : -3, stagger: .06 }, 0)
+            .to(featureSection.querySelectorAll('.sv-brand-display-visual--message > b'), { scaleX: .78, transformOrigin: 'left', stagger: .12 }, 0)
+            .to(featureSection.querySelectorAll('.sv-sheet-network span'), { y: -5, stagger: .12 }, 0)
+          const chartPath = featureSection.querySelector<SVGPathElement>('.sv-brand-feature-chart path')
+          if (chartPath) {
+            const length = chartPath.getTotalLength()
+            living.fromTo(chartPath, { strokeDasharray: length, strokeDashoffset: length }, { strokeDashoffset: 0 }, 0)
           }
-
-          /* Living motion stays inside each feature card and only animates transforms/opacity. */
-          featureCards.forEach((card, cardIndex) => {
-            card.querySelectorAll<HTMLElement>('.sv-orbit-ring').forEach((ring, i) => {
-              const spin = gsap.to(ring, { rotation: i % 2 ? -360 : 360, duration: 20 + i * 4, repeat: -1, ease: 'none', transformOrigin: '50% 50%' })
-              cleanup.push(() => spin.kill())
-            })
-            card.querySelectorAll<HTMLElement>('.sv-orbit-node,.sv-brand-display-visual--hub > span').forEach((node, i) => {
-              const drift = gsap.to(node, { y: i % 2 ? -4 : 4, x: i % 3 ? 2 : -2, duration: 2.4 + i * .13, repeat: -1, yoyo: true, ease: 'sine.inOut' })
-              cleanup.push(() => drift.kill())
-            })
-            card.querySelectorAll<SVGElement>('.sv-orbit-node > .af-inline-svg-icon > svg').forEach((glyph, i) => {
-              const glyphMotion = gsap.to(glyph, { rotation: i % 2 ? 7 : -7, scale: 1.08, duration: 1.7 + i * .12, repeat: -1, yoyo: true, ease: 'sine.inOut', transformOrigin: '50% 50%' })
-              cleanup.push(() => glyphMotion.kill())
-            })
-            const hubCore = card.querySelector<HTMLElement>('.sv-brand-display-visual--hub .center')
-            if (hubCore) {
-              const pulse = gsap.to(hubCore, { scale: 1.055, boxShadow: '0 0 0 17px rgba(0,187,160,.08),0 0 32px rgba(0,187,160,.20)', duration: 1.5, repeat: -1, yoyo: true, ease: 'sine.inOut' })
-              cleanup.push(() => pulse.kill())
-            }
-            card.querySelectorAll<HTMLElement>('.sv-brand-display-visual--message > b,.sv-mini-browser__canvas > b,.sv-brand-display-visual--sheet .sv-sheet > b').forEach((bar, i) => {
-              const breathe = gsap.to(bar, { scaleX: .72 + (i % 3) * .1, transformOrigin: 'left center', duration: 1.25 + i * .1, repeat: -1, yoyo: true, ease: 'sine.inOut' })
-              cleanup.push(() => breathe.kill())
-            })
-            const pointer = card.querySelector<HTMLElement>('.sv-brand-display-visual--timeline .sv-pointer')
-            if (pointer) {
-              const travel = gsap.to(pointer, { xPercent: 430, duration: 2.4, repeat: -1, yoyo: true, ease: 'power1.inOut' })
-              cleanup.push(() => travel.kill())
-            }
-            const browser = card.querySelector<HTMLElement>('.sv-mini-browser')
-            if (browser) {
-              const float = gsap.to(browser, { y: cardIndex % 2 ? -4 : 4, duration: 2.6, repeat: -1, yoyo: true, ease: 'sine.inOut' })
-              cleanup.push(() => float.kill())
-            }
+          featureSection.querySelectorAll<SVGPathElement>('.sv-brand-hub-flow path').forEach((path,index)=>{
+            const len=path.getTotalLength()
+            gsap.set(path,{strokeDasharray:`18 ${len}`,strokeDashoffset:0})
+            const stream=gsap.to(path,{strokeDashoffset:-len,duration:2,delay:index*.15,repeat:-1,ease:'none'})
+            cleanup.push(()=>stream.kill())
           })
+          cleanup.push(() => living.kill())
+
+          featureSection.querySelectorAll<SVGCircleElement>('.brand-orbit-tracer').forEach((circle,index)=>{
+            const circumference=2*Math.PI*Number(circle.getAttribute('r'))
+            const turn=gsap.to(circle,{strokeDashoffset:-circumference,duration:12+index*4,repeat:-1,ease:'none',scrollTrigger:{trigger:featureSection,start:'top bottom',end:'bottom top',toggleActions:'play pause resume pause'}})
+            cleanup.push(()=>turn.kill())
+          })
+          const featureMedia=gsap.matchMedia()
+          featureMedia.add('(min-width: 761px)',()=>{
+            featureSection.classList.add('brand-feature-story-active')
+            // Derive every visual state from one reversible progress value.
+            const state={progress:0}
+            const clamp=(n:number)=>Math.max(0,Math.min(1,n))
+            const render=()=>{
+              const p=state.progress
+              featureIntro.style.setProperty('--brand-intro-opacity',String(1-clamp((p-.16)/.18)))
+              featureIntro.style.setProperty('--brand-intro-y',`${-24*clamp((p-.16)/.18)}px`)
+              featureCards.forEach((card,i)=>{
+                const start=.36+i*.075
+                const amount=clamp((p-start)/.28)
+                card.style.setProperty('--brand-reveal-opacity',String(amount))
+                card.style.setProperty('--brand-reveal-y',`${85*(1-amount)}px`)
+              })
+            }
+            render()
+            const reveal=gsap.fromTo(state,{progress:0},{progress:1,ease:'none',onUpdate:render,scrollTrigger:{trigger:featureStory,start:'top top+=84',end:()=>`+=${Math.max(1,featureStory.offsetHeight-featurePin.offsetHeight)}`,scrub:.55,onRefresh:render,onLeaveBack:()=>{state.progress=0;render()}}})
+            return ()=>{reveal.scrollTrigger?.kill();reveal.kill();featureSection.classList.remove('brand-feature-story-active')}
+          })
+          featureMedia.add('(max-width: 760px)',()=>{
+            gsap.set(featureIntro,{visibility:'visible','--brand-intro-opacity':1,'--brand-intro-y':'0px'})
+            featureCards.forEach(card=>gsap.fromTo(card,{'--brand-reveal-opacity':0,'--brand-reveal-y':'45px'},{'--brand-reveal-opacity':1,'--brand-reveal-y':'0px',scrollTrigger:{trigger:card,start:'top 94%',end:'top 68%',scrub:.5}}))
+          })
+          cleanup.push(()=>featureMedia.revert())
+          living.to(featureSection.querySelectorAll('.sv-message-chat'),{y:-8,opacity:.65,stagger:.25},0)
+            .to(featureSection.querySelectorAll('.sv-mini-browser__canvas b'),{scaleX:.7,transformOrigin:'left',stagger:.15},0)
+            .to(featureSection.querySelectorAll('.sv-sheet'),{y:-9},0)
 
         }
-
+        root.querySelectorAll<HTMLElement>('.sv-crosslinks__grid > a').forEach((card,index)=>{
+          const reveal=gsap.fromTo(card,{autoAlpha:0,y:24},{autoAlpha:1,y:0,duration:.65,delay:(index%3)*.08,ease:'power2.out',scrollTrigger:{trigger:card,start:'top 94%',once:true}})
+          cleanup.push(()=>reveal.kill())
+        })
 
         const brandVideo = root.querySelector<HTMLElement>('[data-brand-video]')
         const brandVideoHead = root.querySelector<HTMLElement>('[data-brand-video-head]')
@@ -398,7 +298,11 @@ export function useServiceAnimations(layout: ServiceLayout) {
         if (integrationSection && integrationPin && integrationHead && integrationArc && integrationItems.length) {
           gsap.set(integrationPin, { clearProps: 'transform' })
           gsap.set(integrationHead, { autoAlpha: 0, y: 22 })
-          integrationItems.forEach((item, index) => gsap.set(item, { autoAlpha: 0, scale: .76, y: index % 2 ? 10 : -10 }))
+          integrationItems.forEach((item, index) => {
+            const icon = item.querySelector<HTMLElement>('span')
+            gsap.set(item, { autoAlpha: 0 })
+            if (icon) gsap.set(icon, { scale: .76, y: index % 2 ? 10 : -10, transformOrigin: '50% 50%' })
+          })
 
           let pathLength = 0
           if (integrationPath) {
@@ -413,7 +317,9 @@ export function useServiceAnimations(layout: ServiceLayout) {
           const integrationTimeline = gsap.timeline({ paused: true })
             .to(integrationHead, { autoAlpha: 1, y: 0, duration: .56, ease: 'power3.out' }, 0)
           if (integrationPath) integrationTimeline.to(integrationPath, { strokeDashoffset: 0, duration: 1.05, ease: 'power1.inOut' }, .08)
-          integrationTimeline.to(integrationItems, { autoAlpha: 1, scale: 1, y: 0, duration: .4, stagger: .085, ease: 'back.out(1.35)' }, .26)
+          integrationTimeline.to(integrationItems, { autoAlpha: 1, duration: .34, stagger: .085, ease: 'power2.out' }, .26)
+          const integrationIcons = integrationItems.map((item) => item.querySelector<HTMLElement>('span')).filter((icon): icon is HTMLElement => Boolean(icon))
+          if (integrationIcons.length) integrationTimeline.to(integrationIcons, { scale: 1, y: 0, duration: .42, stagger: .085, ease: 'back.out(1.35)' }, .26)
           if (integrationTracer) integrationTimeline.to(integrationTracer, { autoAlpha: 1, duration: .24, ease: 'power1.out' }, .64)
 
           const tracerTween = integrationTracer ? gsap.to(integrationTracer, {
@@ -486,25 +392,44 @@ export function useServiceAnimations(layout: ServiceLayout) {
               .to(strategicTracer, { autoAlpha: .18, duration: .14, ease: 'power1.out' }, .86)
               .to(strategicProgress, { autoAlpha: .34, duration: .14, ease: 'power1.out' }, .86)
 
+            if (strategicSpark) {
+              const travel = { progress: 0 }
+              arcTimeline.to(travel, { progress: 1, duration: 1, onUpdate: () => {
+                const point = strategicProgress.getPointAtLength(travel.progress * arcLength)
+                gsap.set(strategicSpark, { left: `${point.x / 10}%`, top: `${point.y / 3.8}%`, autoAlpha: Math.sin(travel.progress * Math.PI), scale: 1 })
+              } }, 0)
+            }
+
             const arcTrigger = ScrollTrigger.create({
               animation: arcTimeline,
               trigger: solutionSection,
               start: 'top 90%',
-              end: 'top 48%',
+              end: 'top 10%',
               scrub: .32,
               invalidateOnRefresh: true,
               onLeaveBack: () => arcTimeline.progress(0).pause()
             })
             cleanup.push(() => { arcTrigger.kill(true); arcTimeline.kill() })
           }
-          if (solutionHead) reveal(solutionHead, solutionSection, { y: 34, opacity: 0 })
-          if (solutionFilter) reveal(solutionFilter, solutionSection, { y: 20, opacity: 0 }, .06)
-          solutionCards.forEach((card, i) => {
-            gsap.fromTo(card,
-              compact ? { opacity: 0, y: 24 } : { opacity: 0, y: 58, rotateY: i % 2 ? -4 : 4, scale: .975 },
-              { opacity: 1, y: 0, rotateY: 0, scale: 1, duration: .7, ease: 'power3.out', scrollTrigger: { trigger: card, start: 'top 90%', end: compact ? undefined : 'top 66%', scrub: compact ? false : .26, once: compact } }
-            )
-          })
+          const solutionIntroTargets = [solutionHead, solutionFilter].filter((item): item is HTMLElement => Boolean(item))
+          if (solutionIntroTargets.length) {
+            const solutionIntro = gsap.fromTo(solutionIntroTargets, { autoAlpha: 0, y: 26 }, {
+              autoAlpha: 1, y: 0, duration: .68, stagger: .10, ease: 'power3.out',
+              scrollTrigger: { trigger: solutionSection, start: 'top 86%', once: true }
+            })
+            cleanup.push(() => solutionIntro.kill())
+          }
+          const solutionCardsReveal = gsap.fromTo(solutionCards,
+            compact ? { autoAlpha: 0, y: 24 } : { autoAlpha: 0, y: 46, rotateY: (i: number) => i % 2 ? -3.5 : 3.5, scale: .972 },
+            {
+              autoAlpha: 1, y: 0, rotateY: 0, scale: 1,
+              duration: compact ? .62 : .76,
+              stagger: compact ? .055 : .075,
+              ease: 'power4.out',
+              scrollTrigger: { trigger: solutionGrid, start: compact ? 'top 91%' : 'top 86%', once: true, invalidateOnRefresh: true }
+            }
+          )
+          cleanup.push(() => solutionCardsReveal.kill())
         }
         /* How It Works V36 — short sticky runway, four deterministic steps.
            Card 01 is visible on section entry. Scrolling advances 01→02→03→04,
@@ -537,10 +462,10 @@ export function useServiceAnimations(layout: ServiceLayout) {
           // Keep every active card in the geometric center of the stage on every viewport.
           // The active nav/guide still communicates 01→02→03→04, while the content card
           // no longer drifts toward the left/right edges on ultrawide screens.
-          const targetLefts = ['50%', '50%', '50%', '50%']
+          const targetLefts = compact ? ['50%', '50%', '50%', '50%'] : ['28%', '43%', '57%', '72%']
           const setCardState = (card: HTMLElement, index: number, visible: boolean) => gsap.set(card, {
             autoAlpha: visible ? 1 : 0,
-            left: targetLefts[index] || '50%',
+            '--step-left': targetLefts[index] || '50%',
             top: '50%',
             xPercent: -50,
             yPercent: -50,
@@ -562,7 +487,7 @@ export function useServiceAnimations(layout: ServiceLayout) {
               const active = buttonIndex === index
               button.classList.toggle('is-active', active)
               button.setAttribute('aria-pressed', active ? 'true' : 'false')
-              if (active && compact) button.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' })
+              if (active && compact) button.parentElement?.scrollTo({ left: button.offsetLeft - button.parentElement.clientWidth / 2 + button.offsetWidth / 2, behavior: 'smooth' })
             })
             stepGuides.forEach((guide, guideIndex) => guide.classList.toggle('is-active', guideIndex === index))
           }
@@ -592,7 +517,7 @@ export function useServiceAnimations(layout: ServiceLayout) {
                   '--step-scale': .968,
                   '--step-y': compact ? '10px' : '14px',
                   '--step-x': compact ? '10px' : '16px',
-                  left: targetLefts[nextIndex] || '50%',
+                  '--step-left': targetLefts[nextIndex] || '50%',
                   top: '50%',
                   xPercent: -50,
                   yPercent: -50
@@ -602,7 +527,7 @@ export function useServiceAnimations(layout: ServiceLayout) {
                   '--step-scale': 1,
                   '--step-y': '0px',
                   '--step-x': '0px',
-                  left: targetLefts[nextIndex] || '50%',
+                  '--step-left': targetLefts[nextIndex] || '50%',
                   top: '50%',
                   xPercent: -50,
                   yPercent: -50,
@@ -629,10 +554,10 @@ export function useServiceAnimations(layout: ServiceLayout) {
 
           const stepTrigger = ScrollTrigger.create({
             animation: stepTimeline,
-            trigger: stepSection,
-            start: () => `top top+=${compact ? 52 : 68}`,
-            end: 'bottom bottom',
-            scrub: .28,
+            trigger: stepPin,
+            start: () => `top top+=${compact ? 54 : 72}`,
+            end: () => `+=${stepSection.clientHeight - stepPin.offsetHeight}`,
+            scrub: true,
             invalidateOnRefresh: true,
             fastScrollEnd: false,
             onLeave: () => {
@@ -695,6 +620,19 @@ export function useServiceAnimations(layout: ServiceLayout) {
           }
           const cardsReveal = gsap.fromTo(priceCards, { opacity: 0, y: 42, scale: .98 }, { opacity: 1, y: 0, scale: 1, duration: .68, stagger: .085, ease: 'power3.out', scrollTrigger: { trigger: pricingGrid, start: 'top 87%', once: true } })
           cleanup.push(() => cardsReveal.kill())
+          if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) priceCards.forEach(card => {
+            const body = card.querySelector<HTMLElement>('[data-brand-price-package]')
+            const button = card.querySelector<HTMLElement>('.sv-btn')
+            if (!body || !button) return
+            const hover = gsap.timeline({ paused: true, defaults: { duration: .3, ease: 'power2.out' } })
+              .to(body, { y: -7, boxShadow: '0 18px 30px rgba(0,68,62,.13)', borderColor: 'rgba(0,187,160,.55)' }, 0)
+              .to(button, { backgroundColor: '#00bba0', color: '#00443e', boxShadow: '0 5px 14px rgba(0,187,160,.25)' }, 0)
+            const enter = () => hover.play()
+            const leave = () => hover.reverse()
+            card.addEventListener('pointerenter', enter); card.addEventListener('pointerleave', leave)
+            card.addEventListener('focusin', enter); card.addEventListener('focusout', leave)
+            cleanup.push(() => { hover.kill(); card.removeEventListener('pointerenter', enter); card.removeEventListener('pointerleave', leave); card.removeEventListener('focusin', enter); card.removeEventListener('focusout', leave) })
+          })
         }
 
         const faqSection = root.querySelector<HTMLElement>('[data-brand-faq]')
@@ -930,3 +868,9 @@ export function useServiceAnimations(layout: ServiceLayout) {
     }
   }, [layout])
 }
+
+
+
+
+
+

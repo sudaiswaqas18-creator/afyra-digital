@@ -7,18 +7,46 @@ import { setupProcessCardHover } from './processCardMotion'
 
 gsap.registerPlugin(ScrollTrigger)
 
-export function useReferenceSolutionAnimations(layout: ServiceLayout) {
+export function useReferenceSolutionAnimations(layout: ServiceLayout, dataDependency?: any) {
   useEffect(() => {
     if (layout === '02') return
     const root = document.querySelector<HTMLElement>('[data-rs-root]')
     if (!root) return
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     const compact = window.matchMedia('(max-width: 760px)').matches
-    const growthCompact = window.matchMedia('(max-width: 850px)').matches
+    const growthCompact = window.matchMedia('(max-width: 900px)').matches
     if (reduce) return
 
     const cleanups: Array<() => void> = []
     const ctx = gsap.context(() => {
+      if(layout==='06'){
+        root.querySelectorAll<HTMLElement>('h2:not(.social-faq-heading)').forEach(heading=>{
+          gsap.fromTo(heading,{'--social-heading-reveal':'100%'},{'--social-heading-reveal':'0%',ease:'none',scrollTrigger:{trigger:heading,start:'top 92%',end:'top 66%',scrub:.45}})
+          heading.classList.add('social-scroll-heading')
+          cleanups.push(()=>heading.classList.remove('social-scroll-heading'))
+        })
+        root.querySelectorAll<HTMLInputElement|HTMLTextAreaElement>('[data-social-placeholder]').forEach(field=>{
+          const words=Array.from(field.dataset.socialPlaceholder||'')
+          const state={count:0}
+          const write=()=>{if(!field.value)field.placeholder=words.slice(0,Math.ceil(state.count)).join('')}
+          gsap.fromTo(state,{count:0},{count:words.length,duration:Math.max(.8,words.length*.055),ease:'none',onUpdate:write,scrollTrigger:{trigger:field,start:'top 94%',toggleActions:'restart none restart reset'}})
+        })
+
+      }
+
+      if (layout === '03') {
+        root.querySelectorAll<SVGPathElement>('.dp-hero-stream').forEach((path,i)=>{
+          const length=path.getTotalLength()
+          gsap.fromTo(path,{strokeDasharray:`70 ${length}`,strokeDashoffset:0},{strokeDashoffset:-length,duration:3.8,delay:i*.5,repeat:-1,ease:'none'})
+        })
+        root.querySelectorAll<HTMLElement>('.dp-v92-app').forEach((icon,i)=>{
+          const rise=gsap.timeline({repeat:-1,delay:i*.65,scrollTrigger:{trigger:root.querySelector('.dp-hero'),start:'top bottom',end:'bottom top',toggleActions:'play pause resume pause'}})
+          rise.fromTo(icon,{y:30,opacity:0,scale:.65},{y:-35,opacity:.85,scale:1,duration:1.3,ease:'none'})
+            .to(icon,{y:-235,opacity:0,scale:.65,duration:5,ease:'none'})
+          cleanups.push(()=>rise.kill())
+        })
+        gsap.to(root.querySelector('.dp-final__planet'), { y: -24, ease: 'none', scrollTrigger: { trigger: root.querySelector('.dp-final'), start: 'top bottom', end: 'bottom top', scrub: true } })
+      }
       const hero = root.querySelector<HTMLElement>('[data-rs-hero]')
       const heroCopy = root.querySelector<HTMLElement>('[data-rs-hero-copy]')
       const heroStage = root.querySelector<HTMLElement>('[data-rs-hero-stage]')
@@ -61,7 +89,7 @@ export function useReferenceSolutionAnimations(layout: ServiceLayout) {
 
         const heroLine = root.querySelector<HTMLElement>('[data-rs-hero-line]')
         if (heroLine) {
-          const marquee = heroLine.querySelector<HTMLElement>('[data-rs-hero-marquee]')
+          const marquees = Array.from(heroLine.querySelectorAll<HTMLElement>('[data-rs-hero-marquee]'))
 
           if (layout === '03') {
             gsap.set(heroLine, {
@@ -107,11 +135,12 @@ export function useReferenceSolutionAnimations(layout: ServiceLayout) {
             cleanups.push(() => { lineTrigger.kill(true); lineTl.kill() })
           }
 
-          if (marquee) {
+          marquees.forEach((marquee) => {
             const distance = Math.max(320, marquee.scrollWidth / 2)
-            const marqueeTween = gsap.fromTo(marquee, { x: 0 }, { x: -distance, duration: 18, repeat: -1, ease: 'none' })
+            const direction = marquee.classList.contains('dp-trust-reveal__marquee--left') ? 1 : -1
+            const marqueeTween = gsap.fromTo(marquee, { x: direction === 1 ? -distance : 0 }, { x: direction === 1 ? 0 : -distance, duration: 18, repeat: -1, ease: 'none' })
             cleanups.push(() => marqueeTween.kill())
-          }
+          })
         }
       }
 
@@ -247,7 +276,7 @@ export function useReferenceSolutionAnimations(layout: ServiceLayout) {
               trigger: socialHeroSection,
               start: 'top top',
               end: compact ? '+=210' : '+=360',
-              scrub: compact ? .18 : .22,
+              scrub: compact ? .35 : .55,
               invalidateOnRefresh: true,
               fastScrollEnd: 1200
             }
@@ -390,6 +419,13 @@ export function useReferenceSolutionAnimations(layout: ServiceLayout) {
         }
       }
 
+      root.querySelectorAll<SVGPathElement>('.growth-network-light').forEach((path,index)=>{
+        const len=path.getTotalLength()
+        gsap.set(path,{strokeDasharray:`16 ${len}`,strokeDashoffset:0})
+        const flow=gsap.to(path,{strokeDashoffset:-len,duration:2.4,delay:(index%3)*.2,repeat:-1,ease:'none',scrollTrigger:{trigger:path.closest('.gs7-feature-card'),start:'top bottom',end:'bottom top',toggleActions:'play pause resume pause'}})
+        cleanups.push(()=>flow.kill())
+      })
+
       const growthText = root.querySelector<HTMLElement>('[data-rs-growth-text]')
       if (growthText) {
         const words = Array.from(growthText.querySelectorAll<HTMLElement>('[data-rs-growth-text-word]'))
@@ -408,6 +444,15 @@ export function useReferenceSolutionAnimations(layout: ServiceLayout) {
         if (badges.length) {
           const badgeTween = gsap.fromTo(badges, { scale: .65, rotate: -9, autoAlpha: .35 }, { scale: 1, rotate: 0, autoAlpha: 1, duration: .45, stagger: .18, ease: 'back.out(1.5)', scrollTrigger: { trigger: growthText, start: 'top 70%', once: true } })
           cleanups.push(() => badgeTween.kill())
+          badges.forEach((badge,index)=>{
+            const emoji=badge.querySelector('img')
+            if(!emoji)return
+            const wave=gsap.timeline({repeat:-1,repeatDelay:.25,scrollTrigger:{trigger:growthText,start:'top bottom',end:'bottom top',toggleActions:'play pause resume pause'}})
+            wave.to(emoji,{rotation:index?12:22,y:-4,duration:.45,ease:'sine.inOut',transformOrigin:'50% 80%'})
+              .to(emoji,{rotation:index?-12:-18,y:2,duration:.6,ease:'sine.inOut'})
+              .to(emoji,{rotation:0,y:0,duration:.4,ease:'sine.inOut'})
+            cleanups.push(()=>wave.kill())
+          })
         }
       }
 
@@ -431,31 +476,29 @@ export function useReferenceSolutionAnimations(layout: ServiceLayout) {
             }
           })
         } else if (cards.length >= 3) {
-          gsap.set(cards, { force3D: true, transformOrigin: '50% 50%' })
-          gsap.set(cards[0], { xPercent: 0, yPercent: 0, autoAlpha: 1, scale: 1, zIndex: 3 })
-          gsap.set(cards[1], { xPercent: 14, yPercent: 0, autoAlpha: 0, scale: .985, zIndex: 2 })
-          gsap.set(cards[2], { xPercent: 18, yPercent: 0, autoAlpha: 0, scale: .98, zIndex: 1 })
-          progress.forEach((bar) => gsap.set(bar, { scaleX: 0, transformOrigin: 'left center' }))
-
-          const tl = gsap.timeline({ defaults: { ease: 'none' } })
-          if (progress[0]) tl.to(progress[0], { scaleX: 1, duration: .72 }, 0)
-          tl.to({}, { duration: .22 })
-          tl.to(cards[0], { xPercent: -13, scale: .955, autoAlpha: 0, duration: .52 }, .88)
-            .to(cards[1], { xPercent: 0, scale: 1, autoAlpha: 1, zIndex: 4, duration: .58 }, .84)
-          if (progress[1]) tl.to(progress[1], { scaleX: 1, duration: .72 }, .86)
-          tl.to({}, { duration: .24 })
-          tl.to(cards[1], { xPercent: -13, scale: .955, autoAlpha: 0, duration: .52 }, 1.92)
-            .to(cards[2], { xPercent: 0, scale: 1, autoAlpha: 1, zIndex: 5, duration: .58 }, 1.88)
-          if (progress[2]) tl.to(progress[2], { scaleX: 1, duration: .72 }, 1.90)
-          tl.to({}, { duration: .72 })
+          gsap.set(cards,{xPercent:0,yPercent:0,scale:1,clipPath:'none',autoAlpha:1,background:'transparent'})
+          cards.forEach((card,index)=>{
+            gsap.set(card,{zIndex:index+1})
+            gsap.set(card.querySelector('.gs7-quick__mockup'),{xPercent:index?-105:0})
+            gsap.set(card.querySelector('.gs7-quick__content'),{xPercent:index?105:0})
+          })
+          progress.forEach(bar=>gsap.set(bar,{scaleX:0,transformOrigin:'left center'}))
+          const tl=gsap.timeline({defaults:{ease:'none'}})
+          tl.to(progress[0],{scaleX:1,duration:.55},0)
+          cards.slice(1).forEach((card,index)=>{
+            const at=.75+index*1.2
+            tl.to(card.querySelector('.gs7-quick__mockup'),{xPercent:0,duration:.9},at)
+              .to(card.querySelector('.gs7-quick__content'),{xPercent:0,duration:.9},at)
+            if(progress[index+1])tl.to(progress[index+1],{scaleX:1,duration:.9},at)
+          })
+          tl.to({}, {duration:.55})
 
           const trigger = ScrollTrigger.create({
             animation: tl,
             trigger: growthQuick,
             start: 'top top',
-            end: '+=2450',
-            pin: growthQuickPin,
-            pinSpacing: true,
+            end:()=>`+=${Math.max(1,growthQuick.offsetHeight-growthQuickPin.offsetHeight)}`,
+            pin: false,
             scrub: .68,
             anticipatePin: 1,
             invalidateOnRefresh: true,
@@ -466,57 +509,91 @@ export function useReferenceSolutionAnimations(layout: ServiceLayout) {
       }
 
       const growthRoadmap = root.querySelector<HTMLElement>('[data-rs-growth-roadmap]')
-      if (growthRoadmap && !growthCompact) {
-        const path = growthRoadmap.querySelector<SVGPathElement>('[data-rs-growth-roadmap-path]')
-        const steps = Array.from(growthRoadmap.querySelectorAll<HTMLElement>('[data-rs-growth-roadmap-step]'))
-        if (path) {
-          const len = path.getTotalLength?.() || 1900
-          const fractions = [0.018, 0.309, 0.548, 0.786]
-          gsap.set(path, { strokeDasharray: len, strokeDashoffset: len })
-          steps.forEach((step) => {
-            const copy = step.querySelector<HTMLElement>('div')
-            const dot = step.querySelector<HTMLElement>('[data-rs-growth-roadmap-dot]')
-            gsap.set(step, { autoAlpha: 1 })
-            if (copy) gsap.set(copy, { y: 24, autoAlpha: 0 })
-            if (dot) gsap.set(dot, { scale: .72, autoAlpha: .22, boxShadow: '0 0 0 7px rgba(0,187,160,.035)' })
-          })
+      if(growthRoadmap){
+        const path=growthRoadmap.querySelector<SVGPathElement>('[data-rs-growth-roadmap-path]')
+        const steps=Array.from(growthRoadmap.querySelectorAll<SVGGElement>('[data-rs-growth-roadmap-step]'))
+        if(path && steps.length){
+          const length = path.getTotalLength?.() || 1521
+          const stops = [0, 0.28, 0.57, 0.79]
+          const state = { progress: 0, lastActive: -1 }
+          const wash = growthRoadmap.querySelector('.gs7-roadmap__wash')
+          const afContainer = growthRoadmap.querySelector<HTMLElement>('.af-container') || growthRoadmap
 
-          const tl = gsap.timeline({ defaults: { ease: 'none' } })
-          tl.to(path, { strokeDashoffset: 0, duration: 1 }, 0)
-          steps.forEach((step, index) => {
-            const copy = step.querySelector<HTMLElement>('div')
-            const dot = step.querySelector<HTMLElement>('[data-rs-growth-roadmap-dot]')
-            const at = fractions[index] ?? (index + 1) / (steps.length + 1)
-            if (dot) tl.to(dot, { scale: 1, autoAlpha: 1, boxShadow: '0 0 0 10px rgba(0,187,160,.075)', duration: .025 }, at)
-            if (copy) tl.to(copy, { y: 0, autoAlpha: 1, duration: .055, ease: 'power2.out' }, at)
-          })
+          // Pre-collect all sub-elements once
+          const stepData = steps.map((step, i) => ({
+            step,
+            label: step.querySelector<SVGGElement>('.roadmap-caption'),
+            glow: step.querySelector<SVGCircleElement>('.roadmap-dot-glow'),
+            dot: step.querySelector<SVGCircleElement>('.roadmap-dot'),
+            index: i
+          }))
 
-          const trigger = ScrollTrigger.create({
-            animation: tl,
-            trigger: growthRoadmap,
-            start: 'top 64%',
-            end: 'bottom 24%',
-            scrub: .72,
-            invalidateOnRefresh: true
+          const applyActiveStep = (activeIndex: number, p: number) => {
+            stepData.forEach(({ step, label, glow, dot }, i) => {
+              const isActive = (i === activeIndex)
+              const isReached = (p >= (stops[i] - 0.02))
+
+              step.classList.toggle('is-active', isActive)
+              step.setAttribute('data-active', String(isActive))
+
+              if (label) {
+                label.style.setProperty('display', isActive ? 'inline' : 'none', 'important')
+                label.style.setProperty('opacity', isActive ? '1' : '0', 'important')
+                label.style.setProperty('visibility', isActive ? 'visible' : 'hidden', 'important')
+                label.setAttribute('opacity', isActive ? '1' : '0')
+                label.setAttribute('aria-hidden', String(!isActive))
+              }
+
+              if (glow) {
+                glow.setAttribute('r', (isActive || isReached) ? '14' : '8')
+                glow.setAttribute('fill-opacity', isActive ? '0.35' : isReached ? '0.2' : '0.1')
+              }
+              if (dot) {
+                dot.setAttribute('fill', (isActive || isReached) ? '#00bba0' : '#88d8ce')
+              }
+            })
+          }
+
+          // Initial state: only first caption active, rest inactive
+          applyActiveStep(0, 0)
+
+          const render = () => {
+            const p = Math.max(0, Math.min(1, state.progress))
+            path.style.strokeDasharray = `${length} ${length}`
+            path.style.strokeDashoffset = String(length * (1 - p))
+
+            // Determine which milestone the line has reached:
+            // Point 1 (0): 0 to 0.28
+            // Point 2 (1): 0.28 to 0.57
+            // Point 3 (2): 0.57 to 0.79
+            // Point 4 (3): 0.79 to 1.0
+            const activeIndex = p >= 0.79 ? 3 : p >= 0.57 ? 2 : p >= 0.28 ? 1 : 0
+
+            applyActiveStep(activeIndex, p)
+
+            if (wash) gsap.set(wash, { opacity: Math.max(0, (p - .34) / .66) })
+          }
+
+          render()
+          const getScrollDistance = () => Math.max(900, growthRoadmap.offsetHeight - afContainer.offsetHeight)
+
+          const timeline = gsap.fromTo(state, { progress: 0 }, {
+            progress: 1,
+            ease: 'none',
+            onUpdate: render,
+            scrollTrigger: {
+              trigger: growthRoadmap,
+              start: 'top 90px',
+              end: () => `+=${getScrollDistance()}`,
+              scrub: 0.25,
+              invalidateOnRefresh: true,
+              onRefresh: render,
+              onEnter: render,
+              onLeaveBack: () => { state.progress = 0; state.lastActive = -1; render() }
+            }
           })
-          cleanups.push(() => { trigger.kill(true); tl.kill() })
+          cleanups.push(() => { timeline.scrollTrigger?.kill(); timeline.kill() })
         }
-      }
-
-      if (growthRoadmap && growthCompact) {
-        const compactSteps = Array.from(growthRoadmap.querySelectorAll<HTMLElement>('[data-rs-growth-roadmap-step]'))
-        compactSteps.forEach((step) => {
-          const copy = step.querySelector<HTMLElement>('div')
-          const dot = step.querySelector<HTMLElement>('[data-rs-growth-roadmap-dot]')
-          if (copy) {
-            const reveal = gsap.fromTo(copy, { y: 20, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: .5, ease: 'power3.out', scrollTrigger: { trigger: step, start: 'top 88%', once: true } })
-            cleanups.push(() => reveal.kill())
-          }
-          if (dot) {
-            const dotReveal = gsap.fromTo(dot, { scale: .7, autoAlpha: .25 }, { scale: 1, autoAlpha: 1, duration: .4, ease: 'back.out(1.4)', scrollTrigger: { trigger: step, start: 'top 90%', once: true } })
-            cleanups.push(() => dotReveal.kill())
-          }
-        })
       }
 
       const growthPrices = Array.from(root.querySelectorAll<HTMLElement>('[data-rs-growth-price-card]'))
@@ -584,19 +661,14 @@ export function useReferenceSolutionAnimations(layout: ServiceLayout) {
           )
           cleanups.push(() => { nodeEntry.kill(); drifts.forEach((tween) => tween.kill()) })
         }
-        baseLines.forEach((line, index) => {
-          const len = line.getTotalLength?.() || 460
-          gsap.set(line, { strokeDasharray: len, strokeDashoffset: len, opacity: .12 })
-          const draw = gsap.to(line, { strokeDashoffset: 0, opacity: .55, duration: .78, delay: index * .055, ease: 'power2.out', scrollTrigger: { trigger: growthIntegrations, start: 'top 79%', once: true }, onComplete: () => gsap.set(line, { strokeDasharray: '6 10', strokeDashoffset: 0 }) })
-          cleanups.push(() => draw.kill())
+        baseLines.forEach(line=>gsap.set(line,{strokeDasharray:'6 10',strokeDashoffset:0,opacity:.25}))
+        const branchFlow=gsap.timeline({repeat:-1,repeatDelay:.8,scrollTrigger:{trigger:growthIntegrations,start:'top bottom',end:'bottom top',toggleActions:'play pause resume pause'}})
+        movingLines.forEach((line,index)=>{
+          const len=line.getTotalLength(),at=index<2?0:1.8,duration=index<2?1.8:2.6
+          gsap.set(line,{strokeDasharray:`22 ${len*2}`,strokeDashoffset:22,opacity:0})
+          branchFlow.set(line,{opacity:1},at).fromTo(line,{strokeDashoffset:22},{strokeDashoffset:-len,duration,ease:'none',immediateRender:false},at).set(line,{opacity:0},at+duration)
         })
-
-        movingLines.forEach((line, index) => {
-          const len = line.getTotalLength?.() || 460
-          gsap.set(line, { strokeDasharray: `26 ${Math.max(70, len - 26)}`, strokeDashoffset: index * -31, opacity: .95 })
-          const travel = gsap.to(line, { strokeDashoffset: `-=${len}`, duration: 2.7 + index * .17, repeat: -1, ease: 'none' })
-          cleanups.push(() => travel.kill())
-        })
+        cleanups.push(()=>branchFlow.kill())
       }
 
       const growthMobile = root.querySelector<HTMLElement>('[data-rs-growth-mobile]')
@@ -686,15 +758,10 @@ export function useReferenceSolutionAnimations(layout: ServiceLayout) {
       if (layout === '03' && story && storyIntro && storyGrid && featureCards.length) {
         gsap.set(storyIntro, { autoAlpha: 1, y: 0, scale: 1 })
         gsap.set(storyGrid, { autoAlpha: 1 })
-        gsap.set(featureCards, { autoAlpha: 0, y: 34, scale: .975, rotateX: -2, transformOrigin: '50% 50%' })
-        const storyEntry = gsap.timeline({
-          scrollTrigger: { trigger: story, start: compact ? 'top 88%' : 'top 80%', once: true },
-          defaults: { ease: 'power3.out' }
+        featureCards.forEach(card=>{
+          const reveal=gsap.fromTo(card,{'--dp-reveal-y':'65px','--dp-reveal-opacity':0},{'--dp-reveal-y':'0px','--dp-reveal-opacity':1,ease:'none',scrollTrigger:{trigger:card,start:'top 96%',end:'top 65%',scrub:.5}})
+          cleanups.push(()=>reveal.kill())
         })
-          .fromTo(storyIntro, { autoAlpha: 0, y: 20 }, { autoAlpha: 1, y: 0, duration: .62 })
-          .to(featureCards.slice(0, 3), { autoAlpha: 1, y: 0, scale: 1, rotateX: 0, duration: .68, stagger: .09 }, '-=.18')
-          .to(featureCards.slice(3), { autoAlpha: 1, y: 0, scale: 1, rotateX: 0, duration: .56, stagger: .07 }, '-=.28')
-        cleanups.push(() => storyEntry.kill())
 
         const ecosystemOrnament = story.querySelector<HTMLElement>('.dp-section-ornament--ecosystem')
         if (ecosystemOrnament) {
@@ -757,6 +824,64 @@ export function useReferenceSolutionAnimations(layout: ServiceLayout) {
           const pulse = gsap.to(badge, { y: index % 2 ? -4 : 4, scale: 1.045, boxShadow: index % 3 === 0 ? '0 0 28px rgba(0,187,160,.22)' : '0 0 24px rgba(255,150,13,.12)', duration: 2.5 + index * .12, repeat: -1, yoyo: true, ease: 'sine.inOut', delay: .9 + index * .08 })
           cleanups.push(() => pulse.kill())
         })
+
+        const suiteAction = story.querySelector<HTMLElement>('[data-rs-feature-action]')
+        if (suiteAction) {
+          const stem = suiteAction.querySelector<HTMLElement>('.dp-feature-suite__stem')
+          const lineLeft = suiteAction.querySelector<HTMLElement>('.dp-feature-suite__line--left')
+          const lineRight = suiteAction.querySelector<HTMLElement>('.dp-feature-suite__line--right')
+          const dots = Array.from(suiteAction.querySelectorAll<HTMLElement>('.dp-feature-suite__dot'))
+          const btn = suiteAction.querySelector<HTMLElement>('.dp-feature-suite__btn')
+          if (stem) gsap.set(stem, { scaleY: 0, transformOrigin: 'top center', opacity: 0 })
+          if (lineLeft) gsap.set(lineLeft, { scaleX: 0, transformOrigin: 'right center', opacity: 0 })
+          if (lineRight) gsap.set(lineRight, { scaleX: 0, transformOrigin: 'left center', opacity: 0 })
+          gsap.set(dots, { scale: 0, autoAlpha: 0 })
+          if (btn) gsap.set(btn, { scale: .82, autoAlpha: 0 })
+          const actionTl = gsap.timeline({
+            scrollTrigger: { trigger: suiteAction, start: 'top 92%', once: true },
+            defaults: { ease: 'power3.out' }
+          })
+          if (stem) actionTl.to(stem, { scaleY: 1, opacity: 1, duration: .42 })
+          if (lineLeft) actionTl.to(lineLeft, { scaleX: 1, opacity: 1, duration: .5 }, '-=.18')
+          if (lineRight) actionTl.to(lineRight, { scaleX: 1, opacity: 1, duration: .5 }, '<')
+          actionTl.to(dots, { scale: 1, autoAlpha: 1, duration: .38, stagger: .08, ease: 'back.out(2.2)' }, '-=.22')
+          if (btn) actionTl.to(btn, { scale: 1, autoAlpha: 1, duration: .52, ease: 'back.out(1.4)' }, '-=.3')
+          cleanups.push(() => actionTl.kill())
+        }
+
+        const badgeGlows = Array.from(root.querySelectorAll<HTMLElement>('.dp-badge-glow'))
+        badgeGlows.forEach((glow, index) => {
+          const moveGlow = gsap.fromTo(glow,
+            { x: -16, y: -4, opacity: .35, scale: .85 },
+            {
+              x: 16,
+              y: 2,
+              opacity: .95,
+              scale: 1.25,
+              duration: 2.4 + (index % 3) * .35,
+              repeat: -1,
+              yoyo: true,
+              ease: 'sine.inOut',
+              delay: index * .18
+            }
+          )
+          // Moving colour pass: the glow drifts through the hue wheel so the
+          // badge light keeps shifting between mint, cyan and deep teal. The
+          // blur is restated on both ends because animating `filter` inline
+          // replaces the stylesheet's blur(7px) rather than adding to it.
+          const hueGlow = gsap.fromTo(glow,
+            { filter: 'blur(7px) hue-rotate(0deg) saturate(1.05)' },
+            {
+              filter: 'blur(7px) hue-rotate(95deg) saturate(1.3)',
+              duration: 2.8 + (index % 4) * .5,
+              repeat: -1,
+              yoyo: true,
+              ease: 'sine.inOut',
+              delay: index * .14
+            }
+          )
+          cleanups.push(() => { moveGlow.kill(); hueGlow.kill() })
+        })
       }
 
       featureCards.forEach((card, index) => {
@@ -766,7 +891,7 @@ export function useReferenceSolutionAnimations(layout: ServiceLayout) {
 
       // GSAP hover choreography across the cards: lift, light bloom and icon response.
       if (!compact && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
-        const hoverCards = Array.from(root.querySelectorAll<HTMLElement>('[data-rs-feature],[data-rs-process-card],[data-rs-module],[data-rs-metric-card],[data-rs-proof-card],.rs-simulator__cards article'))
+        const hoverCards = Array.from(root.querySelectorAll<HTMLElement>('[data-rs-feature],[data-rs-process-card],[data-rs-module],[data-rs-metric-card]:not(.social-metric-clean),[data-rs-proof-card],.rs-simulator__cards article'))
         hoverCards.forEach((card) => {
           const icon = card.querySelector<HTMLElement>('i, .rs-feature__top i')
           const enter = () => {
@@ -953,78 +1078,11 @@ export function useReferenceSolutionAnimations(layout: ServiceLayout) {
         })
       }
 
-      // Patient Acquisition pricing: reference fan pose stays visibly intact until the card deck itself enters view,
-      // then the three cards scrub into their final aligned state. This preserves the two-stage reference behavior.
-      const patientPricing = root.querySelector<HTMLElement>('[data-rs-patient-pricing]')
-      if (patientPricing) {
-        const grid = patientPricing.querySelector<HTMLElement>('.pa-pricing__grid')
-        const cards = Array.from(patientPricing.querySelectorAll<HTMLElement>('[data-rs-patient-price]'))
-        if (grid && cards.length) {
-          const pricingMM = gsap.matchMedia()
-          pricingMM.add({
-            desktop: '(min-width: 1051px)',
-            tablet: '(min-width: 761px) and (max-width: 1050px)',
-            mobile: '(max-width: 760px)'
-          }, (context) => {
-            const conditions = context.conditions as { desktop?: boolean; tablet?: boolean; mobile?: boolean }
-            const starts = conditions.desktop ? [
-              { rotation: -11.5, x: 86, y: 50, scale: .94, z: -46 },
-              { rotation: 0, x: 0, y: -30, scale: 1.055, z: 64 },
-              { rotation: 11.5, x: -86, y: 50, scale: .94, z: -46 }
-            ] : conditions.tablet ? [
-              { rotation: -4.25, x: -10, y: 24, scale: .985, z: 0 },
-              { rotation: 1.2, x: 8, y: 12, scale: 1.01, z: 12 },
-              { rotation: 4.25, x: 10, y: 24, scale: .985, z: 0 }
-            ] : [
-              { rotation: -2.7, x: -5, y: 16, scale: .992, z: 0 },
-              { rotation: .8, x: 4, y: 10, scale: 1.006, z: 8 },
-              { rotation: 2.7, x: 5, y: 16, scale: .992, z: 0 }
-            ]
-
-            cards.forEach((card, index) => {
-              const pose = starts[index] || starts[1]
-              gsap.set(card, {
-                ...pose,
-                zIndex: index === 1 ? 3 : 1,
-                transformOrigin: '50% 100%',
-                transformPerspective: 1600,
-                force3D: true
-              })
-            })
-
-            const tl = gsap.timeline({ paused: true, defaults: { ease: 'none' } })
-            // A short scrubbed hold makes the fan clearly visible before straightening begins.
-            tl.to({}, { duration: .22 })
-            cards.forEach((card, index) => {
-              tl.to(card, {
-                rotation: 0,
-                x: 0,
-                y: 0,
-                z: 0,
-                scale: 1,
-                duration: .78,
-                ease: 'power2.out'
-              }, .22 + index * .025)
-            })
-
-            const trigger = ScrollTrigger.create({
-              animation: tl,
-              trigger: grid,
-              start: conditions.desktop ? 'top 92%' : 'top 94%',
-              end: conditions.desktop ? 'top 40%' : 'top 48%',
-              scrub: conditions.mobile ? .42 : .62,
-              invalidateOnRefresh: true,
-              fastScrollEnd: true
-            })
-
-            return () => {
-              trigger.kill(true)
-              tl.kill()
-              gsap.set(cards, { clearProps: 'transform,zIndex' })
-            }
-          })
-          cleanups.push(() => pricingMM.revert())
-        }
+      const patientProcess = root.querySelector<HTMLElement>('[data-rs-patient-process]')
+      if (patientProcess) {
+        const cards = patientProcess.querySelectorAll('article')
+        gsap.fromTo(cards, { y: 28, opacity: 0 }, { y: 0, opacity: 1, duration: .65, stagger: .12, scrollTrigger: { trigger: patientProcess, start: 'top 75%', once: true } })
+        gsap.to(patientProcess.querySelector('.pa-reference-process__robot'), { y: -12, duration: 2.5, repeat: -1, yoyo: true, ease: 'sine.inOut', scrollTrigger: { trigger: patientProcess, start: 'top bottom', end: 'bottom top', toggleActions: 'play pause resume pause' } })
       }
 
       // Patient Acquisition integrations: one real circular backbone with icons sitting directly on it.
@@ -1035,7 +1093,7 @@ export function useReferenceSolutionAnimations(layout: ServiceLayout) {
         const items = Array.from(patientArc.querySelectorAll<HTMLElement>('[data-rs-patient-arc-item]'))
         if (ring && items.length) {
           gsap.fromTo(items, { autoAlpha: 0, scale: .55 }, { autoAlpha: 1, scale: 1, duration: .62, stagger: .075, ease: 'back.out(1.55)', scrollTrigger: { trigger: patientArc, start: 'top 76%', once: true } })
-          const mobileGrid = window.matchMedia('(max-width: 640px)').matches
+          const mobileGrid = false
           if (!mobileGrid) {
             const orbitDuration = compact ? 72 : 52
             const ringTween = gsap.to(ring, { rotation: 360, duration: orbitDuration, repeat: -1, ease: 'none', transformOrigin: '50% 50%' })
@@ -1111,13 +1169,13 @@ export function useReferenceSolutionAnimations(layout: ServiceLayout) {
       // Digital Presence integration sequence: text first, then orb + icons settle into orbit as the section is scrubbed.
       const integrationSequence = root.querySelector<HTMLElement>('[data-rs-integration-sequence]')
       if (integrationSequence) {
-        const pin = integrationSequence.querySelector<HTMLElement>('[data-rs-integration-pin]')
+        const integrationRail = integrationSequence.parentElement
         const intro = integrationSequence.querySelector<HTMLElement>('[data-rs-integration-intro]')
         const stage = integrationSequence.querySelector<HTMLElement>('[data-rs-integration-stage]')
         const hub = integrationSequence.querySelector<HTMLElement>('[data-rs-integration-hub]')
         const path = integrationSequence.querySelector<SVGElement>('[data-rs-integration-path]')
         const items = Array.from(integrationSequence.querySelectorAll<HTMLElement>('[data-rs-integration-item]'))
-        if (pin && intro && stage && hub && items.length) {
+        if (integrationRail && intro && stage && hub && items.length) {
           const getRadius = () => {
             const rect = stage.getBoundingClientRect()
             const mobile = rect.width < 640
@@ -1129,7 +1187,7 @@ export function useReferenceSolutionAnimations(layout: ServiceLayout) {
           }
           const angleFor = (index: number) => -Math.PI / 2 + (Math.PI * 2 * index) / items.length
 
-          gsap.set(intro, { autoAlpha: 1, y: 0, scale: 1 })
+          gsap.set(intro, { autoAlpha: 1, y: 0, scale: 1, '--dp-intro-opacity':1, '--dp-intro-y':'0px' })
           gsap.set(stage, { autoAlpha: 0 })
           gsap.set(hub, { autoAlpha: 0, scale: .58 })
           if (path) gsap.set(path, { autoAlpha: 0, scale: .88, transformOrigin: '50% 50%' })
@@ -1138,49 +1196,31 @@ export function useReferenceSolutionAnimations(layout: ServiceLayout) {
             const { rx, ry } = getRadius()
             const sx = Math.cos(angle) * rx * .2 + (index % 2 ? 34 : -34)
             const sy = Math.sin(angle) * ry * .16 + (index % 3 - 1) * 24
-            gsap.set(item, { x: sx, y: sy, autoAlpha: 0, scale: .38, rotation: index % 2 ? 12 : -12 })
+            gsap.set(item, { '--orbit-x': sx, '--orbit-y': sy, autoAlpha: 0, scale: .38, rotation: index % 2 ? 12 : -12 })
           })
 
-          const tl = gsap.timeline({ paused: true, defaults: { ease: 'none' } })
-            .fromTo(intro, { autoAlpha: 0, y: 26, scale: .985 }, { autoAlpha: 1, y: 0, scale: 1, duration: .55, ease: 'power3.out' })
-            .to({}, { duration: .72 })
-            .to(intro, { autoAlpha: 0, y: -26, scale: .96, duration: .48, ease: 'power2.inOut' })
-            .to(stage, { autoAlpha: 1, duration: .16 }, '-=.08')
-            .to(hub, { autoAlpha: 1, scale: 1, duration: .66, ease: 'back.out(1.35)' }, '<')
-          if (path) tl.to(path, { autoAlpha: .42, scale: 1, duration: .52, ease: 'power2.out' }, '-=.48')
-          tl.to(items, {
-            x: (index: number) => { const { rx } = getRadius(); return Math.cos(angleFor(index)) * rx },
-            y: (index: number) => { const { ry } = getRadius(); return Math.sin(angleFor(index)) * ry },
-            autoAlpha: 1,
-            scale: 1,
-            rotation: 0,
-            duration: .62,
-            stagger: .095,
-            ease: 'back.out(1.45)'
-          }, '-=.18')
-          .to({}, { duration: .7 })
-
-          const distance = () => Math.round(Math.max(window.innerHeight, 680) * (compact ? 2.55 : 2.2))
-          const trigger = ScrollTrigger.create({
-            animation: tl,
-            trigger: integrationSequence,
-            start: () => `top top+=${compact ? 52 : 68}`,
-            end: () => `+=${distance()}`,
-            pin,
-            pinSpacing: true,
-            scrub: .58,
-            anticipatePin: 1,
-            invalidateOnRefresh: true,
-            onRefresh: () => {
-              if (tl.progress() > .58) {
-                items.forEach((item, index) => {
-                  const { rx, ry } = getRadius()
-                  gsap.set(item, { x: Math.cos(angleFor(index)) * rx, y: Math.sin(angleFor(index)) * ry })
-                })
-              }
-            }
-          })
-          cleanups.push(() => { trigger.kill(true); tl.kill() })
+          const state={progress:0}
+          const clamp=(n:number)=>Math.max(0,Math.min(1,n))
+          const render=()=>{
+            const p=state.progress
+            const text=1-clamp((p-.18)/.2)
+            intro.style.setProperty('--dp-intro-opacity',String(text))
+            intro.style.setProperty('--dp-intro-y',`${-26*(1-text)}px`)
+            gsap.set(intro,{visibility:text>0?'visible':'hidden'})
+            const reveal=clamp((p-.36)/.28)
+            gsap.set(stage,{autoAlpha:reveal})
+            gsap.set(hub,{autoAlpha:reveal,scale:.58+.42*reveal})
+            if(path)gsap.set(path,{autoAlpha:reveal*.42,scale:.88+.12*reveal})
+            const {rx,ry}=getRadius()
+            items.forEach((item,i)=>{
+              const amount=clamp((p-.4-i*.025)/.3)
+              const eased=1-Math.pow(1-amount,3)
+              gsap.set(item,{'--orbit-x':Math.cos(angleFor(i))*rx*(.2+.8*eased),'--orbit-y':Math.sin(angleFor(i))*ry*(.2+.8*eased),autoAlpha:amount,scale:.38+.62*eased,rotation:0})
+            })
+          }
+          render()
+          const tl=gsap.fromTo(state,{progress:0},{progress:1,ease:'none',onUpdate:render,scrollTrigger:{trigger:integrationRail,start:'top top+=80',end:'bottom bottom',scrub:.9,onRefresh:render,onLeaveBack:()=>{state.progress=0;render()}}})
+          cleanups.push(()=>{tl.scrollTrigger?.kill();tl.kill()})
 
           items.forEach((item, index) => {
             const bubble = item.querySelector<HTMLElement>('i')
@@ -1259,9 +1299,9 @@ export function useReferenceSolutionAnimations(layout: ServiceLayout) {
         const trust = webHero.querySelector<HTMLElement>('[data-rs-hero-trust]')
         if (mockup) {
           const initial = compact
-            ? { rotationX: 12.5, rotationY: -1.1, rotationZ: -.32, scale: .95, y: 26 }
-            : { rotationX: 19.5, rotationY: -1.5, rotationZ: -.42, scale: .938, y: 34 }
-          gsap.set(mockup, { transformPerspective: compact ? 1700 : 2200, transformOrigin: '50% 100%', force3D: true })
+            ? { rotationX: -12, rotationY: 0, rotationZ: 0, scale: 1, y: 0 }
+            : { rotationX: -22, rotationY: 0, rotationZ: 0, scale: 1, y: 0 }
+          gsap.set(mockup, { transformPerspective: compact ? 1200 : 1600, transformOrigin: '50% 0%', force3D: true })
           const settleTween = gsap.fromTo(mockup, initial, {
             rotationX: 0, rotationY: 0, rotationZ: 0, scale: 1, y: 0,
             ease: 'none',
@@ -1360,73 +1400,11 @@ export function useReferenceSolutionAnimations(layout: ServiceLayout) {
         }
       }
 
-      // Website Development / Website System V44: CSS sticky stage + one scrubbed timeline.
-      // The outer track owns scroll distance; the deck itself stays sticky in the viewport.
-      // This avoids ScrollTrigger pin drift and release jumps while preserving reversible scroll.
+      // Cards remain in document flow; successive sticky offsets preserve the reference's visible stack.
       const webStackCards = Array.from(root.querySelectorAll<HTMLElement>('[data-rs-web-stack-card]'))
-      if (webStackCards.length) {
-        const webStack = webStackCards[0].parentElement as HTMLElement | null
-        const webTrack = webStack?.closest<HTMLElement>('[data-rs-web-stack-track]') ?? null
-
-        webStackCards.forEach((card, index) => gsap.set(card, {
-          zIndex: index + 1,
-          force3D: true,
-          transformOrigin: '50% 0%',
-          backfaceVisibility: 'hidden',
-          autoAlpha: 1
-        }))
-
-        if (compact || !webStack || !webTrack) {
-          const arrival = gsap.fromTo(webStackCards,
-            { y: 22, autoAlpha: .82, scale: .992 },
-            { y: 0, autoAlpha: 1, scale: 1, duration: .6, stagger: .08, ease: 'power3.out', scrollTrigger: { trigger: webStack || webStackCards[0], start: 'top 88%', once: true } }
-          )
-          cleanups.push(() => arrival.kill())
-        } else {
-          gsap.set(webStackCards[0], { yPercent: 0, y: 0, scale: 1, rotation: 0 })
-          webStackCards.slice(1).forEach((card, index) => gsap.set(card, {
-            yPercent: 110 + index * 3,
-            y: 0,
-            scale: .988,
-            rotation: index % 2 ? .14 : -.14
-          }))
-
-          const stackTimeline = gsap.timeline({
-            defaults: { ease: 'none' },
-            scrollTrigger: {
-              trigger: webTrack,
-              start: 'top 96px',
-              end: 'bottom bottom',
-              scrub: .62,
-              invalidateOnRefresh: true,
-              fastScrollEnd: true
-            }
-          })
-
-          const arrivals = [0.15, 1.15, 2.15]
-          webStackCards.slice(1).forEach((card, localIndex) => {
-            const index = localIndex + 1
-            const at = arrivals[localIndex] ?? (localIndex + .15)
-            stackTimeline.to(card, { yPercent: 0, y: 0, scale: 1, rotation: 0, duration: .72 }, at)
-            webStackCards.slice(0, index).forEach((previous, previousIndex) => {
-              const depth = index - previousIndex
-              stackTimeline.to(previous, {
-                y: -Math.min(15, depth * 5),
-                scale: 1 - Math.min(.022, depth * .006),
-                autoAlpha: 1,
-                duration: .64
-              }, at + .06)
-            })
-          })
-          // Explicit tail creates a short settled hold with card 04 fully over card 03.
-          stackTimeline.to({}, { duration: .85 }, 3.1)
-
-          cleanups.push(() => {
-            stackTimeline.scrollTrigger?.kill(true)
-            stackTimeline.kill()
-          })
-        }
-      }
+      webStackCards.forEach((card,index)=> {
+        gsap.set(card,{zIndex:index+1,autoAlpha:1,clearProps:'transform'})
+      })
 
       const webTemplates = Array.from(root.querySelectorAll<HTMLElement>('[data-rs-web-template]'))
       if (webTemplates.length) {
@@ -1439,12 +1417,12 @@ export function useReferenceSolutionAnimations(layout: ServiceLayout) {
         const dome = webHow.querySelector<HTMLElement>('[data-rs-web-how-dome]')
         const cards = Array.from(webHow.querySelectorAll<HTMLElement>('[data-rs-web-how-card]'))
         if (dome) {
-          const sweep = dome.querySelector<HTMLElement>('i')
+          const sweep = dome.querySelector<HTMLElement>('[data-rs-web-how-sweep]')
           const pulse = gsap.to(dome, { scale: 1.012, opacity: .97, duration: 3.2, repeat: -1, yoyo: true, ease: 'sine.inOut', transformOrigin: '50% 100%', paused: true })
           let sweepTween: gsap.core.Tween | null = null
           if (sweep) {
-            gsap.set(sweep, { transformOrigin: '50% 100%', rotation: -118, force3D: true })
-            sweepTween = gsap.to(sweep, { rotation: 246, duration: 4.9, repeat: -1, ease: 'none', paused: true })
+            gsap.set(sweep, { transformOrigin: '50% 50%', rotation: -118, force3D: true })
+            sweepTween = gsap.to(sweep, { rotation: 242, duration: 16, repeat: -1, ease: 'none', paused: true })
           }
           const motionTrigger = ScrollTrigger.create({
             trigger: webHow,
@@ -1543,10 +1521,21 @@ export function useReferenceSolutionAnimations(layout: ServiceLayout) {
 
 
       // Home-06 Growth System: coordinated 2-1-2 reveal rhythm closer to the requested reference cards.
+      const socialDisplay=root.querySelector('[data-rs-social-growth-section]')
+      if(socialDisplay){
+        const loops=gsap.timeline({repeat:-1,yoyo:true,defaults:{duration:1.6,ease:'sine.inOut'},scrollTrigger:{trigger:socialDisplay,start:'top bottom',end:'bottom top',toggleActions:'play pause resume pause'}})
+        loops.to(socialDisplay.querySelectorAll('.social-timeline__item'),{x:(i:number)=>i%2?16:-10,stagger:.1},0)
+          .to(socialDisplay.querySelectorAll('.social-workflow__item span'),{scaleX:.6,transformOrigin:'left center',stagger:.15},0)
+          .to(socialDisplay.querySelectorAll('.social-dashboard__bars i'),{scaleY:(i:number)=>.45+(i%5)*.12,transformOrigin:'bottom',stagger:.04},0)
+          .to(socialDisplay.querySelectorAll('.social-ticket-fan i'),{rotation:(i:number)=>(i-1.5)*22,y:-12,stagger:.08},0)
+          .to(socialDisplay.querySelectorAll('.social-collab__globe img'),{rotation:15,scale:1.05},0)
+        cleanups.push(()=>loops.kill())
+      }
+
       const socialGrowthGrid = root.querySelector<HTMLElement>('[data-rs-social-growth-grid]')
       const socialGrowthCards = Array.from(root.querySelectorAll<HTMLElement>('[data-rs-social-growth-card]'))
       if (socialGrowthGrid && socialGrowthCards.length) {
-        const [firstCard, secondCard, thirdCard, fourthCard, fifthCard] = socialGrowthCards
+        const [firstCard, secondCard, thirdCard, fourthCard] = socialGrowthCards
         const reveal = gsap.timeline({
           scrollTrigger: { trigger: socialGrowthGrid, start: compact ? 'top 90%' : 'top 84%', once: true },
           defaults: { ease: 'power3.out' }
@@ -1557,20 +1546,15 @@ export function useReferenceSolutionAnimations(layout: ServiceLayout) {
             compact ? { y: 24, autoAlpha: 0, scale: .988 } : { y: 36, autoAlpha: 0, scale: .974 },
             { y: 0, autoAlpha: 1, scale: 1, duration: .66, stagger: .08 }, 0)
         }
-        if (thirdCard) {
-          reveal.fromTo(thirdCard,
-            compact ? { y: 28, autoAlpha: 0, scale: .988 } : { y: 42, autoAlpha: 0, scale: .972 },
-            { y: 0, autoAlpha: 1, scale: 1, duration: .74 }, .18)
-        }
-        if (fourthCard && fifthCard) {
-          reveal.fromTo([fourthCard, fifthCard],
+        if (thirdCard && fourthCard) {
+          reveal.fromTo([thirdCard, fourthCard],
             compact ? { y: 24, autoAlpha: 0, scale: .988 } : { y: 34, autoAlpha: 0, scale: .976 },
-            { y: 0, autoAlpha: 1, scale: 1, duration: .64, stagger: .08 }, .34)
+            { y: 0, autoAlpha: 1, scale: 1, duration: .68, stagger: .08 }, .24)
         }
 
         socialGrowthCards.forEach((card, index) => {
           const visual = card.querySelector<HTMLElement>('[data-rs-social-growth-visual]')
-          if (visual) reveal.fromTo(visual, { y: 18, autoAlpha: 0, scale: .985 }, { y: 0, autoAlpha: 1, scale: 1, duration: .52 }, index < 2 ? .14 + index * .06 : index === 2 ? .3 : .46 + (index - 3) * .06)
+          if (visual) reveal.fromTo(visual, { y: 18, autoAlpha: 0, scale: .985 }, { y: 0, autoAlpha: 1, scale: 1, duration: .52 }, index < 2 ? .14 + index * .06 : .38 + (index - 2) * .06)
 
           if (index === 0) {
             const items = Array.from(card.querySelectorAll<HTMLElement>('.social-timeline__item'))
@@ -1658,33 +1642,6 @@ export function useReferenceSolutionAnimations(layout: ServiceLayout) {
           const softTween = gsap.to(arcLightSoft, { rotation: 374, duration: 11.6, repeat: -1, ease: 'none' })
           cleanups.push(() => softTween.kill())
         }
-      }
-
-      // Home-06 communication metrics: right-side glow sits idle, then slides left on hover with a subtle border polish.
-      const socialMetricCards = Array.from(root.querySelectorAll<HTMLElement>('[data-rs-social-communication] [data-rs-metric-card]'))
-      if (socialMetricCards.length && !compact && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
-        socialMetricCards.forEach((card) => {
-          const setLineRight = () => gsap.set(card, { '--rs-comm-line-left': `${Math.max(card.clientWidth - 18, 14)}px` } as gsap.TweenVars)
-          setLineRight()
-          gsap.set(card, { '--rs-comm-glow-shift': '0%', '--rs-comm-line-opacity': .52 } as gsap.TweenVars)
-          const enter = () => {
-            gsap.to(card, { y: -6, duration: .28, ease: 'power3.out', overwrite: 'auto' })
-            gsap.to(card, { '--rs-comm-glow-shift': '-78%', '--rs-comm-line-left': '14px', '--rs-comm-line-opacity': .92, duration: .5, ease: 'power3.out', overwrite: 'auto' } as gsap.TweenVars)
-          }
-          const leave = () => {
-            gsap.to(card, { y: 0, duration: .3, ease: 'power3.out', overwrite: 'auto' })
-            gsap.to(card, { '--rs-comm-glow-shift': '0%', '--rs-comm-line-left': `${Math.max(card.clientWidth - 18, 14)}px`, '--rs-comm-line-opacity': .52, duration: .4, ease: 'power3.out', overwrite: 'auto' } as gsap.TweenVars)
-          }
-          const onResize = () => setLineRight()
-          window.addEventListener('resize', onResize)
-          card.addEventListener('pointerenter', enter)
-          card.addEventListener('pointerleave', leave)
-          cleanups.push(() => {
-            window.removeEventListener('resize', onResize)
-            card.removeEventListener('pointerenter', enter)
-            card.removeEventListener('pointerleave', leave)
-          })
-        })
       }
 
       // Home-06 communication orbit: reference-style glowing platform, beam/cylinders and rotating connected icon ring.
@@ -1777,5 +1734,5 @@ export function useReferenceSolutionAnimations(layout: ServiceLayout) {
       cleanups.forEach((fn) => fn())
       ctx.revert()
     }
-  }, [layout])
+  }, [layout, dataDependency])
 }

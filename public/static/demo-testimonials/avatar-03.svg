@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 160 160" role="img" aria-label="Demo avatar 03">
+  <rect width="160" height="160" rx="80" fill="#DEF1F0"/>
+  <circle cx="80" cy="60" r="30" fill="#00BBA0" opacity="0.9"/>
+  <path d="M28 151c4-37 24-57 52-57s48 20 52 57" fill="#00443E"/>
+  <circle cx="69" cy="56" r="9" fill="#FF960D" opacity="0.85"/>
+  <text x="80" y="146" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="700" fill="#DEF1F0">DEMO 03</text>
+</svg>

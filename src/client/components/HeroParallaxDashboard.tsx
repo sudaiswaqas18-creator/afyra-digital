@@ -1,4 +1,4 @@
-import type { CSSProperties, ReactNode } from 'react'
+import { useState, type CSSProperties, type ReactNode } from 'react'
 
 const bars = [42, 58, 47, 72, 63, 88, 76, 96]
 const months = ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep']
@@ -101,6 +101,10 @@ function DashboardShell({ children }: { children: ReactNode }) {
 }
 
 function PatientChart() {
+  const [chartMode, setChartMode] = useState<'weekly' | 'monthly'>('monthly')
+  const activeBars = chartMode === 'monthly' ? bars : [35, 55, 48, 70, 62, 85, 92, 100]
+  const activeLabels = chartMode === 'monthly' ? months : ['W1', 'W2', 'W3', 'W4', 'W5', 'W6', 'W7', 'W8']
+
   return (
     <article
       className="af-hpd__chart-panel af-hpd__part"
@@ -110,15 +114,15 @@ function PatientChart() {
       <div className="af-db__chart-head">
         <p className="af-db__chart-title">Patient Inquiries</p>
         <div className="af-db__tabs">
-          <span>Weekly</span>
-          <span className="is-active">Monthly</span>
+          <button type="button" className={chartMode === 'weekly' ? 'is-active' : ''} onClick={() => setChartMode('weekly')} style={{ background: 'none', border: 'none', color: 'inherit', font: 'inherit', cursor: 'pointer', padding: '2px 6px' }}>Weekly</button>
+          <button type="button" className={chartMode === 'monthly' ? 'is-active' : ''} onClick={() => setChartMode('monthly')} style={{ background: 'none', border: 'none', color: 'inherit', font: 'inherit', cursor: 'pointer', padding: '2px 6px' }}>Monthly</button>
         </div>
       </div>
       <div className="af-db__bars">
-        {bars.map((height, index) => (
-          <div className="af-db__bar-col" key={months[index]}>
-            <div className={`af-db__bar ${index === bars.length - 1 ? 'is-peak' : ''}`} style={{ height: `${height}%` }} />
-            <span className="af-db__bar-label">{months[index]}</span>
+        {activeBars.map((height, index) => (
+          <div className="af-db__bar-col" key={activeLabels[index]}>
+            <div className={`af-db__bar ${index === activeBars.length - 1 ? 'is-peak' : ''}`} style={{ height: `${height}%` }} />
+            <span className="af-db__bar-label">{activeLabels[index]}</span>
           </div>
         ))}
       </div>

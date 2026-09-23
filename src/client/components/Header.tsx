@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { serviceNav } from '../data/servicePages'
+import { useLiveSolutionsNav } from '../lib/useLiveSolutionsNav'
 import { Icon } from './ui'
 
 type HeaderProps = { fromServicePage?: boolean }
@@ -16,11 +16,40 @@ const primaryNav = [
 export default function Header(_props: HeaderProps) {
   const location = useLocation()
   const [scrolled, setScrolled] = useState(false)
+  const [lightSurface,setLightSurface]=useState(false)
   const [open, setOpen] = useState(false)
   const [solutionsOpen, setSolutionsOpen] = useState(false)
   const [mobileSolutionsOpen, setMobileSolutionsOpen] = useState(false)
   const dropdownRef = useRef<HTMLLIElement>(null)
   const consultationHref = '/request-consultation'
+  const serviceNav = useLiveSolutionsNav()
+  const headerVariant = location.pathname === '/' ? 'home' : ({ '/solutions/digital-growth-marketing-strategy': 'growth', '/solutions/social-media-community-lead-communication': 'social', '/solutions/website-development': 'website', '/solutions/patient-acquisition-lead-generation': 'patient', '/solutions/digital-presence-advanced-systems': 'digital' } as Record<string, string>)[location.pathname] || 'default'
+
+  useEffect(()=>{
+    let frame=0
+    const measure=()=>{
+      frame=0
+      const header=document.getElementById('site-header')
+      const logo=header?.querySelector('.af-header__brand')
+      if(!header||!logo)return
+      const r=logo.getBoundingClientRect()
+      const stack=document.elementsFromPoint(r.left+r.width/2,Math.min(innerHeight-1,r.top+r.height/2))
+      let el=stack.find(node=>!header.contains(node)&&node!==header) as HTMLElement|null
+      let light=false
+      while(el){
+        const c=getComputedStyle(el).backgroundColor.match(/[\d.]+/g)?.map(Number)
+        if(c&&c.length>=3&&(c[3]??1)>.7){light=(c[0]*.2126+c[1]*.7152+c[2]*.0722)>150;break}
+        el=el.parentElement
+      }
+      setLightSurface(light)
+    }
+    const schedule=()=>{if(!frame)frame=requestAnimationFrame(measure)}
+    schedule()
+    const timer=setTimeout(schedule,700)
+    window.addEventListener('scroll',schedule,{passive:true})
+    window.addEventListener('resize',schedule)
+    return ()=>{cancelAnimationFrame(frame);clearTimeout(timer);window.removeEventListener('scroll',schedule);window.removeEventListener('resize',schedule)}
+  },[location.pathname])
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24)
@@ -68,7 +97,7 @@ export default function Header(_props: HeaderProps) {
   const solutionActive = location.pathname === '/solutions' || location.pathname.startsWith('/solutions/')
 
   return (
-    <header id="site-header" className={`af-header af-header--premium ${scrolled ? 'is-scrolled' : ''}`}>
+    <header id="site-header" data-logo-tone={lightSurface ? 'dark' : 'light'} className={`af-header af-header--premium af-header--${headerVariant} ${scrolled ? 'is-scrolled' : ''}`}>
       <div className="af-header__glow" aria-hidden="true" />
       <div className="af-container af-header__inner">
         <Link className="af-header__brand" to="/" aria-label="Afyra Digital home" onClick={closeAll}>
@@ -105,7 +134,17 @@ export default function Header(_props: HeaderProps) {
         </div>
       </div>
 
-      <div className={`af-drawer ${open ? 'is-open' : ''}`} role="dialog" aria-modal="true" aria-label="Menu">
+      <div
+        className={`af-drawer ${open ? 'is-open' : ''}`}
+        role="dialog"
+        aria-modal="true"
+        aria-label="Menu"
+        style={{
+          background: '#ffffff',
+          backgroundColor: '#ffffff',
+          color: '#00443e'
+        }}
+      >
         <div className="af-drawer__head"><Link className="af-header__brand" to="/" onClick={closeAll}><img src="/static/img/logo-mark.png" alt="" className="af-header__logo" /><span className="af-header__name">AFYRA DIGITAL</span></Link><button className="af-drawer__close" onClick={() => setOpen(false)} aria-label="Close menu"><span className="af-control-close" aria-hidden="true" /></button></div>
         <ul className="af-drawer__nav">
           <li><Link to="/" onClick={closeAll}>Home</Link></li>

@@ -1,18 +1,28 @@
 import { useState, type CSSProperties } from 'react'
 import { faqs } from '../data/content'
+import { useHomeSection } from '../lib/liveContent'
+import { useScopedFaqs } from '../lib/useScopedFaqs'
 import { Icon, SectionHead } from './ui'
 
 const faqSparkles = [
-  ['31%', '72px', '2px', '.15s'], ['34%', '52px', '3px', '.65s'], ['37%', '92px', '2px', '1.25s'],
-  ['40%', '43px', '2px', '.95s'], ['42%', '76px', '4px', '1.55s'], ['44%', '57px', '2px', '.35s'],
-  ['46%', '96px', '3px', '2.1s'], ['48%', '34px', '2px', '.8s'], ['49.5%', '65px', '3px', '1.35s'],
-  ['51%', '48px', '4px', '.1s'], ['52.5%', '83px', '2px', '1.8s'], ['54%', '36px', '2px', '.55s'],
-  ['56%', '70px', '3px', '1.15s'], ['58%', '98px', '2px', '2.3s'], ['60%', '49px', '3px', '.4s'],
-  ['62.5%', '77px', '2px', '1.65s'], ['65%', '55px', '3px', '.9s'], ['68%', '87px', '2px', '2s']
+  ['30%', '24px', '2px', '.15s'], ['33%', '14px', '3px', '.65s'], ['36%', '22px', '2px', '1.25s'],
+  ['39%', '10px', '2.5px', '.95s'], ['42%', '18px', '3.5px', '1.55s'], ['44%', '8px', '2px', '.35s'],
+  ['46%', '16px', '3px', '2.1s'], ['48%', '4px', '2px', '.8s'], ['49.5%', '12px', '3.5px', '1.35s'],
+  ['51%', '6px', '4px', '.1s'], ['52.5%', '15px', '2px', '1.8s'], ['54%', '5px', '2px', '.55s'],
+  ['56%', '14px', '3px', '1.15s'], ['58%', '18px', '2px', '2.3s'], ['60%', '11px', '3px', '.4s'],
+  ['63%', '20px', '2px', '1.65s'], ['66%', '15px', '3px', '.9s'], ['69%', '26px', '2px', '2s']
 ] as const
 
 export default function Faqs() {
   const [open, setOpen] = useState(0)
+  const { section } = useHomeSection('faqs')
+  const scopedItems = useScopedFaqs(faqs.items, 'home')
+  const content = section ? {
+    eyebrow: { tag: section.eyebrow_tag || faqs.eyebrow.tag, text: section.eyebrow_text || faqs.eyebrow.text },
+    title: section.title || faqs.title,
+    description: section.description || faqs.description,
+    items: scopedItems
+  } : { ...faqs, items: scopedItems }
 
   return (
     <section id="faqs" className="af-section af-faq">
@@ -20,6 +30,15 @@ export default function Faqs() {
         <span className="af-faq__arc-glow" />
         <span className="af-faq__arc-halo" />
         <span className="af-faq__arc-beam" />
+        <div className="af-faq__spark-field">
+          {faqSparkles.map(([left, top, size, delay], index) => (
+            <span
+              className={`af-faq__spark ${index === 9 ? 'af-faq__spark--amber' : ''}`}
+              key={`${left}-${top}`}
+              style={{ '--af-spark-x': left, '--af-spark-y': top, '--af-spark-size': size, '--af-spark-delay': delay } as CSSProperties}
+            />
+          ))}
+        </div>
         <svg viewBox="0 0 1400 230" preserveAspectRatio="none" className="af-faq__arc-line">
           <defs>
             <linearGradient id="afArcV46" x1="0" y1="0" x2="1" y2="0">
@@ -35,29 +54,22 @@ export default function Faqs() {
               <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
             </filter>
           </defs>
-          <path className="af-faq__arc-stroke af-faq__arc-stroke--glow" d="M0 205 Q700 -44 1400 205" fill="none" stroke="url(#afArcV46)" strokeWidth="10" opacity=".18" filter="url(#afArcGlowV46)" />
+          {/* Solid background covering the BACK side (Process section above the arch) */}
+          <path d="M -20 205 Q 700 -44 1420 205 L 1420 -300 L -20 -300 Z" fill="#03110f" />
+          <path className="af-faq__arc-stroke af-faq__arc-stroke--glow" d="M0 205 Q700 -44 1400 205" fill="none" stroke="url(#afArcV46)" strokeWidth="10" opacity=".24" filter="url(#afArcGlowV46)" />
           <path className="af-faq__arc-stroke af-faq__arc-stroke--core" d="M0 205 Q700 -44 1400 205" fill="none" stroke="url(#afArcV46)" strokeWidth="2.2" filter="url(#afArcGlowV46)" />
         </svg>
-        <div className="af-faq__spark-field">
-          {faqSparkles.map(([left, top, size, delay], index) => (
-            <span
-              className={`af-faq__spark ${index === 9 ? 'af-faq__spark--amber' : ''}`}
-              key={`${left}-${top}`}
-              style={{ '--af-spark-x': left, '--af-spark-y': top, '--af-spark-size': size, '--af-spark-delay': delay } as CSSProperties}
-            />
-          ))}
-        </div>
       </div>
 
       <div className="af-container af-container--narrow">
         <SectionHead
-          eyebrow={faqs.eyebrow}
-          title={faqs.title}
-          description={faqs.description}
+          eyebrow={content.eyebrow}
+          title={content.title}
+          description={content.description}
         />
 
         <div className="af-faq__wrap" data-af-stagger>
-          {faqs.items.map((item, i) => {
+          {content.items.map((item, i) => {
             const isOpen = open === i
             return (
               <div

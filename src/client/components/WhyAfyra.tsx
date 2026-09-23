@@ -1,18 +1,28 @@
 import { whyAfyra } from '../data/content'
+import { useHomeSection } from '../lib/liveContent'
 import { Eyebrow, Icon } from './ui'
 
 export default function WhyAfyra() {
+  const { section } = useHomeSection('why_afyra')
+  const content = section ? {
+    eyebrow: { tag: section.eyebrow_tag || whyAfyra.eyebrow.tag, text: section.eyebrow_text || whyAfyra.eyebrow.text },
+    title: section.title || whyAfyra.title,
+    columns: [
+      { heading: 'What we focus on', tone: 'positive' as const, items: (section.items || []).filter((item) => item.group_key === 'focus').map((item) => item.title || item.label || '') },
+      { heading: 'What we avoid', tone: 'negative' as const, items: (section.items || []).filter((item) => item.group_key === 'avoid').map((item) => item.title || item.label || '') }
+    ]
+  } : whyAfyra
   return (
     <section id="why-afyra" className="af-section af-why">
       <div className="af-why__glow" data-af-breathe aria-hidden="true" />
       <div className="af-container">
         <div className="af-sec-head af-text-center">
-          <Eyebrow tag={whyAfyra.eyebrow.tag} text={whyAfyra.eyebrow.text} />
-          <h2 className="af-h2 af-split">{whyAfyra.title}</h2>
+          <Eyebrow tag={content.eyebrow.tag} text={content.eyebrow.text} />
+          <h2 className="af-h2 af-split">{content.title}</h2>
         </div>
 
         <div className="af-why__grid" data-af-stagger>
-          {whyAfyra.columns.map((col) => (
+          {content.columns.map((col) => (
             <div
               className={`af-why__card af-why__card--${col.tone}`}
               key={col.heading}

@@ -674,6 +674,27 @@
   transform: translateY(-1px);
   background: #fff;
 }
+.rq-form input.is-invalid,
+.rq-form textarea.is-invalid,
+.rq-form select.is-invalid {
+  border-color: #ef4444 !important;
+  background: #fffafa !important;
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.12) !important;
+}
+.rq-field-error {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: #dc2626;
+  font-size: 11.5px;
+  font-weight: 600;
+  margin-top: 5px;
+  animation: rqFadeIn 0.2s ease-out;
+}
+@keyframes rqFadeIn {
+  from { opacity: 0; transform: translateY(-3px); }
+  to { opacity: 1; transform: translateY(0); }
+}
 .rq-form__actions {
   display: flex;
   align-items: center;

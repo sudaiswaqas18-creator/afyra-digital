@@ -45,10 +45,17 @@ function glyph(name: string): ReactNode {
     case 'palette': return <><path d="M12 4a8 8 0 1 0 0 16h1.6a1.8 1.8 0 0 0 1.6-2.6c-.3-.6.1-1.4.8-1.4h1A3 3 0 0 0 20 13c0-5-3.6-9-8-9Z" /><circle cx="8" cy="10" r="1" fill="currentColor" stroke="none" /><circle cx="11" cy="7" r="1" fill="currentColor" stroke="none" /><circle cx="15" cy="9" r="1" fill="currentColor" stroke="none" /></>
     case 'compass': return <><circle cx="12" cy="12" r="8" /><path d="m15.5 8.5-2 5-5 2 2-5 5-2Z" /></>
     case 'headset': return <><path d="M5 13v-2a7 7 0 0 1 14 0v2" /><path d="M5 13h2v5H5a2 2 0 0 1-2-2v-1a2 2 0 0 1 2-2ZM19 13h-2v5h2a2 2 0 0 0 2-2v-1a2 2 0 0 0-2-2Z" /><path d="M17 19c-1 1.3-2.6 2-5 2" /></>
-    case 'facebook': return <path d="M14.5 6.5h-1.8a2.2 2.2 0 0 0-2.2 2.2V11H8v2.8h2.5V20h2.8v-6.2h2.4L16 11h-2.7V9c0-.4.3-.7.7-.7h1.5Z" />
-    case 'instagram': return <><rect x="5" y="5" width="14" height="14" rx="4" /><circle cx="12" cy="12" r="3.2" /><circle cx="16.8" cy="7.5" r=".8" fill="currentColor" stroke="none" /></>
+    case 'facebook': return <path fill="currentColor" stroke="none" d="M13.7 21v-8.2h2.8l.4-3.2h-3.2V7.5c0-.9.3-1.6 1.6-1.6H17V3.1c-.3 0-1.3-.1-2.5-.1-2.5 0-4.2 1.5-4.2 4.3v2.3H7.5v3.2h2.8V21z" />
+    case 'instagram': return <><rect x="5" y="5" width="14" height="14" rx="4" /><circle cx="12" cy="12" r="3.2" /><circle cx="16.2" cy="7.8" r=".65" fill="currentColor" stroke="none" /></>
+    case 'x': return <path d="M5 4h4l10 16h-4L5 4Zm14 0L5 20" />
+    case 'tiktok': return <path d="M14 3v12a4 4 0 1 1-4-4M14 3c1 4 3 5 6 5" />
+    case 'cart': return <><path d="M3 4h2l3 11h10l3-8H6"/><circle cx="9" cy="19" r="1"/><circle cx="18" cy="19" r="1"/></>
+    case 'globe': return <><circle cx="12" cy="12" r="9"/><ellipse cx="12" cy="12" rx="4" ry="9"/><path d="M3 12h18"/></>
+    case 'send': return <path d="m3 3 18 9-18 9 4-9-4-9Zm4 9h14"/>
+    case 'card': return <><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18M7 15h3"/></>
+    case 'lock': return <><rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3M12 14v3"/></>
     case 'linkedin': return <><rect x="5" y="5" width="14" height="14" rx="2.5" /><path d="M8.3 10.5V16M11.5 16v-3.3c0-1.4.8-2.3 2-2.3s2 .8 2 2.3V16M8.3 8.2h.01" /></>
-    case 'whatsapp': return <><path d="M12 4.5a7.5 7.5 0 0 0-6.6 11l-1.1 4 4-1A7.5 7.5 0 1 0 12 4.5Z" /><path d="M9.3 9.1c.3 2.7 2.1 4.8 5 5.8l1.2-1.1 1.7.8c-.2 1.1-1 1.8-2.1 2-3.7-.7-6.4-3.1-7.5-6.7.2-.9.8-1.5 1.7-1.8Z" /></>
+    case 'whatsapp': return <><path d="M20 11.7a8 8 0 0 1-11.8 7l-4.7 1.2 1.3-4.5A8 8 0 1 1 20 11.7Z" /><path fill="currentColor" stroke="none" d="M8.2 7.5c-.5 0-1.2.7-1.2 1.7 0 2.7 3.8 6.3 6.7 6.3 1 0 2-.8 2-1.5 0-.3-1.8-1.2-2-1.1l-.9.9c-1.6-.6-2.7-1.6-3.4-3.1l.8-1c.1-.2-.7-2.2-1-2.2Z" /></>
     default: return <><circle cx="12" cy="12" r="8" /><path d="M8 12h8M12 8v8" /></>
   }
 }

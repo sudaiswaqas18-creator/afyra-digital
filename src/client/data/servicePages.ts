@@ -96,7 +96,7 @@ export const servicePages: ServicePageData[] = [
       'Afyra’s positioning is simple: advertising is one component of a larger system. Strategy, content, paid campaigns, Google Business Profile, WhatsApp, lead communication, patient journey, brand authority and conversion work together.',
     features: [
       { title: 'Lead Generation', description: 'Build campaigns and inquiry systems around qualified inquiries rather than activity alone.' },
-      { title: 'Appointment-Focused Marketing', description: 'Align marketing with appointment opportunities and real business conversations.' },
+      { title: 'Appointment Marketing', description: 'Align marketing with appointment opportunities and real business conversations.' },
       { title: 'Paid Campaigns', description: 'Use paid advertising as one component of the wider growth system—not the entire strategy.' },
       { title: 'Messenger Auto-Replies', description: 'Support inquiry handling with advanced or pro Messenger auto-replies where included in the selected program.' },
       { title: 'Google Business Profile', description: 'Strengthen local visibility and discovery with advanced or pro management where included.' },

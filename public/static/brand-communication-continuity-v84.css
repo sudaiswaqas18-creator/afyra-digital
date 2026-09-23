@@ -1,0 +1,98 @@
+/* One Afyra palette and one uninterrupted page canvas. */
+.sv-page.sv-layout-02.sv-layout-02.sv-layout-02 {
+ --brand-lime:#00bba0;--brand-ink:#00443e;--brand-paper:#eef3f2;
+ background:#eef3f2!important;color:#00443e!important;
+}
+.sv-page.sv-layout-02.sv-layout-02.sv-layout-02 main,
+.sv-page.sv-layout-02.sv-layout-02.sv-layout-02 main > section,
+.sv-page.sv-layout-02.sv-layout-02.sv-layout-02 .aft-section,
+.sv-page.sv-layout-02.sv-layout-02.sv-layout-02 .af-footer.af-brand-footer {background:#eef3f2!important;}
+.sv-page.sv-layout-02.sv-layout-02.sv-layout-02 .sv-display--brand .sv-display__line,
+.sv-page.sv-layout-02.sv-layout-02.sv-layout-02 .sv-title {color:#00443e!important;}
+.sv-page.sv-layout-02.sv-layout-02.sv-layout-02 .sv-actions .sv-btn--primary,
+.sv-page.sv-layout-02.sv-layout-02.sv-layout-02 .sv-brand-filter button.is-active,
+.sv-page.sv-layout-02.sv-layout-02.sv-layout-02 .sv-brand-steps__nav button.is-active {background:#00bba0!important;border-color:#00bba0!important;color:#00443e!important;}
+.sv-page.sv-layout-02.sv-layout-02.sv-layout-02 .sv-hero-typebox__word {background-image:linear-gradient(160deg,#00443e,#00bba0)!important;}
+.sv-page.sv-layout-02.sv-layout-02.sv-layout-02 .sv-hero-sparkles,
+.sv-page.sv-layout-02.sv-layout-02.sv-layout-02 .af-brand-footer h3 {color:#00bba0!important;}
+.sv-page.sv-layout-02.sv-layout-02.sv-layout-02 .sv-typebox-corner {background:#eef3f2!important;}
+.sv-page.sv-layout-02.sv-layout-02.sv-layout-02 .sv-brand-feature-chart {background:linear-gradient(145deg,#00bba0,#008c7c)!important;}
+.sv-page.sv-layout-02.sv-layout-02.sv-layout-02 .sv-brand-feature-grid .sv-brand-display-card.is-accent {background:linear-gradient(155deg,#00bba0,#00443e)!important;}
+.sv-page.sv-layout-02.sv-layout-02.sv-layout-02 .sv-brand-steps__stage,
+.sv-page.sv-layout-02.sv-layout-02.sv-layout-02 [data-brand-step-shell],
+.sv-page.sv-layout-02.sv-layout-02.sv-layout-02 .sv-brand-feature-stage {background:rgba(255,255,255,.18)!important;}
+/* Branding rail: two equal groups, fading edges, full-width horizontal rules. */
+.sv-page.sv-layout-02.sv-layout-02 .sv-brand-reference-strip {padding:42px 0 78px!important;overflow:visible!important;}
+.sv-page.sv-layout-02.sv-layout-02 .sv-brand-reference-strip > .af-container {width:min(1480px,calc(100% - 64px))!important;max-width:1480px!important;}
+.sv-page.sv-layout-02.sv-layout-02 .sv-brand-reference-strip__title {font:400 clamp(16px,1.45vw,24px)/1.5 Arial,sans-serif!important;color:#45615d!important;margin:0 0 35px!important;}
+.sv-page.sv-layout-02.sv-layout-02 .sv-brand-reference-strip__rail {position:relative!important;height:124px!important;border:1px solid #fff!important;border-radius:0!important;overflow:visible!important;background:transparent!important;box-shadow:0 2px 5px #00443e08!important;}
+.sv-brand-reference-strip__window {width:100%;height:100%;overflow:hidden;mask-image:linear-gradient(90deg,transparent,#000 13%,#000 87%,transparent);}
+.sv-page.sv-layout-02.sv-layout-02 .sv-brand-reference-strip__rail::before,
+.sv-page.sv-layout-02.sv-layout-02 .sv-brand-reference-strip__rail::after {content:''!important;position:absolute!important;left:calc((1480px - 100vw)/2)!important;right:calc((1480px - 100vw)/2)!important;height:1px!important;width:auto!important;background:white!important;box-shadow:0 2px 3px #00443e12!important;transform:none!important;}
+.sv-page.sv-layout-02.sv-layout-02 .sv-brand-reference-strip__rail::before {top:-1px!important;bottom:auto!important;}
+.sv-page.sv-layout-02.sv-layout-02 .sv-brand-reference-strip__rail::after {bottom:-1px!important;top:auto!important;}
+.sv-page.sv-layout-02.sv-layout-02 .sv-brand-reference-strip__track {display:flex!important;align-items:center!important;width:max-content!important;height:100%!important;gap:0!important;padding:0!important;animation:none!important;opacity:1!important;visibility:visible!important;}
+.sv-brand-reference-strip__group {display:flex;align-items:center;flex:0 0 auto;width:max(1300px,calc(100vw - 80px));height:100%;}
+.sv-page.sv-layout-02.sv-layout-02 .sv-brand-reference-strip__item:nth-child(n) {display:flex!important;align-items:center!important;justify-content:center!important;flex:1 0 0!important;gap:9px!important;min-width:0!important;height:100%!important;border:0!important;padding:0 18px!important;color:#8b9c97!important;opacity:1!important;}
+.sv-page.sv-layout-02.sv-layout-02 .sv-brand-reference-strip__item b {font:600 clamp(18px,1.5vw,24px)/1.1 Arial,sans-serif!important;letter-spacing:-.04em!important;}
+.sv-page.sv-layout-02.sv-layout-02 .sv-brand-reference-strip__item .af-inline-svg-icon {color:#8b9c97!important;flex:none!important;}
+.sv-page.sv-layout-02.sv-layout-02 .sv-brand-reference-strip__point {position:absolute!important;width:18px!important;height:18px!important;border:1px solid white!important;border-radius:50%!important;background:#eef3f2!important;box-shadow:0 2px 8px #00443e20!important;z-index:5!important;}
+.sv-page.sv-layout-02.sv-layout-02 .sv-brand-reference-strip__point--tl {left:-9px!important;top:-9px!important;}.sv-page.sv-layout-02.sv-layout-02 .sv-brand-reference-strip__point--tr {right:-9px!important;top:-9px!important;}.sv-page.sv-layout-02.sv-layout-02 .sv-brand-reference-strip__point--bl {left:-9px!important;bottom:-9px!important;}.sv-page.sv-layout-02.sv-layout-02 .sv-brand-reference-strip__point--br {right:-9px!important;bottom:-9px!important;}
+/* Large outlined heart with decorative portrait rows fading behind the heading. */
+.sv-page.sv-layout-02.sv-layout-02 .aft-section--brand {padding:65px 0 50px!important;}
+.sv-page.sv-layout-02.sv-layout-02 .aft-heart.aft-heart--reference {position:relative!important;width:min(790px,88vw)!important;height:auto!important;aspect-ratio:700/622!important;margin:0 auto -300px!important;transform:none!important;z-index:0!important;overflow:hidden!important;mask-image:linear-gradient(#000 0%,#000 35%,transparent 83%);}
+.aft-heart__portrait-mask {position:absolute;inset:0;mask:url('/static/testimonials/heart-shape.webp') center/100% 100% no-repeat;}
+.aft-heart__portrait-grid {display:grid;grid-template-columns:repeat(7,1fr);gap:18px;padding:44px 18px 0;opacity:.34;filter:grayscale(1);}
+.aft-heart__portrait-grid img {display:block;width:100%;aspect-ratio:1;border-radius:50%;object-fit:cover;box-shadow:0 4px 8px #00443e12;}
+.aft-heart__reference-border {position:absolute;inset:0;width:100%;height:100%;filter:hue-rotate(75deg);}
+.sv-page.sv-layout-02.sv-layout-02 .aft-section--brand .aft-head {position:relative!important;z-index:2!important;margin:0 auto 38px!important;max-width:820px!important;}
+.sv-page.sv-layout-02.sv-layout-02 .aft-section--brand .aft-head h2 {font-family:Arial,sans-serif!important;font-size:clamp(30px,3.15vw,52px)!important;line-height:1.08!important;color:#00443e!important;max-width:820px!important;}
+/* Pricing: plan information above three inset package panels. */
+.sv-page.sv-layout-02.sv-layout-02 .sv-brand-pricing {padding:22px 0 58px!important;overflow:visible!important;}
+.sv-page.sv-layout-02.sv-layout-02 .sv-brand-pricing > .af-container {width:min(1060px,calc(100% - 48px))!important;max-width:1060px!important;}
+.sv-page.sv-layout-02.sv-layout-02 .sv-brand-pricing__watermark {position:relative!important;left:auto!important;top:auto!important;transform:none!important;text-align:center!important;margin:0 0 30px!important;font:700 clamp(60px,8.5vw,135px)/1.05 Arial,sans-serif!important;letter-spacing:-.035em!important;color:#f6f9f8!important;text-shadow:0 3px 4px #00443e12,0 -1px 0 white!important;}
+.sv-page.sv-layout-02.sv-layout-02 [data-brand-pricing-head] {position:absolute!important;width:1px!important;height:1px!important;overflow:hidden!important;clip-path:inset(50%)!important;}
+.sv-page.sv-layout-02.sv-layout-02 .sv-brand-pricing__frame {padding:56px 34px 24px!important;border:1px solid white!important;border-radius:0!important;margin:0!important;background:transparent!important;box-shadow:0 0 4px #00443e15!important;}
+.sv-page.sv-layout-02.sv-layout-02 .sv-brand-pricing__grid {display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:18px!important;align-items:stretch!important;}
+.sv-page.sv-layout-02.sv-layout-02 .sv-brand-price-card,
+.sv-page.sv-layout-02.sv-layout-02 .sv-brand-price-card.is-popular,
+.sv-page.sv-layout-02.sv-layout-02 .sv-brand-price-card:hover {display:flex!important;flex-direction:column!important;padding:0!important;min-height:0!important;border:0!important;border-radius:0!important;box-shadow:none!important;background:transparent!important;transform:none!important;overflow:visible!important;}
+.sv-page.sv-layout-02.sv-layout-02 .sv-brand-price-card::before {display:none!important;}
+.sv-page.sv-layout-02.sv-layout-02 .sv-brand-price-card__head {padding:0 12px!important;}
+.sv-page.sv-layout-02.sv-layout-02 .sv-brand-price-card__head h3 {font:500 18px/1.25 Arial,sans-serif!important;margin:0 0 8px!important;}
+.sv-page.sv-layout-02.sv-layout-02 .sv-brand-price-card__head p {min-height:38px!important;font-size:12px!important;line-height:1.45!important;}
+.sv-page.sv-layout-02.sv-layout-02 .sv-brand-price-card__value {padding:0 12px!important;margin:20px 0 22px!important;font:600 clamp(28px,2.7vw,42px)/1 Arial,sans-serif!important;display:flex!important;align-items:baseline!important;gap:3px!important;white-space:nowrap!important;}
+.sv-page.sv-layout-02.sv-layout-02 .sv-brand-price-card__value span,
+.sv-page.sv-layout-02.sv-layout-02 .sv-brand-price-card__value small {font-size:11px!important;}
+.sv-page.sv-layout-02.sv-layout-02 .sv-brand-price-card__popular {position:absolute!important;top:-26px!important;right:12px!important;font-size:9px!important;padding:4px 8px!important;}
+.sv-brand-price-card__package {display:flex;flex-direction:column;flex:1;padding:24px 22px 18px;border:1px solid white;border-radius:9px;background:#f7f9f8;box-shadow:0 3px 8px #00443e20;}
+.sv-page.sv-layout-02.sv-layout-02 .sv-brand-price-card__includes {padding:0!important;background:transparent!important;box-shadow:none!important;border:0!important;flex:1!important;}
+.sv-page.sv-layout-02.sv-layout-02 .sv-brand-price-card__includes li {font-size:13px!important;line-height:1.45!important;color:#315852!important;}
+.sv-page.sv-layout-02.sv-layout-02 .sv-brand-price-card__includes ul {gap:15px!important;margin:20px 0 28px!important;}
+.sv-page.sv-layout-02.sv-layout-02 .sv-brand-price-card .sv-btn {display:flex!important;justify-content:center!important;width:100%!important;min-height:40px!important;padding:10px 8px!important;border-radius:5px!important;border:1px solid white!important;background-color:#e5ece9;background-image:none!important;color:#00443e;box-shadow:0 3px 6px #00443e20;font-size:12px!important;transition:none!important;}
+.sv-page.sv-layout-02.sv-layout-02 .sv-brand-price-card .af-card-detail-link {font-size:10px!important;margin-top:10px!important;}
+.sv-page.sv-layout-02.sv-layout-02 .sv-brand-pricing__terms {font-size:11px!important;line-height:1.5!important;margin:24px 0 0!important;color:#56706b!important;}
+.sv-page.sv-layout-02.sv-layout-02 .sv-brand-pricing__dot {width:13px!important;height:13px!important;background:#eef3f2!important;border:1px solid white!important;box-shadow:0 2px 6px #00443e20!important;}
+@media(max-width:760px) {
+ .sv-page.sv-layout-02.sv-layout-02 .sv-brand-reference-strip__rail {height:100px!important;}
+ .sv-brand-reference-strip__group {width:1100px;}
+ .sv-page.sv-layout-02.sv-layout-02 .aft-heart.aft-heart--reference {width:94vw!important;margin-bottom:-42vw!important;}
+ .aft-heart__portrait-grid {gap:8px;padding:22px 8px 0;}
+ .sv-page.sv-layout-02.sv-layout-02 .aft-section--brand .aft-head {padding:0 18px!important;}
+ .sv-page.sv-layout-02.sv-layout-02 .sv-brand-pricing__grid {grid-template-columns:1fr!important;gap:42px!important;}
+ .sv-page.sv-layout-02.sv-layout-02 .sv-brand-pricing__frame {padding:38px 18px 20px!important;}
+ .sv-page.sv-layout-02.sv-layout-02 .sv-brand-price-card__head p {min-height:0!important;}
+}
+@media(prefers-reduced-motion:reduce) {
+ .sv-page.sv-layout-02.sv-layout-02 .sv-brand-reference-strip__track {transform:none!important;}
+ .sv-page.sv-layout-02.sv-layout-02 .sv-brand-price-card:focus-within .sv-brand-price-card__package {border-color:#00bba0;}
+}
+.sv-page.sv-layout-02.sv-layout-02 .sv-brand-reference-strip__rail::before,
+.sv-page.sv-layout-02.sv-layout-02 .sv-brand-reference-strip__rail::after {left:calc(50% - 50vw)!important;right:auto!important;width:100vw!important;}
+.sv-page.sv-layout-02.sv-layout-02 .sv-brand-pricing__frame::before,
+.sv-page.sv-layout-02.sv-layout-02 .sv-brand-pricing__frame::after {content:''!important;position:absolute!important;left:calc(50% - 50vw)!important;width:100vw!important;height:1px!important;background:white!important;box-shadow:0 1px 3px #00443e12!important;transform:none!important;}
+.sv-page.sv-layout-02.sv-layout-02 .sv-brand-pricing__frame::before {top:-1px!important;}
+.sv-page.sv-layout-02.sv-layout-02 .sv-brand-pricing__frame::after {bottom:-1px!important;}
+@media(min-width:761px){.sv-page.sv-layout-02.sv-layout-02 .aft-heart.aft-heart--reference {margin-bottom:-380px!important;}}
+.sv-page.sv-layout-02.sv-layout-02 .sv-brand-reference-strip__track {transform:translate3d(var(--brand-marquee-x,0%),0,0)!important;will-change:transform;}
+@media(prefers-reduced-motion:reduce){.sv-page.sv-layout-02.sv-layout-02 .sv-brand-reference-strip__track {transform:none!important;}}

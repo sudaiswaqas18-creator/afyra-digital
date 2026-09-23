@@ -7,11 +7,12 @@
     "preview": "wrangler pages dev dist",
     "deploy": "npm run build && wrangler pages deploy dist",
     "cf-typegen": "wrangler types --env-interface CloudflareBindings",
-    "build:client": "vite build --mode client",
+    "build:client": "node scripts/verify-testimonial-style-wiring.mjs && vite build --mode client && node scripts/verify-testimonial-css-output.mjs",
     "build:worker": "vite build && node scripts/prepare-sites-output.mjs",
     "clean": "node scripts/clean-output.mjs",
-    "predev": "node scripts/fresh-install-preflight.mjs",
-    "check:setup": "node scripts/fresh-install-preflight.mjs"
+    "predev": "node scripts/fresh-install-preflight.mjs && node scripts/verify-testimonial-style-wiring.mjs",
+    "check:setup": "node scripts/fresh-install-preflight.mjs",
+    "check:testimonial-css": "node scripts/verify-testimonial-style-wiring.mjs"
   },
   "dependencies": {
     "gsap": "^3.15.0",

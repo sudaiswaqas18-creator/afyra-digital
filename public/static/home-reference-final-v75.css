@@ -1,0 +1,865 @@
+/* =====================================================================
+   AFYRA DIGITAL — HOMEPAGE REFERENCE POLISH V72
+   Frontend-only homepage geometry + vertical rhythm pass.
+   The content/data model is untouched; all existing live API bindings remain.
+   Reference mechanics: SaaS King task-management home, adapted to Afyra palette.
+   ===================================================================== */
+
+/* ---------- Homepage rhythm / type system ---------- */
+.af-home-page{
+  --af-home-section-gap:64px;
+  --af-home-card-radius:17px;
+  --af-home-content-width:1180px;
+}
+.af-home-page > section{scroll-margin-top:82px}
+.af-home-page .af-sec-head{max-width:690px;margin-bottom:38px}
+.af-home-page .af-sec-head .af-p{margin-top:13px;line-height:1.55}
+.af-home-page .af-h2{font-size:clamp(1.86rem,3vw,2.48rem);line-height:1.04;letter-spacing:-.035em;font-weight:650}
+.af-home-page .af-h3{letter-spacing:-.025em}
+.af-home-page .af-p{line-height:1.55}
+.af-home-page .af-eyebrow{margin-bottom:12px}
+.af-home-page .af-eyebrow__text{font-size:12px}
+.af-home-page .af-eyebrow__tag{padding:4px 11px}
+
+/* ---------- HERO: preserve the existing dashboard build, remove dead air ---------- */
+.af-home-page > .af-hero{
+  padding-top:154px;
+  padding-bottom:24px;
+  min-height:auto;
+}
+.af-home-page .af-hero__content{max-width:760px;margin-bottom:48px}
+.af-home-page .af-hero__title{margin-bottom:17px;font-size:clamp(2.35rem,4.45vw,3.36rem);line-height:1.025;letter-spacing:-.045em}
+.af-home-page .af-hero__disc{max-width:620px;margin-bottom:27px;font-size:15.5px;line-height:1.55}
+.af-home-page .af-hero__btns{gap:11px}
+.af-home-page .af-hero__btns .af-btn{padding:15px 22px;font-size:14px}
+.af-home-page .af-hero__stage{margin-bottom:-54px!important;min-height:600px!important}
+.af-home-page .af-hero__stage-glow{top:-42px;height:260px;opacity:.82}
+
+/* ---------- Trusted/capability rail: reference-like compact bridge ---------- */
+.af-home-page > .af-marquee{padding:14px 0 44px}
+.af-home-page .af-marquee__title{max-width:640px;margin-bottom:21px;font-size:13.5px;line-height:1.4}
+.af-home-page .af-marquee__track{gap:9px}
+.af-home-page .af-marquee__item{padding:9px 16px;gap:7px;font-size:12.5px;background:rgba(7,29,26,.44)}
+
+/* ---------- FEATURES: retain live four-card bento, tighten to reference ---------- */
+.af-home-page > .af-features{padding:64px 0 62px}
+.af-home-page .af-features__bg{height:560px;top:15%;opacity:.82}
+.af-home-page .af-features__wrap[data-af-feature-reference]{max-width:1110px!important}
+.af-home-page .af-features__wrap[data-af-feature-reference] .af-features__row{gap:13px!important}
+.af-home-page .af-features__wrap[data-af-feature-reference] .af-features__row--1{margin-bottom:13px!important}
+.af-home-page .af-features__wrap[data-af-feature-reference] .af-feat{
+  min-height:352px!important;
+  padding:25px 26px 20px!important;
+  border-radius:15px!important;
+}
+.af-home-page .af-features__wrap[data-af-feature-reference] .af-feat--c,
+.af-home-page .af-features__wrap[data-af-feature-reference] .af-feat--d{min-height:370px!important}
+.af-home-page .af-feat__title{font-size:1.18rem;margin-bottom:7px}
+.af-home-page .af-feat__disc{font-size:13px;line-height:1.52}
+.af-home-page .af-features__wrap[data-af-feature-reference] .af-feat__visual--motion{min-height:205px!important;margin-top:18px!important}
+
+/* ---------- SOLUTIONS / benefits: reference 3x2 density, no oversized image cards ---------- */
+.af-home-page > .af-pillars{padding:58px 0 54px}
+.af-home-page .af-pillars__shape{opacity:.25}
+.af-home-page .af-pillars .af-sec-head{margin-bottom:34px}
+.af-home-page .af-pillars__grid{
+  width:min(1080px,100%);
+  margin:0 auto;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:0;
+  border:1px solid rgba(222,241,240,.10);
+  border-radius:16px;
+  overflow:hidden;
+  background:rgba(4,20,18,.38);
+}
+.af-home-page .af-pillar{
+  min-height:208px;
+  margin:0!important;
+  padding:28px 27px 25px;
+  border:0;
+  border-right:1px solid rgba(222,241,240,.09);
+  border-bottom:1px solid rgba(222,241,240,.09);
+  border-radius:0;
+  background:linear-gradient(150deg,rgba(8,33,29,.86),rgba(3,17,15,.92));
+}
+.af-home-page .af-pillar:nth-child(3n){border-right:0}
+.af-home-page .af-pillar:nth-last-child(-n+3){border-bottom:0}
+.af-home-page .af-pillar__ai{display:none!important}
+.af-home-page .af-pillar__icon{width:54px;height:54px;margin-bottom:18px}
+.af-home-page .af-pillar__icon-inner{width:42px;height:42px}
+.af-home-page .af-pillar__title{font-size:1.05rem;line-height:1.22;margin-bottom:9px}
+.af-home-page .af-pillar__disc{font-size:12.6px;line-height:1.52}
+.af-home-page .af-audience{
+  width:min(1080px,100%);
+  margin:24px auto 0;
+  padding:24px 26px;
+  grid-template-columns:.9fr 1.1fr;
+  gap:24px;
+  border-radius:14px;
+}
+.af-home-page .af-audience__head h3{font-size:1.17rem;margin-bottom:7px}
+.af-home-page .af-audience__head .af-p{font-size:12.5px}
+.af-home-page .af-audience__list{gap:8px}
+.af-home-page .af-audience__item{padding:9px 13px;border-radius:10px;font-size:12px;gap:8px}
+.af-home-page .af-audience__ico svg{width:17px;height:17px}
+
+/* ---------- WHY: preserve approved positioning copy but remove an extra-page-height block ---------- */
+.af-home-page > .af-why{padding:52px 0 48px}
+.af-home-page .af-why .af-sec-head{margin-bottom:30px}
+.af-home-page .af-why__grid{width:min(1010px,100%);margin:0 auto;gap:13px}
+.af-home-page .af-why__card{padding:25px 26px;border-radius:15px}
+.af-home-page .af-why__card-title{margin-bottom:14px;font-size:1.08rem}
+.af-home-page .af-why__list{gap:9px}
+.af-home-page .af-why__list li{font-size:12.8px;line-height:1.45;gap:10px}
+.af-home-page .af-why__ico{width:21px;height:21px}
+.af-home-page .af-why__quote{width:min(1010px,100%);margin:18px auto 0;padding:24px 28px;border-radius:15px}
+.af-home-page .af-why__quote-ico{margin-bottom:2px}.af-home-page .af-why__quote-ico svg{width:27px;height:27px}
+.af-home-page .af-why__quote-text{margin-bottom:6px;font-size:clamp(1.05rem,1.9vw,1.42rem)}
+.af-home-page .af-why__quote-sub{font-size:12.8px;line-height:1.45}
+
+/* ---------- PRICING: compact SaaS King two-column visual + active plan composition ---------- */
+.af-home-page > .af-price{
+  --af-price-beam-gap:182px;
+  padding:54px 0 58px;
+  min-height:0;
+  background:
+    radial-gradient(ellipse at 50% 5%,rgba(0,187,160,.07),transparent 33%),
+    transparent;
+}
+.af-home-page .af-price__mark{top:48px;width:54px;height:54px;padding:10px;border-radius:16px}
+.af-home-page .af-price__beam{top:89px!important;width:310px!important;height:220px!important}
+.af-home-page .af-price__beam-core{height:166px!important}
+.af-home-page .af-price__beam-glow{bottom:4px!important;width:330px!important;height:135px!important;filter:blur(34px)}
+.af-home-page .af-price__beam-impact{bottom:4px;width:96px;height:38px}
+.af-home-page .af-price__wrap{
+  width:min(1120px,100%);
+  margin-left:auto;
+  margin-right:auto;
+  padding:31px 28px 27px 30px;
+  grid-template-columns:minmax(0,.92fr) minmax(0,1.08fr);
+  gap:26px;
+  border-radius:18px;
+  background:linear-gradient(145deg,rgba(6,26,23,.91),rgba(4,20,18,.96));
+}
+.af-home-page .af-price__head{margin-bottom:15px}
+.af-home-page .af-price__head .af-h2{font-size:clamp(1.62rem,2.4vw,2.08rem);line-height:1.04}
+.af-home-page .af-price__disc{margin-top:10px;max-width:400px;font-size:12.7px;line-height:1.5}
+.af-home-page .af-price__ring{height:226px!important;margin:-1px 0 16px!important}
+.af-home-page .af-price__ring::before{width:184px;height:184px}
+.af-home-page .af-price__ring::after{width:218px;height:218px}
+.af-home-page .af-price__ring-slot{--af-orbit-offset:-98px}
+.af-home-page .af-price__ring-card{width:48px;height:48px;margin-left:-24px;margin-top:-24px;border-radius:14px}
+.af-home-page .af-price__ring-card::before{border-radius:13px}
+.af-home-page .af-price__ring-card-glow{inset:5px;border-radius:11px}
+.af-home-page .af-price__ring-icon svg{width:19px;height:19px}
+.af-home-page .af-price__ring-center{max-width:195px}
+.af-home-page .af-price__ring-center .af-h4{font-size:.98rem;margin-bottom:5px}
+.af-home-page .af-price__ring-center .af-p{font-size:10.5px;line-height:1.35}
+.af-home-page .af-price__terms{gap:7px;margin-top:0}
+.af-home-page .af-price__terms li{font-size:11.3px;line-height:1.4;gap:7px}
+.af-home-page .af-price__switch{margin-bottom:10px;padding:3px;gap:2px}
+.af-home-page .af-price__switch-btn{padding:8px 12px;font-size:11px}
+.af-home-page .af-price__card{padding:10px;border-radius:15px}
+.af-home-page .af-price__card-head{padding:16px 17px;border-radius:12px;margin-bottom:9px;gap:10px}
+.af-home-page .af-price__card-name{margin-bottom:9px;font-size:12px}
+.af-home-page .af-price__amount{font-size:clamp(1.82rem,3vw,2.32rem);margin-bottom:8px;gap:5px}
+.af-home-page .af-price__cur,.af-home-page .af-price__per{font-size:.78rem}
+.af-home-page .af-price__purpose{font-size:11px;line-height:1.35}
+.af-home-page .af-price__tag{padding:6px 11px;font-size:9.7px}
+.af-home-page .af-price__card-body{padding:16px 17px;border-radius:12px}
+.af-home-page .af-price__platforms{margin-bottom:12px;padding-bottom:11px;gap:7px;font-size:10.5px}
+.af-home-page .af-price__platforms span{font-size:8.8px;padding:3px 7px}
+.af-home-page .af-price__features{gap:7px 13px;margin-bottom:12px}
+.af-home-page .af-price__features li{font-size:10.6px;line-height:1.34;gap:6px}
+.af-home-page .af-price__best{margin-bottom:13px}
+.af-home-page .af-price__best-title{margin-bottom:6px;font-size:8.7px}
+.af-home-page .af-price__best-list{gap:5px}
+.af-home-page .af-price__best-list span{font-size:9.5px;padding:4px 8px}
+.af-home-page .af-price__card-body .af-btn{min-height:40px;padding:12px 18px;font-size:12px}
+
+/* ---------- TESTIMONIAL→PROCESS: no artificial blank band ---------- */
+.af-home-page > .aft-section--home{margin:0}
+.af-home-page > .af-proc{padding:48px 0 54px}
+.af-home-page .af-proc .af-sec-head{margin-bottom:34px}
+.af-home-page .af-proc__wrap{width:min(1080px,100%);margin:0 auto;gap:24px}
+.af-home-page .af-proc__col{gap:26px}
+.af-home-page .af-proc__item{max-width:350px;padding:24px 24px;border-radius:14px}
+.af-home-page .af-proc__num{top:-18px;font-size:84px}
+.af-home-page .af-proc__title{margin-bottom:8px;font-size:1.05rem}
+.af-home-page .af-proc__disc{font-size:12.4px;line-height:1.46}
+.af-home-page .af-proc__hub{width:224px;height:224px}
+.af-home-page .af-proc__hub-glow{width:224px;height:224px;filter:blur(30px)}
+.af-home-page .af-proc__hub-ring{width:100px;height:100px;border-radius:25px;padding:12px}
+.af-home-page .af-proc__hub-core{border-radius:17px;padding:16px}
+.af-home-page .af-proc__lines{width:720px;height:250px}
+
+/* ---------- PROCESS→FAQ: one continuous boundary instead of a boxed gap ---------- */
+.af-home-page > .af-faq{
+  margin-top:-1px;
+  padding:154px 0 72px!important;
+  background:#01110e!important;
+  isolation:isolate;
+}
+.af-home-page .af-faq__arc{
+  top:-1px!important;
+  height:148px!important;
+  overflow:visible!important;
+  z-index:0!important;
+}
+.af-home-page .af-faq__arc-line,
+.af-home-page .af-faq__arc-halo,
+.af-home-page .af-faq__arc-beam{opacity:0!important}
+.af-home-page .af-faq__arc::before{
+  content:"";
+  position:absolute;
+  left:50%;top:-2px;
+  width:max(100%,1306px);
+  max-width:none;
+  aspect-ratio:1306/136;
+  transform:translateX(-50%) rotate(180deg);
+  transform-origin:center center;
+  background:linear-gradient(90deg,rgba(0,187,160,.12),#00BBA0 24%,#DEF1F0 50%,#00BBA0 76%,rgba(0,187,160,.12));
+  -webkit-mask:url('/static/home-reference/t1-bg-clr-glow-3.webp') center/100% 100% no-repeat;
+  mask:url('/static/home-reference/t1-bg-clr-glow-3.webp') center/100% 100% no-repeat;
+  filter:brightness(1.06) drop-shadow(0 1px 5px rgba(0,187,160,.78));
+  opacity:.92;
+  pointer-events:none;
+}
+.af-home-page .af-faq__arc-glow{
+  top:-98px!important;
+  width:620px!important;
+  height:292px!important;
+  background:radial-gradient(ellipse at 50% 14%,#DEF1F0 0%,rgba(0,187,160,.86) 12%,rgba(0,187,160,.34) 34%,rgba(0,68,62,.12) 55%,transparent 73%)!important;
+  -webkit-mask:url('/static/home-reference/t1-bg-clr-glow-1.webp') center top/contain no-repeat!important;
+  mask:url('/static/home-reference/t1-bg-clr-glow-1.webp') center top/contain no-repeat!important;
+  filter:brightness(1.05)!important;
+  opacity:.70!important;
+  mix-blend-mode:screen;
+}
+.af-home-page .af-faq__spark-field{top:4px;height:116px;opacity:.82}
+.af-home-page .af-faq .af-sec-head{margin-bottom:30px}
+.af-home-page .af-faq__wrap{max-width:900px;border-radius:12px}
+.af-home-page .af-faq__q{padding:18px 22px;font-size:.94rem}
+.af-home-page .af-faq__a-inner p{padding:0 22px 20px;font-size:12.4px;line-height:1.5}
+
+/* ---------- CTA/Footer approach reference density ---------- */
+.af-home-page > .af-cta{padding:56px 0 70px}
+.af-home-page .af-cta__wrap{padding:48px 48px;border-radius:22px}
+.af-home-page .af-cta__title{font-size:clamp(1.65rem,2.6vw,2.16rem);margin-bottom:12px}
+.af-home-page .af-cta__disc{margin-bottom:22px;font-size:13.2px;line-height:1.52}
+.af-home-page .af-cta__visual{min-height:300px}
+
+/* ---------- Desktop vertical connectors: let each section feel chained ---------- */
+@media (min-width:981px){
+  .af-home-page > .af-features::before,
+  .af-home-page > .af-pillars::before,
+  .af-home-page > .af-why::before{
+    content:"";position:absolute;left:50%;top:-22px;width:1px;height:28px;
+    background:linear-gradient(180deg,transparent,rgba(0,187,160,.46),transparent);
+    box-shadow:0 0 12px rgba(0,187,160,.28);pointer-events:none;
+  }
+}
+
+/* ---------- Tablet ---------- */
+@media (max-width:980px){
+  .af-home-page .af-sec-head{margin-bottom:31px}
+  .af-home-page > .af-hero{padding-top:136px;padding-bottom:20px}
+  .af-home-page .af-hero__content{margin-bottom:40px}
+  .af-home-page .af-hero__stage{margin-bottom:-26px!important;min-height:560px!important}
+  .af-home-page > .af-features,.af-home-page > .af-pillars,.af-home-page > .af-why{padding:52px 0}
+  .af-home-page .af-features__wrap[data-af-feature-reference] .af-features__row--1,
+  .af-home-page .af-features__wrap[data-af-feature-reference] .af-features__row--2{grid-template-columns:1fr 1fr!important}
+  .af-home-page .af-features__wrap[data-af-feature-reference] .af-feat{min-height:350px!important}
+  .af-home-page .af-pillars__grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .af-home-page .af-pillar:nth-child(3n){border-right:1px solid rgba(222,241,240,.09)}
+  .af-home-page .af-pillar:nth-child(2n){border-right:0}
+  .af-home-page .af-pillar:nth-last-child(-n+3){border-bottom:1px solid rgba(222,241,240,.09)}
+  .af-home-page .af-pillar:nth-last-child(-n+2){border-bottom:0}
+  .af-home-page .af-audience{grid-template-columns:1fr;gap:16px}
+  .af-home-page > .af-price{--af-price-beam-gap:154px;padding-top:48px}
+  .af-home-page .af-price__wrap{grid-template-columns:1fr;padding:26px;gap:22px}
+  .af-home-page .af-price__ring{height:220px!important}
+  .af-home-page .af-price__terms{display:grid;grid-template-columns:1fr 1fr;gap:8px 14px}
+  .af-home-page .af-proc__wrap{grid-template-columns:1fr;gap:18px}
+  .af-home-page .af-proc__hub{order:-1;margin:0 auto 4px}
+  .af-home-page .af-proc__col{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .af-home-page .af-proc__item,.af-home-page .af-proc__item--left,.af-home-page .af-proc__item--right{max-width:none;text-align:left;margin:0}
+  .af-home-page .af-proc__lines{display:none}
+  .af-home-page .af-proc__item--left .af-proc__num,.af-home-page .af-proc__item--right .af-proc__num{left:auto;right:7px}
+  .af-home-page .af-faq__arc::before{width:1250px}
+}
+
+/* ---------- Mobile: preserve proportions rather than desktop-size whitespace ---------- */
+@media (max-width:680px){
+  .af-home-page .af-container{padding-left:18px;padding-right:18px}
+  .af-home-page .af-sec-head{margin-bottom:26px}
+  .af-home-page .af-h2{font-size:clamp(1.62rem,8vw,2.05rem)}
+  .af-home-page > .af-hero{padding-top:116px;padding-bottom:14px}
+  .af-home-page .af-hero__content{margin-bottom:30px}
+  .af-home-page .af-hero__title{font-size:clamp(2rem,10vw,2.55rem)}
+  .af-home-page .af-hero__disc{font-size:14px;margin-bottom:22px}
+  .af-home-page .af-hero__stage{min-height:0!important;margin-bottom:0!important}
+  .af-home-page > .af-marquee{padding:18px 0 38px}
+  .af-home-page .af-marquee__title{margin-bottom:17px;font-size:12px;padding:0 15px}
+  .af-home-page .af-marquee__item{padding:8px 13px;font-size:11px}
+  .af-home-page > .af-features,.af-home-page > .af-pillars,.af-home-page > .af-why{padding:44px 0}
+  .af-home-page .af-features__wrap[data-af-feature-reference] .af-features__row--1,
+  .af-home-page .af-features__wrap[data-af-feature-reference] .af-features__row--2{grid-template-columns:1fr!important;gap:11px!important;margin-bottom:11px!important}
+  .af-home-page .af-features__wrap[data-af-feature-reference] .af-feat,
+  .af-home-page .af-features__wrap[data-af-feature-reference] .af-feat--c,
+  .af-home-page .af-features__wrap[data-af-feature-reference] .af-feat--d{min-height:315px!important;padding:22px!important}
+  .af-home-page .af-features__wrap[data-af-feature-reference] .af-feat__visual--motion{min-height:190px!important}
+  .af-home-page .af-pillars__grid{grid-template-columns:1fr;border-radius:14px}
+  .af-home-page .af-pillar{min-height:0;padding:23px 22px;border-right:0!important;border-bottom:1px solid rgba(222,241,240,.09)!important}
+  .af-home-page .af-pillar:last-child{border-bottom:0!important}
+  .af-home-page .af-audience{padding:20px;margin-top:18px}
+  .af-home-page .af-audience__list{display:grid;grid-template-columns:1fr 1fr}
+  .af-home-page .af-audience__item{padding:8px 9px;font-size:10.7px}
+  .af-home-page .af-why__grid{grid-template-columns:1fr;gap:10px}
+  .af-home-page .af-why__card{padding:22px}
+  .af-home-page .af-why__quote{padding:21px}
+  .af-home-page > .af-price{--af-price-beam-gap:132px;padding:40px 0 46px}
+  .af-home-page .af-price__mark{top:38px;width:48px;height:48px}
+  .af-home-page .af-price__beam{top:76px!important;height:178px!important}
+  .af-home-page .af-price__beam-core{height:128px!important}
+  .af-home-page .af-price__wrap{padding:20px 16px 17px;border-radius:16px;gap:18px}
+  .af-home-page .af-price__ring{height:192px!important}
+  .af-home-page .af-price__ring::before{width:156px;height:156px}.af-home-page .af-price__ring::after{width:184px;height:184px}
+  .af-home-page .af-price__ring-slot{--af-orbit-offset:-82px}
+  .af-home-page .af-price__ring-card{width:42px;height:42px;margin-left:-21px;margin-top:-21px;border-radius:12px}
+  .af-home-page .af-price__ring-icon svg{width:16px;height:16px}
+  .af-home-page .af-price__terms{grid-template-columns:1fr}
+  .af-home-page .af-price__switch{display:grid;grid-template-columns:repeat(3,1fr);width:100%;border-radius:12px}
+  .af-home-page .af-price__switch-btn{padding:8px 5px;font-size:9.8px}
+  .af-home-page .af-price__card-head{display:block}.af-home-page .af-price__tag{display:inline-block;margin-top:10px}
+  .af-home-page .af-price__features{grid-template-columns:1fr}
+  .af-home-page > .af-proc{padding:42px 0 44px}
+  .af-home-page .af-proc__col{grid-template-columns:1fr;gap:10px}
+  .af-home-page .af-proc__item{padding:21px 20px}
+  .af-home-page .af-proc__hub{width:176px;height:176px}.af-home-page .af-proc__hub-glow{width:176px;height:176px}.af-home-page .af-proc__hub-ring{width:84px;height:84px}
+  .af-home-page > .af-faq{padding:124px 0 56px!important}
+  .af-home-page .af-faq__arc{height:145px!important}
+  .af-home-page .af-faq__arc::before{width:920px;top:2px}
+  .af-home-page .af-faq__arc-glow{top:-68px!important;width:470px!important;height:225px!important}
+  .af-home-page .af-faq__spark-field{transform:scale(.76);transform-origin:50% 0}
+  .af-home-page .af-faq__q{padding:16px 17px;font-size:.88rem}
+  .af-home-page .af-faq__a-inner p{padding:0 17px 18px}
+  .af-home-page > .af-cta{padding:44px 0 54px}
+  .af-home-page .af-cta__wrap{padding:32px 20px;border-radius:18px}
+}
+
+@media (prefers-reduced-motion:reduce){
+  .af-home-page .af-price__ring-track,.af-home-page .af-price__ring-card{animation:none!important}
+}
+
+/* =====================================================================
+   V73 FINAL HOME MATCH — compact vertical rhythm, reference proportions
+   ===================================================================== */
+.af-home-page{
+  --af-font-1:'Poppins',system-ui,-apple-system,sans-serif;
+  --af-font-2:'Poppins',system-ui,-apple-system,sans-serif;
+}
+.af-home-page .af-h1,.af-home-page .af-h2,.af-home-page .af-h3,.af-home-page .af-h4{
+  font-family:var(--af-font-2);font-weight:650;letter-spacing:-.038em;
+}
+.af-home-page .af-p{letter-spacing:-.018em}
+.af-home-page .af-container{max-width:1180px}
+.af-home-page .af-sec-head{max-width:620px;margin-inline:auto;margin-bottom:30px}
+.af-home-page .af-sec-head .af-h2{font-size:clamp(1.72rem,2.55vw,2.16rem);line-height:1.035}
+.af-home-page .af-sec-head .af-p{max-width:560px;margin:10px auto 0;font-size:12.6px;line-height:1.48}
+.af-home-page .af-eyebrow{margin-bottom:9px;padding:2px;padding-right:10px}
+.af-home-page .af-eyebrow__tag{padding:3px 9px;font-size:9px}
+.af-home-page .af-eyebrow__text{font-size:10.5px;gap:6px}
+
+/* header reference scale */
+.af-header .af-container{max-width:1180px}
+.af-header{padding:16px 0}
+.af-header.is-scrolled{padding:9px 0}
+.af-header__logo{width:32px;height:32px}
+.af-header__name{font-size:19px}
+.af-header__nav{padding:5px 7px}
+.af-header__nav a{font-size:12.5px;padding:7px 12px}
+.af-header__actions .af-btn{padding:11px 17px;font-size:12.5px;border-radius:9px}
+
+/* hero — reference has a compact text block and the dashboard owns the height */
+.af-home-page>.af-hero{padding-top:132px;padding-bottom:8px}
+.af-home-page .af-hero__content{max-width:650px;margin-bottom:32px}
+.af-home-page .af-hero__title{font-size:clamp(2.25rem,4.05vw,3.05rem);line-height:1.015;margin-bottom:13px}
+.af-home-page .af-hero__disc{max-width:560px;font-size:13px;line-height:1.48;margin-bottom:20px}
+.af-home-page .af-hero__btns{gap:9px}
+.af-home-page .af-hero__btns .af-btn{padding:12px 18px;font-size:12px;border-radius:9px}
+.af-home-page .af-hero__stage{min-height:548px!important;margin-bottom:-80px!important}
+
+/* trusted strip */
+.af-home-page>.af-marquee{padding:8px 0 32px}
+.af-home-page .af-marquee__title{font-size:11px;margin-bottom:15px;line-height:1.35}
+.af-home-page .af-marquee__item{padding:7px 12px;font-size:10.5px;border-radius:8px}
+
+/* feature bento */
+.af-home-page>.af-features{padding:46px 0 44px}
+.af-home-page .af-features__wrap[data-af-feature-reference]{max-width:980px!important}
+.af-home-page .af-features__wrap[data-af-feature-reference] .af-features__row{gap:10px!important}
+.af-home-page .af-features__wrap[data-af-feature-reference] .af-features__row--1{margin-bottom:10px!important}
+.af-home-page .af-features__wrap[data-af-feature-reference] .af-feat,
+.af-home-page .af-features__wrap[data-af-feature-reference] .af-feat--c,
+.af-home-page .af-features__wrap[data-af-feature-reference] .af-feat--d{
+  min-height:322px!important;padding:22px 22px 17px!important;border-radius:12px!important;
+}
+.af-home-page .af-feat__title{font-size:1rem;margin-bottom:6px}
+.af-home-page .af-feat__disc{font-size:11.2px;line-height:1.42}
+.af-home-page .af-features__wrap[data-af-feature-reference] .af-feat__visual--motion{min-height:184px!important;margin-top:12px!important}
+
+/* benefits / solutions */
+.af-home-page>.af-pillars{padding:42px 0 40px}
+.af-home-page .af-pillars .af-sec-head{margin-bottom:27px}
+.af-home-page .af-pillars__grid{width:min(930px,100%);border-radius:12px}
+.af-home-page .af-pillar{min-height:174px;padding:22px 22px 19px}
+.af-home-page .af-pillar__icon{width:44px;height:44px;margin-bottom:13px}
+.af-home-page .af-pillar__icon-inner{width:34px;height:34px}
+.af-home-page .af-pillar__icon svg{width:18px;height:18px}
+.af-home-page .af-pillar__title{font-size:.93rem;margin-bottom:6px}
+.af-home-page .af-pillar__disc{font-size:10.8px;line-height:1.43}
+.af-home-page .af-audience{width:min(930px,100%);margin-top:16px;padding:17px 19px;gap:17px;border-radius:11px}
+.af-home-page .af-audience__head h3{font-size:1rem;margin-bottom:5px}
+.af-home-page .af-audience__head .af-p{font-size:10.8px;line-height:1.4}
+.af-home-page .af-audience__item{padding:7px 10px;font-size:10.4px;border-radius:8px}
+
+/* Afyra-specific positioning block stays, but no longer creates an extra page */
+.af-home-page>.af-why{padding:38px 0 38px}
+.af-home-page .af-why .af-sec-head{margin-bottom:24px}
+.af-home-page .af-why__grid{width:min(900px,100%);gap:10px}
+.af-home-page .af-why__card{padding:20px 21px;border-radius:12px}
+.af-home-page .af-why__card-title{font-size:.98rem;margin-bottom:10px}
+.af-home-page .af-why__list{gap:6px}
+.af-home-page .af-why__list li{font-size:10.8px;line-height:1.38;gap:8px}
+.af-home-page .af-why__ico{width:18px;height:18px}
+.af-home-page .af-why__quote{width:min(900px,100%);margin-top:11px;padding:18px 22px;border-radius:12px}
+.af-home-page .af-why__quote-text{font-size:1.08rem;margin-bottom:4px;line-height:1.25}
+.af-home-page .af-why__quote-sub{font-size:10.7px}
+
+/* pricing — the desktop reference is a compact, single framed composition */
+.af-home-page>.af-price{--af-price-beam-gap:154px;padding:38px 0 44px}
+.af-home-page .af-price__mark{top:31px!important;width:48px;height:48px;padding:9px;border-radius:14px}
+.af-home-page .af-price__beam{top:66px!important;width:286px!important;height:205px!important}
+.af-home-page .af-price__beam-core{height:150px!important}
+.af-home-page .af-price__beam-glow{width:300px!important;height:125px!important;bottom:4px!important;filter:blur(31px)}
+.af-home-page .af-price__beam-impact{width:84px;height:32px;bottom:3px}
+.af-home-page .af-price__wrap{
+  width:min(970px,100%);grid-template-columns:minmax(0,.88fr) minmax(0,1.12fr);gap:20px;
+  padding:25px 22px 21px 25px;border-radius:14px;margin-inline:auto;
+  background:linear-gradient(145deg,rgba(6,25,22,.94),rgba(3,17,15,.97));
+}
+.af-home-page .af-price__head{margin-bottom:10px}
+.af-home-page .af-price__head .af-h2{font-size:1.72rem;line-height:1.02}
+.af-home-page .af-price__disc{margin-top:7px;font-size:10.7px;line-height:1.43;max-width:350px}
+.af-home-page .af-price__ring{height:188px!important;margin:-4px 0 10px!important}
+.af-home-page .af-price__ring::before{width:150px;height:150px}
+.af-home-page .af-price__ring::after{width:182px;height:182px}
+.af-home-page .af-price__ring-slot{--af-orbit-offset:-81px}
+.af-home-page .af-price__ring-card{width:40px;height:40px;margin-left:-20px;margin-top:-20px;border-radius:11px}
+.af-home-page .af-price__ring-icon,.af-home-page .af-price__ring-icon svg{width:16px;height:16px}
+.af-home-page .af-price__ring-center{width:132px!important;min-height:132px!important;max-width:132px!important;padding:15px 11px!important;border-radius:50%!important}
+.af-home-page .af-price__ring-center .af-h4{font-size:.78rem!important;margin-bottom:4px}
+.af-home-page .af-price__ring-center .af-p{font-size:8px!important;line-height:1.28!important}
+.af-home-page .af-price__terms{gap:4px}
+.af-home-page .af-price__terms li{font-size:9.2px;line-height:1.34;gap:6px}
+.af-home-page .af-price__switch{margin-bottom:7px;padding:2px}
+.af-home-page .af-price__switch-btn{padding:6px 10px;font-size:9px}
+.af-home-page .af-price__card{padding:7px;border-radius:12px}
+.af-home-page .af-price__card-head{padding:12px 13px;border-radius:10px;margin-bottom:7px}
+.af-home-page .af-price__card-name{font-size:9.8px;margin-bottom:6px}
+.af-home-page .af-price__amount{font-size:1.7rem;margin-bottom:5px;gap:4px}
+.af-home-page .af-price__cur,.af-home-page .af-price__per{font-size:.62rem}
+.af-home-page .af-price__purpose{font-size:8.8px;line-height:1.3}
+.af-home-page .af-price__tag{font-size:8px;padding:5px 8px}
+.af-home-page .af-price__card-body{padding:12px 13px;border-radius:10px}
+.af-home-page .af-price__platforms{font-size:8.8px;gap:5px;margin-bottom:8px;padding-bottom:8px}
+.af-home-page .af-price__platforms span{font-size:7.2px;padding:2px 5px}
+.af-home-page .af-price__features{gap:5px 10px;margin-bottom:8px}
+.af-home-page .af-price__features li{font-size:8.7px;line-height:1.3;gap:5px}
+.af-home-page .af-price__best{margin-bottom:9px}
+.af-home-page .af-price__best-title{font-size:7px;margin-bottom:4px}
+.af-home-page .af-price__best-list{gap:4px}
+.af-home-page .af-price__best-list span{font-size:7.7px;padding:3px 6px}
+.af-home-page .af-price__card-body .af-btn{min-height:32px;padding:9px 12px;font-size:9.4px;border-radius:7px}
+
+/* testimonial naturally follows pricing; do not insert a separate empty band */
+.af-home-page>.aft-section--home{margin-top:0;margin-bottom:0}
+
+/* how-it-works: same compact 2x2 + centre hub geometry as reference */
+.af-home-page>.af-proc{padding:38px 0 38px;background:#06120f}
+.af-home-page .af-proc .af-sec-head{margin-bottom:25px}
+.af-home-page .af-proc__wrap{width:min(880px,100%);gap:18px}
+.af-home-page .af-proc__col{gap:14px}
+.af-home-page .af-proc__item{max-width:286px;min-height:116px;padding:18px 18px;border-radius:10px}
+.af-home-page .af-proc__num{top:-12px;font-size:62px;line-height:1}
+.af-home-page .af-proc__title{font-size:.92rem;margin-bottom:5px}
+.af-home-page .af-proc__disc{font-size:9.9px;line-height:1.4}
+.af-home-page .af-proc__hub{width:160px;height:160px}
+.af-home-page .af-proc__hub-glow{width:160px;height:160px;filter:blur(25px)}
+.af-home-page .af-proc__hub-ring{width:76px;height:76px;border-radius:19px;padding:9px}
+.af-home-page .af-proc__hub-core{border-radius:12px;padding:11px}
+.af-home-page .af-proc__lines{width:570px;height:190px}
+
+/* one shared process/FAQ surface: the luminous curve is the actual boundary */
+.af-home-page>.af-faq{
+  margin-top:0;padding:118px 0 48px!important;background:#06120f!important;
+  border-top:0!important;box-shadow:none!important;overflow:hidden;
+}
+.af-home-page>.af-proc + .af-faq::before{
+  content:"";position:absolute;left:0;right:0;top:0;height:118px;pointer-events:none;z-index:0;
+  background:linear-gradient(180deg,rgba(6,18,15,0),rgba(6,18,15,.38) 62%,#06120f 100%);
+}
+.af-home-page .af-faq__arc{top:0!important;height:118px!important;z-index:1!important;overflow:visible!important}
+.af-home-page .af-faq__arc::before{
+  top:-1px;width:max(100%,1260px);aspect-ratio:1306/136;transform:translateX(-50%) rotate(180deg);
+  background:linear-gradient(90deg,rgba(0,187,160,.04),#00BBA0 23%,#DEF1F0 50%,#00BBA0 77%,rgba(0,187,160,.04));
+  filter:drop-shadow(0 1px 4px rgba(222,241,240,.34)) drop-shadow(0 2px 10px rgba(0,187,160,.40));opacity:.8;
+}
+.af-home-page .af-faq__arc-glow{
+  top:-86px!important;width:540px!important;height:244px!important;opacity:.64!important;
+  background:linear-gradient(180deg,#DEF1F0 0%,#00BBA0 24%,rgba(0,187,160,.34) 58%,transparent 100%)!important;
+  -webkit-mask:url('/static/home-reference/t1-bg-clr-glow-1.webp') center top/contain no-repeat!important;
+  mask:url('/static/home-reference/t1-bg-clr-glow-1.webp') center top/contain no-repeat!important;
+}
+.af-home-page .af-faq__spark-field{top:-3px;height:82px;opacity:.72}
+.af-home-page .af-faq>.af-container{position:relative;z-index:2}
+.af-home-page .af-faq .af-sec-head{margin-bottom:22px}
+.af-home-page .af-faq__wrap{max-width:760px;border-radius:9px}
+.af-home-page .af-faq__q{padding:14px 17px;font-size:.82rem;line-height:1.28}
+.af-home-page .af-faq__a-inner p{padding:0 17px 15px;font-size:10px;line-height:1.45}
+
+/* CTA / footer approach */
+.af-home-page>.af-cta{padding:38px 0 50px;background:#06120f}
+.af-home-page .af-cta__wrap{width:min(920px,100%);margin-inline:auto;padding:35px 35px;border-radius:16px}
+.af-home-page .af-cta__title{font-size:1.65rem;line-height:1.04;margin-bottom:8px}
+.af-home-page .af-cta__disc{font-size:10.8px;line-height:1.44;margin-bottom:16px}
+.af-home-page .af-cta__form{gap:8px}
+.af-home-page .af-cta__form-row{gap:8px}
+.af-home-page .af-cta__form input,.af-home-page .af-cta__form textarea{font-size:10px;padding:10px 12px;border-radius:8px}
+.af-home-page .af-cta__notice{font-size:8.5px}
+.af-home-page .af-cta__visual{min-height:245px}
+
+/* consistent tiny inter-section bridge, never the huge empty bands from V71 */
+.af-home-page>.af-features,.af-home-page>.af-pillars,.af-home-page>.af-why,.af-home-page>.af-price,.af-home-page>.af-proc,.af-home-page>.af-faq,.af-home-page>.af-cta{scroll-margin-top:72px}
+
+@media (max-width:980px){
+  .af-home-page .af-container{max-width:860px}
+  .af-home-page>.af-hero{padding-top:120px}
+  .af-home-page .af-hero__stage{min-height:500px!important;margin-bottom:-52px!important}
+  .af-home-page>.af-features,.af-home-page>.af-pillars,.af-home-page>.af-why{padding:40px 0}
+  .af-home-page .af-features__wrap[data-af-feature-reference] .af-feat{min-height:300px!important}
+  .af-home-page>.af-price{--af-price-beam-gap:135px;padding-top:34px}
+  .af-home-page .af-price__wrap{grid-template-columns:1fr;padding:20px;gap:15px;width:min(650px,100%)}
+  .af-home-page .af-price__left{max-width:520px;margin-inline:auto;width:100%}
+  .af-home-page .af-price__right{max-width:520px;margin-inline:auto;width:100%}
+  .af-home-page .af-price__ring{height:182px!important}
+  .af-home-page .af-price__terms{grid-template-columns:1fr 1fr}
+  .af-home-page .af-proc__wrap{width:min(700px,100%);gap:13px}
+  .af-home-page .af-proc__item{max-width:none}
+  .af-home-page .af-proc__hub{width:140px;height:140px}
+  .af-home-page .af-proc__lines{display:none}
+}
+
+@media (max-width:680px){
+  .af-header{padding:10px 0}.af-header__logo{width:30px;height:30px}.af-header__name{font-size:18px}
+  .af-home-page .af-sec-head{margin-bottom:22px}.af-home-page .af-sec-head .af-h2{font-size:1.65rem}.af-home-page .af-sec-head .af-p{font-size:11.5px}
+  .af-home-page>.af-hero{padding-top:96px}.af-home-page .af-hero__content{margin-bottom:24px}.af-home-page .af-hero__stage{margin-bottom:-18px!important}
+  .af-home-page>.af-marquee{padding-bottom:28px}
+  .af-home-page>.af-features,.af-home-page>.af-pillars,.af-home-page>.af-why{padding:34px 0}
+  .af-home-page .af-features__wrap[data-af-feature-reference] .af-feat{min-height:292px!important;padding:19px!important}
+  .af-home-page .af-pillars__grid{border-radius:10px}.af-home-page .af-pillar{padding:19px;min-height:0}.af-home-page .af-audience__list{grid-template-columns:1fr}
+  .af-home-page .af-why__card{padding:18px}.af-home-page .af-why__quote{padding:17px 18px}
+  .af-home-page>.af-price{--af-price-beam-gap:118px;padding:31px 0 36px}
+  .af-home-page .af-price__mark{top:25px!important;width:44px;height:44px}
+  .af-home-page .af-price__beam{top:55px!important;height:172px!important}.af-home-page .af-price__beam-core{height:122px!important}
+  .af-home-page .af-price__wrap{width:min(100% - 8px,520px);padding:16px 12px;gap:13px}
+  .af-home-page .af-price__head .af-h2{font-size:1.5rem}.af-home-page .af-price__ring{height:174px!important}
+  .af-home-page .af-price__terms{grid-template-columns:1fr}.af-home-page .af-price__features{grid-template-columns:1fr}
+  .af-home-page>.af-proc{padding:32px 0}
+  .af-home-page .af-proc__wrap{width:100%;grid-template-columns:1fr;gap:12px}.af-home-page .af-proc__hub{order:-1;margin-inline:auto}
+  .af-home-page .af-proc__col{grid-template-columns:1fr;gap:9px}.af-home-page .af-proc__item{min-height:0;padding:17px 18px}
+  .af-home-page>.af-faq{padding:100px 0 42px!important}.af-home-page .af-faq__arc{height:100px!important}.af-home-page .af-faq__arc::before{width:900px}
+  .af-home-page .af-faq__arc-glow{top:-61px!important;width:420px!important;height:190px!important}
+  .af-home-page>.af-cta{padding:30px 0 38px}.af-home-page .af-cta__wrap{padding:27px 18px}
+}
+
+/* =====================================================================
+   V73.2 — FAQ boundary: stroke-only reference curve, no filled mask bowl
+   ===================================================================== */
+.af-home-page .af-faq__arc::before{content:none!important}
+.af-home-page .af-faq__arc-line{
+  display:block!important;opacity:1!important;position:absolute!important;
+  left:0!important;top:-41px!important;width:100%!important;height:184px!important;
+  overflow:visible!important;filter:none!important;z-index:3!important;
+}
+.af-home-page .af-faq__arc-stroke--glow{opacity:.20!important}
+.af-home-page .af-faq__arc-stroke--core{opacity:.96!important}
+.af-home-page .af-faq__arc-halo,.af-home-page .af-faq__arc-beam{opacity:0!important}
+.af-home-page .af-faq__arc-glow{
+  top:-80px!important;width:610px!important;height:272px!important;
+  background:none!important;
+  -webkit-mask:none!important;mask:none!important;
+  filter:none!important;opacity:.72!important;mix-blend-mode:screen;
+}
+.af-home-page .af-faq__arc-glow::before{
+  content:"";position:absolute;inset:0;
+  background:url('/static/home-reference/t1-bg-clr-glow-1.webp') center top/contain no-repeat;
+  filter:hue-rotate(264deg) saturate(1.12) brightness(1.06);
+  opacity:.60;
+}
+.af-home-page .af-faq__arc-glow::after{
+  content:"";position:absolute;left:18%;right:18%;top:12%;height:70%;
+  background:radial-gradient(ellipse at 50% 0%,rgba(222,241,240,.72) 0%,rgba(0,187,160,.48) 18%,rgba(0,187,160,.14) 48%,transparent 73%);
+  filter:blur(15px);opacity:.86;
+}
+@media (max-width:680px){
+  .af-home-page .af-faq__arc-line{top:-30px!important;height:145px!important;width:122%!important;left:-11%!important}
+  .af-home-page .af-faq__arc-glow{top:-57px!important;width:430px!important;height:208px!important}
+}
+
+/* =====================================================================
+   V73.4 — PRICING REFERENCE GEOMETRY
+   SaaS King uses a descending ribbon of app tiles rather than a circular
+   carousel. Keep Afyra's live capabilities/data, but match that silhouette.
+   ===================================================================== */
+@media (min-width:981px){
+  .af-home-page .af-price__wrap{
+    width:min(960px,calc(100% - 40px));
+    grid-template-columns:minmax(0,.98fr) minmax(0,1.02fr);
+    padding:22px 22px 20px 24px;gap:20px;border-radius:14px;
+  }
+  .af-home-page .af-price__left{min-width:0}
+  .af-home-page .af-price__head{max-width:390px;margin-bottom:4px}
+  .af-home-page .af-price__head .af-h2{font-size:1.76rem;max-width:330px}
+  .af-home-page .af-price__disc{max-width:330px;font-size:10.7px;line-height:1.43}
+  .af-home-page .af-price__ring{
+    position:relative!important;height:218px!important;margin:-2px 0 4px!important;
+    width:100%!important;max-width:430px!important;overflow:visible!important;
+  }
+  .af-home-page .af-price__ring::before,
+  .af-home-page .af-price__ring::after{content:none!important}
+  .af-home-page .af-price__ring-track{position:absolute!important;inset:0!important;transform:none}
+  .af-home-page .af-price__ring-slot{
+    --af-orbit-offset:0!important;position:absolute!important;width:0;height:0;
+    transform:none;left:0;top:0;
+  }
+  .af-home-page .af-price__ring-slot:nth-child(1){left:7%;top:27%}
+  .af-home-page .af-price__ring-slot:nth-child(2){left:20%;top:20%}
+  .af-home-page .af-price__ring-slot:nth-child(3){left:33%;top:24%}
+  .af-home-page .af-price__ring-slot:nth-child(4){left:45%;top:32%}
+  .af-home-page .af-price__ring-slot:nth-child(5){left:56%;top:44%}
+  .af-home-page .af-price__ring-slot:nth-child(6){left:64%;top:59%}
+  .af-home-page .af-price__ring-slot:nth-child(7){left:69%;top:75%}
+  .af-home-page .af-price__ring-slot:nth-child(8){left:70%;top:91%}
+  .af-home-page .af-price__ring-slot:nth-child(9){left:58%;top:101%;opacity:.38}
+  .af-home-page .af-price__ring-slot:nth-child(10){left:45%;top:103%;opacity:.18}
+  .af-home-page .af-price__ring-card{
+    width:54px;height:54px;margin:-27px 0 0 -27px;border-radius:14px;
+    box-shadow:0 11px 25px rgba(0,0,0,.34),inset 0 1px rgba(255,255,255,.10),0 0 17px rgba(0,187,160,.09);
+  }
+  .af-home-page .af-price__ring-slot:nth-child(1) .af-price__ring-card{transform:rotate(-11deg)}
+  .af-home-page .af-price__ring-slot:nth-child(2) .af-price__ring-card{transform:rotate(-5deg)}
+  .af-home-page .af-price__ring-slot:nth-child(3) .af-price__ring-card{transform:rotate(4deg)}
+  .af-home-page .af-price__ring-slot:nth-child(4) .af-price__ring-card{transform:rotate(10deg)}
+  .af-home-page .af-price__ring-slot:nth-child(5) .af-price__ring-card{transform:rotate(16deg)}
+  .af-home-page .af-price__ring-slot:nth-child(6) .af-price__ring-card{transform:rotate(10deg)}
+  .af-home-page .af-price__ring-slot:nth-child(7) .af-price__ring-card{transform:rotate(4deg)}
+  .af-home-page .af-price__ring-slot:nth-child(8) .af-price__ring-card{transform:rotate(-4deg)}
+  .af-home-page .af-price__ring-icon,.af-home-page .af-price__ring-icon svg{width:20px;height:20px}
+  .af-home-page .af-price__ring-center{
+    position:absolute!important;left:7%!important;top:57%!important;
+    width:205px!important;min-height:0!important;max-width:205px!important;
+    padding:0!important;border:0!important;border-radius:0!important;background:transparent!important;
+    box-shadow:none!important;align-items:flex-start!important;text-align:center!important;
+  }
+  .af-home-page .af-price__ring-center .af-h4{width:100%;font-size:.78rem!important;margin-bottom:7px!important}
+  .af-home-page .af-price__ring-center .af-p{width:100%;font-size:8.5px!important;line-height:1.42!important;opacity:.62}
+  .af-home-page .af-price__terms{display:none!important}
+
+  .af-home-page .af-price__right{padding-top:0}
+  .af-home-page .af-price__switch{height:28px;margin:0 0 8px;padding:2px;border-radius:7px}
+  .af-home-page .af-price__switch-btn{min-height:24px;padding:4px 9px;font-size:8.5px;border-radius:5px}
+  .af-home-page .af-price__card{padding:7px;border-radius:11px}
+  .af-home-page .af-price__card-head{min-height:102px;padding:13px 14px;margin-bottom:7px;border-radius:9px}
+  .af-home-page .af-price__card-name{font-size:9.6px;margin-bottom:5px}
+  .af-home-page .af-price__amount{font-size:1.82rem;margin-bottom:4px}
+  .af-home-page .af-price__cur,.af-home-page .af-price__per{font-size:.58rem}
+  .af-home-page .af-price__purpose{font-size:8.6px}
+  .af-home-page .af-price__tag{font-size:7.6px;padding:4px 7px}
+  .af-home-page .af-price__card-body{padding:12px 14px 13px;border-radius:9px}
+  .af-home-page .af-price__platforms{display:none}
+  .af-home-page .af-price__features{display:grid;grid-template-columns:1fr;gap:6px;margin:0 0 10px}
+  .af-home-page .af-price__features li{font-size:8.8px;line-height:1.28}
+  .af-home-page .af-price__features li:nth-child(n+7){display:none}
+  .af-home-page .af-price__best{display:none}
+  .af-home-page .af-price__card-body .af-btn{min-height:31px;padding:8px 12px;font-size:9px;border-radius:5px}
+}
+
+@media (max-width:980px){
+  /* Tablet/mobile keep the same ribbon silhouette, scaled into one column. */
+  .af-home-page .af-price__ring{position:relative!important;width:min(430px,100%)!important;margin:0 auto 10px!important;overflow:visible!important}
+  .af-home-page .af-price__ring::before,.af-home-page .af-price__ring::after{content:none!important}
+  .af-home-page .af-price__ring-track{position:absolute!important;inset:0!important;transform:none}
+  .af-home-page .af-price__ring-slot{position:absolute!important;transform:none;left:0;top:0}
+  .af-home-page .af-price__ring-slot:nth-child(1){left:7%;top:25%}.af-home-page .af-price__ring-slot:nth-child(2){left:20%;top:18%}.af-home-page .af-price__ring-slot:nth-child(3){left:33%;top:22%}.af-home-page .af-price__ring-slot:nth-child(4){left:45%;top:31%}.af-home-page .af-price__ring-slot:nth-child(5){left:56%;top:44%}.af-home-page .af-price__ring-slot:nth-child(6){left:64%;top:59%}.af-home-page .af-price__ring-slot:nth-child(7){left:69%;top:75%}.af-home-page .af-price__ring-slot:nth-child(8){left:70%;top:90%}.af-home-page .af-price__ring-slot:nth-child(n+9){display:none}
+  .af-home-page .af-price__ring-center{position:absolute!important;left:7%!important;top:56%!important;width:190px!important;min-height:0!important;max-width:190px!important;padding:0!important;border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important}
+}
+
+/* V73.5 — content-complete pricing: reference silhouette without suppressing
+   approved live plan data. Dense two-column lists keep all API/admin fields visible. */
+@media (min-width:981px){
+  .af-home-page .af-price__terms{
+    display:grid!important;grid-template-columns:1fr 1fr;gap:4px 10px;
+    margin-top:4px!important;padding-top:4px;
+  }
+  .af-home-page .af-price__terms li{font-size:7.5px!important;line-height:1.26!important;gap:5px!important}
+  .af-home-page .af-price__terms-ico{width:13px;height:13px;flex:0 0 13px}
+  .af-home-page .af-price__platforms{display:flex!important;margin-bottom:7px!important;padding-bottom:7px!important;font-size:7.8px!important;line-height:1.25!important}
+  .af-home-page .af-price__platforms span{font-size:6.8px!important;padding:2px 5px!important}
+  .af-home-page .af-price__features{grid-template-columns:1fr 1fr!important;gap:4px 9px!important;margin-bottom:7px!important}
+  .af-home-page .af-price__features li{display:flex!important;font-size:7.45px!important;line-height:1.24!important;gap:4px!important}
+  .af-home-page .af-price__feat-ico{width:12px;height:12px;flex:0 0 12px}
+  .af-home-page .af-price__best{display:block!important;margin:0 0 7px!important}
+  .af-home-page .af-price__best:has(.af-price__best-list:empty){display:none!important}
+  .af-home-page .af-price__best-title{font-size:6.5px!important;margin-bottom:3px!important}
+  .af-home-page .af-price__best-list{gap:3px!important}
+  .af-home-page .af-price__best-list span{font-size:6.6px!important;padding:2px 5px!important}
+}
+
+/* =====================================================================
+   V75 — HOMEPAGE PRODUCTION RHYTHM / GSAP SAFETY / CONTINUOUS SURFACE
+   ===================================================================== */
+.af-home-page{
+  --af-home-surface:#06120f;
+  position:relative;overflow:clip;background:var(--af-home-surface)!important;
+}
+.af-home-page>.af-marquee,
+.af-home-page>.af-features,
+.af-home-page>.af-pillars,
+.af-home-page>.af-why,
+.af-home-page>.af-price,
+.af-home-page>.aft-section--home,
+.af-home-page>.af-proc,
+.af-home-page>.af-faq,
+.af-home-page>.af-cta{
+  background-color:transparent!important;
+  border-top:0!important;border-bottom:0!important;
+  box-shadow:none!important;
+}
+/* Keep a single canvas between sections; visual cards may still have their own surfaces. */
+.af-home-page>.af-features::before,.af-home-page>.af-pillars::before,.af-home-page>.af-why::before,
+.af-home-page>.af-price::before,.af-home-page>.af-proc::before,.af-home-page>.af-cta::before{pointer-events:none}
+
+/* Reference-like vertical rhythm. */
+.af-home-page>.af-marquee{padding-top:10px!important;padding-bottom:34px!important}
+.af-home-page>.af-features{padding-top:48px!important;padding-bottom:48px!important}
+.af-home-page>.af-pillars{padding-top:44px!important;padding-bottom:42px!important}
+.af-home-page>.af-why{padding-top:34px!important;padding-bottom:36px!important}
+.af-home-page>.af-proc{padding-top:28px!important;padding-bottom:30px!important}
+.af-home-page>.af-cta{padding-top:34px!important;padding-bottom:44px!important}
+.af-home-page>.af-features+.af-pillars,
+.af-home-page>.af-pillars+.af-why,
+.af-home-page>.af-why+.af-price,
+.af-home-page>.aft-section--home+.af-proc,
+.af-home-page>.af-proc+.af-faq,
+.af-home-page>.af-faq+.af-cta{margin-top:0!important}
+
+/* Typography density follows the SaaS King reference without changing Afyra copy. */
+.af-home-page .af-sec-head{max-width:720px;margin-left:auto;margin-right:auto;margin-bottom:28px}
+.af-home-page .af-sec-head .af-section-label{margin-bottom:10px}
+.af-home-page .af-sec-head .af-h2{font-size:clamp(1.7rem,2.65vw,2.32rem)!important;line-height:1.02!important;letter-spacing:-.035em!important;font-weight:650!important}
+.af-home-page .af-sec-head>.af-p{max-width:620px;margin:10px auto 0;font-size:11.2px!important;line-height:1.48!important}
+
+/* ---------------- Pricing: safe reference ribbon + longer light travel ---------------- */
+.af-home-page>.af-price{
+  --af-price-beam-gap:270px!important;
+  padding-top:30px!important;padding-bottom:42px!important;
+  overflow:clip!important;contain:layout paint;
+}
+.af-home-page .af-price>.af-container{position:relative;z-index:2}
+.af-home-page .af-price__mark{top:22px!important;width:50px!important;height:50px!important;padding:9px!important;z-index:4}
+.af-home-page .af-price__beam{top:58px!important;width:330px!important;height:242px!important;z-index:1!important}
+.af-home-page .af-price__beam-core{height:190px!important}
+.af-home-page .af-price__beam-glow{width:360px!important;height:172px!important;bottom:1px!important;filter:blur(38px)!important}
+.af-home-page .af-price__beam-impact{width:96px!important;height:36px!important;bottom:0!important}
+.af-home-page .af-price__wrap{
+  width:min(960px,calc(100% - 34px))!important;max-width:960px!important;
+  margin-top:var(--af-price-beam-gap)!important;margin-left:auto!important;margin-right:auto!important;
+  min-width:0!important;overflow:hidden!important;
+  padding:22px 22px 20px 24px!important;gap:20px!important;border-radius:14px!important;
+  grid-template-columns:minmax(0,.98fr) minmax(0,1.02fr)!important;
+  background:linear-gradient(145deg,rgba(6,25,22,.92),rgba(3,17,15,.97))!important;
+}
+.af-home-page .af-price__left,.af-home-page .af-price__right,.af-home-page .af-price__card,.af-home-page .af-price__card-head,.af-home-page .af-price__card-body{min-width:0!important;max-width:100%!important}
+.af-home-page .af-price__ring{max-width:430px!important;overflow:visible!important}
+.af-home-page .af-price__ring-track{will-change:transform}
+/* IMPORTANT: slots must remain transformable by GSAP. */
+.af-home-page .af-price__ring-slot{will-change:transform,opacity;transform-origin:50% 50%}
+.af-home-page .af-price__ring-card{will-change:transform}
+.af-home-page .af-price__features li,.af-home-page .af-price__terms li,.af-home-page .af-price__best-list span,.af-home-page .af-price__platforms{overflow-wrap:anywhere;word-break:normal}
+.af-home-page .af-price__amount{white-space:normal}
+.af-home-page .af-price__card-body{overflow:hidden!important}
+
+/* ---------------- Testimonials -> Process continuity ---------------- */
+.af-home-page>.aft-section--home{background:transparent!important;margin:0!important}
+.af-home-page>.aft-section--home+.af-proc{position:relative;z-index:2;margin-top:-2px!important}
+.af-home-page .af-proc__wrap{overflow:visible}
+.af-home-page .af-proc__item{will-change:transform,opacity;background-color,border-color}
+.af-home-page .af-proc__hub{will-change:transform,opacity}
+.af-home-page .af-proc__lines path{will-change:stroke-dashoffset,opacity}
+
+/* ---------------- Process -> FAQ is one surface with one luminous boundary ---------------- */
+.af-home-page>.af-faq{
+  margin-top:0!important;padding:105px 0 44px!important;
+  background:transparent!important;overflow:hidden!important;
+}
+.af-home-page>.af-proc+.af-faq::before{background:none!important;content:none!important}
+.af-home-page .af-faq__arc{top:0!important;height:112px!important;overflow:visible!important;pointer-events:none}
+.af-home-page .af-faq__arc-line{top:-43px!important;height:178px!important;width:100%!important;left:0!important}
+.af-home-page .af-faq__arc-stroke--glow{opacity:.16!important}
+.af-home-page .af-faq__arc-stroke--core{opacity:.86!important}
+.af-home-page .af-faq__arc-glow{top:-75px!important;width:560px!important;height:250px!important;opacity:0}
+.af-home-page .af-faq__arc-glow::before{opacity:.48!important;filter:hue-rotate(264deg) saturate(1.08) brightness(.98)!important}
+.af-home-page .af-faq__arc-glow::after{left:22%!important;right:22%!important;opacity:.70!important}
+.af-home-page .af-faq__spark-field{left:25%!important;right:25%!important;top:-1px!important;height:78px!important;opacity:1!important;transform:none!important}
+.af-home-page .af-faq__spark{will-change:opacity,transform,filter}
+.af-home-page .af-faq>.af-container{position:relative;z-index:2}
+
+/* Mobile/tablet retain the same hierarchy without horizontal page overflow. */
+@media (max-width:980px){
+  .af-home-page>.af-price{--af-price-beam-gap:220px!important;padding-top:28px!important}
+  .af-home-page .af-price__beam{top:55px!important;height:193px!important}.af-home-page .af-price__beam-core{height:178px!important}
+  .af-home-page .af-price__wrap{width:min(650px,calc(100% - 28px))!important;grid-template-columns:1fr!important;padding:20px!important;gap:15px!important}
+  .af-home-page .af-price__ring{width:min(430px,100%)!important;margin-inline:auto!important}
+  .af-home-page .af-price__right,.af-home-page .af-price__left{width:100%;max-width:520px!important;margin-inline:auto}
+  .af-home-page>.af-proc{padding-top:30px!important;padding-bottom:28px!important}
+  .af-home-page>.af-faq{padding-top:96px!important}
+  .af-home-page .af-faq__arc-line{width:116%!important;left:-8%!important;top:-32px!important;height:150px!important}
+  .af-home-page .af-faq__spark-field{left:19%!important;right:19%!important}
+}
+@media (max-width:680px){
+  .af-home-page>.af-marquee{padding-bottom:24px!important}
+  .af-home-page>.af-features,.af-home-page>.af-pillars,.af-home-page>.af-why{padding-top:30px!important;padding-bottom:30px!important}
+  .af-home-page>.af-price{--af-price-beam-gap:188px!important;padding:25px 0 32px!important}
+  .af-home-page .af-price__mark{top:20px!important;width:43px!important;height:43px!important}
+  .af-home-page .af-price__beam{top:50px!important;height:163px!important;width:280px!important}.af-home-page .af-price__beam-core{height:126px!important}
+  .af-home-page .af-price__wrap{width:calc(100% - 20px)!important;padding:15px 12px!important;gap:12px!important}
+  .af-home-page .af-price__ring{height:164px!important;overflow:hidden!important}
+  .af-home-page .af-price__ring-slot:nth-child(n+9){display:none!important}
+  .af-home-page .af-price__features{grid-template-columns:1fr!important}
+  .af-home-page>.af-proc{padding:24px 0 25px!important}
+  .af-home-page .af-proc__wrap{gap:10px!important}
+  .af-home-page>.af-faq{padding:84px 0 36px!important}
+  .af-home-page .af-faq__arc{height:90px!important}.af-home-page .af-faq__arc-line{top:-24px!important;height:126px!important;width:142%!important;left:-21%!important}
+  .af-home-page .af-faq__arc-glow{top:-49px!important;width:390px!important;height:180px!important}
+  .af-home-page .af-faq__spark-field{left:12%!important;right:12%!important;height:64px!important}
+  .af-home-page>.af-cta{padding:28px 0 36px!important}
+}
+
+@media (prefers-reduced-motion:reduce){
+  .af-home-page .af-price__ring-slot,.af-home-page .af-price__ring-card,.af-home-page .af-proc__item,.af-home-page .af-proc__hub{will-change:auto}
+}
+
+/* V75.1 — FAQ sparkle brightness is independently GSAP-driven. */
+.af-home-page .af-faq__spark{filter:brightness(var(--af-faq-twinkle,1))}

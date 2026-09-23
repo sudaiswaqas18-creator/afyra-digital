@@ -273,6 +273,9 @@ export function useGsapAnimations() {
       /* ---------- 3b. Staggered groups (cards / grids) ---------- */
       gsap.utils.toArray<HTMLElement>('[data-af-stagger]').forEach((group) => {
         if (group.matches('[data-af-feature-reference]')) return
+        // Homepage process owns a dedicated scrubbed choreography in
+        // useSaasKingEffects; do not let the generic one-shot stagger fight it.
+        if (group.closest('.af-home-page #process')) return
         const items = group.querySelectorAll<HTMLElement>('[data-af-stagger-item]')
         if (!items.length) return
         gsap.fromTo(
@@ -290,40 +293,71 @@ export function useGsapAnimations() {
         )
       })
 
-      /* ---------- 3c. FAQ reference light vault + sparkle entrance ---------- */
+      /* ---------- 3c. FAQ reference curve: sparkle first, glow on scroll ---------- */
       const faqArc = document.querySelector<HTMLElement>('[data-af-faq-arc]')
       if (faqArc) {
+        const faqSection = faqArc.closest<HTMLElement>('.af-faq') ?? faqArc
         const strokes = gsap.utils.toArray<SVGPathElement>('.af-faq__arc-stroke', faqArc)
         const halo = faqArc.querySelector<HTMLElement>('.af-faq__arc-halo')
         const glow = faqArc.querySelector<HTMLElement>('.af-faq__arc-glow')
         const beam = faqArc.querySelector<HTMLElement>('.af-faq__arc-beam')
         const sparks = gsap.utils.toArray<HTMLElement>('.af-faq__spark', faqArc)
+
         strokes.forEach((path) => {
           const length = Math.max(1, path.getTotalLength())
-          gsap.set(path, { strokeDasharray: length, strokeDashoffset: length })
+          gsap.set(path, { strokeDasharray: length, strokeDashoffset: length * .24 })
         })
-        const faqTl = gsap.timeline({
-          scrollTrigger: { trigger: faqArc.closest('.af-faq') ?? faqArc, start: 'top 86%', once: true }
-        })
-        faqTl
-          .fromTo(glow, { opacity: 0, scale: .68 }, { opacity: .82, scale: 1, duration: 1.1, ease: 'power2.out' }, 0)
-          .fromTo(halo, { opacity: 0, scale: .7, y: -22 }, { opacity: .96, scale: 1, y: 0, duration: 1.25, ease: 'power2.out' }, .04)
-          .fromTo(beam, { opacity: 0, scaleX: .52, y: -18 }, { opacity: .9, scaleX: 1, y: 0, duration: 1.15, ease: 'power3.out' }, .08)
-          .to(strokes, { strokeDashoffset: 0, duration: 1.22, stagger: .06, ease: 'power2.inOut' }, .03)
-          .fromTo(sparks, { opacity: 0, y: 18, scale: .2 }, { opacity: .9, y: 0, scale: 1, duration: .62, ease: 'back.out(2.2)', stagger: .035 }, .34)
+        gsap.set([glow, halo, beam], { opacity: 0 })
+        sparks.forEach((spark, index) => gsap.set(spark, { opacity: index < 4 ? .14 : 0, y: 8, scale: .45, force3D: true }))
 
-        if (sparks.length) {
-          gsap.to(sparks, {
-            y: 'random(-7,3)',
-            x: 'random(-3,3)',
-            opacity: 'random(.24,1)',
-            scale: 'random(.65,1.35)',
-            duration: 1.7,
-            ease: 'sine.inOut',
-            stagger: { each: .07, from: 'random', repeat: -1, yoyo: true },
-            delay: 1.4
+        const faqProgress = ScrollTrigger.create({
+          trigger: faqSection,
+          start: 'top 96%',
+          end: 'top 42%',
+          scrub: .42,
+          invalidateOnRefresh: true,
+          onUpdate(self) {
+            const p = Math.max(0, Math.min(1, self.progress))
+            const sparkleP = Math.min(1, p / .58)
+            const glowP = Math.max(0, Math.min(1, (p - .16) / .58))
+            const drawP = Math.max(0, Math.min(1, (p - .04) / .72))
+
+            strokes.forEach((path) => {
+              const length = Math.max(1, path.getTotalLength())
+              gsap.set(path, { strokeDashoffset: length * (.24 * (1 - drawP)), opacity: .56 + glowP * .44 })
+            })
+            sparks.forEach((spark, index) => {
+              const seed = index < 4
+              const threshold = seed ? 0 : .06 + (((index * 13) % 23) / 23) * .62
+              const reveal = seed ? Math.max(.18, sparkleP) : Math.max(0, Math.min(1, (sparkleP - threshold) * 5))
+              gsap.set(spark, {
+                opacity: seed ? .10 + sparkleP * .56 : reveal * (.32 + (index % 4) * .11),
+                y: 8 - reveal * 8,
+                scale: .42 + reveal * .78,
+                force3D: true
+              })
+            })
+            if (glow) gsap.set(glow, { opacity: .08 + glowP * .74, scale: .72 + glowP * .28, y: -7 * glowP, force3D: true })
+            if (halo) gsap.set(halo, { opacity: glowP * .42, scale: .82 + glowP * .18, force3D: true })
+            if (beam) gsap.set(beam, { opacity: glowP * .38, scaleX: .72 + glowP * .28, force3D: true })
+          }
+        })
+        processCleanups.push(() => faqProgress.kill())
+
+        // Ambient twinkle remains GSAP-owned as well. ScrollTrigger owns the
+        // outer opacity/position; this loop only animates a brightness variable,
+        // so the two animation systems never fight over transform or opacity.
+        sparks.forEach((spark, index) => {
+          gsap.set(spark, { '--af-faq-twinkle': .72 + (index % 3) * .08 })
+          gsap.to(spark, {
+            '--af-faq-twinkle': 1.28 + (index % 4) * .08,
+            duration: 1.45 + (index % 5) * .18,
+            delay: index * .055,
+            repeat: -1,
+            yoyo: true,
+            ease: 'sine.inOut'
           })
-        }
+        })
       }
 
       /* ---------- 4. Parallax drift on decorative layers ---------- */
@@ -567,16 +601,38 @@ export function useGsapAnimations() {
       })
     })
 
-    /* Recalculate once after initial layout settles. Avoid anonymous late load
-       refreshes that can fire after the visitor has started scrolling. */
-    const refreshOnce = () => {
-      if (window.scrollY < 48) ScrollTrigger.refresh()
+    /* Dynamic CMS/API content can change section heights after the first paint.
+       Refresh ScrollTrigger when the homepage layout itself changes, not on every
+       scroll tick. Transforms do not affect ResizeObserver geometry, so this is
+       stable even while GSAP is running. */
+    let refreshFrame = 0
+    let refreshTimer = 0
+    let destroyed = false
+    const scheduleRefresh = () => {
+      if (destroyed) return
+      window.cancelAnimationFrame(refreshFrame)
+      window.clearTimeout(refreshTimer)
+      refreshFrame = window.requestAnimationFrame(() => {
+        refreshTimer = window.setTimeout(() => ScrollTrigger.refresh(), 70)
+      })
     }
-    const t = window.setTimeout(refreshOnce, 320)
+    const refreshOnce = () => scheduleRefresh()
+    const t = window.setTimeout(refreshOnce, 260)
     window.addEventListener('load', refreshOnce, { once: true })
 
+    const homeRoot = document.querySelector<HTMLElement>('.af-home-page')
+    const observer = typeof ResizeObserver !== 'undefined' && homeRoot
+      ? new ResizeObserver(() => scheduleRefresh())
+      : null
+    if (observer && homeRoot) observer.observe(homeRoot)
+    ;(document as Document & { fonts?: FontFaceSet }).fonts?.ready.then(scheduleRefresh).catch(() => undefined)
+
     return () => {
+      destroyed = true
       window.clearTimeout(t)
+      window.clearTimeout(refreshTimer)
+      window.cancelAnimationFrame(refreshFrame)
+      observer?.disconnect()
       window.removeEventListener('load', refreshOnce)
       processCleanups.forEach((cleanup) => cleanup())
       ctx.revert()

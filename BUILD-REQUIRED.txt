@@ -1,0 +1,4 @@
+The corrected React source is included in this package.
+The old uploaded dist/ and generated client*.js bundles were intentionally excluded because they predate the fixes.
+On Windows, reinstall frontend dependencies and run `npm run build` before production deployment.
+See ../FIX-REPORT.md for exact commands and end-to-end test steps.

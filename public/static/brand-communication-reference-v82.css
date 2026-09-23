@@ -1,0 +1,255 @@
+/* AFYRA DIGITAL — Brand & Creative Communication V82
+   Latest requested repair:
+   - keep the supplied V77 Feature + How It Works scroll mechanics intact;
+   - preserve the newer Home-02 card display/layout styling;
+   - remove duplicate Strategic Solution arcs, leaving one clean reference curve
+     with only a restrained apex glow. */
+
+/* 01 — FEATURE STORY
+   The sticky runway is part of normal document flow: the viewport stays on the
+   feature story until the V77 reveal timeline has finished, then releases
+   immediately into the next section. No ScrollTrigger pin spacer is created. */
+.sv-page.sv-layout-02 .sv-brand-features{
+  position:relative!important;
+  height:calc(100svh + 900px)!important;
+  min-height:1420px!important;
+  margin:0!important;
+  padding:0!important;
+  overflow:visible!important;
+}
+.sv-page.sv-layout-02 .sv-brand-features>.af-container{
+  display:block!important;
+  grid-template-columns:none!important;
+  grid-template-rows:none!important;
+  gap:0!important;
+  width:min(1800px,calc(100% - 36px))!important;
+  max-width:1800px!important;
+  height:100%!important;
+  margin-inline:auto!important;
+  padding:0!important;
+}
+.sv-page.sv-layout-02 .sv-brand-feature-story,
+.sv-page.sv-layout-02 [data-brand-feature-story]{
+  position:relative!important;
+  display:block!important;
+  width:100%!important;
+  max-width:none!important;
+  height:100%!important;
+  min-height:0!important;
+  margin:0 auto!important;
+  overflow:visible!important;
+  transform:none!important;
+}
+.sv-page.sv-layout-02 .sv-brand-feature-pin,
+.sv-page.sv-layout-02 [data-brand-feature-pin]{
+  position:sticky!important;
+  top:72px!important;
+  left:auto!important;
+  right:auto!important;
+  width:100%!important;
+  max-width:none!important;
+  height:calc(100svh - 72px)!important;
+  min-height:650px!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  margin:0!important;
+  padding:16px 0!important;
+  overflow:hidden!important;
+  box-sizing:border-box!important;
+  transform:none!important;
+}
+.sv-page.sv-layout-02 .sv-brand-feature-stage,
+.sv-page.sv-layout-02 [data-brand-feature-stage]{
+  position:relative!important;
+  width:100%!important;
+  max-width:1800px!important;
+  height:min(760px,calc(100svh - 104px))!important;
+  min-height:620px!important;
+  margin:0 auto!important;
+  overflow:hidden!important;
+  box-sizing:border-box!important;
+  transform:none!important;
+}
+/* Direct opacity/transform locks are intentionally absent here. V77 GSAP owns
+   the intro/grid reveal so scrolling cannot skip the cards or leave a blank frame. */
+.sv-page.sv-layout-02 [data-brand-feature-card]{
+  backface-visibility:hidden!important;
+  -webkit-backface-visibility:hidden!important;
+  will-change:transform,opacity!important;
+}
+
+/* 02 — HOW IT WORKS
+   Restore the V77 sticky geometry only. The current card visual design stays
+   untouched while V77 JS controls the proven 01 → 02 → 03 → 04 sequence. */
+.sv-page.sv-layout-02 .sv-brand-steps{
+  width:100vw!important;
+  max-width:100vw!important;
+  height:calc(100svh + 760px)!important;
+  min-height:1380px!important;
+  margin-left:calc(50% - 50vw)!important;
+  margin-right:calc(50% - 50vw)!important;
+  padding:68px 0 36px!important;
+  overflow:visible!important;
+}
+.sv-page.sv-layout-02 .sv-brand-steps>.af-container{
+  display:block!important;
+  grid-template-columns:none!important;
+  grid-template-rows:none!important;
+  gap:0!important;
+  width:100vw!important;
+  max-width:100vw!important;
+  height:100%!important;
+  margin:0!important;
+  padding-inline:clamp(18px,3vw,52px)!important;
+  box-sizing:border-box!important;
+}
+.sv-page.sv-layout-02 [data-brand-step-pin]{
+  position:sticky!important;
+  top:72px!important;
+  width:min(1500px,100%)!important;
+  max-width:1500px!important;
+  height:calc(100svh - 72px)!important;
+  min-height:650px!important;
+  margin-inline:auto!important;
+  padding:14px 0 20px!important;
+  align-items:center!important;
+  justify-content:flex-start!important;
+  overflow:hidden!important;
+  transform:none!important;
+}
+.sv-page.sv-layout-02 [data-brand-step-scroll]{
+  width:min(1370px,100%)!important;
+  max-width:1370px!important;
+  margin-inline:auto!important;
+}
+.sv-page.sv-layout-02 [data-brand-step-shell]{
+  width:min(1370px,100%)!important;
+  max-width:1370px!important;
+  margin-inline:auto!important;
+  transform:none!important;
+}
+.sv-page.sv-layout-02 .sv-brand-step-card{
+  left:50%;
+  top:50%;
+}
+
+/* 03 — STRATEGIC SOLUTION
+   Exactly one visible curve remains above the heading. The travelling/progress
+   strokes and spark are removed. A soft glow sits behind the apex only. */
+.sv-page.sv-layout-02 .sv-brand-library-section__arc{
+  --strategic-halo:1;
+  position:absolute!important;
+  left:50%!important;
+  right:auto!important;
+  top:-5px!important;
+  width:min(1180px,78vw)!important;
+  height:clamp(185px,17vw,286px)!important;
+  transform:translateX(-50%)!important;
+  z-index:1!important;
+  border:0!important;
+  background:none!important;
+  overflow:visible!important;
+  pointer-events:none!important;
+  opacity:1!important;
+}
+.sv-page.sv-layout-02 .sv-brand-library-section__arc::before{
+  display:none!important;
+  content:none!important;
+}
+.sv-page.sv-layout-02 .sv-brand-library-section__arc::after{
+  content:""!important;
+  display:block!important;
+  position:absolute!important;
+  left:27%!important;
+  right:27%!important;
+  top:0!important;
+  height:96px!important;
+  border-radius:50%!important;
+  opacity:.72!important;
+  background:radial-gradient(ellipse at 50% 28%,rgba(0,187,160,.18) 0%,rgba(0,187,160,.08) 38%,transparent 74%)!important;
+  filter:blur(22px)!important;
+  pointer-events:none!important;
+  z-index:0!important;
+}
+.sv-page.sv-layout-02 .sv-brand-library-section__arc svg{
+  position:absolute!important;
+  inset:0!important;
+  display:block!important;
+  width:100%!important;
+  height:100%!important;
+  overflow:visible!important;
+  z-index:1!important;
+}
+.sv-page.sv-layout-02 .sv-brand-strategic-arc__base{
+  display:block!important;
+  fill:none!important;
+  stroke:rgba(255,255,255,.98)!important;
+  stroke-width:1.55!important;
+  stroke-linecap:round!important;
+  vector-effect:non-scaling-stroke!important;
+  filter:drop-shadow(0 -5px 13px rgba(0,187,160,.12))!important;
+}
+.sv-page.sv-layout-02 .sv-brand-strategic-arc__progress,
+.sv-page.sv-layout-02 .sv-brand-strategic-arc__tracer,
+.sv-page.sv-layout-02 .sv-brand-strategic-arc__spark{
+  display:none!important;
+  opacity:0!important;
+}
+
+@media (max-width:760px){
+  .sv-page.sv-layout-02 .sv-brand-features{
+    height:auto!important;
+    min-height:0!important;
+    padding:54px 0 70px!important;
+    overflow:hidden!important;
+  }
+  .sv-page.sv-layout-02 .sv-brand-feature-pin,
+  .sv-page.sv-layout-02 [data-brand-feature-pin]{
+    position:relative!important;
+    top:auto!important;
+    height:auto!important;
+    min-height:0!important;
+    padding:0!important;
+    overflow:visible!important;
+  }
+  .sv-page.sv-layout-02 .sv-brand-feature-stage,
+  .sv-page.sv-layout-02 [data-brand-feature-stage]{
+    height:auto!important;
+    min-height:0!important;
+    overflow:visible!important;
+  }
+  .sv-page.sv-layout-02 .sv-brand-features__intro,
+  .sv-page.sv-layout-02 [data-brand-feature-intro],
+  .sv-page.sv-layout-02 .sv-brand-feature-grid,
+  .sv-page.sv-layout-02 [data-brand-feature-grid]{
+    position:relative!important;
+    inset:auto!important;
+  }
+  .sv-page.sv-layout-02 .sv-brand-steps{
+    width:100%!important;
+    max-width:100%!important;
+    height:auto!important;
+    min-height:0!important;
+    margin:0!important;
+    padding:62px 0!important;
+  }
+  .sv-page.sv-layout-02 [data-brand-step-pin]{
+    position:relative!important;
+    top:auto!important;
+    width:100%!important;
+    height:auto!important;
+    min-height:0!important;
+    overflow:visible!important;
+  }
+  .sv-page.sv-layout-02 .sv-brand-library-section__arc{
+    width:94vw!important;
+    height:180px!important;
+    top:-2px!important;
+  }
+  .sv-page.sv-layout-02 .sv-brand-library-section__arc::after{
+    left:18%!important;
+    right:18%!important;
+    height:72px!important;
+  }
+}

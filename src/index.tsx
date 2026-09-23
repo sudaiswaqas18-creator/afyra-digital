@@ -194,6 +194,7 @@ app.get('*', (c) => {
   const schema = detailSchema ? [organizationSchema, detailSchema] : serviceSchema ? [organizationSchema, serviceSchema] : pageSchema ? [organizationSchema, pageSchema] : organizationSchema
   const safeSchema = JSON.stringify(schema).replace(/</g, '\u003c')
   const clientEntry = isDev ? '/src/client/main.tsx' : '/static/client.js'
+  const clientStyle = isDev ? '' : '<link href="/static/client.css" rel="stylesheet">'
   return c.html(`<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -267,6 +268,19 @@ app.get('*', (c) => {
 <link href="/static/digital-growth-home07-v61.css" rel="stylesheet">
 <link href="/static/responsive-center-webhero-v63.css" rel="stylesheet">
 <link href="/static/patient-acquisition-v67-ring-fix.css" rel="stylesheet">
+<link href="/static/frontend-polish-v71.css" rel="stylesheet">
+<link href="/static/home-reference-final-v77.css" rel="stylesheet">
+<link href="/static/admin-portal.css" rel="stylesheet">
+<link href="/static/brand-communication-reference-v78.css" rel="stylesheet">
+<link href="/static/brand-communication-reference-v79.css" rel="stylesheet">
+<link href="/static/brand-communication-reference-v80.css" rel="stylesheet">
+<link href="/static/brand-communication-refinement-v83.css" rel="stylesheet">
+<link href="/static/brand-communication-continuity-v84.css" rel="stylesheet">
+<link href="/static/digital-presence-reference-v85.css" rel="stylesheet">
+<link href="/static/brand-communication-reference-v82.css" rel="stylesheet">
+<link href="/static/digital-presence-connected-platforms-v86.css" rel="stylesheet">
+<link href="/static/reference-finish-v86.css" rel="stylesheet">
+${clientStyle}
 
 <script type="application/ld+json">${safeSchema}</script>
 </head>
@@ -281,3 +295,5 @@ app.get('*', (c) => {
 })
 
 export default app
+
+

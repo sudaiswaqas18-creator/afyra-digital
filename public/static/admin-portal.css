@@ -1,0 +1,2223 @@
+/* ==========================================================================
+   Afyra Digital — Admin Portal & Login Page (Clean Enterprise SaaS Styling)
+   Palette: Background #F8FAFC, Card Surface #FFFFFF, Deep Teal #00443E, Vibrant Teal #00BBA0, Amber Gold #D97706
+   ========================================================================== */
+
+:root {
+  --af-admin-bg: #f8fafc;
+  --af-admin-surface: #ffffff;
+  --af-admin-surface-card: #ffffff;
+  --af-admin-border: #e2e8f0;
+  --af-admin-border-hover: #cbd5e1;
+  --af-admin-teal: #00bba0;
+  --af-admin-teal-hover: #009e87;
+  --af-admin-teal-light: #f0fdfa;
+  --af-admin-darkgreen: #00443e;
+  --af-admin-amber: #d97706;
+  --af-admin-amber-light: #fffbeb;
+  --af-admin-text: #0f172a;
+  --af-admin-text-secondary: #334155;
+  --af-admin-muted: #64748b;
+  --af-admin-sidebar-w: 265px;
+}
+
+/* Base resets for admin context */
+.af-admin-root {
+  min-height: 100vh;
+  background-color: var(--af-admin-bg);
+  color: var(--af-admin-text);
+  font-family:
+    "Poppins",
+    system-ui,
+    -apple-system,
+    sans-serif;
+  overflow-x: hidden;
+}
+
+/* ==========================================================================
+   TASK 3: LOGIN PAGE (SPLIT-SCREEN CINEMATIC DESIGN)
+   ========================================================================== */
+.af-login-page {
+  min-height: 100vh;
+  display: flex;
+  background:
+    radial-gradient(
+      circle at 10% 20%,
+      rgba(0, 68, 62, 0.7) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at 90% 80%,
+      rgba(0, 187, 160, 0.15) 0%,
+      transparent 45%
+    ),
+    #061110;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Ambient glow orbs */
+.af-login-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+  pointer-events: none;
+  z-index: 1;
+}
+.af-login-orb--1 {
+  top: -10%;
+  left: 20%;
+  width: 500px;
+  height: 500px;
+  background: rgba(0, 187, 160, 0.18);
+  animation: afFloatOrb1 16s ease-in-out infinite alternate;
+}
+.af-login-orb--2 {
+  bottom: -10%;
+  right: 15%;
+  width: 450px;
+  height: 450px;
+  background: rgba(0, 68, 62, 0.6);
+  animation: afFloatOrb2 18s ease-in-out infinite alternate;
+}
+.af-login-orb--3 {
+  top: 40%;
+  left: 45%;
+  width: 320px;
+  height: 320px;
+  background: rgba(255, 150, 13, 0.08);
+  animation: afFloatOrb1 12s ease-in-out infinite alternate-reverse;
+}
+
+@keyframes afFloatOrb1 {
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+  100% {
+    transform: translate(60px, 40px) scale(1.12);
+  }
+}
+@keyframes afFloatOrb2 {
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+  100% {
+    transform: translate(-50px, -30px) scale(0.92);
+  }
+}
+
+/* Split layout columns */
+.af-login-visual-side {
+  flex: 1.1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 4rem 5rem;
+  position: relative;
+  z-index: 2;
+  border-right: 1px solid rgba(0, 187, 160, 0.12);
+  background: linear-gradient(
+    135deg,
+    rgba(0, 68, 62, 0.25) 0%,
+    rgba(7, 19, 18, 0.4) 100%
+  );
+  backdrop-filter: blur(12px);
+}
+
+.af-login-form-side {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 4rem;
+  position: relative;
+  z-index: 2;
+}
+
+/* Current login component structure */
+.af-login-brand-header {
+  display: flex;
+  align-items: center;
+}
+
+.af-login-logo-img {
+  width: 46px;
+  height: 46px;
+  object-fit: contain;
+}
+
+.af-login-brand-title {
+  margin: 0;
+  color: #ffffff;
+  font-family: "League Spartan", sans-serif;
+  font-size: 40px;
+  font-weight: 700;
+  padding-top: 8px;
+}
+
+.af-login-brand-title span {
+  color: var(--af-admin-teal);
+  font-weight: 400;
+}
+
+.af-login-hero-block {
+  max-width: 610px;
+  margin: auto 0;
+}
+
+.af-login-badge {
+  margin-bottom: 1.25rem;
+}
+
+.af-login-badge__dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--af-admin-teal);
+  box-shadow: 0 0 10px var(--af-admin-teal);
+}
+
+.af-login-visual-heading {
+  max-width: 600px;
+  margin: 0 0 1rem;
+  color: #ffffff;
+  font-family: "League Spartan", sans-serif;
+  font-size: clamp(2.6rem, 4.3vw, 4.8rem);
+  line-height: 0.98;
+  letter-spacing: -1.5px;
+}
+
+.af-login-visual-heading em {
+  color: var(--af-admin-teal);
+  font-style: normal;
+}
+
+.af-login-visual-p {
+  max-width: 510px;
+  margin: 0;
+  color: #a8bebc;
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+.af-login-ring-scene {
+  position: relative;
+  width: 260px;
+  height: 260px;
+  margin: 2.5rem auto 0;
+  display: grid;
+  place-items: center;
+}
+
+.af-login-ring-1,
+.af-login-ring-2 {
+  position: absolute;
+  border: 1px dashed rgba(0, 187, 160, 0.36);
+  border-radius: 50%;
+  inset: 0;
+  animation: afSpin 28s linear infinite;
+}
+
+.af-login-ring-2 {
+  inset: 28px;
+  border-color: rgba(255, 150, 13, 0.35);
+  animation-direction: reverse;
+  animation-duration: 21s;
+}
+
+.af-login-ring-center {
+  position: relative;
+  z-index: 1;
+  width: 82px;
+  height: 82px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(0, 187, 160, 0.5);
+  border-radius: 22px;
+  background: rgba(0, 68, 62, 0.65);
+  box-shadow: 0 0 35px rgba(0, 187, 160, 0.22);
+}
+
+.af-login-ring-center img {
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
+}
+
+.af-login-visual-footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(0, 187, 160, 0.12);
+  color: #718886;
+  font-size: 0.78rem;
+}
+
+.af-login-quote-tag {
+  color: #a8bebc;
+}
+
+.af-login-card__head {
+  margin-bottom: 1.75rem;
+}
+
+.af-login-card__title {
+  margin: 0 0 0.4rem;
+  color: #ffffff;
+  font-family: "League Spartan", sans-serif;
+  font-size: 2rem;
+}
+
+.af-login-card__subtitle {
+  margin: 0;
+  color: #9db1af;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.af-login-error {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  margin-bottom: 1.25rem;
+  padding: 0.8rem 0.9rem;
+  border: 1px solid rgba(248, 113, 113, 0.45);
+  border-radius: 10px;
+  background: rgba(127, 29, 29, 0.25);
+  color: #fecaca;
+  font-size: 0.85rem;
+  line-height: 1.4;
+}
+
+.af-input-group {
+  margin-bottom: 1.1rem;
+}
+
+.af-input-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.af-input-wrap .af-input-icon {
+  z-index: 1;
+}
+
+.af-input-wrap .af-input-toggle-btn {
+  z-index: 1;
+}
+
+.af-login-form-footer {
+  margin-top: 1.4rem;
+  text-align: center;
+}
+
+.af-login-back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: #8fa4a2;
+  font-size: 0.82rem;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.af-login-back-link:hover {
+  color: var(--af-admin-teal);
+}
+
+.af-btn-spinner {
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-top-color: #ffffff;
+  border-radius: 50%;
+  animation: afSpin 0.75s linear infinite;
+}
+
+.af-login-exit-curtain {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: var(--af-admin-darkgreen);
+  transform: scaleY(0);
+  transform-origin: bottom;
+  pointer-events: none;
+}
+
+/* Keep page-scope labels structured and quiet inside dense tables. */
+.af-scope-badges {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 5px;
+  max-width: 360px;
+}
+
+.af-scope-badge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+  padding: 4px 8px;
+  border: 1px solid #d7e7e4;
+  border-radius: 4px;
+  background: #f7fbfa;
+  color: #17645d;
+  font-size: 0.68rem;
+  font-weight: 600;
+  line-height: 1.25;
+  white-space: nowrap;
+}
+
+.af-scope-badge::before {
+  width: 4px;
+  height: 4px;
+  margin-right: 6px;
+  border-radius: 50%;
+  background: #11a88f;
+  content: "";
+}
+
+/* Brand badge */
+.af-login-brand-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+}
+.af-login-brand-badge img {
+  width: 44px;
+  height: 44px;
+  object-fit: contain;
+}
+.af-login-brand-text {
+  font-family: "League Spartan", sans-serif;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: -0.5px;
+}
+.af-login-brand-text span {
+  color: var(--af-admin-teal);
+  font-weight: 400;
+}
+
+/* Left side showcase graphics */
+.af-login-art-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 3rem 0;
+  min-height: 280px;
+}
+
+.af-login-art-rings {
+  position: absolute;
+  width: 320px;
+  height: 320px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.af-ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px dashed rgba(0, 187, 160, 0.25);
+}
+.af-ring--1 {
+  width: 100%;
+  height: 100%;
+  animation: afSpin 45s linear infinite;
+}
+.af-ring--2 {
+  width: 75%;
+  height: 75%;
+  border-color: rgba(255, 150, 13, 0.2);
+  animation: afSpinRev 35s linear infinite;
+}
+.af-ring--3 {
+  width: 50%;
+  height: 50%;
+  border-style: solid;
+  border-color: rgba(0, 187, 160, 0.35);
+  box-shadow: 0 0 35px rgba(0, 187, 160, 0.2);
+  animation: afPulseRing 6s ease-in-out infinite;
+}
+
+@keyframes afSpin {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+@keyframes afSpinRev {
+  100% {
+    transform: rotate(-360deg);
+  }
+}
+@keyframes afPulseRing {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  50% {
+    transform: scale(1.08);
+    opacity: 1;
+  }
+}
+
+.af-login-art-center {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+}
+.af-login-glow-icon {
+  width: 72px;
+  height: 72px;
+  border-radius: 20px;
+  background: linear-gradient(
+    135deg,
+    rgba(0, 187, 160, 0.25) 0%,
+    rgba(0, 68, 62, 0.5) 100%
+  );
+  border: 1px solid rgba(0, 187, 160, 0.4);
+  box-shadow: 0 10px 30px rgba(0, 187, 160, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.25rem;
+  color: var(--af-admin-teal);
+}
+
+.af-login-copy-title {
+  font-family: "League Spartan", sans-serif;
+  font-size: 2.2rem;
+  font-weight: 700;
+  line-height: 1.15;
+  color: #fff;
+  margin-bottom: 0.75rem;
+}
+.af-login-copy-title span {
+  background: linear-gradient(135deg, #00bba0 0%, #ff960d 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.af-login-copy-lead {
+  font-size: 0.95rem;
+  color: #94a3b8;
+  max-width: 420px;
+  line-height: 1.6;
+}
+
+.af-login-bottom-trust {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  font-size: 0.82rem;
+  color: #64748b;
+  border-top: 1px solid rgba(0, 187, 160, 0.12);
+  padding-top: 1.5rem;
+}
+.af-login-trust-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.af-login-trust-item svg {
+  color: var(--af-admin-teal);
+}
+
+/* Glassmorphic Form Card */
+.af-login-card {
+  width: 100%;
+  max-width: 440px;
+  background: rgba(12, 30, 28, 0.75);
+  border: 1px solid rgba(0, 187, 160, 0.2);
+  border-radius: 24px;
+  padding: 2.75rem 2.5rem;
+  box-shadow:
+    0 30px 70px rgba(0, 0, 0, 0.6),
+    0 0 0 1px rgba(0, 187, 160, 0.15) inset;
+  backdrop-filter: blur(20px);
+  position: relative;
+}
+
+.af-login-card-header {
+  margin-bottom: 2rem;
+}
+.af-login-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: rgba(0, 187, 160, 0.12);
+  border: 1px solid rgba(0, 187, 160, 0.3);
+  color: var(--af-admin-teal);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  margin-bottom: 1rem;
+}
+.af-login-badge-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--af-admin-teal);
+  box-shadow: 0 0 8px var(--af-admin-teal);
+}
+
+.af-login-heading {
+  font-family: "League Spartan", sans-serif;
+  font-size: 1.85rem;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 0.35rem;
+}
+.af-login-subheading {
+  font-size: 0.88rem;
+  color: #94a3b8;
+  line-height: 1.5;
+}
+
+/* Input Fields with Floating Glow */
+.af-admin-field {
+  position: relative;
+  margin-bottom: 1.35rem;
+}
+.af-admin-label {
+  display: block;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #cbd5e1;
+  margin-bottom: 0.45rem;
+  letter-spacing: 0.2px;
+}
+.af-admin-input-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.af-input-icon {
+  position: absolute;
+  left: 1rem;
+  color: #64748b;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  transition: color 0.2s;
+}
+.af-admin-input {
+  width: 100%;
+  padding: 0.85rem 1rem 0.85rem 2.85rem;
+  background: rgba(7, 24, 22, 0.6);
+  border: 1px solid rgba(0, 187, 160, 0.2);
+  border-radius: 14px;
+  color: #fff;
+  font-size: 0.95rem;
+  font-family: inherit;
+  outline: none;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.af-admin-input:focus {
+  border-color: var(--af-admin-teal);
+  background: rgba(7, 24, 22, 0.85);
+  box-shadow:
+    0 0 0 4px rgba(0, 187, 160, 0.15),
+    0 0 20px rgba(0, 187, 160, 0.18);
+}
+.af-admin-input:focus + .af-input-icon {
+  color: var(--af-admin-teal);
+}
+
+.af-input-toggle-btn {
+  position: absolute;
+  right: 1rem;
+  background: transparent;
+  border: none;
+  color: #94a3b8;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  transition: color 0.2s;
+}
+.af-input-toggle-btn:hover {
+  color: var(--af-admin-teal);
+}
+
+.af-login-submit-btn {
+  width: 100%;
+  padding: 1.05rem 1.5rem;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #00bba0 0%, #00937e 100%);
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 1rem;
+  font-family: "League Spartan", sans-serif;
+  letter-spacing: 0.5px;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 8px 24px rgba(0, 187, 160, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: all 0.25s ease;
+  position: relative;
+  overflow: hidden;
+}
+.af-login-submit-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(0, 187, 160, 0.45);
+}
+.af-login-submit-btn:active:not(:disabled) {
+  transform: translateY(0);
+}
+.af-login-submit-btn:disabled {
+  opacity: 0.75;
+  cursor: not-allowed;
+}
+
+/* Spinner */
+.af-spinner {
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-top-color: #ffffff;
+  border-radius: 50%;
+  animation: afSpin 0.75s linear infinite;
+}
+
+/* Successful login transition curtain */
+.af-transition-curtain {
+  position: fixed;
+  inset: 0;
+  background: #00443e;
+  z-index: 9999;
+  transform: translateY(100%);
+  pointer-events: none;
+}
+
+/* Responsive Login */
+@media (max-width: 960px) {
+  .af-login-page {
+    flex-direction: column;
+  }
+  .af-login-visual-side {
+    display: none;
+  }
+  .af-login-form-side {
+    padding: 2.5rem 1.5rem;
+    min-height: 100vh;
+  }
+
+  .af-login-card {
+    max-width: 520px;
+  }
+
+  .af-login-visual-footer {
+    display: none;
+  }
+}
+
+/* ==========================================================================
+   TASK 4: CLEAN WHITE & LIGHT SAAS ADMIN DASHBOARD
+   ========================================================================== */
+.af-admin-layout {
+  display: flex;
+  min-height: 100vh;
+  background: var(--af-admin-bg);
+  color: var(--af-admin-text);
+}
+
+/* Persistent Clean Light Sidebar */
+.af-sidebar {
+  width: var(--af-admin-sidebar-w);
+  background: #ffffff;
+  border-right: 1px solid var(--af-admin-border);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 100;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.02);
+}
+
+.af-sidebar__top {
+  padding: 1.5rem 1.25rem 0.75rem;
+}
+.af-sidebar__brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid #f1f5f9;
+  margin-bottom: 1.25rem;
+}
+.af-sidebar__logo {
+  width: 36px;
+  height: 36px;
+  object-fit: contain;
+}
+.af-sidebar__wordmark {
+  font-family: "League Spartan", sans-serif;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--af-admin-darkgreen);
+  letter-spacing: -0.3px;
+}
+.af-sidebar__wordmark span {
+  color: var(--af-admin-teal);
+  font-weight: 400;
+}
+
+.af-sidebar__nav {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  overflow-y: auto;
+  max-height: calc(100vh - 210px);
+  padding-right: 4px;
+}
+.af-sidebar__nav::-webkit-scrollbar {
+  width: 4px;
+}
+.af-sidebar__nav::-webkit-scrollbar-thumb {
+  background: #e2e8f0;
+  border-radius: 4px;
+}
+
+.af-nav-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 0.65rem 0.85rem;
+  border-radius: 8px;
+  color: #475569;
+  text-decoration: none;
+  font-size: 0.86rem;
+  font-weight: 500;
+  transition: all 0.16s ease;
+  background: transparent;
+  border: 1px solid transparent;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+  white-space: nowrap;
+}
+.af-nav-item:hover {
+  color: #0f172a;
+  background: #f8fafc;
+  border-color: #e2e8f0;
+}
+.af-nav-item.is-active {
+  color: #007a68;
+  background: #f0fdfa;
+  border-color: #99f6e4;
+  font-weight: 600;
+}
+.af-nav-item__left {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.af-nav-item__icon {
+  width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: inherit;
+  flex-shrink: 0;
+}
+.af-nav-badge {
+  flex: 0 0 auto;
+  padding: 1px 6px;
+  border-radius: 999px;
+  background: #fef3c7;
+  border: 1px solid #fde68a;
+  color: #b45309;
+  font-size: 0.7rem;
+  font-weight: 700;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+.af-sidebar__bottom {
+  padding: 1.15rem 1.25rem;
+  border-top: 1px solid #f1f5f9;
+  background: #f8fafc;
+}
+.af-admin-profile {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 0.85rem;
+}
+.af-admin-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #00bba0, #00443e);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  color: #ffffff;
+  font-size: 0.9rem;
+  box-shadow: 0 2px 6px rgba(0, 187, 160, 0.25);
+}
+.af-admin-info {
+  line-height: 1.25;
+}
+.af-admin-name {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #0f172a;
+  margin: 0;
+}
+.af-admin-role {
+  font-size: 0.72rem;
+  color: #008270;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+.af-admin-root,
+.af-admin-layout,
+.af-dash-main {
+  min-width: 0;
+}
+
+.af-dash-content {
+  box-sizing: border-box;
+}
+
+.af-sidebar-toggle {
+  display: none;
+  flex: 0 0 auto;
+}
+
+.af-table-responsive {
+  max-width: 100%;
+  max-height: clamp(380px, calc(100vh - 280px), 720px);
+  overflow-x: auto;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+  transition: scrollbar-color 0.3s ease;
+  position: relative;
+  border-radius: 8px;
+}
+.af-table-responsive:hover {
+  scrollbar-color: #00bba0 rgba(0, 68, 62, 0.06);
+}
+
+@media (max-width: 900px) {
+  .af-sidebar-toggle {
+    display: flex;
+  }
+
+  .af-sidebar {
+    width: min(280px, 86vw);
+    box-shadow: 12px 0 30px rgba(15, 23, 42, 0.16);
+  }
+
+  .af-dash-header {
+    min-height: 68px;
+    height: auto;
+    padding: 0.75rem 1rem;
+    gap: 0.75rem;
+  }
+
+  .af-dash-title-wrap,
+  .af-dash-header-actions {
+    min-width: 0;
+  }
+
+  .af-dash-title {
+    font-size: 1.15rem;
+    line-height: 1.2;
+  }
+
+  .af-dash-content {
+    padding: 1.25rem 1rem;
+  }
+
+  .af-table {
+    min-width: 760px;
+  }
+
+  .af-programs-table {
+    min-width: 1060px;
+  }
+
+  .af-modal-backdrop {
+    align-items: flex-start;
+    padding: 0.75rem;
+    overflow-y: auto;
+  }
+
+  .af-modal-card {
+    max-height: calc(100vh - 1.5rem);
+    border-radius: 12px;
+  }
+
+  .af-modal-header,
+  .af-modal-footer {
+    padding: 0.9rem 1rem;
+  }
+
+  .af-modal-body {
+    padding: 1rem;
+  }
+
+  .af-modal-body > div[style*="grid-template-columns"] {
+    grid-template-columns: 1fr !important;
+  }
+
+  .af-page-scope-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .af-dash-header {
+    align-items: flex-start;
+  }
+
+  .af-dash-title-wrap {
+    flex: 1 1 auto;
+  }
+
+  .af-dash-header-actions {
+    flex: 0 0 auto;
+    gap: 0.4rem;
+  }
+
+  .af-dash-header-actions .af-action-btn-secondary,
+  .af-dash-header-actions .af-view-site-btn {
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    justify-content: center;
+    overflow: hidden;
+    white-space: nowrap;
+    font-size: 0;
+  }
+
+  .af-dash-header-actions .af-action-btn-secondary::before {
+    content: "↻";
+    font-size: 1rem;
+  }
+
+  .af-dash-header-actions .af-view-site-btn svg {
+    flex: 0 0 auto;
+  }
+
+  .af-dash-content {
+    padding: 1rem 0.75rem;
+  }
+
+  .af-stat-grid {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+
+  .af-panel-header,
+  .af-inquiries-header {
+    align-items: stretch;
+    padding: 1rem;
+  }
+
+  .af-panel-header .af-panel-title {
+    font-size: 1.05rem;
+  }
+
+  .af-panel-actions {
+    width: 100%;
+    flex-wrap: wrap;
+  }
+
+  .af-action-btn-primary {
+    min-height: 38px;
+  }
+
+  .af-table th,
+  .af-table td {
+    padding: 0.75rem 0.85rem;
+  }
+
+  .af-term-row {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+
+  .af-term-scope {
+    grid-column: auto;
+    grid-row: auto;
+  }
+
+  .af-modal-header h3 {
+    max-width: calc(100% - 42px);
+    font-size: 1.1rem;
+    line-height: 1.25;
+  }
+}
+
+.af-logout-btn {
+  width: 100%;
+  padding: 0.6rem;
+  border-radius: 8px;
+  background: #ffffff;
+  border: 1px solid #fecaca;
+  color: #dc2626;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: all 0.2s;
+}
+.af-logout-btn:hover {
+  background: #fef2f2;
+  border-color: #f87171;
+}
+
+/* Dashboard Main View Area */
+.af-dash-main {
+  margin-left: var(--af-admin-sidebar-w);
+  flex: 1;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--af-admin-bg);
+}
+
+/* Top Header Bar */
+.af-dash-header {
+  height: 68px;
+  background: #ffffff;
+  border-bottom: 1px solid var(--af-admin-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2rem;
+  position: sticky;
+  top: 0;
+  z-index: 90;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+}
+.af-dash-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.af-dash-title {
+  font-family: "League Spartan", sans-serif;
+  font-size: 1.45rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+}
+
+.af-dash-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.af-view-site-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0.45rem 0.9rem;
+  border-radius: 8px;
+  background: #f0fdfa;
+  border: 1px solid #99f6e4;
+  color: #0f766e;
+  text-decoration: none;
+  font-size: 0.82rem;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+.af-view-site-btn:hover {
+  background: #ccfbf1;
+  color: #115e59;
+}
+
+/* Content Container */
+.af-dash-content {
+  padding: 1.75rem 2rem;
+  flex: 1;
+  max-width: 1400px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* Overview Interactive Stat Cards Grid */
+.af-stat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.25rem;
+  margin-bottom: 1.75rem;
+}
+.af-stat-card {
+  background: #ffffff;
+  border: 1px solid var(--af-admin-border);
+  border-radius: 12px;
+  padding: 1.25rem 1.4rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+  cursor: pointer;
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  overflow: hidden;
+}
+.af-stat-card:hover {
+  transform: translateY(-3px);
+  box-shadow:
+    0 8px 22px rgba(0, 187, 160, 0.1),
+    0 2px 6px rgba(0, 0, 0, 0.04);
+  border-color: #00bba0;
+}
+.af-stat-card__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+}
+.af-stat-card__icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 9px;
+  background: #f0fdfa;
+  border: 1px solid #ccfbf1;
+  color: #0d9488;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.af-stat-card__arrow {
+  color: #94a3b8;
+  font-size: 0.82rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  transition:
+    color 0.2s,
+    transform 0.2s;
+}
+.af-stat-card:hover .af-stat-card__arrow {
+  color: #00bba0;
+  transform: translateX(3px);
+}
+.af-stat-card__num {
+  font-family: "League Spartan", sans-serif;
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+  line-height: 1;
+}
+.af-stat-card__label {
+  color: #64748b;
+  font-size: 0.82rem;
+  font-weight: 500;
+  margin: 0.45rem 0 0;
+}
+
+/* Custom Styled Selects (Zero text clipping) */
+.af-select-custom {
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23475569' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 14px;
+  padding: 0.5rem 2.25rem 0.5rem 0.95rem !important;
+  min-width: 165px;
+  height: 38px;
+  border-radius: 8px;
+  border: 1px solid #cbd5e1;
+  background-color: #ffffff;
+  font-size: 0.86rem;
+  color: #1e293b;
+  font-weight: 500;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.2s;
+  box-sizing: border-box;
+}
+.af-select-custom:focus {
+  border-color: var(--af-admin-teal);
+  box-shadow: 0 0 0 3px rgba(0, 187, 160, 0.15);
+}
+
+/* Table Row Status Select */
+.af-status-select {
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%230f766e' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.6rem center;
+  background-size: 11px;
+  padding: 0.38rem 1.85rem 0.38rem 0.75rem !important;
+  font-weight: 600;
+  font-size: 0.78rem;
+  border-radius: 6px;
+  border: 1px solid #99f6e4;
+  background-color: #f0fdfa;
+  color: #0f766e;
+  cursor: pointer;
+  min-width: 112px;
+  outline: none;
+  transition: all 0.18s;
+  box-sizing: border-box;
+}
+.af-status-select--new {
+  border-color: #fde68a;
+  background-color: #fffbeb;
+  color: #b45309;
+}
+.af-status-select--read {
+  border-color: #bfdbfe;
+  background-color: #eff6ff;
+  color: #1d4ed8;
+}
+.af-status-select--archived {
+  border-color: #cbd5e1;
+  background-color: #f8fafc;
+  color: #475569;
+}
+
+/* Modern Status Indicator Dot */
+.af-status-dot-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 9px;
+  border-radius: 999px;
+  font-size: 0.74rem;
+  font-weight: 600;
+}
+.af-status-dot-badge--active {
+  background: #ecfdf5;
+  color: #047857;
+  border: 1px solid #a7f3d0;
+}
+.af-status-dot-badge--draft {
+  background: #f1f5f9;
+  color: #475569;
+  border: 1px solid #e2e8f0;
+}
+.af-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  display: inline-block;
+}
+.af-dot--green {
+  background: #10b981;
+  box-shadow: 0 0 5px rgba(16, 185, 129, 0.4);
+}
+.af-dot--gray {
+  background: #94a3b8;
+}
+
+/* Table Section / Panel Styling */
+.af-dash-panel {
+  background: #ffffff;
+  border: 1px solid var(--af-admin-border);
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+  margin-bottom: 1.75rem;
+}
+.af-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.25rem 1.75rem;
+  border-bottom: 1px solid var(--af-admin-border);
+  background: #ffffff;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+.af-panel-title {
+  font-family: "League Spartan", sans-serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+}
+.af-panel-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.af-inquiries-header {
+  padding: 1.45rem 1.75rem;
+}
+
+.af-inquiries-heading {
+  min-width: 260px;
+}
+
+.af-inquiries-subtitle {
+  margin: 0.35rem 0 0;
+  color: #52677f;
+  font-size: 0.88rem;
+  line-height: 1.45;
+}
+
+.af-inquiries-filters {
+  gap: 0.65rem;
+  flex-wrap: nowrap;
+  padding: 0.35rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  background: #f8fafc;
+}
+
+.af-inquiry-search {
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex: 0 1 230px;
+  width: 230px;
+}
+
+.af-inquiry-search__input {
+  width: 100%;
+  height: 40px;
+  padding: 0.6rem 0.75rem 0.6rem 2.25rem;
+  border-color: #cbd5e1;
+  background: #ffffff;
+}
+
+.af-inquiry-search__input::placeholder {
+  color: #8190a3;
+}
+
+.af-inquiry-search__icon {
+  position: absolute;
+  left: 0.75rem;
+  top: 50%;
+  z-index: 1;
+  display: flex;
+  color: #6b7f95;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.af-inquiry-status-filter {
+  width: 158px;
+  height: 40px;
+  padding: 0.6rem 2rem 0.6rem 0.8rem;
+  border-color: #cbd5e1;
+  background-color: #ffffff;
+  color: #26384d;
+  font-size: 0.84rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.af-inquiry-status-filter:focus,
+.af-inquiry-search__input:focus {
+  border-color: #00a98f;
+  box-shadow: 0 0 0 3px rgba(0, 187, 160, 0.12);
+}
+
+@media (max-width: 760px) {
+  .af-inquiries-header {
+    align-items: stretch;
+  }
+
+  .af-inquiries-heading,
+  .af-inquiries-filters {
+    width: 100%;
+  }
+
+  .af-inquiries-filters {
+    flex-wrap: wrap;
+  }
+
+  .af-inquiry-search,
+  .af-inquiry-search__input,
+  .af-inquiry-status-filter {
+    width: 100%;
+  }
+
+  .af-inquiry-search {
+    flex-basis: 100%;
+  }
+}
+
+.af-action-btn-primary {
+  padding: 0.55rem 1.15rem;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #00bba0, #008f7b);
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 0.88rem;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  box-shadow: 0 2px 6px rgba(0, 187, 160, 0.25);
+  transition: all 0.2s;
+}
+.af-action-btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 187, 160, 0.35);
+}
+
+.af-action-btn-secondary {
+  padding: 0.55rem 1rem;
+  border-radius: 8px;
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  color: #334155;
+  font-weight: 600;
+  font-size: 0.88rem;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  transition: all 0.2s;
+}
+.af-action-btn-secondary:hover {
+  background: #f8fafc;
+  border-color: #94a3b8;
+}
+
+/* Tables & Scrollable Panels */
+.af-table-responsive {
+  width: 100%;
+  max-height: clamp(380px, calc(100vh - 280px), 720px);
+  overflow-x: auto;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+  transition: scrollbar-color 0.3s ease;
+  position: relative;
+  border-radius: 8px;
+}
+.af-table-responsive:hover {
+  scrollbar-color: #00bba0 rgba(0, 68, 62, 0.06);
+}
+.af-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  text-align: left;
+}
+.af-table thead th,
+.af-table th {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  padding: 0.85rem 1.25rem;
+  color: #475569;
+  font-size: 0.74rem;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  border-bottom: 1px solid var(--af-admin-border);
+  font-weight: 600;
+  background: #f8fafc;
+  box-shadow: 0 1px 0 var(--af-admin-border);
+}
+.af-table td {
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid #f1f5f9;
+  font-size: 0.88rem;
+  color: #1e293b;
+  vertical-align: middle;
+  background: #ffffff;
+}
+.af-table tr:hover td {
+  background: #f8fafc;
+}
+
+/* Custom Branded Animated Scrollbars: Transparent by default, vivid on hover/use */
+.af-table-responsive::-webkit-scrollbar,
+.af-scroll-fields::-webkit-scrollbar,
+.af-sidebar__nav::-webkit-scrollbar,
+.af-modal-body::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+.af-table-responsive::-webkit-scrollbar-track,
+.af-scroll-fields::-webkit-scrollbar-track,
+.af-sidebar__nav::-webkit-scrollbar-track,
+.af-modal-body::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 999px;
+  margin: 3px;
+  transition: background 0.3s ease;
+}
+.af-table-responsive:hover::-webkit-scrollbar-track,
+.af-scroll-fields:hover::-webkit-scrollbar-track,
+.af-sidebar__nav:hover::-webkit-scrollbar-track,
+.af-modal-body:hover::-webkit-scrollbar-track {
+  background: rgba(0, 68, 62, 0.05);
+}
+.af-table-responsive::-webkit-scrollbar-thumb,
+.af-scroll-fields::-webkit-scrollbar-thumb,
+.af-sidebar__nav::-webkit-scrollbar-thumb,
+.af-modal-body::-webkit-scrollbar-thumb {
+  background: transparent;
+  border-radius: 999px;
+  box-shadow: none;
+  transition: background 0.28s ease, box-shadow 0.28s ease, filter 0.28s ease;
+}
+.af-table-responsive:hover::-webkit-scrollbar-thumb,
+.af-scroll-fields:hover::-webkit-scrollbar-thumb,
+.af-sidebar__nav:hover::-webkit-scrollbar-thumb,
+.af-modal-body:hover::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #00bba0 0%, #00443e 70%, #ff960d 100%);
+  box-shadow: 0 2px 8px rgba(0, 68, 62, 0.24), inset 0 0 0 1px rgba(255, 255, 255, 0.32);
+}
+.af-table-responsive::-webkit-scrollbar-thumb:hover,
+.af-scroll-fields::-webkit-scrollbar-thumb:hover,
+.af-sidebar__nav::-webkit-scrollbar-thumb:hover,
+.af-modal-body::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #00d2b4 0%, #008f7b 70%, #ffa52e 100%);
+  filter: brightness(1.15);
+  box-shadow: 0 4px 14px rgba(0, 187, 160, 0.45), inset 0 0 0 1px rgba(255, 255, 255, 0.5);
+}
+
+.af-programs-table {
+  min-width: 1060px;
+}
+
+.af-programs-table th:nth-child(1),
+.af-programs-table td:nth-child(1) {
+  width: 14%;
+}
+
+.af-programs-table th:nth-child(2),
+.af-programs-table td:nth-child(2) {
+  width: 11%;
+  white-space: nowrap;
+}
+
+.af-programs-table th:nth-child(5),
+.af-programs-table td:nth-child(5) {
+  width: 29%;
+}
+
+.af-programs-table td:nth-child(5) .af-scope-badges {
+  max-width: 420px;
+}
+
+.af-terms-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.af-term-row {
+  display: grid;
+  grid-template-columns: minmax(260px, 0.85fr) minmax(0, 1.75fr) auto;
+  align-items: center;
+  gap: 1.25rem;
+  padding: 0.9rem 1rem;
+  margin-bottom: 0.6rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  background: #f8fafc;
+  transition:
+    border-color 0.18s ease,
+    background 0.18s ease;
+}
+
+.af-term-row:hover {
+  border-color: #b9e8df;
+  background: #fbfefd;
+}
+
+.af-term-label {
+  display: flex;
+  align-items: baseline;
+  gap: 0.55rem;
+  min-width: 0;
+  color: #1e293b;
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
+
+.af-term-label strong {
+  flex: 0 0 auto;
+  color: #007a68;
+  font-size: 0.76rem;
+  font-weight: 700;
+}
+
+.af-term-label span {
+  min-width: 0;
+}
+
+.af-term-scope .af-scope-badges {
+  max-width: none;
+}
+
+@media (max-width: 900px) {
+  .af-term-row {
+    grid-template-columns: 1fr auto;
+  }
+
+  .af-term-scope {
+    grid-column: 1 / -1;
+    grid-row: 2;
+  }
+}
+
+/* Table Solution Detail Cell */
+.af-td-detail {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.af-td-title {
+  font-weight: 600;
+  color: #0f172a;
+  font-size: 0.92rem;
+}
+.af-td-sub {
+  font-size: 0.78rem;
+  color: #64748b;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.af-td-sub a {
+  color: #0d9488;
+  text-decoration: none;
+}
+.af-td-sub a:hover {
+  text-decoration: underline;
+}
+
+.af-tag-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  color: #475569;
+}
+.af-pill-badge--gray {
+  background: #f1f5f9;
+  color: #64748b;
+  border: 1px solid #cbd5e1;
+}
+
+/* Row Action Buttons */
+.af-row-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.af-btn-icon-sm {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f0fdfa;
+  border: 1px solid #ccfbf1;
+  color: #0f766e;
+  cursor: pointer;
+  transition: all 0.18s;
+}
+.af-btn-icon-sm:hover {
+  background: #ccfbf1;
+  color: #115e59;
+  border-color: #99f6e4;
+}
+.af-btn-icon-sm--danger {
+  background: #fef2f2;
+  border-color: #fee2e2;
+  color: #dc2626;
+}
+.af-btn-icon-sm--danger:hover {
+  background: #fee2e2;
+  border-color: #fca5a5;
+  color: #b91c1c;
+}
+
+/* ==========================================================================
+   FIXED MODAL & SUBPAGE STYLING (PERFECT SCROLLBAR & NO CUTOFFS)
+   ========================================================================== */
+.af-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  padding: 1.5rem;
+  overflow: hidden;
+  animation: afFadeIn 0.2s ease-out;
+}
+
+@keyframes afFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.af-modal-card {
+  background: #ffffff;
+  border: 1px solid var(--af-admin-border);
+  border-radius: 18px;
+  width: 100%;
+  max-width: 740px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+  max-height: 88vh;
+  display: flex;
+  flex-direction: column;
+  animation: afModalPop 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes afModalPop {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Critical fix: form element must participate in flex so body scrolls */
+.af-modal-card form {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.af-modal-header {
+  padding: 1.25rem 1.75rem;
+  border-bottom: 1px solid var(--af-admin-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #ffffff;
+  flex-shrink: 0;
+}
+.af-modal-header h3 {
+  font-family: "League Spartan", sans-serif;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+}
+.af-modal-close-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  background: #f1f5f9;
+  border: none;
+  color: #64748b;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  transition: all 0.18s;
+}
+.af-modal-close-btn:hover {
+  background: #e2e8f0;
+  color: #0f172a;
+}
+
+/* Modal body with branded hover scrollbar */
+.af-modal-body {
+  padding: 1.75rem;
+  overflow-y: auto !important;
+  flex: 1;
+  min-height: 0;
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+  transition: scrollbar-color 0.3s ease;
+}
+.af-modal-body:hover {
+  scrollbar-color: #00bba0 rgba(0, 68, 62, 0.06);
+}
+
+.af-modal-footer {
+  padding: 1rem 1.75rem;
+  border-top: 1px solid var(--af-admin-border);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  background: #f8fafc;
+  flex-shrink: 0;
+}
+
+/* Form controls in modal & panels */
+.af-form-row {
+  margin-bottom: 1.25rem;
+}
+.af-form-label {
+  display: block;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #334155;
+  margin-bottom: 0.35rem;
+}
+.af-form-control {
+  width: 100%;
+  padding: 0.75rem 0.95rem;
+  border-radius: 8px;
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  color: #0f172a;
+  font-family: inherit;
+  font-size: 0.9rem;
+  outline: none;
+  transition: all 0.2s;
+  box-sizing: border-box;
+}
+.af-form-control:focus {
+  border-color: var(--af-admin-teal);
+  box-shadow: 0 0 0 3px rgba(0, 187, 160, 0.15);
+}
+.af-form-control.is-invalid {
+  border-color: #ef4444;
+  background: #fffafa;
+}
+.af-form-error {
+  color: #dc2626;
+  font-size: 0.75rem;
+  font-weight: 500;
+  margin-top: 0.3rem;
+  display: block;
+}
+textarea.af-form-control {
+  min-height: 85px;
+  resize: vertical;
+  line-height: 1.5;
+}
+
+.af-btn-ghost {
+  padding: 0.55rem 1.15rem;
+  border-radius: 8px;
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  color: #475569;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 0.88rem;
+  transition: all 0.18s;
+}
+.af-btn-ghost:hover {
+  background: #f1f5f9;
+  color: #0f172a;
+  border-color: #94a3b8;
+}
+
+/* Image Uploader Preview */
+.af-uploader-box {
+  border: 2px dashed #cbd5e1;
+  border-radius: 12px;
+  padding: 1.5rem;
+  text-align: center;
+  background: #f8fafc;
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+}
+.af-uploader-box:hover {
+  border-color: var(--af-admin-teal);
+  background: #f0fdfa;
+}
+.af-uploader-preview {
+  max-height: 140px;
+  max-width: 100%;
+  border-radius: 8px;
+  margin-top: 0.75rem;
+  object-fit: contain;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+/* Toast alert */
+.af-toast {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  padding: 0.85rem 1.25rem;
+  border-radius: 10px;
+  background: #ffffff;
+  border: 1px solid var(--af-admin-teal);
+  color: #0f172a;
+  box-shadow:
+    0 10px 25px rgba(0, 0, 0, 0.1),
+    0 2px 6px rgba(0, 187, 160, 0.15);
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.88rem;
+  font-weight: 500;
+  animation: afSlideInUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.af-toast--error {
+  border-color: #f87171;
+  background: #fef2f2;
+  color: #991b1b;
+}
+@keyframes afSlideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive dashboard */
+@media (max-width: 900px) {
+  .af-sidebar {
+    transform: translateX(-100%);
+  }
+  .af-sidebar.is-open {
+    transform: translateX(0);
+  }
+  .af-dash-main {
+    margin-left: 0;
+  }
+  .af-dash-content {
+    padding: 1.25rem;
+  }
+  .af-dash-header {
+    padding: 0 1.25rem;
+  }
+}
+
+/* Final inquiry toolbar alignment overrides the shared form-control defaults. */
+.af-inquiry-search {
+  position: relative;
+  min-width: 0;
+}
+
+.af-inquiry-search input.af-inquiry-search__input {
+  width: 100%;
+  min-width: 0;
+  padding-left: 2.45rem !important;
+}
+
+.af-inquiry-search .af-inquiry-search__icon {
+  left: 0.8rem;
+  top: 50%;
+  width: 18px;
+  height: 18px;
+  align-items: center;
+  justify-content: center;
+  transform: translateY(-50%);
+}
+
+.af-inquiry-status-filter {
+  flex: 0 0 158px;
+  min-width: 158px;
+  height: 40px;
+  padding: 0 2.15rem 0 0.85rem !important;
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%2333475f' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 14px;
+  line-height: 20px;
+  vertical-align: middle;
+}
+
+@media (max-width: 760px) {
+  .af-inquiry-search {
+    width: 100%;
+    flex-basis: 100%;
+  }
+
+  .af-inquiry-status-filter {
+    flex: 1 1 100%;
+    width: 100%;
+    min-width: 0;
+  }
+}
+
+.af-sidebar-toggle {
+  display: none !important;
+}
+
+.af-sidebar-backdrop {
+  display: none;
+}
+
+@media (max-width: 900px) {
+  .af-sidebar-toggle {
+    display: flex !important;
+  }
+
+  .af-sidebar-backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 95;
+    border: 0;
+    padding: 0;
+    background: rgba(15, 23, 42, 0.42);
+    cursor: default;
+  }
+}
+
+/* Page-aware CMS scope controls */
+.af-page-scope-field {
+  margin: 1rem 0;
+  padding: 1rem;
+  border: 1px solid rgba(0, 68, 62, 0.16);
+  border-radius: 14px;
+  background: #f8fcfb;
+}
+.af-page-scope-field__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.7rem;
+}
+.af-page-scope-field__head > span {
+  font-size: 0.78rem;
+  color: #64748b;
+}
+.af-page-scope-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.55rem;
+  margin-top: 0.8rem;
+}
+.af-page-scope-option {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  padding: 0.65rem 0.75rem;
+  border: 1px solid #d9e7e5;
+  border-radius: 10px;
+  background: #fff;
+  cursor: pointer;
+}
+.af-page-scope-option.is-checked {
+  border-color: #00bba0;
+  box-shadow: 0 0 0 1px rgba(0, 187, 160, 0.12);
+}
+.af-page-scope-option.is-locked {
+  cursor: default;
+  opacity: 0.82;
+}
+.af-page-scope-option__content {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 0.1rem;
+  cursor: pointer;
+}
+.af-page-scope-option__content small {
+  color: #64748b;
+  font-size: 0.72rem;
+}
+.af-page-scope-checkbox {
+  width: 16px;
+  height: 16px;
+  margin: 2px 0 0;
+  flex: 0 0 auto;
+  accent-color: #00a98f;
+  cursor: pointer;
+}
+.af-page-scope-checkbox:disabled {
+  cursor: default;
+}
+.af-shared-warning,
+.af-scope-notice,
+.af-scope-warning {
+  padding: 0.65rem 0.75rem;
+  border-radius: 9px;
+  font-size: 0.8rem;
+  line-height: 1.45;
+}
+.af-shared-warning {
+  background: #fff7e8;
+  border: 1px solid #ffcf91;
+  color: #744600;
+}
+.af-scope-notice {
+  background: #eaf9f6;
+  border: 1px solid #b9e8df;
+  color: #00443e;
+}
+.af-scope-warning {
+  background: #fff1f1;
+  border: 1px solid #f2c6c6;
+  color: #8b2a2a;
+}
+.af-scope-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+}
+.af-scope-badge {
+  display: inline-flex;
+  padding: 0.24rem 0.48rem;
+  border-radius: 999px;
+  background: #e8f7f4;
+  color: #00443e;
+  font-size: 0.7rem;
+  font-weight: 650;
+}
+.af-scope-empty {
+  font-size: 0.76rem;
+  color: #a13c3c;
+  font-weight: 650;
+}
+@media (max-width: 760px) {
+  .af-page-scope-grid {
+    grid-template-columns: 1fr;
+  }
+}

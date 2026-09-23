@@ -8,6 +8,8 @@ const ServicePage = lazy(() => import('./pages/ServicePage'))
 const MarketingPage = lazy(() => import('./pages/MarketingPage'))
 const CardDetailPage = lazy(() => import('./pages/CardDetailPage'))
 const RequestConsultationPage = lazy(() => import('./pages/RequestConsultationPage'))
+const AdminLoginPage = lazy(() => import('./pages/AdminLoginPage'))
+const AdminDashboardPage = lazy(() => import('./pages/AdminDashboardPage'))
 import RouteBoundary from './components/RouteBoundary'
 import BrandedRouteTransition from './components/BrandedRouteTransition'
 import AnimatedScrollbar from './components/AnimatedScrollbar'
@@ -89,6 +91,10 @@ function SiteRouter() {
           <Route path="/insights" element={<MarketingPage />} />
           <Route path="/request-consultation" element={<RequestConsultationPage />} />
           <Route path="/contact" element={<Navigate to="/request-consultation" replace />} />
+          <Route path="/admin/login" element={<AdminLoginPage />} />
+          <Route path="/admin/dashboard" element={<AdminDashboardPage />} />
+          <Route path="/admin/dashboard/*" element={<AdminDashboardPage />} />
+          <Route path="/admin" element={<Navigate to="/admin/dashboard" replace />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
         </Suspense>

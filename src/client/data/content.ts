@@ -8,10 +8,10 @@ export const brand = {
   name: 'Afyra Digital',
   tagline: "Let's Grow Together",
   positioning: "We Don't Run Ads. We Bring Leads.",
-  phone: '#03111-3111-91',
-  phoneHref: 'tel:03111311191',
+  phone: '+92 311 1311191',
+  phoneHref: 'tel:+923111311191',
   email: 'afyradigital@gmail.com',
-  whatsapp: 'https://wa.me/9203111311191'
+  whatsapp: 'https://wa.me/923111311191'
 }
 
 export const nav = [
@@ -406,7 +406,7 @@ export const footer = {
     }
   ],
   social: [
-    { label: 'WhatsApp / Consultation', icon: 'whatsapp', href: 'https://wa.me/9203111311191' },
+    { label: 'WhatsApp / Consultation', icon: 'whatsapp', href: 'https://wa.me/923111311191' },
     { label: 'Instagram', icon: 'instagram', href: 'https://www.instagram.com/afyradigital' },
     { label: 'Facebook', icon: 'facebook', href: 'https://www.facebook.com/AfyraDigital' }
   ]

@@ -4,10 +4,18 @@
  * layout stays crisp at every resolution and stays on-brand.
  */
 
+import { useState } from 'react'
+
 const bars = [42, 58, 47, 72, 63, 88, 76, 96]
 const months = ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep']
+const weeklyBars = [35, 55, 48, 70, 62, 85, 92, 100]
+const weeks = ['W1', 'W2', 'W3', 'W4', 'W5', 'W6', 'W7', 'W8']
 
 export default function Dashboard() {
+  const [chartMode, setChartMode] = useState<'weekly' | 'monthly'>('monthly')
+  const activeBars = chartMode === 'monthly' ? bars : weeklyBars
+  const activeLabels = chartMode === 'monthly' ? months : weeks
+
   return (
     <div className="af-db" role="img" aria-label="Afyra growth dashboard preview">
       {/* sidebar */}
@@ -74,18 +82,18 @@ export default function Dashboard() {
           <div className="af-db__chart-head">
             <p className="af-db__chart-title">Patient Inquiries</p>
             <div className="af-db__tabs">
-              <span>Weekly</span>
-              <span className="is-active">Monthly</span>
+              <button type="button" className={chartMode === 'weekly' ? 'is-active' : ''} onClick={() => setChartMode('weekly')} style={{ background: 'none', border: 'none', color: 'inherit', font: 'inherit', cursor: 'pointer', padding: '2px 6px' }}>Weekly</button>
+              <button type="button" className={chartMode === 'monthly' ? 'is-active' : ''} onClick={() => setChartMode('monthly')} style={{ background: 'none', border: 'none', color: 'inherit', font: 'inherit', cursor: 'pointer', padding: '2px 6px' }}>Monthly</button>
             </div>
           </div>
           <div className="af-db__bars">
-            {bars.map((h, i) => (
+            {activeBars.map((h, i) => (
               <div className="af-db__bar-col" key={i}>
                 <div
-                  className={`af-db__bar ${i === bars.length - 1 ? 'is-peak' : ''}`}
+                  className={`af-db__bar ${i === activeBars.length - 1 ? 'is-peak' : ''}`}
                   style={{ height: `${h}%` }}
                 />
-                <span className="af-db__bar-label">{months[i]}</span>
+                <span className="af-db__bar-label">{activeLabels[i]}</span>
               </div>
             ))}
           </div>

@@ -1,4 +1,4 @@
-import { useEffect, type ReactNode } from 'react'
+import { useEffect, useState, type ReactNode } from 'react'
 import { Link, Navigate, useLocation } from 'react-router-dom'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
@@ -17,9 +17,74 @@ import { cardBySlug, cardKey, insightCards, insightDecisions } from '../data/car
 import { usePageSeo } from '../lib/usePageSeo'
 import { useMarketingAnimations } from '../lib/useMarketingAnimations'
 import { useSaasKingEffects } from '../lib/useSaasKingEffects'
+import { apiGetInsights, apiGetPrograms, apiGetSolutions } from '../lib/api'
+import { usePageSection } from '../lib/liveContent'
+import { useScopedFaqs } from '../lib/useScopedFaqs'
 
 type Tone = 'mint' | 'deep' | 'teal' | 'warm'
 type MarketingPageKey = Exclude<SitePageKey, 'requestConsultation'>
+
+
+type LiveProgram = (typeof programs.plans)[number] & { slug?: string; is_published?: boolean }
+
+function useLivePrograms(page: string) {
+  const [data, setData] = useState<{ plans: LiveProgram[]; terms: string[] }>({ plans: programs.plans as LiveProgram[], terms: programs.terms })
+  useEffect(() => {
+    let mounted = true
+    apiGetPrograms(page).then((res) => {
+      if (!mounted || !res?.ok || !Array.isArray(res?.data?.plans)) return
+      setData({
+        plans: res.data.plans.map((p: any) => ({ ...p, popular: Boolean(p.is_popular), bestFor: p.bestFor || [], includes: p.includes || [] })),
+        terms: Array.isArray(res.data.terms) ? res.data.terms.map((t: any) => typeof t === 'string' ? t : t.label).filter(Boolean) : []
+      })
+    }).catch((error) => console.warn('[Afyra API] Programs page data unavailable; using bundled fallback.', error))
+    return () => { mounted = false }
+  }, [page])
+  return data
+}
+
+function useLiveServices(page: string) {
+  const [items, setItems] = useState(servicePages)
+  useEffect(() => {
+    let mounted = true
+    apiGetSolutions(page).then((res) => {
+      if (!mounted || !res?.ok || !Array.isArray(res.data)) return
+      setItems(res.data.map((row: any) => {
+        const fallback = servicePages.find((item) => item.slug === row.slug)
+        return {
+          ...(fallback || servicePages[0]),
+          slug: row.slug,
+          name: row.name,
+          layout: row.layout,
+          eyebrow: row.eyebrow,
+          title: row.title || row.name,
+          description: row.description,
+          intro: row.intro,
+          features: row.features || [],
+          touchpoints: (row.touchpoints || []).map((t: any) => typeof t === 'string' ? t : t.label),
+          process: row.process || [],
+          proofNote: row.proof_note || fallback?.proofNote || '',
+          contentGap: row.content_gap || undefined,
+          seo: { title: row.seo_title || fallback?.seo.title || row.name, description: row.seo_description || fallback?.seo.description || row.description }
+        }
+      }))
+    }).catch((error) => console.warn('[Afyra API] Solutions page data unavailable; using bundled fallback.', error))
+    return () => { mounted = false }
+  }, [page])
+  return items
+}
+
+function useLiveInsights(page: string) {
+  const [items, setItems] = useState<any[]>(insightCards.map((item) => ({ title: item.title, category: item.tag, excerpt: item.body })))
+  useEffect(() => {
+    let mounted = true
+    apiGetInsights(page).then((res) => {
+      if (mounted && res?.ok && Array.isArray(res.data)) setItems(res.data)
+    }).catch((error) => console.warn('[Afyra API] Insights unavailable; using bundled fallback.', error))
+    return () => { mounted = false }
+  }, [page])
+  return items
+}
 
 type LinkButtonProps = { to: string; children: ReactNode; ghost?: boolean }
 function LinkButton({ to, children, ghost = false }: LinkButtonProps) {
@@ -107,6 +172,7 @@ function CommonCta() {
 }
 
 function SolutionsPage() {
+  const liveServices = useLiveServices('solutions')
   return <>
     <PageHero variant="solutions" eyebrow="Solutions → Strategy → Systems → Outcomes" title="One Connected Growth System. Six Strategic Solution Areas." description="Afyra presents services as strategic solution pillars rather than a freelancer-style list of isolated marketing tasks." tone="mint" visualLabel="Afyra connected growth solutions" />
     <Marquee />
@@ -115,7 +181,7 @@ function SolutionsPage() {
       <div className="af-container">
         <SectionHead eyebrow="Core solutions" title="Choose the Growth Problem You Need to Solve." description="Each solution connects back to stronger visibility, trust, qualified inquiries, conversion, authority and long-term growth." />
         <div className="px-solution-grid" data-px-stagger>
-          {servicePages.map((service, i) => (
+          {liveServices.map((service, i) => (
             <Link className={`px-card px-solution-card px-solution-card--${i + 1}`} to={`/details/${cardKey('solutions','service',service.slug)}`} key={service.slug}>
               <CardVisual assetKey={cardKey('solutions','service',service.slug)} label={service.name} compact />
               <span className="px-card__num">0{i + 1}</span>
@@ -165,16 +231,23 @@ function SolutionsPage() {
 }
 
 function HealthcarePage() {
+  const livePrograms = useLivePrograms('healthcare')
+  const { section: audienceSection } = usePageSection('healthcare', 'audience')
+  const liveAudience = audienceSection ? {
+    title: audienceSection.title || audience.title,
+    description: audienceSection.description || audience.description,
+    items: (audienceSection.items || []).map((item, index) => ({ label: item.title || item.label || '', icon: item.icon || audience.items[index]?.icon || 'doctor' }))
+  } : audience
   const needs = ['Patient trust','Professional reputation','Visibility','Education','Local discovery','Inquiries','Appointment opportunities','Long-term authority']
   return <>
-    <PageHero variant="healthcare" eyebrow="Healthcare marketing specialization" title="Digital Growth Built Around Patient Trust, Visibility and Inquiry Opportunities." description={audience.description} tone="deep" visualLabel="Healthcare patient trust and visibility system" />
+    <PageHero variant="healthcare" eyebrow="Healthcare marketing specialization" title="Digital Growth Built Around Patient Trust, Visibility and Inquiry Opportunities." description={liveAudience.description} tone="deep" visualLabel="Healthcare patient trust and visibility system" />
     <Marquee />
 
     <section className="px-section px-health-audience">
       <div className="af-container">
         <SectionHead eyebrow="Who we help" title="Healthcare Businesses With High Trust and Reputation Requirements." />
         <div className="px-health-audience__grid" data-px-stagger>
-          {audience.items.map((item) => { const key = cardKey('healthcare','audience',item.label); return <article className="px-card px-health-card" key={item.label}><CardVisual assetKey={key} label={item.label} compact /><span className="px-icon"><PublicIcon name={item.icon} size={24} /></span><h3 data-px-heading>{item.label}</h3><p className="px-card__summary">{cardBySlug[key]?.summary}</p><CardDetailLink slug={key} /></article> })}
+          {liveAudience.items.map((item) => { const key = cardKey('healthcare','audience',item.label); return <article className="px-card px-health-card" key={item.label}><CardVisual assetKey={key} label={item.label} compact /><span className="px-icon"><PublicIcon name={item.icon as any} size={24} /></span><h3 data-px-heading>{item.label}</h3><p className="px-card__summary">{cardBySlug[key]?.summary}</p><CardDetailLink slug={key} /></article> })}
         </div>
       </div>
     </section>
@@ -201,7 +274,7 @@ function HealthcarePage() {
     <section className="px-section px-health-programs">
       <div className="af-container">
         <SectionHead eyebrow="Current programs" title="A Managed Growth Program for Each Stage." description="Afyra’s current programs are structured around online presence, appointment and inquiry focus, and long-term authority." />
-        <div className="px-program-mini" data-px-stagger>{programs.plans.map((plan) => { const key = cardKey('healthcare','program',plan.id); return <article className={`px-card ${plan.popular ? 'is-popular' : ''}`} key={plan.id}><CardVisual assetKey={key} label={plan.name} compact />{plan.popular ? <span className="px-badge">Most Popular</span> : null}<h3 data-px-heading>{plan.name}</h3><p>{plan.purpose}</p><strong>PKR {plan.price.toLocaleString()}<small>/month</small></strong><CardDetailLink slug={key} label="View program details" /></article> })}</div>
+        <div className="px-program-mini" data-px-stagger>{livePrograms.plans.map((plan) => { const key = cardKey('healthcare','program',String(plan.id)); return <article className={`px-card ${plan.popular ? 'is-popular' : ''}`} key={plan.id}><CardVisual assetKey={key} label={plan.name} compact />{plan.popular ? <span className="px-badge">Most Popular</span> : null}<h3 data-px-heading>{plan.name}</h3><p>{plan.purpose}</p><strong>PKR {plan.price.toLocaleString()}<small>/month</small></strong><CardDetailLink slug={key} label="View program details" /></article> })}</div>
       </div>
     </section>
     <CommonCta />
@@ -209,8 +282,11 @@ function HealthcarePage() {
 }
 
 function ProgramsPage() {
+  const livePrograms = useLivePrograms('programs')
+  const [billingMode, setBillingMode] = useState<'monthly' | 'yearly'>('monthly')
+  const isYearly = billingMode === 'yearly'
   const rows = ['Platforms','Static Posts','Animated Posts','Video Edits / Shorts / Reels','Paid Ad Campaigns','Monthly Strategy Plan','Google Business Profile Management','Monthly Zoom Growth Meeting','WhatsApp Business Optimization','Dedicated Support']
-  const valueFor = (plan: typeof programs.plans[number], row: string) => {
+  const valueFor = (plan: LiveProgram, row: string) => {
     if (row === 'Platforms') return plan.platforms
     const hit = plan.includes.find((item) => item.toLowerCase().includes(row.toLowerCase().replace(' management','').replace(' / reels','')))
     if (hit) return hit
@@ -228,17 +304,44 @@ function ProgramsPage() {
     <section className="px-section px-programs-full">
       <div className="af-container">
         <SectionHead eyebrow="Programs & pricing" title={programs.title} />
+        
+        <div style={{ display: 'flex', justifyContent: 'center', margin: '-1.5rem auto 2.5rem' }}>
+          <button
+            type="button"
+            className={`dp-programs__mode ${isYearly ? 'is-yearly' : ''}`}
+            aria-label="Toggle pricing display mode"
+            aria-pressed={isYearly}
+            onClick={() => setBillingMode(isYearly ? 'monthly' : 'yearly')}
+            style={{ padding: '8px 18px', background: 'rgba(255,255,255,0.06)', borderRadius: '999px', border: '1px solid rgba(255,255,255,0.14)', display: 'inline-flex', alignItems: 'center', gap: '12px', cursor: 'pointer' }}
+          >
+            <span style={{ color: !isYearly ? '#ffffff' : 'rgba(255,255,255,0.55)', fontWeight: !isYearly ? 700 : 500, fontSize: '14px', transition: 'all 0.25s ease' }}>Monthly</span>
+            <i style={{ width: '46px', height: '24px', borderRadius: '999px', background: isYearly ? 'linear-gradient(135deg, #00bba0, #14f1db)' : 'rgba(255,255,255,0.18)', display: 'block', position: 'relative', transition: 'all 0.3s ease', boxShadow: isYearly ? '0 0 16px rgba(20,241,219,0.35)' : 'none' }}>
+              <span style={{ position: 'absolute', top: '3px', left: '3px', width: '18px', height: '18px', borderRadius: '50%', background: '#fff', boxShadow: '0 2px 8px rgba(0,0,0,0.35)', transform: isYearly ? 'translateX(22px)' : 'translateX(0)', transition: 'transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1)' }} />
+            </i>
+            <span style={{ color: isYearly ? '#ffffff' : 'rgba(255,255,255,0.55)', fontWeight: isYearly ? 700 : 500, fontSize: '14px', transition: 'all 0.25s ease' }}>Yearly <span style={{ opacity: 0.85, fontSize: '0.85em' }}>(-20%)</span></span>
+          </button>
+        </div>
+
         <div className="px-programs-full__grid" data-px-stagger>
-          {programs.plans.map((plan, i) => <article className={`px-program-card px-card ${plan.popular ? 'is-popular' : ''}`} key={plan.id}>
-            <CardVisual assetKey={cardKey('programs','plan',plan.id)} label={`${plan.name} program`} />
-            {plan.popular ? <span className="px-badge">Most Popular</span> : null}
-            <div className="px-program-card__head"><span className="px-kicker">{plan.purpose}</span><h2>{plan.name}</h2><div className="px-program-price"><small>PKR</small>{plan.price.toLocaleString()}<span>/month</span></div></div>
-            <div className="px-program-card__best"><h3 data-px-heading>Best for</h3>{plan.bestFor.map((item) => <p key={item}><PublicIcon name="check" size={15} /><span>{item}</span></p>)}</div>
-            <div className="px-program-card__includes"><h3 data-px-heading>Includes</h3><ul>{plan.includes.map((item) => <li key={item}><PublicIcon name="check" size={15} /><span>{item}</span></li>)}</ul></div>
-            <p className="px-program-card__platforms"><strong>Platforms:</strong> {plan.platforms}</p>
-            <LinkButton to="/request-consultation">Request This Program</LinkButton>
-            <CardDetailLink slug={cardKey('programs','plan',plan.id)} label="Full program details" />
-          </article>)}
+          {livePrograms.plans.map((plan, i) => {
+            const displayPrice = isYearly ? Math.round(plan.price * 0.8) : plan.price
+            return (
+              <article className={`px-program-card px-card ${plan.popular ? 'is-popular' : ''}`} key={plan.id}>
+                <CardVisual assetKey={cardKey('programs','plan',plan.id)} label={`${plan.name} program`} />
+                {plan.popular ? <span className="px-badge">Most Popular</span> : null}
+                <div className="px-program-card__head">
+                  <span className="px-kicker">{plan.purpose}</span>
+                  <h2>{plan.name}</h2>
+                  <div className="px-program-price"><small>PKR</small>{displayPrice.toLocaleString()}<span>{isYearly ? '/mo (annual)' : '/month'}</span></div>
+                </div>
+                <div className="px-program-card__best"><h3 data-px-heading>Best for</h3>{plan.bestFor.map((item) => <p key={item}><PublicIcon name="check" size={15} /><span>{item}</span></p>)}</div>
+                <div className="px-program-card__includes"><h3 data-px-heading>Includes</h3><ul>{plan.includes.map((item) => <li key={item}><PublicIcon name="check" size={15} /><span>{item}</span></li>)}</ul></div>
+                <p className="px-program-card__platforms"><strong>Platforms:</strong> {plan.platforms}</p>
+                <LinkButton to="/request-consultation">Request This Program</LinkButton>
+                <CardDetailLink slug={cardKey('programs','plan',plan.id)} label="Full program details" />
+              </article>
+            )
+          })}
         </div>
       </div>
     </section>
@@ -246,7 +349,7 @@ function ProgramsPage() {
     <section className="px-section px-comparison">
       <div className="af-container">
         <SectionHead eyebrow="Compare" title="See How the Programs Scale With Your Stage." />
-        <div className="px-table-wrap" data-px-image-reveal><table><thead><tr><th>Area</th>{programs.plans.map((p) => <th key={p.id}>{p.name}</th>)}</tr></thead><tbody>{rows.map((row) => <tr key={row}><td>{row}</td>{programs.plans.map((p) => <td key={`${p.id}-${row}`}>{valueFor(p,row)}</td>)}</tr>)}</tbody></table></div>
+        <div className="px-table-wrap" data-px-image-reveal><table><thead><tr><th>Area</th>{livePrograms.plans.map((p) => <th key={p.id}>{p.name}</th>)}</tr></thead><tbody>{rows.map((row) => <tr key={row}><td>{row}</td>{livePrograms.plans.map((p) => <td key={`${p.id}-${row}`}>{valueFor(p,row)}</td>)}</tr>)}</tbody></table></div>
       </div>
     </section>
 
@@ -262,7 +365,7 @@ function ProgramsPage() {
           </div>
           <p className="px-terms__note">These terms apply across the current Afyra Digital marketing programs and keep the engagement commercially clear from the start.</p>
         </div>
-        <div className="px-terms__cards" data-px-stagger>{programs.terms.map((term, i) => { const key = cardKey('programs','term',String(i+1)); return <article className="px-card" key={term}><CardVisual assetKey={key} label={term} compact /><span>0{i+1}</span><h3 data-px-heading>{term}</h3><p className="px-card__summary">{cardBySlug[key]?.summary}</p><CardDetailLink slug={key} /></article> })}</div>
+        <div className="px-terms__cards" data-px-stagger>{livePrograms.terms.map((term, i) => { const key = cardKey('programs','term',String(i+1)); return <article className="px-card" key={term}><CardVisual assetKey={key} label={term} compact /><span>0{i+1}</span><h3 data-px-heading>{term}</h3><p className="px-card__summary">{cardBySlug[key]?.summary}</p><CardDetailLink slug={key} /></article> })}</div>
       </div>
     </section>
     <CommonCta />
@@ -270,6 +373,17 @@ function ProgramsPage() {
 }
 
 function AboutPage() {
+  const { section: processSection } = usePageSection('about', 'process')
+  const { section: whySection } = usePageSection('about', 'why_afyra')
+  const aboutProcess = processSection ? {
+    title: processSection.title || process.title,
+    description: processSection.description || process.description,
+    steps: (processSection.items || []).map((item, index) => ({ number: item.label || String(index + 1), title: item.title || '', description: item.description || '' }))
+  } : process
+  const aboutWhyColumns = whySection ? [
+    { heading: 'What we focus on', tone: 'positive', items: (whySection.items || []).filter((item) => item.group_key === 'focus').map((item) => item.title || '').filter(Boolean) },
+    { heading: 'What we avoid', tone: 'negative', items: (whySection.items || []).filter((item) => item.group_key === 'avoid').map((item) => item.title || '').filter(Boolean) }
+  ] : whyAfyra.columns
   return <>
     <PageHero variant="about" eyebrow="Agency + Strategy + Systems + Growth + Results" title="Afyra Digital Is Being Built for Long-Term Brand and Business Value." description="Afyra Digital is a Digital Growth & Marketing Agency focused on helping businesses establish a strong digital presence, build trust, generate qualified inquiries and create sustainable growth systems." tone="teal" visualLabel="Afyra Digital agency vision and growth system"><LinkButton to="/solutions">Explore Our Solutions</LinkButton><LinkButton to="/healthcare" ghost>Healthcare Specialization</LinkButton></PageHero>
     <Marquee />
@@ -277,7 +391,7 @@ function AboutPage() {
     <section className="px-section px-about-positioning">
       <div className="af-container px-about-positioning__grid">
         <div><SectionHead align="left" eyebrow="Positioning" title="A Strategic Growth Partner, Not a Collection of Isolated Tasks." description="Afyra should be perceived as an agency/company and strategic growth partner, not as an individual freelancer selling isolated marketing or design tasks." /></div>
-        <div className="px-about-positioning__compare" data-px-stagger>{whyAfyra.columns.map((col, i) => { const key = cardKey('about','positioning',col.heading); return <article className={`px-card ${col.tone}`} key={col.heading}><CardVisual assetKey={key} label={col.heading} compact /><h3 data-px-heading>{col.heading}</h3><ul>{col.items.map((item) => <li key={item}><PublicIcon name={i ? 'cross' : 'check'} size={15} /><span>{item}</span></li>)}</ul><CardDetailLink slug={key} /></article> })}</div>
+        <div className="px-about-positioning__compare" data-px-stagger>{aboutWhyColumns.map((col, i) => { const key = cardKey('about','positioning',col.heading); return <article className={`px-card ${col.tone}`} key={col.heading}><CardVisual assetKey={key} label={col.heading} compact /><h3 data-px-heading>{col.heading}</h3><ul>{col.items.map((item) => <li key={item}><PublicIcon name={i ? 'cross' : 'check'} size={15} /><span>{item}</span></li>)}</ul><CardDetailLink slug={key} /></article> })}</div>
       </div>
     </section>
 
@@ -296,19 +410,21 @@ function AboutPage() {
     </section>
 
     <section className="px-section px-process-page">
-      <div className="af-container"><SectionHead eyebrow="How we work" title={process.title} description={process.description} /><div className="px-process-page__grid" data-px-stagger>{process.steps.map((step) => { const key = cardKey('about','process',step.number,step.title); return <article className="px-card" key={step.number}><CardVisual assetKey={key} label={step.title} compact /><span>{step.number}</span><h3 data-px-heading>{step.title}</h3><p>{step.description}</p><CardDetailLink slug={key} /></article> })}</div></div>
+      <div className="af-container"><SectionHead eyebrow="How we work" title={aboutProcess.title} description={aboutProcess.description} /><div className="px-process-page__grid" data-px-stagger>{aboutProcess.steps.map((step) => { const key = cardKey('about','process',step.number,step.title); return <article className="px-card" key={step.number}><CardVisual assetKey={key} label={step.title} compact /><span>{step.number}</span><h3 data-px-heading>{step.title}</h3><p>{step.description}</p><CardDetailLink slug={key} /></article> })}</div></div>
     </section>
     <CommonCta />
   </>
 }
 
 function InsightsPage() {
+  const liveInsights = useLiveInsights('insights')
+  const scopedFaqs = useScopedFaqs(faqs.items, 'insights')
   return <>
     <PageHero variant="insights" eyebrow="Afyra Digital thinking" title="Insights for Building Stronger Digital Growth Systems." description="Afyra’s strategic principles focus on business value, brand value, user experience, conversion, technical practicality and long-term growth." tone="warm" visualLabel="Digital growth strategy insights"><LinkButton to="/solutions">Explore Solutions</LinkButton><LinkButton to="/about" ghost>About Afyra</LinkButton></PageHero>
     <Marquee />
 
     <section className="px-section px-insights-grid">
-      <div className="af-container"><SectionHead eyebrow="Strategic notes" title="Principles We Use to Evaluate Digital Growth Decisions." description="These insights are drawn from Afyra’s current approved business, website, SEO, conversion and trust philosophy." /><div className="px-insights-grid__cards" data-px-stagger>{insightCards.map((item, i) => { const key = cardKey('insights','note',item.title); return <article className={`px-card px-insight px-insight--${i+1}`} key={item.title}><CardVisual assetKey={key} label={item.title} /><span className="px-kicker">{item.tag}</span><h3 data-px-heading>{item.title}</h3><p>{item.body}</p><CardDetailLink slug={key} /></article> })}</div></div>
+      <div className="af-container"><SectionHead eyebrow="Strategic notes" title="Principles We Use to Evaluate Digital Growth Decisions." description="These insights are drawn from Afyra’s current approved business, website, SEO, conversion and trust philosophy." /><div className="px-insights-grid__cards" data-px-stagger>{liveInsights.map((item, i) => { const key = cardKey('insights','note',item.title); return <article className={`px-card px-insight px-insight--${i+1}`} key={item.id || item.title}><CardVisual assetKey={key} label={item.title} /><span className="px-kicker">{item.category || item.tag}</span><h3 data-px-heading>{item.title}</h3><p>{item.excerpt || item.body}</p><CardDetailLink slug={key} /></article> })}</div></div>
     </section>
 
     <section className="px-section px-insight-quote">
@@ -320,7 +436,7 @@ function InsightsPage() {
     </section>
 
     <section className="px-section px-faq-page">
-      <div className="af-container px-faq-page__grid"><SectionHead align="left" eyebrow="Questions" title={faqs.title} description={faqs.description} /><div className="px-faq-page__items" data-px-stagger>{faqs.items.map((item) => <details className="px-faq-item" key={item.q}><summary>{item.q}<span>+</span></summary><p>{item.a}</p></details>)}</div></div>
+      <div className="af-container px-faq-page__grid"><SectionHead align="left" eyebrow="Questions" title={faqs.title} description={faqs.description} /><div className="px-faq-page__items" data-px-stagger>{scopedFaqs.map((item) => <details className="px-faq-item" key={item.q}><summary>{item.q}<span>+</span></summary><p>{item.a}</p></details>)}</div></div>
     </section>
     <CommonCta />
   </>

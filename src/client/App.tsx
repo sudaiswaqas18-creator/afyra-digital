@@ -7,6 +7,7 @@ import Features from './components/Features'
 import Solutions from './components/Solutions'
 import WhyAfyra from './components/WhyAfyra'
 import Programs from './components/Programs'
+import TestimonialsSection from './components/TestimonialsSection'
 import Process from './components/Process'
 import Faqs from './components/Faqs'
 import Cta from './components/Cta'
@@ -26,15 +27,18 @@ export default function App() {
   return (
     <>
       <Header />
-      <main id="main">
+      <main id="main" className="af-home-page">
         <Hero />
         <Marquee />
         <Features />
         <Solutions />
         <WhyAfyra />
         <Programs />
-        <Process />
-        <Faqs />
+        <div className="af-home-continuous-flow">
+          <TestimonialsSection pageSlug="home" variant="home" />
+          <Process />
+          <Faqs />
+        </div>
         <Cta />
       </main>
       <Footer />

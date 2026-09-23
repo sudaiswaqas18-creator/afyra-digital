@@ -1,5 +1,6 @@
-import { useState, type CSSProperties } from 'react'
-import { programs } from '../data/content'
+import { useState, useEffect, type CSSProperties } from 'react'
+import { programs as fallbackPrograms } from '../data/content'
+import { apiGetPrograms } from '../lib/api'
 import { Button, Eyebrow, Icon } from './ui'
 
 type OrbitTone = 'teal' | 'mint' | 'violet' | 'warm' | 'olive' | 'deep'
@@ -29,9 +30,34 @@ const capabilityOrbit: Array<{ label: string; icon: OrbitIconName; tone: OrbitTo
 ]
 
 export default function Programs() {
+  const programs = fallbackPrograms
   const [active, setActive] = useState(1) // Patient Growth Plan (Most Popular)
-  const plan = programs.plans[active]
-  const PlanIcon = Icon[plan.icon]
+  const [plans, setPlans] = useState<any[]>(fallbackPrograms.plans)
+  const [terms, setTerms] = useState<string[]>(fallbackPrograms.terms)
+
+  useEffect(() => {
+    apiGetPrograms('home')
+      .then((res) => {
+        if (res?.ok && Array.isArray(res?.data?.plans)) {
+          const mappedPlans = res.data.plans.map((p: any) => ({
+            ...p,
+            icon: p.icon || 'seed',
+            popular: Boolean(p.is_popular !== undefined ? p.is_popular : p.popular),
+            bestFor: p.bestFor || [],
+            includes: p.includes || []
+          }))
+          setPlans(mappedPlans)
+          setActive((current) => mappedPlans.length === 0 ? 0 : Math.min(current, mappedPlans.length - 1))
+        }
+        if (res?.ok && Array.isArray(res?.data?.terms)) {
+          setTerms(res.data.terms.map((term: any) => typeof term === 'string' ? term : term.label).filter(Boolean))
+        }
+      })
+      .catch((error) => console.warn('[Afyra API] Programs unavailable; using bundled fallback.', error))
+  }, [])
+
+  const plan = plans[active] || plans[0]
+  const PlanIcon = plan ? ((Icon as any)[plan.icon] || Icon.seed) : Icon.seed
 
   return (
     <section id="programs" className="af-section af-price">
@@ -43,7 +69,7 @@ export default function Programs() {
         <span className="af-price__beam-glow" data-af-breathe />
       </div>
       <div className="af-price__mark" aria-hidden="true">
-        <img src="/static/img/logo-mark-tight.png" alt="" />
+        {Icon.spark({ size: 30 })}
       </div>
 
       <div className="af-container">
@@ -63,7 +89,8 @@ export default function Programs() {
                   const OrbitIcon = Icon[capability.icon]
                   return (
                     <span
-                      className="af-price__ring-slot"
+                      className="af-price__orbit-item"
+                      data-af-orbit-index={i}
                       style={{ '--af-angle': `${i * 36}deg` } as CSSProperties}
                       key={capability.label}
                     >
@@ -73,7 +100,7 @@ export default function Programs() {
                         aria-hidden="true"
                       >
                         <span className="af-price__ring-card-glow" aria-hidden="true" />
-                        <span className="af-price__ring-icon">{OrbitIcon ? OrbitIcon({ size: 28 }) : null}</span>
+                        <span className="af-price__ring-icon">{OrbitIcon ? OrbitIcon({ size: 34 }) : null}</span>
                       </span>
                     </span>
                   )
@@ -90,7 +117,7 @@ export default function Programs() {
 
             {/* program terms */}
             <ul className="af-price__terms">
-              {programs.terms.map((t) => (
+              {terms.map((t) => (
                 <li key={t}>
                   <span className="af-price__terms-ico">{Icon.check({ size: 12 })}</span>
                   {t}
@@ -102,9 +129,9 @@ export default function Programs() {
           {/* ---------- right column ---------- */}
           <div className="af-price__right">
             <div className="af-price__switch" role="tablist" aria-label="Choose a program">
-              {programs.plans.map((p, i) => (
+              {plans.map((p, i) => (
                 <button
-                  key={p.id}
+                  key={p.id || p.slug}
                   role="tab"
                   aria-selected={i === active}
                   className={`af-price__switch-btn ${i === active ? 'is-active' : ''}`}
@@ -115,7 +142,7 @@ export default function Programs() {
               ))}
             </div>
 
-            <div className="af-price__card" key={plan.id}>
+            {plan ? <div className="af-price__card" data-af-price-card>
               <div className="af-price__card-head">
                 <div className="af-price__card-left">
                   <p className="af-price__card-name">
@@ -142,7 +169,7 @@ export default function Programs() {
                 </p>
 
                 <ul className="af-price__features">
-                  {plan.includes.map((f) => (
+                  {plan.includes.map((f: string) => (
                     <li key={f}>
                       <span className="af-price__feat-ico">{Icon.check({ size: 14 })}</span>
                       {f}
@@ -153,7 +180,7 @@ export default function Programs() {
                 <div className="af-price__best">
                   <p className="af-price__best-title">Best for</p>
                   <div className="af-price__best-list">
-                    {plan.bestFor.map((b) => (
+                    {plan.bestFor.map((b: string) => (
                       <span key={b}>{b}</span>
                     ))}
                   </div>
@@ -161,7 +188,7 @@ export default function Programs() {
 
                 <Button href="#contact" label="Request This Program" variant="primary" block />
               </div>
-            </div>
+            </div> : <div className="af-price__card"><p className="af-p">No published programs are currently available.</p></div>}
           </div>
         </div>
       </div>

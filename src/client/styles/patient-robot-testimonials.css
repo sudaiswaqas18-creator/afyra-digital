@@ -1,0 +1,812 @@
+/* ==========================================================================
+   Patient Acquisition — Verified Doctor Testimonials (Polished Stacking Cards)
+   ========================================================================== */
+
+.pa-testimonials-section {
+  position: relative;
+  background: #ffffff !important;
+  color: #1a2e2b !important;
+  padding: 90px 0 120px !important;
+  overflow: visible !important;
+  border-top: 1px solid rgba(0, 187, 160, 0.12) !important;
+  border-bottom: 1px solid rgba(0, 187, 160, 0.12) !important;
+}
+
+/* Subtle background ambient grid pattern */
+.pa-testimonials-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: 
+    linear-gradient(rgba(0, 187, 160, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 187, 160, 0.035) 1px, transparent 1px);
+  background-size: 50px 50px;
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+/* Ambient subtle top/bottom glow */
+.pa-testimonials-section::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 1000px;
+  height: 400px;
+  background: radial-gradient(ellipse at center top, rgba(0, 187, 160, 0.09) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.pa-container {
+  position: relative;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 24px;
+  z-index: 2;
+}
+
+/* ==========================================================================
+   Header & Heart
+   ========================================================================== */
+.pa-head {
+  text-align: center;
+  max-width: 840px;
+  margin: 0 auto 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Heart container styles */
+.pa-head .aft-patient-heart {
+  position: relative;
+  width: 240px;
+  height: 170px;
+  margin: 0 auto 16px;
+  isolation: isolate;
+}
+
+.pa-head .aft-patient-heart__shape {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 190px;
+  mask-image: linear-gradient(#000 65%, transparent 100%);
+  -webkit-mask-image: linear-gradient(#000 65%, transparent 100%);
+}
+
+.pa-head .aft-patient-heart__window {
+  position: absolute;
+  left: 8px;
+  right: 8px;
+  top: 69px;
+  height: 44px;
+  overflow: hidden;
+  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+
+.pa-head .aft-patient-heart__track {
+  display: flex;
+  width: max-content;
+  animation: pa-heart-travel 18s linear infinite;
+  will-change: transform;
+}
+
+.pa-head .aft-patient-heart__set {
+  display: flex;
+  gap: 10px;
+  padding-right: 10px;
+  flex: none;
+}
+
+.pa-head .aft-patient-heart__set > span {
+  display: block;
+  flex: none;
+  width: 38px;
+  height: 38px;
+}
+
+.pa-head .aft-patient-heart__set img {
+  width: 38px !important;
+  height: 38px !important;
+  border-radius: 50%;
+  border: 2px solid #ffffff;
+  object-fit: cover;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+}
+
+.pa-head .aft-patient-heart__logo {
+  position: absolute;
+  z-index: 2;
+  left: 50%;
+  top: 53px;
+  transform: translateX(-50%);
+  display: grid;
+  place-items: center;
+  width: 72px;
+  height: 72px;
+  border: 8px solid #c5efe8;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 25%, #31d7c0, #007b6a 70%);
+  box-shadow: 0 0 24px rgba(0, 187, 160, 0.35);
+}
+
+.pa-head .aft-patient-heart__logo img {
+  width: 34px;
+  height: 34px;
+  object-fit: contain;
+}
+
+@keyframes pa-heart-travel {
+  from {
+    transform: translateX(-50%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+/* Eyebrow badge */
+.pa-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 18px;
+  border-radius: 999px;
+  background: rgba(0, 187, 160, 0.08);
+  border: 1px solid rgba(0, 187, 160, 0.25);
+  color: #00917d;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+
+.pa-eyebrow i {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #00bba0;
+  box-shadow: 0 0 10px rgba(0, 187, 160, 0.7);
+  animation: pa-dot-pulse 1.8s ease-in-out infinite alternate;
+}
+
+@keyframes pa-dot-pulse {
+  0% { transform: scale(0.8); opacity: 0.6; }
+  100% { transform: scale(1.3); opacity: 1; }
+}
+
+.pa-head h2 {
+  font-family: var(--af-font-2, 'League Spartan', sans-serif);
+  font-size: clamp(2rem, 3.8vw, 3.2rem);
+  font-weight: 700;
+  line-height: 1.18;
+  color: #0d2926;
+  margin: 0 0 14px;
+  letter-spacing: -0.02em;
+}
+
+.pa-head h2 span {
+  background: linear-gradient(135deg, #00bba0 0%, #00917d 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.pa-head p {
+  color: #4a6b67;
+  font-size: 1.06rem;
+  line-height: 1.6;
+  margin: 0 auto;
+  max-width: 660px;
+}
+
+/* ==========================================================================
+   Pinned Card Stacking Stage
+   ========================================================================== */
+.pa-stack-wrapper {
+  position: relative;
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 0 12px;
+}
+
+/* Stack Top Bar: Step Counter & Doctor Filter Pills */
+.pa-stack-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 28px;
+  flex-wrap: wrap;
+}
+
+.pa-stack-counter {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 18px;
+  background: linear-gradient(135deg, #ffffff 0%, #f0faf8 100%);
+  border: 1px solid rgba(0, 187, 160, 0.24);
+  border-radius: 999px;
+  box-shadow: 0 4px 18px rgba(0, 187, 160, 0.08);
+}
+
+.pa-count-badge {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 3px;
+}
+
+.pa-count-current {
+  font-family: var(--af-font-2, sans-serif);
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #00917d;
+  line-height: 1;
+}
+
+.pa-count-sep {
+  font-size: 0.85rem;
+  color: #8daea9;
+}
+
+.pa-count-total {
+  font-family: var(--af-font-2, sans-serif);
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: #527a74;
+}
+
+.pa-count-hint {
+  font-size: 0.74rem;
+  color: #00917d;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  border-left: 1px solid rgba(0, 187, 160, 0.25);
+  padding-left: 10px;
+}
+
+/* Doctor Pills */
+.pa-stack-pills {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.pa-pill-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 15px;
+  border-radius: 999px;
+  background: #ffffff;
+  border: 1px solid rgba(0, 187, 160, 0.2);
+  color: #3b5f5b;
+  font-size: 0.84rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+  transition: all 0.26s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.pa-pill-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(0, 187, 160, 0.35);
+  transition: all 0.26s ease;
+}
+
+.pa-pill-btn:hover {
+  background: #eef9f7;
+  border-color: rgba(0, 187, 160, 0.45);
+  color: #007b6a;
+  transform: translateY(-1px);
+}
+
+.pa-pill-btn.is-active {
+  background: linear-gradient(135deg, #00bba0 0%, #00917d 100%);
+  border-color: #008774;
+  color: #ffffff;
+  box-shadow: 0 4px 18px rgba(0, 145, 125, 0.32);
+}
+
+.pa-pill-btn.is-active .pa-pill-dot {
+  background: #ffffff;
+  box-shadow: 0 0 6px #ffffff;
+}
+
+/* Cards Stacking Deck (Fixed Height Container) */
+.pa-stack-deck {
+  position: relative;
+  width: 100%;
+  height: 480px;
+  perspective: 1200px;
+}
+
+/* Individual Stacking Card (Ultra Polished Design) */
+.pa-stack-card {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #ffffff;
+  border: 1px solid rgba(0, 187, 160, 0.24);
+  border-radius: 28px;
+  padding: 44px 50px;
+  box-shadow: 
+    0 30px 80px -15px rgba(0, 50, 45, 0.1),
+    0 0 0 1px rgba(0, 187, 160, 0.12),
+    inset 0 1px 1px #ffffff;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  will-change: transform, opacity, filter;
+  transform-origin: center top;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.pa-stack-card:hover {
+  border-color: rgba(0, 187, 160, 0.45);
+  box-shadow: 
+    0 35px 90px -15px rgba(0, 50, 45, 0.14),
+    0 0 40px rgba(0, 187, 160, 0.08),
+    inset 0 1px 1px #ffffff;
+}
+
+/* Card Header */
+.pa-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 18px;
+}
+
+.pa-card-header__left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.pa-rating-stars {
+  color: #f59e0b;
+  font-size: 1.25rem;
+  letter-spacing: 2px;
+}
+
+.pa-rating-score {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #0d2926;
+}
+
+.pa-card-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: rgba(0, 187, 160, 0.08);
+  border: 1px solid rgba(0, 187, 160, 0.25);
+  color: #008774;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.pa-card-badge svg {
+  width: 14px;
+  height: 14px;
+  fill: #00bba0;
+}
+
+/* Metric Banner (Polished Chip) */
+.pa-metric-banner {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  background: linear-gradient(135deg, rgba(0, 187, 160, 0.1) 0%, rgba(0, 187, 160, 0.04) 100%);
+  border: 1px solid rgba(0, 187, 160, 0.24);
+  border-left: 4px solid #00bba0;
+  padding: 10px 18px;
+  border-radius: 12px;
+  margin-bottom: 22px;
+  width: fit-content;
+  box-shadow: 0 2px 10px rgba(0, 187, 160, 0.06);
+}
+
+.pa-metric-banner__val {
+  font-family: var(--af-font-2, sans-serif);
+  font-size: 1.55rem;
+  font-weight: 800;
+  color: #008774;
+  line-height: 1;
+  letter-spacing: -0.01em;
+}
+
+.pa-metric-banner__label {
+  font-size: 0.92rem;
+  color: #315852;
+  font-weight: 600;
+  border-left: 1px solid rgba(0, 187, 160, 0.2);
+  padding-left: 12px;
+}
+
+/* Quote */
+.pa-card-quote-wrap {
+  position: relative;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  margin-bottom: 22px;
+}
+
+.pa-card-quote {
+  font-size: clamp(1.15rem, 1.7vw, 1.32rem);
+  line-height: 1.72;
+  color: #152e2a;
+  font-style: italic;
+  margin: 0;
+  position: relative;
+  z-index: 2;
+}
+
+.pa-card-quote-mark {
+  position: absolute;
+  top: -24px;
+  left: -20px;
+  font-family: Georgia, serif;
+  font-size: 5rem;
+  line-height: 1;
+  color: rgba(0, 187, 160, 0.14);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Card Author Info */
+.pa-card-author {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding-top: 22px;
+  border-top: 1px solid rgba(0, 187, 160, 0.15);
+  flex-wrap: wrap;
+}
+
+.pa-card-author__profile {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.pa-author-avatar-wrap {
+  position: relative;
+  width: 58px;
+  height: 58px;
+  flex-shrink: 0;
+}
+
+.pa-author-avatar {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2.5px solid #00bba0;
+  box-shadow: 0 4px 16px rgba(0, 187, 160, 0.22);
+}
+
+.pa-author-verified-dot {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 18px;
+  height: 18px;
+  background: #00917d;
+  border: 2px solid #ffffff;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+}
+
+.pa-author-verified-dot svg {
+  width: 10px;
+  height: 10px;
+  fill: #ffffff;
+}
+
+.pa-author-meta strong {
+  display: block;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #0b2421;
+  margin-bottom: 2px;
+}
+
+.pa-author-meta span {
+  display: block;
+  font-size: 0.88rem;
+  color: #4b6e68;
+}
+
+.pa-card-tags {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.pa-tag {
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 5px 13px;
+  border-radius: 8px;
+  background: rgba(0, 187, 160, 0.07);
+  border: 1px solid rgba(0, 187, 160, 0.2);
+  color: #008774;
+}
+
+/* Manual Navigation Controls below deck */
+.pa-deck-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 28px;
+  padding: 0 6px;
+}
+
+.pa-deck-dots {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.pa-deck-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: rgba(0, 187, 160, 0.2);
+  border: 1px solid rgba(0, 187, 160, 0.35);
+  cursor: pointer;
+  padding: 0;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.pa-deck-dot:hover {
+  background: rgba(0, 187, 160, 0.5);
+  transform: scale(1.18);
+}
+
+.pa-deck-dot.is-active {
+  width: 38px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #00bba0, #00917d);
+  border-color: #008774;
+  box-shadow: 0 0 16px rgba(0, 187, 160, 0.4);
+}
+
+.pa-deck-arrows {
+  display: flex;
+  gap: 12px;
+}
+
+.pa-deck-arrow {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 1px solid rgba(0, 187, 160, 0.25);
+  color: #00917d;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 1.25rem;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.04);
+  transition: all 0.25s ease;
+}
+
+.pa-deck-arrow:hover:not(:disabled) {
+  background: #00917d;
+  color: #ffffff;
+  border-color: #00917d;
+  box-shadow: 0 4px 18px rgba(0, 145, 125, 0.3);
+  transform: scale(1.06);
+}
+
+.pa-deck-arrow:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+/* ==========================================================================
+   Summary Trust Bar
+   ========================================================================== */
+.pa-summary-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  flex-wrap: wrap;
+  margin-top: 54px;
+  padding: 16px 28px;
+  background: #f4faf9;
+  border: 1px solid rgba(0, 187, 160, 0.18);
+  border-radius: 999px;
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.03);
+}
+
+.pa-summary-avatars {
+  display: flex;
+  align-items: center;
+}
+
+.pa-summary-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #ffffff;
+  margin-left: -10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+}
+
+.pa-summary-avatars .pa-summary-avatar:first-child {
+  margin-left: 0;
+}
+
+.pa-summary-text {
+  font-size: 0.94rem;
+  font-weight: 600;
+  color: #1a3c38;
+}
+
+.pa-summary-rating {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #f59e0b;
+  font-size: 0.92rem;
+  font-weight: 700;
+}
+
+.pa-summary-rating span {
+  color: #0d2926;
+}
+
+.pa-summary-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 18px;
+  border-radius: 999px;
+  background: #00917d;
+  color: #ffffff;
+  font-size: 0.84rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.25s ease;
+}
+
+.pa-summary-cta:hover {
+  background: #007b6a;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(0, 145, 125, 0.3);
+}
+
+/* ==========================================================================
+   Responsive Adaptations
+   ========================================================================== */
+@media (max-width: 1024px) {
+  .pa-stack-wrapper {
+    padding: 0 8px;
+  }
+
+  .pa-stack-deck {
+    height: 520px;
+  }
+
+  .pa-stack-card {
+    padding: 36px 34px;
+  }
+}
+
+@media (max-width: 768px) {
+  .pa-testimonials-section {
+    padding: 70px 0 80px !important;
+  }
+
+  .pa-head {
+    margin-bottom: 32px;
+  }
+
+  .pa-stack-pills {
+    overflow-x: auto;
+    justify-content: flex-start;
+    padding-bottom: 8px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    width: 100%;
+  }
+
+  .pa-stack-pills::-webkit-scrollbar {
+    display: none;
+  }
+
+  .pa-pill-btn {
+    white-space: nowrap;
+    padding: 6px 14px;
+    font-size: 0.8rem;
+  }
+
+  .pa-stack-deck {
+    height: 560px;
+  }
+
+  .pa-stack-card {
+    padding: 28px 22px;
+    border-radius: 22px;
+  }
+
+  .pa-metric-banner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    padding: 8px 14px;
+  }
+
+  .pa-metric-banner__label {
+    border-left: none;
+    padding-left: 0;
+  }
+
+  .pa-card-quote-mark {
+    display: none;
+  }
+
+  .pa-card-author {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+  }
+
+  .pa-summary-bar {
+    border-radius: 20px;
+    flex-direction: column;
+    text-align: center;
+    gap: 12px;
+    padding: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .pa-head .aft-patient-heart {
+    transform: scale(0.9);
+    margin-bottom: 8px;
+  }
+
+  .pa-stack-deck {
+    height: 600px;
+  }
+
+  .pa-deck-controls {
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .pa-deck-arrow {
+    width: 40px;
+    height: 40px;
+  }
+}
