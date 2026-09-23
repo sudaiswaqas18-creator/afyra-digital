@@ -6,14 +6,12 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import App from './App'
 const ServicePage = lazy(() => import('./pages/ServicePage'))
 const MarketingPage = lazy(() => import('./pages/MarketingPage'))
-const CardDetailPage = lazy(() => import('./pages/CardDetailPage'))
 const RequestConsultationPage = lazy(() => import('./pages/RequestConsultationPage'))
 const AdminLoginPage = lazy(() => import('./pages/AdminLoginPage'))
 const AdminDashboardPage = lazy(() => import('./pages/AdminDashboardPage'))
 import RouteBoundary from './components/RouteBoundary'
 import BrandedRouteTransition from './components/BrandedRouteTransition'
 import AnimatedScrollbar from './components/AnimatedScrollbar'
-import CardRouteEnhancer from './components/CardRouteEnhancer'
 
 function RouteLifecycle() {
   const location = useLocation()
@@ -77,13 +75,12 @@ function SiteRouter() {
       <RouteLifecycle />
       <BrandedRouteTransition />
       <AnimatedScrollbar />
-      <CardRouteEnhancer />
       <KeyedRouteBoundary>
         <Suspense fallback={<RouteLoading />}>
         <Routes>
           <Route path="/" element={<App />} />
           <Route path="/solutions/:slug" element={<ServicePage />} />
-          <Route path="/details/:slug" element={<CardDetailPage />} />
+          <Route path="/details/*" element={<Navigate to="/solutions" replace />} />
           <Route path="/solutions" element={<MarketingPage />} />
           <Route path="/healthcare" element={<MarketingPage />} />
           <Route path="/programs" element={<MarketingPage />} />

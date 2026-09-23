@@ -2,7 +2,6 @@ import { Hono } from 'hono'
 import { cors } from 'hono/cors'
 import { serviceBySlug } from './client/data/servicePages'
 import { sitePageSeo, type SitePageKey } from './client/data/sitePages'
-import { cardBySlug, cardMetaDescription, cardSeoTitle } from './client/data/cardDetails'
 import { brand } from './client/data/content'
 
 type AssetBinding = { fetch(input: Request | string | URL, init?: RequestInit): Promise<Response> }
@@ -103,13 +102,13 @@ app.get('/sitemap.xml', (c) => {
   const origin = `${url.protocol}//${url.host}`
   const pagePaths = ['/', ...Object.values(sitePageSeo).map((item) => item.path)]
   const servicePaths = Object.values(serviceBySlug).map((item) => `/solutions/${item.slug}`)
-  const detailPaths = Object.values(cardBySlug).map((item) => `/details/${item.slug}`)
-  const paths = Array.from(new Set([...pagePaths, ...servicePaths, ...detailPaths]))
+  const paths = Array.from(new Set([...pagePaths, ...servicePaths]))
   const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${paths.map((path) => `  <url><loc>${origin}${path}</loc></url>`).join('\n')}\n</urlset>`
   return c.body(xml, 200, { 'Content-Type': 'application/xml; charset=UTF-8' })
 })
 
 app.get('/contact', (c) => c.redirect('/request-consultation', 302))
+app.get('/details/*', (c) => c.redirect('/solutions', 302))
 
 /* ---------------- page shell + route-aware SEO ---------------- */
 const HOME_TITLE = 'Afyra Digital — Digital Growth & Marketing Agency for Healthcare'
@@ -123,13 +122,11 @@ app.get('*', (c) => {
   const origin = `${url.protocol}//${url.host}`
   const match = url.pathname.match(/^\/solutions\/([^/]+)\/?$/)
   const service = match ? serviceBySlug[decodeURIComponent(match[1])] : undefined
-  const detailMatch = url.pathname.match(/^\/details\/([^/]+)\/?$/)
-  const detail = detailMatch ? cardBySlug[decodeURIComponent(detailMatch[1])] : undefined
   const pageEntry = (Object.entries(sitePageSeo) as [SitePageKey, (typeof sitePageSeo)[SitePageKey]][]).find(([, value]) => value.path === url.pathname.replace(/\/$/, '') || (value.path === '/' && url.pathname === '/'))
   const pageSeo = pageEntry?.[1]
-  const path = detail ? `/details/${detail.slug}` : service ? `/solutions/${service.slug}` : (pageSeo?.path ?? '/')
-  const title = detail ? cardSeoTitle(detail) : service?.seo.title ?? pageSeo?.title ?? HOME_TITLE
-  const description = detail ? cardMetaDescription(detail) : service?.seo.description ?? pageSeo?.description ?? HOME_DESC
+  const path = service ? `/solutions/${service.slug}` : (pageSeo?.path ?? '/')
+  const title = service?.seo.title ?? pageSeo?.title ?? HOME_TITLE
+  const description = service?.seo.description ?? pageSeo?.description ?? HOME_DESC
   const canonical = `${origin}${path}`
 
   const organizationSchema = {

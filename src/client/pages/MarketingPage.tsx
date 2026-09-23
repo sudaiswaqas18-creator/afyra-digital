@@ -182,7 +182,7 @@ function SolutionsPage() {
         <SectionHead eyebrow="Core solutions" title="Choose the Growth Problem You Need to Solve." description="Each solution connects back to stronger visibility, trust, qualified inquiries, conversion, authority and long-term growth." />
         <div className="px-solution-grid" data-px-stagger>
           {liveServices.map((service, i) => (
-            <Link className={`px-card px-solution-card px-solution-card--${i + 1}`} to={`/details/${cardKey('solutions','service',service.slug)}`} key={service.slug}>
+            <Link className={`px-card px-solution-card px-solution-card--${i + 1}`} to={`/solutions/${service.slug}`} key={service.slug}>
               <CardVisual assetKey={cardKey('solutions','service',service.slug)} label={service.name} compact />
               <span className="px-card__num">0{i + 1}</span>
               <h3 data-px-heading>{service.name}</h3>
